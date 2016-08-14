@@ -1,0 +1,2 @@
+recursive-include hitchtest *.py *.jinja2 *.yaml
+include VERSION
