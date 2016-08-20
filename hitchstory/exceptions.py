@@ -23,10 +23,6 @@ class StepNotCallable(StepException):
     pass
 
 
-class StepNotDecorated(StepException):
-    pass
-
-
 class StepContainsInvalidValidator(StepException):
     """
     Step contains a validator for which there is no corresponding argument.

@@ -6,13 +6,6 @@ from hitchstory import exceptions
 from hitchstory.arguments import Arguments
 
 
-def step():
-    def decorator(step_function):
-        step_function._is_step = True
-        return step_function
-    return decorator
-
-
 def validate(**kwargs):
     def decorator(step_function):
         for arg in kwargs:
@@ -47,24 +40,16 @@ class StoryStep(object):
             if hasattr(attr, '__call__'):
                 step_method = attr
 
-                if hasattr(step_method, '_is_step') and step_method._is_step:
-                    validators = step_method._validators \
-                        if hasattr(step_method, '_validators') else {}
-                    self.arguments.validate(validators)
+                validators = step_method._validators \
+                    if hasattr(step_method, '_validators') else {}
+                self.arguments.validate(validators)
 
-                    if self.arguments.is_none:
-                        step_method()
-                    elif self.arguments.single_argument:
-                        step_method(self.arguments.argument)
-                    else:
-                        step_method(**self.arguments.pythonized_kwargs())
+                if self.arguments.is_none:
+                    step_method()
+                elif self.arguments.single_argument:
+                    step_method(self.arguments.argument)
                 else:
-                    raise exceptions.StepNotDecorated(
-                        "Step with name '{}' in {} is not decorated with @step.".format(
-                            self.underscore_case_name(),
-                            engine.__repr__(),
-                        )
-                    )
+                    step_method(**self.arguments.pythonized_kwargs())
             else:
                 raise exceptions.StepNotCallable((
                     "Step with name '{}' in {} is not a function "
