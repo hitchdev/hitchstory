@@ -4,6 +4,6 @@ setup.cfg
 setup.cfg
 build/
 dist/
-venv/
+state/
 tests/
 hitchstory.egg-info/
