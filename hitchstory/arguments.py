@@ -20,11 +20,10 @@ class Arguments(object):
             self.argument = yaml_args
 
     def validate(self, validators):
-        if self.is_none:
-            return
-        elif self.single_argument:
-            return
-        else:
+        """
+        Validate step using validators specified in decorators.
+        """
+        if not self.is_none and not self.single_argument:
             _kwargs = {}
             for key, value in self.kwargs.items():
                 if key in validators.keys():
@@ -35,18 +34,9 @@ class Arguments(object):
                     else:
                         _kwargs[key] = str(value)
             self.kwargs = _kwargs
-            return
 
     def pythonized_kwargs(self):
         pythonized_dict = {}
         for key, value in self.kwargs.items():
             pythonized_dict[utils.to_underscore_style(key)] = value
         return pythonized_dict
-
-    def to_dict(self):
-        if self.is_none:
-            return None
-        elif self.single_argument:
-            return self.argument
-        else:
-            return self.kwargs
