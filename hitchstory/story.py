@@ -15,6 +15,13 @@ def step():
 
 def validate(**kwargs):
     def decorator(step_function):
+        for arg in kwargs:
+            if arg not in step_function.__code__.co_varnames:
+                raise exceptions.StepContainsInvalidValidator(
+                    "Step {} does not contain argument '{}' listed as a validator.".format(
+                        step_function.__repr__(), arg
+                    )
+                )
         step_function._validators = kwargs
         return step_function
     return decorator
@@ -41,8 +48,9 @@ class StoryStep(object):
                 step_method = attr
 
                 if hasattr(step_method, '_is_step') and step_method._is_step:
-                    if hasattr(step_method, '_validators'):
-                        self.arguments.validate(step_method._validators)
+                    validators = step_method._validators \
+                        if hasattr(step_method, '_validators') else {}
+                    self.arguments.validate(validators)
 
                     if self.arguments.is_none:
                         step_method()

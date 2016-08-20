@@ -6,9 +6,21 @@ class StepNotFound(HitchStoryException):
     pass
 
 
-class StepNotCallable(HitchStoryException):
+class StepException(HitchStoryException)
     pass
 
 
-class StepNotDecorated(HitchStoryException):
+class StepNotCallable(StepException):
+    pass
+
+
+class StepNotDecorated(StepException):
+    pass
+
+
+class StepContainsInvalidValidator(StepException):
+    pass
+
+
+class StepArgumentWithoutValidatorContainsComplexData(StepException):
     pass

@@ -1,5 +1,5 @@
-from hitchstory import utils
-from ruamel.yaml.comments import CommentedMap
+from hitchstory import utils, exceptions
+from ruamel.yaml.comments import CommentedMap, CommentedSeq
 
 
 class Arguments(object):
@@ -28,9 +28,12 @@ class Arguments(object):
             _kwargs = {}
             for key, value in self.kwargs.items():
                 if key in validators.keys():
-                    print(value)
-                    print(validators[key])
                     _kwargs[key] = validators[key](value)
+                else:
+                    if type(value) in (CommentedMap, CommentedSeq):
+                        raise exceptions.StepArgumentWithoutValidatorContainsComplexData
+                    else:
+                        _kwargs[key] = str(value)
             self.kwargs = _kwargs
             return
 
