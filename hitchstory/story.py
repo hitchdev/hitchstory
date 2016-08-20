@@ -85,7 +85,13 @@ class Story(object):
     def __init__(self, yaml, engine):
         self._yaml = yaml
         self._engine = engine
-        parsed_yaml = load(yaml, Map({"name": Str(), "scenario": Seq(Any())}))
+        parsed_yaml = load(
+            yaml,
+            Map({
+                "name": Str(),
+                "scenario": Seq(Any())
+            })
+        )
         self._name = parsed_yaml['name']
         self._steps = []
 
