@@ -14,7 +14,8 @@
             - Create file:
                 filename: step3.txt
                 content: third step
-      example_code.py: |
+  scenario:
+    - Run command: |
         from hitchstory import StoryCollection, BaseEngine
 
         class Engine(BaseEngine):
@@ -23,9 +24,6 @@
                     handle.write(content)
 
         StoryCollection(".", Engine()).story("example.story", "Create files").play()
-  scenario:
-    - Run: example_code.py
-    - Exited successfully
     - File was created with:
         filename: step1.txt
         contents: example
