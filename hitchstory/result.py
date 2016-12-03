@@ -88,18 +88,7 @@ class Failure(Result):
         }
 
     def in_color(self):
-        env = Environment()
-        env.loader = FileSystemLoader(TEMPLATE_DIR)
-        return env.get_template(
-            path.basename(path.join(TEMPLATE_DIR, "default.jinja2"))
-        ).render(
-            result=self,
-            Fore=colorama.Fore,
-            Back=colorama.Back,
-            Style=colorama.Style,
-        )
-
-        #return "{}".format(self._exception)
+        return self._template("failure.jinja2")
 
 
     def report(self):
