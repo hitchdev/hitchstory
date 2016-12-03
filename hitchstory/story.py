@@ -77,11 +77,12 @@ class StoryStep(object):
 
 
 class Story(object):
-    def __init__(self, yaml, name, engine):
-        self._yaml = yaml
+    def __init__(self, filename, name, engine):
+        self._filename = filename
+        self._yaml = filename.bytes().decode('utf8')
         self._engine = engine
         parsed_yaml = load(
-            yaml,
+            self._yaml,
             MapPattern(
                 Str(),
                 Map({
@@ -94,6 +95,14 @@ class Story(object):
 
         for index, parsed_step in enumerate(parsed_yaml['scenario']):
             self._steps.append(StoryStep(parsed_step, index))
+
+    @property
+    def filename(self):
+        return self._filename
+
+    @property
+    def name(self):
+        return self._name
 
     def play(self):
         try:
@@ -123,4 +132,4 @@ class StoryCollection(object):
         self._engine = engine
 
     def story(self, filename, name):
-        return Story(Path(self._path).joinpath(filename).bytes().decode('utf8'), name, self._engine)
+        return Story(Path(self._path).joinpath(filename), name, self._engine)

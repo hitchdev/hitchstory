@@ -24,11 +24,32 @@ class Success(Result):
         self._story = story
 
 
+class FailureException(object):
+    def __init__(self, exception):
+        self._exception = exception
+
+    @property
+    def obj(self):
+        return self._exception
+
+    @property
+    def obj_type(self):
+        return str(self._exception.__class__.__name__)
+
+    @property
+    def docstring(self):
+        return str(self._exception.__doc__)
+
+    @property
+    def text(self):
+        return str(self._exception)
+
+
 class Failure(Result):
     def __init__(self, story, exception):
         assert type(exception) is Exception or RuntimeError
         self._story = story
-        self._exception = exception
+        self._exception = FailureException(exception)
 
     @property
     def exit_code(self):
@@ -55,16 +76,16 @@ class Failure(Result):
     def in_color(self):
         env = Environment()
         env.loader = FileSystemLoader(TEMPLATE_DIR)
-        #return env.get_template(
-            #path.basename(path.join(TEMPLATE_DIR, "default.jinja2"))
-        #).render(
-            #result=self,
-            #Fore=colorama.Fore,
-            #Back=colorama.Back,
-            #Style=colorama.Style,
-        #)
+        return env.get_template(
+            path.basename(path.join(TEMPLATE_DIR, "default.jinja2"))
+        ).render(
+            result=self,
+            Fore=colorama.Fore,
+            Back=colorama.Back,
+            Style=colorama.Style,
+        )
 
-        return "{}".format(self._exception)
+        #return "{}".format(self._exception)
 
 
     def report(self):
