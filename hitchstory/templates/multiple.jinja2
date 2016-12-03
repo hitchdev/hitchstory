@@ -1,0 +1,33 @@
+{% if results.one_test %}
+{% if results.at_least_one_failure %}
+{% for result in results.failures %}
+{% set stacktrace = result.stacktrace %}
+{% include 'stacktrace_default.jinja2' with context %}
+{% endfor %}
+
+{{ Fore.RED }}{{ Style.BRIGHT }}FAILED IN {{ results.duration|round(1, 'floor') }} seconds{{ Style.RESET_ALL}}{{ Fore.RESET }}
+{% else %}
+{{ Fore.GREEN }}TEST PASSED IN {{ results.duration|round(1, 'floor') }} seconds{{ Fore.RESET }}
+{% endif %}
+{% else %}
+{% if results.at_least_one_failure %}
+
+{% for result in results.failures %}
+{% set stacktrace = result.stacktrace %}
+{% include 'stacktrace_default.jinja2' with context %}
+{% endfor %}
+
+{% for result in results.failures %}
+  -- {{ result.test.name }} {% if result.test.tags %}({% for tag in result.test.tags %}{{ tag }}{% if not loop.last %},{% endif %}{% endfor %}){% endif %}
+{% endfor %}
+
+{% if results.failedfast %}
+{{ Fore.RED }}TEST FAILURE IN {{ results.duration|round(1, 'floor') }} seconds.{{ Fore.RESET }}
+{% else %}
+{{ Fore.RED }}{{ results.total_failures }}/{{ results.total }} TEST FAILURES IN {{ results.duration|round(1, 'floor') }} seconds.{{ Fore.RESET }}
+{% endif %}
+
+{% else %}
+{{ Fore.GREEN }}ALL {{ results.total }} TESTS PASSED IN {{ results.duration|round(1, 'floor') }} seconds{{ Fore.RESET }}
+{% endif %}
+{% endif %}

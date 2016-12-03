@@ -1,2 +1,2 @@
-recursive-include hitchtest *.py *.jinja2 *.yaml
+recursive-include hitchstory *.py *.jinja2
 include VERSION
