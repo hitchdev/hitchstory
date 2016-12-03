@@ -1,0 +1,4 @@
+ipykernel
+pip
+q
+pudb

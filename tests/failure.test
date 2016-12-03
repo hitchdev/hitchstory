@@ -1,0 +1,37 @@
+- name: Simple failure report
+  tags:
+    - story
+    - failure
+    - documentation
+  description: |
+    Basic failure report.
+  preconditions:
+    files:
+      example.story: |
+        Failing story:
+          scenario:
+            - Passing step
+            - Failing step
+            - Not executed step
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection, BaseEngine, report
+
+        class Engine(BaseEngine):
+            def passing_step(self):
+                pass
+
+            def failing_step(self):
+                raise ExampleException("Towel not located")
+
+            def not_executed_step(self):
+                pass
+
+        result = StoryCollection(".", Engine()).story("example.story", "Failing story").play()
+        output(result.in_color())
+    - Output is: |
+        FAILURE IN ./example.story: Failing story
+
+        ExampleException: This is a demonstration exception's docstring.
+
+        Towel not located

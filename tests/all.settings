@@ -1,0 +1,26 @@
+python_version: 3.5.0
+always run:
+  - import sys
+
+  - |
+    class ExampleException(Exception):
+        """This is a demonstration exception's docstring."""
+        pass
+
+  - |
+    def should_run(which):
+        with open("should{0}.txt".format(which), "w") as handle:
+            handle.write("ran!")
+
+  - |
+    def should_not_run():
+        raise RuntimeError("This shouldn't have happened")
+
+  - |
+    def raise_example_exception():
+        raise ExampleException
+
+  - |
+    def output(contents):
+        with open("output.txt", 'w') as handle:
+            handle.write(contents)

@@ -1,0 +1,37 @@
+- name: Run through simple story
+  tags:
+    - story
+    - simple
+    - documentation
+    - happy
+  preconditions:
+    files:
+      example.story: |
+        Create files:
+          scenario:
+            - Create file
+            - Create file: step2.txt
+            - Create file:
+                filename: step3.txt
+                content: third step
+      example_code.py: |
+        from hitchstory import StoryCollection, BaseEngine
+
+        class Engine(BaseEngine):
+            def create_file(self, filename="step1.txt", content="example"):
+                with open(filename, 'w') as handle:
+                    handle.write(content)
+
+        StoryCollection(".", Engine()).story("example.story", "Create files").play()
+  scenario:
+    - Run: example_code.py
+    - Exited successfully
+    - File was created with:
+        filename: step1.txt
+        contents: example
+    - File was created with:
+        filename: step2.txt
+        contents: example
+    - File was created with:
+        filename: step3.txt
+        contents: third step

@@ -1,0 +1,60 @@
+
+PARAMETERIZED TESTING
+
+
+scenario:
+  - click: test
+  - fill form:
+      first name: {{ first name }}
+      last name: {{ last name }}
+  - fill form:
+      telephone: {{ telephone }}
+params:
+  first name: Thomas
+  last name: Edison
+  telephone: 07771 1777124
+
+
+INHERITANCE
+
+base.story
+
+story:
+  description: Something something
+  issue: HAM-1543, HAM-1312
+  features: one, two
+  given:
+    story: base.story:story
+    python version: {{ version.python }}
+    peewee version: {{ version.peeeee }}
+  params:
+    version:
+      version: 3.5.10
+      peewee: 4.1.50
+    person:
+      name: Thomas
+  scenario:
+    - Set up
+    - Do something else to set up
+
+
+
+dependency:
+  from: base.story # because it's story
+  description: |
+    something something
+  scenario:
+    - Third step
+    - Fourth step
+    - Text is:
+        on: thingamujig
+        text: Price is [[ number ]] pounds
+
+2nddependency:
+  from: paypal
+  description: Run using Mark's booking engine to debug paypal
+  about:
+    why: debugging
+  preconditions:
+    bridge: web08
+    booking engine: mark

@@ -1,0 +1,7 @@
+python_versions:
+  - 3.5.0
+#  - 2.7.11
+kaching: yes
+pause_on_failure: yes
+pause_on_success: yes
+cli_timeout: 240

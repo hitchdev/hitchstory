@@ -1,0 +1,14 @@
+- name : Lint
+  preconditions:
+    python_version: 3.5.0
+    runservices: no
+  scenario:
+    - lint:
+        args:
+          - hitchstory
+          - --exclude=__init__.py
+          - --max-line-length=100
+    - lint:
+        args:
+          - tests/engine.py
+          - --max-line-length=100

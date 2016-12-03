@@ -1,0 +1,60 @@
+- name: Hierarchical data in steps
+  description: |
+    You can put complex, hierarchical data in steps provided
+    the step has a validator for the data.
+  tags:
+    - story
+    - hierarchical
+    - happy
+    - sad
+  preconditions:
+    files:
+      example.story: |
+        name: Create files
+        scenario:
+          - Add product:
+              name: Towel
+              versions:
+                - 2.6
+                - 2.3.4
+              quantity: 2
+              options:
+                tagline: Hoopy
+                nametag: Ford Prefect
+      example.py: |
+        from hitchstory import StoryFile, validate
+        from strictyaml import Seq, Str, Int, Map
+
+        class Engine(object):
+            def set_up(self):
+                pass
+
+            @validate(versions=Seq(Str()), options=Map({"tagline": Str(), "nametag": Str()}))
+            def add_product(self, name=None, versions=None, quantity=None, options=None):
+                pass
+
+            def tear_down(self):
+                pass
+
+        StoryFile("example.story").story(Engine()).run()
+      example_without_complex_validators.py: |
+        from hitchstory import StoryFile, validate
+        from strictyaml import Seq, Str, Int, Map
+
+        class Engine(object):
+            def set_up(self):
+                pass
+
+            def add_product(self, name=None, versions=None, quantity=None, options=None):
+                pass
+
+            def tear_down(self):
+                pass
+
+        StoryFile("example.story").story(Engine()).run()
+  scenario:
+    - Run: example.py
+    - Exited successfully
+    - Run: example_without_complex_validators.py
+    - Expect: StepArgumentWithoutValidatorContainsComplexData
+    - Exit with error
