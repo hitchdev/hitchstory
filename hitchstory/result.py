@@ -10,18 +10,36 @@ TEMPLATE_DIR = path.join(path.dirname(path.realpath(__file__)), "templates")
 
 
 class Report(object):
+    pass
+
+
+class Result(object):
+    def _template(self, template_name):
+        env = Environment()
+        env.loader = FileSystemLoader(TEMPLATE_DIR)
+        return env.get_template(
+            path.basename(path.join(TEMPLATE_DIR, template_name))
+        ).render(
+            result=self,
+            Fore=colorama.Fore,
+            Back=colorama.Back,
+            Style=colorama.Style,
+        )
+
     @property
     def exit_code(self):
         return 0
 
-
-class Result(object):
-    pass
-
+    @property
+    def story(self):
+        return self._story
 
 class Success(Result):
     def __init__(self, story):
         self._story = story
+    
+    def in_color(self):
+        return self._template("success.jinja2")
 
 
 class FailureException(object):
@@ -58,10 +76,6 @@ class Failure(Result):
     @property
     def exception(self):
         return self._exception
-
-    @property
-    def story(self):
-        return self._story
 
     def to_dict(self):
         return {
