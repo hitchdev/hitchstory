@@ -1,6 +1,49 @@
 
-PARAMETERIZED TESTING
+PRECONDITIONS
+-------------
 
+Add preconditions with schemas.
+
+
+MULTIPLE TESTS
+--------------
+
+Running multiple tests in sequence, with fail fasting and with zero output.
+
+Resultgroup objects with multiple results.
+
+TAGS
+----
+
+Selecting by tags and ordering playable test collections.
+
+
+STACKTRACES
+-----------
+
+Run tests with three different kinds of stacktrace -- none, yourcode, all
+
+
+TEMPLATES
+---------
+
+Passing tests, failing tests. HTML. Documentation in rst format.
+
+templates/
+  success.jinja2
+  failure.jinja2
+  multiple.jinja2
+  stacktrace.jinja2
+  story.jinja2
+
+
+ARTEFACTS
+---------
+
+
+
+PARAMETERIZED TESTING
+---------------------
 
 scenario:
   - click: test
@@ -16,13 +59,15 @@ params:
 
 
 INHERITANCE
+-----------
 
 base.story
 
 story:
   description: Something something
-  issue: HAM-1543, HAM-1312
-  features: one, two
+  tags:
+    issue: HAM-1543, HAM-1312
+    features: one, two
   given:
     story: base.story:story
     python version: {{ version.python }}
@@ -40,7 +85,7 @@ story:
 
 
 dependency:
-  from: base.story # because it's story
+  given: base.story # because it's the only story, you can just reference the filename
   description: |
     something something
   scenario:
@@ -51,10 +96,13 @@ dependency:
         text: Price is [[ number ]] pounds
 
 2nddependency:
-  from: paypal
+  from: dependency # from story above
   description: Run using Mark's booking engine to debug paypal
   about:
     why: debugging
   preconditions:
     bridge: web08
     booking engine: mark
+
+3rddependency:
+  given: 
