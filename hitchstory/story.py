@@ -119,7 +119,10 @@ class Story(object):
 
 class StoryCollection(object):
     def __init__(self, path, engine):
-        assert isinstance(engine, BaseEngine)
+        if not isinstance(engine, BaseEngine):
+            raise exceptions.WrongEngineType(
+                "Engine is of type: {0}, should inherit from BaseEngine".format(type(engine))
+            )
         self._path = path
         self._engine = engine
 

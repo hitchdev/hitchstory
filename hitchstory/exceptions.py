@@ -45,3 +45,10 @@ class StepArgumentWithoutValidatorContainsComplexData(StepException):
     need validators.
     """
     pass
+
+
+class WrongEngineType(HitchStoryException):
+    """
+    Engine should inherit from hitchstory.BaseEngine.
+    """
+    pass
