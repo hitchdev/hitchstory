@@ -121,7 +121,7 @@ class StoryCollection(object):
     def __init__(self, path, engine):
         if not isinstance(engine, BaseEngine):
             raise exceptions.WrongEngineType(
-                "Engine is of type: {0}, should inherit from BaseEngine".format(type(engine))
+                "Engine should inherit from hitchstory.BaseEngine."
             )
         self._path = path
         self._engine = engine
