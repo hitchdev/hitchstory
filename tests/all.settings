@@ -5,7 +5,11 @@ always run:
 
   - |
     class ExampleException(Exception):
-        """This is a demonstration exception's docstring."""
+        """
+        This is a demonstration exception's docstring.
+
+        It spreads across multiple lines.
+        """
         pass
 
   - |

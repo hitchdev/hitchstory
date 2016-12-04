@@ -32,6 +32,11 @@
     - Output is: |
         FAILURE IN ./example.story: Failing story
 
-        ExampleException: This is a demonstration exception's docstring.
+        ExampleException
+          
+            This is a demonstration exception's docstring.
+
+            It spreads across multiple lines.
+            
 
         Towel not located
