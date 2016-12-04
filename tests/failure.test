@@ -15,7 +15,7 @@
             - Not executed step
   scenario:
     - Run command: |
-        from hitchstory import StoryCollection, BaseEngine, report
+        from hitchstory import StoryCollection, BaseEngine
 
         class Engine(BaseEngine):
             def passing_step(self):

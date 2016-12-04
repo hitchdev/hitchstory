@@ -1,9 +1,6 @@
-
+"""
 class HitchStacktrace(object):
-    """Representation of a python stacktrace."""
-
     def __init__(self, test, where, show_hitch_stacktrace, step=None):
-        """Create this object with sys.exc_info()[2]"""
         self.tracebacks = []
         self.test = test
         self.where = where
@@ -50,7 +47,8 @@ class HitchStacktrace(object):
     def to_dict(self):
         return {
             'test': self.test.to_dict(),
-            'previous_step': self.previous_step.to_dict() if self.previous_step is not None else None,
+            'previous_step': self.previous_step.to_dict() \
+                if self.previous_step is not None else None,
             'step': self.step.to_dict() if self.step else None,
             'next_step': self.next_step.to_dict() if self.next_step is not None else None,
             'where': self.where,
@@ -70,8 +68,6 @@ class HitchStacktrace(object):
 
 
 class Traceback(object):
-    """Representation of a python traceback caused by a failed test case."""
-
     def __init__(self, tb_id, traceback):
         self.tb_id = tb_id
         self.traceback = traceback
@@ -114,7 +110,11 @@ class Traceback(object):
     def loc_before(self):
         with open(self.filename(), 'r') as source_handle:
             contents = source_handle.read().split('\n')
-        return [x for x in enumerate(contents[self.lineno() - 3:self.lineno() - 1], self.lineno() - 2)]
+        return [
+            x for x in enumerate(
+                contents[self.lineno() - 3:self.lineno() - 1], self.lineno() - 2
+            )
+        ]
 
     def loc(self):
         with open(self.filename(), 'r') as source_handle:
@@ -135,11 +135,4 @@ class Traceback(object):
             self.loc()
         )
 
-
-def report(failure_exception):
-    """
-    Create report from exception.
-    """
-    assert type(failure_exception) is Exception or RuntimeError
-    
-    stacktrace = StackTrace(failure_exception)
+"""

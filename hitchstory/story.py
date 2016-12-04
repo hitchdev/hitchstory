@@ -1,11 +1,10 @@
 from path import Path
-from strictyaml import load, Map, Str, Seq, MapPattern, Any, CommentedYAML
+from strictyaml import load, Map, Str, Seq, MapPattern, CommentedYAML
 from hitchstory import utils
 from ruamel.yaml.comments import CommentedMap
 from hitchstory import exceptions
 from hitchstory.arguments import Arguments
 from hitchstory.result import Success, Failure
-import time
 
 
 def validate(**kwargs):

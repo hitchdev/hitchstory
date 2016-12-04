@@ -56,7 +56,8 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
                 run(self.pip("install", ".", "--no-deps").in_dir(self.path.project))
 
         with monitor([self.path.engine.joinpath("dev_requirements.txt")]) as dev_reqs_changed:
-            run(self.pip("install", "-r", self.path.engine.joinpath("dev_requirements.txt")))
+            if dev_reqs_changed:
+                run(self.pip("install", "-r", self.path.engine.joinpath("dev_requirements.txt")))
 
         for filename, contents in self.preconditions.get("files", {}).items():
             self.path.state.joinpath(filename).write_text(contents)
@@ -84,7 +85,6 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
 
         for line in self.settings['always run']:
             self.run_command(line)
-
 
     def lint(self, args=None):
         """Lint the source code."""
@@ -121,7 +121,7 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
             open_delimeter="(((",
             close_delimeter=")))"
         ).compile(expected_contents.strip())
-        if regex.match(output_contents) is   None:
+        if regex.match(output_contents) is None:
             raise RuntimeError("Expected output:\n{0}\n\nActual output:\n{1}".format(
                 expected_contents,
                 output_contents,
@@ -162,7 +162,6 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
             kaching.win()
         if self.settings.get("pause_on_success", False):
             self.pause(message="SUCCESS")
-
 
     def shell(self):
         if hasattr(self, 'services'):

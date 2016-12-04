@@ -2,8 +2,6 @@ from jinja2.environment import Environment
 from jinja2 import FileSystemLoader
 from os import path
 import colorama
-import json
-import sys
 
 
 TEMPLATE_DIR = path.join(path.dirname(path.realpath(__file__)), "templates")
@@ -34,10 +32,11 @@ class Result(object):
     def story(self):
         return self._story
 
+
 class Success(Result):
     def __init__(self, story):
         self._story = story
-    
+
     def in_color(self):
         return self._template("success.jinja2")
 
@@ -89,17 +88,3 @@ class Failure(Result):
 
     def in_color(self):
         return self._template("failure.jinja2")
-
-
-    def report(self):
-        env = Environment()
-        env.loader = FileSystemLoader(TEMPLATE_DIR)
-        tmpl = env.get_template(path.basename(template))
-        return tmpl.render(
-            stacktrace=self.to_dict(),
-            #Fore=colorama.Fore,
-            #Back=colorama.Back,
-            #Style=colorama.Style,
-        )
-
-        return "{}".format(self._exception)
