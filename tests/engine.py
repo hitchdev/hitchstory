@@ -128,6 +128,19 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
             ))
         self.path.state.joinpath("output.txt").remove()
 
+    def output_contains(self, expected_contents):
+        output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
+        regex = DefaultSimex(
+            open_delimeter="(((",
+            close_delimeter=")))"
+        ).compile(expected_contents.strip())
+        if regex.search(output_contents) is None:
+            raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
+                expected_contents,
+                output_contents,
+            ))
+        self.path.state.joinpath("output.txt").remove()
+
     def pause(self, message=""):
         if hasattr(self, 'services') and self.services is not None:
             self.services.start_interactive_mode()

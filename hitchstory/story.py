@@ -117,14 +117,6 @@ class Story(object):
         return result
 
 
-#class StoryFile(object):
-    #def __init__(self, filename):
-        #self._filename = filename
-
-    #def story(self, engine):
-        #return Story(Path(self._filename).bytes().decode('utf8'), engine)
-
-
 class StoryCollection(object):
     def __init__(self, path, engine):
         assert isinstance(engine, BaseEngine)

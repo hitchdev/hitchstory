@@ -1,12 +1,111 @@
-- name: Invalid steps
+#- name: Invalid steps
+  #tags:
+    #- story
+    #- not-found
+    #- not-callable
+    #- no-decorator
+    #- invalid-type
+    #- exception
+    #- sad
+  #preconditions:
+    #files:
+      #example.story: |
+        #Create files:
+          #scenario:
+            #- Add product:
+                #name: Towel
+                #quantity: Three
+      #example_without_method.py: |
+        #from hitchstory import StoryCollection
+
+        #class Engine(object):
+            #def set_up(self):
+                #pass
+
+            #def tear_down(self):
+                #pass
+
+        #StoryCollection(".", Engine).story("example.story", "Create files").play()
+        #print(result.report())
+      #example_without_callable_step.py: |
+        #from hitchstory import StoryCollection
+
+        #class Engine(object):
+            #def set_up(self):
+                #self.add_product = 1
+
+            #def tear_down(self):
+                #pass
+
+        #StoryCollection(".", Engine).story("example.story", "Create files").play()
+        #print(result.report())
+      #example_without_decorator.py: |
+        #from hitchstory import StoryCollection
+
+        #class Engine(object):
+            #def set_up(self):
+                #pass
+
+            #def add_product(self):
+                #pass
+
+            #def tear_down(self):
+                #pass
+
+        #StoryCollection(".", Engine).story("example.story", "Create files").play()
+        #print(result.report())
+      #example_with_invalid_type.py: |
+        #from hitchstory import StoryCollection, validate
+        #from strictyaml import Str, Int
+
+        #class Engine(object):
+            #def set_up(self):
+                #pass
+
+            #@validate(quantity=Int())
+            #def add_product(self, name, quantity):
+                #pass
+
+            #def tear_down(self):
+                #pass
+
+        #StoryCollection(".", Engine).story("example.story", "Create files").play()
+        #print(result.report())
+      #example_with_invalid_validator.py: |
+        #from hitchstory import StoryCollection, validate
+        #from strictyaml import Str, Int
+
+        #class Engine(object):
+            #def set_up(self):
+                #pass
+
+            #@validate(not_an_argument=Int())
+            #def add_product(self, name, quantity):
+                #pass
+
+            #def tear_down(self):
+                #pass
+
+        #StoryCollection(".", Engine).story("example.story", "Create files").play()
+        #print(result.report())
+  #scenario:
+    #- Run: example_without_method.py
+    #- Expect: hitchstory.exceptions.StepNotFound
+    #- Exit with error
+    #- Run: example_without_callable_step.py
+    #- Expect: hitchstory.exceptions.StepNotCallable
+    #- Exit with error
+    #- Run: example_with_invalid_type.py
+    #- Expect: strictyaml.exceptions.YAMLValidationError
+    #- Exit with error
+    #- Run: example_with_invalid_validator.py
+    #- Expect: hitchstory.exceptions.StepContainsInvalidValidator
+    #- Exit with error
+
+- name: Invalid validator
   tags:
-    - story
-    - not-found
-    - not-callable
-    - no-decorator
     - invalid-type
     - exception
-    - sad
   preconditions:
     files:
       example.story: |
@@ -15,89 +114,104 @@
             - Add product:
                 name: Towel
                 quantity: Three
-      example_without_method.py: |
-        from hitchstory import StoryCollection
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection, BaseEngine, validate
+        from strictyaml import Int
 
-        class Engine(object):
-            def set_up(self):
+        class Engine(BaseEngine):
+            @validate(quantity=Int())
+            def add_product(self, name, quantity):
                 pass
 
-            def tear_down(self):
-                pass
 
-        StoryCollection(".", Engine).story("example.story", "Create files").play()
-        print(result.report())
-      example_without_callable_step.py: |
-        from hitchstory import StoryCollection
+        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        output(result.in_color())
+    - Output contains: YAMLValidationError
 
-        class Engine(object):
+
+- name: Invalid type
+  tags:
+    - invalid-type
+    - exception
+  preconditions:
+    files:
+      example.story: |
+        Create files:
+          scenario:
+            - Add product:
+                name: Towel
+                quantity: Three
+  scenario:
+    - Assert exception: 
+        command: |
+          from hitchstory import StoryCollection, BaseEngine, validate
+          from strictyaml import Int
+
+          class Engine(BaseEngine):
+              @validate(not_an_argument=Int())
+              def add_product(self, name, quantity):
+                  pass
+
+
+          result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+          output(result.in_color())
+        exception: StepContainsInvalidValidator
+    #- Output contains: hitchstory.exceptions.StepContainsInvalidValidator
+
+
+
+- name: Callable step not found
+  tags:
+    - not-callable
+    - exception
+  preconditions:
+    files:
+      example.story: |
+        Create files:
+          scenario:
+            - Add product:
+                name: Towel
+                quantity: Three
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection, BaseEngine
+
+        class Engine(BaseEngine):
             def set_up(self):
                 self.add_product = 1
 
             def tear_down(self):
                 pass
 
-        StoryCollection(".", Engine).story("example.story", "Create files").play()
-        print(result.report())
-      example_without_decorator.py: |
-        from hitchstory import StoryCollection
+        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        output(result.in_color())
+    - Output contains: StepNotCallable
 
-        class Engine(object):
-            def set_up(self):
-                pass
 
-            def add_product(self):
-                pass
-
-            def tear_down(self):
-                pass
-
-        StoryCollection(".", Engine).story("example.story", "Create files").play()
-        print(result.report())
-      example_with_invalid_type.py: |
-        from hitchstory import StoryCollection, validate
-        from strictyaml import Str, Int
-
-        class Engine(object):
-            def set_up(self):
-                pass
-
-            @validate(quantity=Int())
-            def add_product(self, name, quantity):
-                pass
-
-            def tear_down(self):
-                pass
-
-        StoryCollection(".", Engine).story("example.story", "Create files").play()
-        print(result.report())
-      example_with_invalid_validator.py: |
-        from hitchstory import StoryCollection, validate
-        from strictyaml import Str, Int
-
-        class Engine(object):
-            def set_up(self):
-                pass
-
-            @validate(not_an_argument=Int())
-            def add_product(self, name, quantity):
-                pass
-
-            def tear_down(self):
-                pass
-
-        StoryCollection(".", Engine).story("example.story", "Create files").play()
-        print(result.report())
+- name: Method not found
+  tags:
+    - not-found
+    - exception
+  preconditions:
+    files:
+      example.story: |
+        Create files:
+          scenario:
+            - Add product:
+                name: Towel
+                quantity: Three
   scenario:
-    - Run: example_without_method.py
-    - Expect: hitchstory.exceptions.StepNotFound
-    - Exit with error
-    - Run: example_without_callable_step.py
-    - Expect: hitchstory.exceptions.StepNotCallable
-    - Exit with error
-    - Run: example_with_invalid_type.py
-    - Expect: strictyaml.exceptions.YAMLValidationError
-    - Exit with error
-    - Run: example_with_invalid_validator.py
-    - Expect: hitchstory.exceptions.StepContainsInvalidValidator
-    - Exit with error
+    - Run command: |
+        from hitchstory import StoryCollection, BaseEngine
+
+        class Engine(BaseEngine):
+            def set_up(self):
+                pass
+
+            def tear_down(self):
+                pass
+
+        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        output(result.in_color())
+    - Output contains: StepNotFound
