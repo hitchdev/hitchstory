@@ -5,6 +5,7 @@ from ruamel.yaml.comments import CommentedMap
 from hitchstory import exceptions
 from hitchstory.arguments import Arguments
 from hitchstory.result import Success, Failure
+import time
 
 
 def validate(**kwargs):
@@ -104,15 +105,16 @@ class Story(object):
         return self._name
 
     def play(self):
+        start_time = time.time()
         try:
             self._engine.set_up()
             for step in self._steps:
                 step.run(self._engine)
             self._engine.tear_down()
-            result = Success(self)
+            result = Success(self, time.time() - start_time)
         except Exception as exception:
             self._engine.tear_down()
-            result = Failure(self, exception)
+            result = Failure(self, time.time() - start_time, exception)
         return result
 
 

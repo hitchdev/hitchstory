@@ -29,13 +29,18 @@ class Result(object):
         return 0
 
     @property
+    def duration(self):
+        return self._duration
+
+    @property
     def story(self):
         return self._story
 
 
 class Success(Result):
-    def __init__(self, story):
+    def __init__(self, story, duration):
         self._story = story
+        self._duration = duration
 
     def in_color(self):
         return self._template("success.jinja2")
@@ -63,9 +68,10 @@ class FailureException(object):
 
 
 class Failure(Result):
-    def __init__(self, story, exception):
+    def __init__(self, story, duration, exception):
         assert type(exception) is Exception or RuntimeError
         self._story = story
+        self._duration = duration
         self._exception = FailureException(exception)
 
     @property

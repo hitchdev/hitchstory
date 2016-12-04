@@ -30,7 +30,7 @@
         result = StoryCollection(".", Engine()).story("example.story", "Failing story").play()
         output(result.in_color())
     - Output is: |
-        FAILURE IN ./example.story: Failing story
+        FAILURE IN ./example.story: Failing story in 0.1 seconds.
 
         ExampleException
           

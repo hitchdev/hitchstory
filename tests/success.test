@@ -26,7 +26,7 @@
         result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
         output(result.in_color())
     - Output is: |
-        STORY RAN SUCCESSFULLY ./example.story: Create files
+        STORY RAN SUCCESSFULLY ./example.story: Create files in 0.1 seconds.
     - File was created with:
         filename: step1.txt
         contents: example

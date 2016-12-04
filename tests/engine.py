@@ -119,7 +119,8 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
         output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
         regex = DefaultSimex(
             open_delimeter="(((",
-            close_delimeter=")))"
+            close_delimeter=")))",
+            exact=True,
         ).compile(expected_contents.strip())
         if regex.match(output_contents) is None:
             raise RuntimeError("Expected output:\n{0}\n\nActual output:\n{1}".format(
@@ -132,7 +133,7 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
         output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
         regex = DefaultSimex(
             open_delimeter="(((",
-            close_delimeter=")))"
+            close_delimeter=")))",
         ).compile(expected_contents.strip())
         if regex.search(output_contents) is None:
             raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
