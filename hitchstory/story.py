@@ -197,9 +197,8 @@ class StoryCollection(object):
     def one(self):
         stories = self.all()
         if len(stories) == 1:
-            return stories[0]
-        else:
             raise exceptions.MoreThanOneStory()
-
-    #def story(self, filename, name):
-        #return Story(Path(self._path).joinpath(filename), name, self._engine)
+        elif len(stories) == 0:
+            raise exceptions.NoStories()
+        else:
+            return stories[0]

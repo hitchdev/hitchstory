@@ -56,5 +56,13 @@ class WrongEngineType(HitchStoryException):
 
 class MoreThanOneStory(HitchStoryException):
     """
+    User tried to use .one() but more than one story was found.
+    """
+    pass
+
+
+class NoStories(HitchStoryException):
+    """
+    User tried to use .one() but no stories were found.
     """
     pass
