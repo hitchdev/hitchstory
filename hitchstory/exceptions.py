@@ -52,3 +52,9 @@ class WrongEngineType(HitchStoryException):
     Engine should inherit from hitchstory.BaseEngine.
     """
     pass
+
+
+class MoreThanOneStory(HitchStoryException):
+    """
+    """
+    pass

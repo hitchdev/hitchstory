@@ -4,8 +4,10 @@ from hitchstory import utils
 from ruamel.yaml.comments import CommentedMap
 from hitchstory import exceptions
 from hitchstory.arguments import Arguments
-from hitchstory.result import Success, Failure
+from hitchstory.result import ResultList, Success, Failure
+from pathquery import pathq
 import time
+import copy
 
 
 def validate(**kwargs):
@@ -23,6 +25,12 @@ def validate(**kwargs):
 
 
 class BaseEngine(object):
+    preconditions_schema = None
+
+    @property
+    def preconditions(self):
+        return self._preconditions
+
     def set_up(self):
         pass
 
@@ -77,28 +85,16 @@ class StoryStep(object):
 
 
 class Story(object):
-    def __init__(self, filename, name, engine):
-        self._filename = filename
-        self._yaml = filename.bytes().decode('utf8')
-        self._engine = engine
-        parsed_yaml = load(
-            self._yaml,
-            MapPattern(
-                Str(),
-                Map({
-                    "scenario": Seq(CommentedYAML())
-                })
-            )
-        )[name]
+    def __init__(self, story_file, name, parsed_yaml, engine):
+        self._story_file = story_file
         self._name = name
+        self._parsed_yaml = parsed_yaml
+        self._engine = engine
         self._steps = []
-
-        for index, parsed_step in enumerate(parsed_yaml['scenario']):
-            self._steps.append(StoryStep(parsed_step, index))
 
     @property
     def filename(self):
-        return self._filename
+        return self._story_file.filename
 
     @property
     def name(self):
@@ -107,15 +103,68 @@ class Story(object):
     def play(self):
         start_time = time.time()
         try:
+            self._engine._preconditions = self._parsed_yaml.get('preconditions')
             self._engine.set_up()
             for step in self._steps:
                 step.run(self._engine)
+
+            for index, parsed_step in enumerate(self._parsed_yaml['scenario']):
+                step = StoryStep(parsed_step, index)
+                self._steps.append(step)
+                step.run(self._engine)
+
             self._engine.tear_down()
             result = Success(self, time.time() - start_time)
         except Exception as exception:
             self._engine.tear_down()
             result = Failure(self, time.time() - start_time, exception)
         return result
+
+
+class StoryFile(object):
+    def __init__(self, filename, engine):
+        self._filename = filename
+        self._yaml = filename.bytes().decode('utf8')
+        self._engine = engine
+        story_schema = {
+            "scenario": Seq(CommentedYAML())
+        }
+        
+        if self._engine.preconditions_schema is not None:
+            story_schema['preconditions'] = engine.preconditions_schema
+
+        self._parsed_yaml = load(
+            self._yaml,
+            MapPattern(Str(), Map(story_schema))
+        )
+        #self._steps = []
+        #self._preconditions = parsed_yaml.get('preconditions')
+    
+    @property
+    def filename(self):
+        return self._filename
+
+    def all(self):
+        stories = []
+        for name, parsed_yaml in self._parsed_yaml.items():
+            stories.append(Story(self, name, parsed_yaml, self._engine))
+        return stories
+
+
+class StoryList(object):
+    def __init__(self, stories):
+        for story in stories:
+            assert type(story) is Story
+        self._stories = stories
+    
+    def play(self):
+        results = ResultList()
+        for story in self._stories:
+            results.append(story.play())
+        return results
+
+    def __iter__(self):
+        return self._stories
 
 
 class StoryCollection(object):
@@ -126,6 +175,31 @@ class StoryCollection(object):
             )
         self._path = path
         self._engine = engine
+        self._filename = None
 
-    def story(self, filename, name):
-        return Story(Path(self._path).joinpath(filename), name, self._engine)
+    def filename(self, name):
+        new_collection = copy.copy(self)
+        new_collection._filename = name
+        return new_collection
+
+    def all(self):
+        if self._filename is None:
+            stories = []
+            for filename in pathq(self._path + "/*.story"):
+                for story in StoryFile(filename, self._engine).all():
+                    stories.append(story)
+            return stories
+    
+    def ordered_by_name(self):
+        stories = self.all()
+        return StoryList(sorted(stories, key=lambda story: story.name))
+
+    def one(self):
+        stories = self.all()
+        if len(stories) == 1:
+            return stories[0]
+        else:
+            raise exceptions.MoreThanOneStory()
+
+    #def story(self, filename, name):
+        #return Story(Path(self._path).joinpath(filename), name, self._engine)

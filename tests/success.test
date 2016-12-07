@@ -23,10 +23,10 @@
                 with open(filename, 'w') as handle:
                     handle.write(content)
 
-        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        result = StoryCollection(".", Engine()).one().play()
         output(result.in_color())
     - Output is: |
-        STORY RAN SUCCESSFULLY ./example.story: Create files in 0.1 seconds.
+        STORY RAN SUCCESSFULLY example.story: Create files in 0.1 seconds.
     - File was created with:
         filename: step1.txt
         contents: example

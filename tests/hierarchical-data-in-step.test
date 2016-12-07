@@ -37,7 +37,7 @@
             def tear_down(self):
                 pass
 
-        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        result = StoryCollection(".", Engine()).one().play()
     - Output is: Ford Prefect
 
 
@@ -80,6 +80,6 @@
             def tear_down(self):
                 pass
 
-        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        result = StoryCollection(".", Engine()).one().play()
         output(result.in_color())
     - Output contains: StepArgumentWithoutValidatorContainsComplexData

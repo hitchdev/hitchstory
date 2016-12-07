@@ -27,10 +27,10 @@
             def not_executed_step(self):
                 pass
 
-        result = StoryCollection(".", Engine()).story("example.story", "Failing story").play()
+        result = StoryCollection(".", Engine()).one().play()
         output(result.in_color())
     - Output is: |
-        FAILURE IN ./example.story: Failing story in 0.1 seconds.
+        FAILURE IN example.story: Failing story in 0.1 seconds.
 
         ExampleException
           

@@ -1,10 +1,4 @@
 
-PRECONDITIONS
--------------
-
-Add preconditions with schemas.
-
-
 MULTIPLE TESTS
 --------------
 
@@ -52,7 +46,7 @@ scenario:
       last name: {{ last name }}
   - fill form:
       telephone: {{ telephone }}
-params:
+with:
   first name: Thomas
   last name: Edison
   telephone: 07771 1777124
@@ -64,20 +58,20 @@ INHERITANCE
 base.story
 
 story:
-  description: Something something
-  tags:
-    issue: HAM-1543, HAM-1312
+  from: base.story
+  about:
+    description: Something something
+    issues: HAM-1543, HAM-1312
     features: one, two
-  given:
-    story: base.story:story
-    python version: {{ version.python }}
-    peewee version: {{ version.peeeee }}
-  params:
+  with:
     version:
-      version: 3.5.10
+      python: 3.5.10
       peewee: 4.1.50
     person:
       name: Thomas
+  preconditions:
+    python version: {{ version.python }}
+    peewee version: {{ version.peewee }}
   scenario:
     - Set up
     - Do something else to set up

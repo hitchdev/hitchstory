@@ -1,0 +1,29 @@
+- name: Run through story with preconditions
+  tags:
+    - preconditions
+    - simple
+    - documentation
+    - happy
+  preconditions:
+    files:
+      example.story: |
+        Create files:
+          preconditions:
+            content: things
+          scenario:
+            - Create file
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection, BaseEngine
+        from strictyaml import Map, Str
+
+        class Engine(BaseEngine):
+            preconditions_schema = Map({
+                "content": Str()
+            })
+
+            def create_file(self):
+                output(self.preconditions['content'])
+
+        StoryCollection(".", Engine()).one().play()
+    - Output is: things
