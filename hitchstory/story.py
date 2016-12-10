@@ -1,5 +1,4 @@
-from path import Path
-from strictyaml import load, Map, Str, Seq, MapPattern, CommentedYAML
+from strictyaml import load, Map, Str, Seq, Optional, MapPattern, CommentedYAML
 from hitchstory import utils
 from ruamel.yaml.comments import CommentedMap
 from hitchstory import exceptions
@@ -26,6 +25,7 @@ def validate(**kwargs):
 
 class BaseEngine(object):
     preconditions_schema = None
+    about_schema = None
 
     @property
     def preconditions(self):
@@ -91,10 +91,15 @@ class Story(object):
         self._parsed_yaml = parsed_yaml
         self._engine = engine
         self._steps = []
+        self._about = parsed_yaml.get('about')
 
     @property
     def filename(self):
         return self._story_file.filename
+
+    @property
+    def about(self):
+        return self._about
 
     @property
     def name(self):
@@ -127,24 +132,26 @@ class StoryFile(object):
         self._yaml = filename.bytes().decode('utf8')
         self._engine = engine
         story_schema = {
-            "scenario": Seq(CommentedYAML())
+            "scenario": Seq(CommentedYAML()),
+            Optional("description"): Str(),
         }
-        
+
         if self._engine.preconditions_schema is not None:
             story_schema['preconditions'] = engine.preconditions_schema
+
+        if self._engine.about_schema is not None:
+            story_schema['about'] = engine.about_schema
 
         self._parsed_yaml = load(
             self._yaml,
             MapPattern(Str(), Map(story_schema))
         )
-        #self._steps = []
-        #self._preconditions = parsed_yaml.get('preconditions')
-    
+
     @property
     def filename(self):
         return self._filename
 
-    def all(self):
+    def ordered_arbitrarily(self):
         stories = []
         for name, parsed_yaml in self._parsed_yaml.items():
             stories.append(Story(self, name, parsed_yaml, self._engine))
@@ -156,15 +163,18 @@ class StoryList(object):
         for story in stories:
             assert type(story) is Story
         self._stories = stories
-    
+
     def play(self):
         results = ResultList()
         for story in self._stories:
             results.append(story.play())
         return results
 
-    def __iter__(self):
-        return self._stories
+    def __len__(self):
+        return len(self._stories)
+
+    def __getitem__(self, index):
+        return self._stories[index]
 
 
 class StoryCollection(object):
@@ -176,27 +186,39 @@ class StoryCollection(object):
         self._path = path
         self._engine = engine
         self._filename = None
+        self._filters = []
 
     def filename(self, name):
         new_collection = copy.copy(self)
         new_collection._filename = name
         return new_collection
 
-    def all(self):
+    def ordered_arbitrarily(self):
         if self._filename is None:
             stories = []
             for filename in pathq(self._path + "/*.story"):
-                for story in StoryFile(filename, self._engine).all():
-                    stories.append(story)
+                for story in StoryFile(filename, self._engine).ordered_arbitrarily():
+                    filtered = True
+                    for filter_func in self._filters:
+                        if not filter_func(story):
+                            filtered = False
+                    if filtered:
+                        stories.append(story)
             return stories
-    
+
+    def filter(self, filter_func):
+        assert callable(filter_func)
+        new_collection = copy.copy(self)
+        new_collection._filters.append(filter_func)
+        return new_collection
+
     def ordered_by_name(self):
-        stories = self.all()
+        stories = self.ordered_arbitrarily()
         return StoryList(sorted(stories, key=lambda story: story.name))
 
     def one(self):
-        stories = self.all()
-        if len(stories) == 1:
+        stories = self.ordered_arbitrarily()
+        if len(stories) > 1:
             raise exceptions.MoreThanOneStory()
         elif len(stories) == 0:
             raise exceptions.NoStories()

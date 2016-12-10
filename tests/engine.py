@@ -167,6 +167,7 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
     def shell(self):
         if hasattr(self, 'services'):
             self.services.start_interactive_mode()
+            time.sleep(0.5)
             import sys
             if path.exists(path.join(
                 path.expanduser("~"), ".ipython/profile_default/security/",

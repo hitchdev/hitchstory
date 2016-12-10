@@ -7,14 +7,13 @@ import colorama
 TEMPLATE_DIR = path.join(path.dirname(path.realpath(__file__)), "templates")
 
 
-
 class ResultList(object):
     def __init__(self):
         self._results = []
 
     def append(self, result):
         self._results.append(result)
-    
+
     def in_color(self):
         return '\n'.join([result.in_color() for result in self._results])
 

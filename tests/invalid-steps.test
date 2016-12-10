@@ -21,7 +21,7 @@
                 pass
 
 
-        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        result = StoryCollection(".", Engine()).one().play()
         output(result.in_color())
     - Output contains: YAMLValidationError
 
@@ -50,10 +50,9 @@
                   pass
 
 
-          result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+          result = StoryCollection(".", Engine()).one().play()
           output(result.in_color())
         exception: StepContainsInvalidValidator
-    #- Output contains: hitchstory.exceptions.StepContainsInvalidValidator
 
 
 
@@ -80,7 +79,7 @@
             def tear_down(self):
                 pass
 
-        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        result = StoryCollection(".", Engine()).one().play()
         output(result.in_color())
     - Output contains: StepNotCallable
 
@@ -108,6 +107,6 @@
             def tear_down(self):
                 pass
 
-        result = StoryCollection(".", Engine()).story("example.story", "Create files").play()
+        result = StoryCollection(".", Engine()).one().play()
         output(result.in_color())
     - Output contains: StepNotFound

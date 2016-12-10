@@ -1,13 +1,7 @@
 
-MULTIPLE TESTS
---------------
 
-Running multiple tests in sequence, with fail fasting and with zero output.
-
-Resultgroup objects with multiple results.
-
-TAGS
-----
+ABOUT
+-----
 
 Selecting by tags and ordering playable test collections.
 
