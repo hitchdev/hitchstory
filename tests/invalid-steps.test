@@ -22,7 +22,7 @@
 
 
         result = StoryCollection(".", Engine()).one().play()
-        output(result.in_color())
+        output(result.report())
     - Output contains: YAMLValidationError
 
 
@@ -51,7 +51,7 @@
 
 
           result = StoryCollection(".", Engine()).one().play()
-          output(result.in_color())
+          output(result.report())
         exception: StepContainsInvalidValidator
 
 
@@ -80,7 +80,7 @@
                 pass
 
         result = StoryCollection(".", Engine()).one().play()
-        output(result.in_color())
+        output(result.report())
     - Output contains: StepNotCallable
 
 
@@ -108,5 +108,5 @@
                 pass
 
         result = StoryCollection(".", Engine()).one().play()
-        output(result.in_color())
+        output(result.report())
     - Output contains: StepNotFound

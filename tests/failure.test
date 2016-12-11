@@ -28,7 +28,7 @@
                 pass
 
         result = StoryCollection(".", Engine()).one().play()
-        output(result.in_color())
+        output(result.report())
     - Output is: |
         FAILURE IN example.story: Failing story in 0.1 seconds.
 

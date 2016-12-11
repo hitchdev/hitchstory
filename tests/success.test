@@ -24,7 +24,7 @@
                     handle.write(content)
 
         result = StoryCollection(".", Engine()).one().play()
-        output(result.in_color())
+        output(result.report())
     - Output is: |
         STORY RAN SUCCESSFULLY example.story: Create files in 0.1 seconds.
     - File was created with:

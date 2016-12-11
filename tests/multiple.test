@@ -31,7 +31,7 @@
         exception: MoreThanOneStory
     - Run command: |
         results = StoryCollection(".", Engine()).ordered_by_name().play()
-        output(results.in_color())
+        output(results.report())
     - Output is: |
         STORY RAN SUCCESSFULLY example1.story: Create file in 0.1 seconds.
         STORY RAN SUCCESSFULLY example1.story: Create file again in 0.1 seconds.

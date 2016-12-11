@@ -14,8 +14,8 @@ class ResultList(object):
     def append(self, result):
         self._results.append(result)
 
-    def in_color(self):
-        return '\n'.join([result.in_color() for result in self._results])
+    def report(self):
+        return '\n'.join([result.report() for result in self._results])
 
 
 class Report(object):
@@ -53,7 +53,7 @@ class Success(Result):
         self._story = story
         self._duration = duration
 
-    def in_color(self):
+    def report(self):
         return self._template("success.jinja2")
 
 
@@ -103,5 +103,5 @@ class Failure(Result):
             ),
         }
 
-    def in_color(self):
+    def report(self):
         return self._template("failure.jinja2")

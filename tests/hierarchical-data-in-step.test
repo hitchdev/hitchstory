@@ -81,5 +81,5 @@
                 pass
 
         result = StoryCollection(".", Engine()).one().play()
-        output(result.in_color())
+        output(result.report())
     - Output contains: StepArgumentWithoutValidatorContainsComplexData

@@ -1,19 +1,12 @@
 
-
-ABOUT
------
-
-Selecting by tags and ordering playable test collections.
-
-
 STACKTRACES
 -----------
 
 Run tests with three different kinds of stacktrace -- none, yourcode, all
 
 
-TEMPLATES
----------
+ARTEFACTS AND TEMPLATES
+-----------------------
 
 Passing tests, failing tests. HTML. Documentation in rst format.
 
@@ -24,9 +17,10 @@ templates/
   stacktrace.jinja2
   story.jinja2
 
+.report().without_color()
+.report().in_html()
+.report().with_templates(template_folder)
 
-ARTEFACTS
----------
 
 
 
@@ -40,6 +34,7 @@ scenario:
       last name: {{ last name }}
   - fill form:
       telephone: {{ telephone }}
+  - do thing: {{ thistextwillappear }}
 with:
   first name: Thomas
   last name: Edison
@@ -52,11 +47,11 @@ INHERITANCE
 base.story
 
 story:
-  from: base.story
+  based on: base.story
+  description: Something something
   about:
-    description: Something something
     issues: HAM-1543, HAM-1312
-    features: one, two
+    type: bug, documentation
   with:
     version:
       python: 3.5.10
