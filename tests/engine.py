@@ -142,6 +142,20 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
             ))
         self.path.state.joinpath("output.txt").remove()
 
+    def output_will_be(self, reference):
+        output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
+
+        artefact = self.path.engine.joinpath("artefacts", "{0}.txt".format(reference.replace(" ", "-").lower()))
+
+        if not artefact.exists():
+            artefact.write_text(output_contents)
+        else:
+            if artefact.bytes().decode('utf8') != output_contents:
+                raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
+                artefact.bytes().decode('utf8'),
+                output_contents,
+            ))
+
     def pause(self, message=""):
         if hasattr(self, 'services') and self.services is not None:
             self.services.start_interactive_mode()
