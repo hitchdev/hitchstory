@@ -150,11 +150,14 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
         if not artefact.exists():
             artefact.write_text(output_contents)
         else:
-            if artefact.bytes().decode('utf8') != output_contents:
-                raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
-                artefact.bytes().decode('utf8'),
-                output_contents,
-            ))
+            if self.settings.get('overwrite artefacts'):
+                artefact.write_text(output_contents)
+            else:
+                if artefact.bytes().decode('utf8') != output_contents:
+                    raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
+                        artefact.bytes().decode('utf8'),
+                        output_contents,
+                    ))
 
     def pause(self, message=""):
         if hasattr(self, 'services') and self.services is not None:
