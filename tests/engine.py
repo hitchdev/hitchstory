@@ -145,7 +145,9 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
     def output_will_be(self, reference):
         output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
 
-        artefact = self.path.engine.joinpath("artefacts", "{0}.txt".format(reference.replace(" ", "-").lower()))
+        artefact = self.path.engine.joinpath(
+            "artefacts", "{0}.txt".format(reference.replace(" ", "-").lower())
+        )
 
         if not artefact.exists():
             artefact.write_text(output_contents)
