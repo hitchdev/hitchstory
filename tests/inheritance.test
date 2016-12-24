@@ -1,0 +1,32 @@
+- name: Inherit one story from another
+  tags:
+    - inheritance
+    - documentation
+    - happy
+  preconditions:
+    files:
+      example.story: |
+        Create files:
+          scenario:
+            - Do thing one
+
+        Write to file:
+          based on: Create files
+          scenario:
+            - Do thing two
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection, BaseEngine
+        from strictyaml import Map, Str
+
+        class Engine(BaseEngine):
+            def do_thing_one(self):
+                output("thing one")
+
+            def do_thing_two(self):
+                output("thing two")
+
+        StoryCollection(".", Engine()).named("Write to file").one().play()
+    - Output is: |
+        thing one
+        thing two

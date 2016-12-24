@@ -85,13 +85,14 @@ class StoryStep(object):
 
 
 class Story(object):
-    def __init__(self, story_file, name, parsed_yaml, engine):
+    def __init__(self, story_file, name, parsed_yaml, engine, collection):
         self._story_file = story_file
         self._name = name
         self._parsed_yaml = parsed_yaml
         self._engine = engine
         self._steps = []
         self._about = parsed_yaml.get('about')
+        self._collection = collection
 
     @property
     def filename(self):
@@ -105,17 +106,34 @@ class Story(object):
     def name(self):
         return self._name
 
+    @property
+    def preconditions(self):
+        return self._parsed_yaml.get('preconditions')
+
+    @property
+    def steps(self):
+        return self._parsed_yaml.get('scenario', [])
+
+    @property
+    def scenario(self):
+        if "based on" in self._parsed_yaml:
+            inherited_steps = self._collection.named(self._parsed_yaml['based on']).one().steps
+        else:
+            inherited_steps = []
+        inherited_steps.extend(self._parsed_yaml['scenario'])
+
+        steps = []
+        for index, parsed_step in enumerate(inherited_steps):
+            steps.append(StoryStep(parsed_step, index))
+        return steps
+
     def play(self):
         start_time = time.time()
         try:
-            self._engine._preconditions = self._parsed_yaml.get('preconditions')
+            self._engine._preconditions = self.preconditions
             self._engine.set_up()
-            for step in self._steps:
-                step.run(self._engine)
 
-            for index, parsed_step in enumerate(self._parsed_yaml['scenario']):
-                step = StoryStep(parsed_step, index)
-                self._steps.append(step)
+            for step in self.scenario:
                 step.run(self._engine)
 
             self._engine.tear_down()
@@ -127,13 +145,15 @@ class Story(object):
 
 
 class StoryFile(object):
-    def __init__(self, filename, engine):
+    def __init__(self, filename, engine, collection):
         self._filename = filename
         self._yaml = filename.bytes().decode('utf8')
         self._engine = engine
+        self._collection = collection
         story_schema = {
-            "scenario": Seq(CommentedYAML()),
+            Optional("scenario"): Seq(CommentedYAML()),
             Optional("description"): Str(),
+            Optional("based on"): Str(),
         }
 
         if self._engine.preconditions_schema is not None:
@@ -153,8 +173,8 @@ class StoryFile(object):
 
     def ordered_arbitrarily(self):
         stories = []
-        for name, parsed_yaml in self._parsed_yaml.items():
-            stories.append(Story(self, name, parsed_yaml, self._engine))
+        for name, self._parsed_yaml in self._parsed_yaml.items():
+            stories.append(Story(self, name, self._parsed_yaml, self._engine, self._collection))
         return stories
 
 
@@ -186,7 +206,14 @@ class StoryCollection(object):
         self._path = path
         self._engine = engine
         self._filename = None
+        self._named = None
         self._filters = []
+
+        self._ordered_arbitrarily = []
+
+        for filename in pathq(self._path + "/*.story"):
+            for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
+                self._ordered_arbitrarily.append(story)
 
     def filename(self, name):
         new_collection = copy.copy(self)
@@ -194,22 +221,29 @@ class StoryCollection(object):
         return new_collection
 
     def ordered_arbitrarily(self):
-        if self._filename is None:
-            stories = []
-            for filename in pathq(self._path + "/*.story"):
-                for story in StoryFile(filename, self._engine).ordered_arbitrarily():
-                    filtered = True
-                    for filter_func in self._filters:
-                        if not filter_func(story):
-                            filtered = False
-                    if filtered:
-                        stories.append(story)
-            return stories
+        stories = []
+        for story in self._ordered_arbitrarily:
+            filtered = True
+            for filter_func in self._filters:
+                if not filter_func(story):
+                    filtered = False
+            if self._named is not None:
+                if story.name != self._named:
+                    filtered = False
+            if filtered:
+                stories.append(story)
+        return stories
 
     def filter(self, filter_func):
         assert callable(filter_func)
         new_collection = copy.copy(self)
         new_collection._filters.append(filter_func)
+        return new_collection
+
+    def named(self, name):
+        assert isinstance(name, str)
+        new_collection = copy.copy(self)
+        new_collection._named = name
         return new_collection
 
     def ordered_by_name(self):

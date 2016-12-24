@@ -1,27 +1,15 @@
+NAMING
+------
 
-STACKTRACES
+* Stories in a collection should all have unique names.
+* Where uniqueness is based upon the *slug* of the name.
+
+
+INHERITANCE
 -----------
 
-Run tests with three different kinds of stacktrace -- none, yourcode, all
-
-
-ARTEFACTS AND TEMPLATES
------------------------
-
-Passing tests, failing tests. HTML. Documentation in rst format.
-
-templates/
-  success.jinja2
-  failure.jinja2
-  multiple.jinja2
-  stacktrace.jinja2
-  story.jinja2
-
-.report().without_color()
-.report().in_html()
-.report().with_templates(template_folder)
-
-
+* Inheritance of preconditions.
+* Inheriting from story name that doesn't exist.
 
 
 PARAMETERIZED TESTING
@@ -66,26 +54,25 @@ story:
     - Do something else to set up
 
 
+STACKTRACES
+-----------
 
-dependency:
-  given: base.story # because it's the only story, you can just reference the filename
-  description: |
-    something something
-  scenario:
-    - Third step
-    - Fourth step
-    - Text is:
-        on: thingamujig
-        text: Price is [[ number ]] pounds
+Run tests with three different kinds of stacktrace -- none, yourcode, all
 
-2nddependency:
-  from: dependency # from story above
-  description: Run using Mark's booking engine to debug paypal
-  about:
-    why: debugging
-  preconditions:
-    bridge: web08
-    booking engine: mark
 
-3rddependency:
-  given: 
+TEMPLATES
+---------
+
+Passing tests, failing tests. HTML. Documentation in rst format.
+
+templates/
+  success.jinja2
+  failure.jinja2
+  multiple.jinja2
+  stacktrace.jinja2
+  story.jinja2
+
+.report().without_color()
+.report().in_html()
+.report().with_templates(template_folder)
+
