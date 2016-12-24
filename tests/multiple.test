@@ -1,4 +1,4 @@
-- name: Run through simple story
+- name: Multiple stories played at once
   tags:
     - story
     - simple
