@@ -1,9 +1,3 @@
-NAMING
-------
-
-* Stories in a collection should all have unique names.
-* Where uniqueness is based upon the *slug* of the name.
-
 
 INHERITANCE
 -----------
