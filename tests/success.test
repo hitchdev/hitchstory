@@ -23,7 +23,7 @@
                 with open(filename, 'w') as handle:
                     handle.write(content)
 
-        result = StoryCollection(".", Engine()).one().play()
+        result = StoryCollection(".", Engine()).named("Create files").play()
         output(result.report())
     - Output is: |
         STORY RAN SUCCESSFULLY example.story: Create files in 0.1 seconds.

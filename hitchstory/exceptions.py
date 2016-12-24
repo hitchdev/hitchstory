@@ -12,6 +12,17 @@ class StepNotFound(HitchStoryException):
     pass
 
 
+class StoryNotFound(HitchStoryException):
+    """
+    Story not found.
+    """
+    def __init__(self, name):
+        super(HitchStoryException, self).__init__((
+            "Story '{0}' not found.".format(name)
+        ))
+
+
+
 class StepException(HitchStoryException):
     """
     Exception relating to a particular step.

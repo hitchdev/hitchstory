@@ -108,25 +108,25 @@ class Story(object):
         return self._name
 
     @property
+    def slug(self):
+        return slugify(self._name)
+
+    @property
     def preconditions(self):
         return self._parsed_yaml.get('preconditions')
 
     @property
     def steps(self):
-        return self._parsed_yaml.get('scenario', [])
+        step_list = self._collection.named(self._parsed_yaml['based on']).steps \
+            if "based on" in self._parsed_yaml else []
+        step_list.extend(self._parsed_yaml['scenario'])
+        return step_list
 
     @property
     def scenario(self):
-        if "based on" in self._parsed_yaml:
-            inherited_steps = self._collection.named(self._parsed_yaml['based on']).one().steps
-        else:
-            inherited_steps = []
-        inherited_steps.extend(self._parsed_yaml['scenario'])
-
-        steps = []
-        for index, parsed_step in enumerate(inherited_steps):
-            steps.append(StoryStep(parsed_step, index))
-        return steps
+        return [
+            StoryStep(parsed_step, index) for index, parsed_step in enumerate(self.steps)
+        ]
 
     def play(self):
         start_time = time.time()
@@ -244,10 +244,15 @@ class StoryCollection(object):
         return new_collection
 
     def named(self, name):
-        assert isinstance(name, str)
-        new_collection = copy.copy(self)
-        new_collection._named = name
-        return new_collection
+        """
+        Return a single story object with the name specified.
+
+        Only slugified names are compared. E.g. "Story NAME" and "story-name" are equivalent.
+        """
+        for story in self.ordered_arbitrarily():
+            if slugify(name) == story.slug:
+                return story
+        raise exceptions.StoryNotFound(name)
 
     def ordered_by_name(self):
         stories = self.ordered_arbitrarily()
