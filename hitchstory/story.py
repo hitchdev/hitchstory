@@ -5,6 +5,7 @@ from hitchstory import exceptions
 from hitchstory.arguments import Arguments
 from hitchstory.result import ResultList, Success, Failure
 from pathquery import pathq
+from slugify import slugify
 import time
 import copy
 
@@ -209,11 +210,13 @@ class StoryCollection(object):
         self._named = None
         self._filters = []
 
-        self._ordered_arbitrarily = []
+        self._stories = {}
 
         for filename in pathq(self._path + "/*.story"):
             for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
-                self._ordered_arbitrarily.append(story)
+                if slugify(story.name) in self._stories:
+                    raise exceptions.DuplicateStoryNames(story, self._stories[slugify(story.name)])
+                self._stories[slugify(story.name)] = story
 
     def filename(self, name):
         new_collection = copy.copy(self)
@@ -222,7 +225,7 @@ class StoryCollection(object):
 
     def ordered_arbitrarily(self):
         stories = []
-        for story in self._ordered_arbitrarily:
+        for story in self._stories.values():
             filtered = True
             for filter_func in self._filters:
                 if not filter_func(story):

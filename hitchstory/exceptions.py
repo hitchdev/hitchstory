@@ -1,3 +1,6 @@
+from slugify import slugify
+
+
 class HitchStoryException(Exception):
     pass
 
@@ -66,3 +69,21 @@ class NoStories(HitchStoryException):
     User tried to use .one() but no stories were found.
     """
     pass
+
+
+class DuplicateStoryNames(HitchStoryException):
+    """
+    Two or more stories in a collection have identical or too-similar names.
+    """
+    def __init__(self, story1, story2):
+        super(HitchStoryException, self).__init__((
+            "Story '{0}' in '{1}' and '{2}' in '{3}' are identical "
+            "when slugified ('{4}' and '{5}')."
+        ).format(
+            story1.name,
+            story1.filename,
+            story2.name,
+            story2.filename,
+            slugify(story1.name),
+            slugify(story2.name)
+        ))
