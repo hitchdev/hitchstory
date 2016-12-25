@@ -40,13 +40,13 @@ class BaseEngine(object):
 
 
 class StoryStep(object):
-    def __init__(self, yaml_step, index):
+    def __init__(self, yaml_step, index, params):
         if type(yaml_step) is str:
             self.name = str(yaml_step)
-            self.arguments = Arguments(None)
+            self.arguments = Arguments(None, params)
         elif type(yaml_step) is CommentedMap and len(yaml_step.keys()) == 1:
             self.name = list(yaml_step.keys())[0]
-            self.arguments = Arguments(list(yaml_step.values())[0])
+            self.arguments = Arguments(list(yaml_step.values())[0], params)
         else:
             raise RuntimeError("Invalid YAML in step '{}'".format(yaml_step))
 
@@ -112,12 +112,24 @@ class Story(object):
         return slugify(self._name)
 
     @property
-    def preconditions(self):
-        conditions = self._collection.named(self._parsed_yaml['based on']).preconditions \
+    def params(self):
+        param_dict = self._collection.named(self._parsed_yaml['based on']).params \
             if "based on" in self._parsed_yaml else {}
-        for name, preconditions in self._parsed_yaml.get("preconditions", {}).items():
-            conditions[name] = preconditions
-        return conditions
+        for name, param in self._parsed_yaml.get("params", {}).items():
+            param_dict[name] = param
+        return param_dict
+
+    @property
+    def preconditions(self):
+        precondition_dict = self._collection.named(self._parsed_yaml['based on']).preconditions \
+            if "based on" in self._parsed_yaml else {}
+        for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
+            precondition_dict[name] = precondition
+
+            for param_name, param in self.params.items():
+                if "(( {0} ))".format(param_name) in precondition:
+                    precondition_dict[name] = precondition.replace("(( {0} ))".format(param_name), param)
+        return precondition_dict
 
     @property
     def steps(self):
@@ -129,7 +141,7 @@ class Story(object):
     @property
     def scenario(self):
         return [
-            StoryStep(parsed_step, index) for index, parsed_step in enumerate(self.steps)
+            StoryStep(parsed_step, index, self.params) for index, parsed_step in enumerate(self.steps)
         ]
 
     def play(self):
@@ -160,6 +172,12 @@ class StoryFile(object):
             Optional("description"): Str(),
             Optional("based on"): Str(),
         }
+
+        if self._engine.params_schema is not None:
+            proposed_schema = {}
+            for param, schema in self._engine.params_schema.items():
+                proposed_schema[Optional(param)] = schema
+            story_schema['params'] = Map(proposed_schema)
 
         if self._engine.preconditions_schema is not None:
             proposed_schema = {}

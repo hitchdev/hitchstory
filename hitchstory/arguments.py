@@ -5,8 +5,10 @@ from ruamel.yaml.comments import CommentedMap, CommentedSeq
 class Arguments(object):
     """A null-argument, single argument or group of arguments of a hitchstory step."""
 
-    def __init__(self, yaml_args):
+    def __init__(self, yaml_args, params):
         """Create arguments from dict (from yaml)."""
+        self._params = params
+
         if yaml_args is None:
             self.is_none = True
             self.single_argument = False
@@ -17,7 +19,14 @@ class Arguments(object):
         else:
             self.is_none = False
             self.single_argument = True
-            self.argument = yaml_args
+            self.argument = self.parameterize(yaml_args)
+
+    def parameterize(self, value):
+        new_value = value
+        for name, param in self._params.items():
+           if "(( {0} ))".format(name) in value:
+               new_value = value.replace("(( {0} ))".format(name), param)
+        return new_value
 
     def validate(self, validators):
         """

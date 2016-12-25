@@ -1,0 +1,42 @@
+- name: Run through story with parameters
+  tags:
+    - preconditions
+    - parameters
+    - simple
+    - documentation
+    - happy
+  preconditions:
+    files:
+      example.story: |
+        Create files:
+          preconditions:
+            content: (( myparameter ))
+          scenario:
+            - Do thing with precondition
+            - Do other thing: (( myparameter ))
+          params:
+            myparameter: dog
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection, BaseEngine
+        from strictyaml import Str
+
+        class Engine(BaseEngine):
+            preconditions_schema = {
+                "content": Str()
+            }
+
+            params_schema = {
+                "myparameter": Str(),
+            }
+
+            def do_other_thing(self, parameter):
+                output(parameter)
+
+            def do_thing_with_precondition(self):
+                output(self.preconditions['content'])
+
+        StoryCollection(".", Engine()).one().play()
+    - Output is: |
+        dog
+        dog
