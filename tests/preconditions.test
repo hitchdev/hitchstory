@@ -15,12 +15,12 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
-        from strictyaml import Map, Str
+        from strictyaml import Str
 
         class Engine(BaseEngine):
-            preconditions_schema = Map({
+            preconditions_schema = {
                 "content": Str()
-            })
+            }
 
             def create_file(self):
                 output(self.preconditions['content'])

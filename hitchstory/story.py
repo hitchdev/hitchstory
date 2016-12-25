@@ -113,7 +113,11 @@ class Story(object):
 
     @property
     def preconditions(self):
-        return self._parsed_yaml.get('preconditions')
+        conditions = self._collection.named(self._parsed_yaml['based on']).preconditions \
+            if "based on" in self._parsed_yaml else {}
+        for name, preconditions in self._parsed_yaml.get("preconditions", {}).items():
+            conditions[name] = preconditions
+        return conditions
 
     @property
     def steps(self):
@@ -158,7 +162,10 @@ class StoryFile(object):
         }
 
         if self._engine.preconditions_schema is not None:
-            story_schema['preconditions'] = engine.preconditions_schema
+            proposed_schema = {}
+            for precondition, schema in self._engine.preconditions_schema.items():
+                proposed_schema[Optional(precondition)] = schema
+            story_schema['preconditions'] = Map(proposed_schema)
 
         if self._engine.about_schema is not None:
             story_schema['about'] = engine.about_schema
