@@ -26,11 +26,15 @@ params:
 
 * What to do about params that appear in scenario/preconditions but not params and vice versa.
 
-
 STACKTRACES
 -----------
 
-Run tests with three different kinds of stacktrace -- none, just line, yourcode, virtualenv, all
+Import pystacktrace
+
+DOCUMENTATION
+-------------
+
+Generate rsts / HTML.
 
 
 TEMPLATES
