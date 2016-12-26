@@ -124,11 +124,9 @@ class Story(object):
         precondition_dict = self._collection.named(self._parsed_yaml['based on']).preconditions \
             if "based on" in self._parsed_yaml else {}
         for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
-            precondition_dict[name] = precondition
-
             for param_name, param in self.params.items():
-                if "(( {0} ))".format(param_name) in precondition:
-                    precondition_dict[name] = precondition.replace("(( {0} ))".format(param_name), param)
+                precondition = utils.replace_parameter(precondition, param_name, param)
+            precondition_dict[name] = precondition
         return precondition_dict
 
     @property

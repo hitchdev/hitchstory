@@ -4,46 +4,33 @@ PARAMETERIZED TESTING
 scenario:
   - click: test
   - fill form:
-      first name: {{ first name }}
-      last name: {{ last name }}
+      first name: (( first name ))
+      last name: (( last name ))
   - fill form:
-      telephone: {{ telephone }}
-  - do thing: {{ thistextwillappear }}
+      telephone: (( telephone ))
+  - do thing: (( thistextwillappear ))
 params:
   first name: Thomas
   last name: Edison
   telephone: 07771 1777124
 
+* What to do about:
 
-INHERITANCE
------------
+  number of elements: (( number of elements ))
+  params:
+    number of elements: 4
 
-base.story
+{{ number of elements }} parsed as string.
 
-story:
-  based on: base.story
-  description: Something something
-  about:
-    issues: HAM-1543, HAM-1312
-    type: bug, documentation
-  with:
-    version:
-      python: 3.5.10
-      peewee: 4.1.50
-    person:
-      name: Thomas
-  preconditions:
-    python version: {{ version.python }}
-    peewee version: {{ version.peewee }}
-  scenario:
-    - Set up
-    - Do something else to set up
+* Inheritance with params.
+
+* What to do about params that appear in scenario/preconditions but not params and vice versa.
 
 
 STACKTRACES
 -----------
 
-Run tests with three different kinds of stacktrace -- none, yourcode, all
+Run tests with three different kinds of stacktrace -- none, just line, yourcode, virtualenv, all
 
 
 TEMPLATES
@@ -62,3 +49,4 @@ templates/
 .report().in_html()
 .report().with_templates(template_folder)
 
+* Tear down exception.

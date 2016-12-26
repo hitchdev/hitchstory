@@ -11,23 +11,33 @@
         Create files:
           preconditions:
             content: (( myparameter ))
+            hierarchical content:
+              x: 1
+              y:
+                - (( parameter2 ))
           scenario:
             - Do thing with precondition
             - Do other thing: (( myparameter ))
+            - Do yet another thing
           params:
             myparameter: dog
+            parameter2: cat
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
-        from strictyaml import Str
+        from strictyaml import Map, Seq, Int, Str
 
         class Engine(BaseEngine):
             preconditions_schema = {
-                "content": Str()
+                "content": Str(),
+                "hierarchical content": Map({
+                    "x": Int(), "y": Seq(Str())
+                }),
             }
 
             params_schema = {
                 "myparameter": Str(),
+                "parameter2": Str(),
             }
 
             def do_other_thing(self, parameter):
@@ -36,7 +46,11 @@
             def do_thing_with_precondition(self):
                 output(self.preconditions['content'])
 
+            def do_yet_another_thing(self):
+                output(self.preconditions['hierarchical content']['y'][0])
+
         StoryCollection(".", Engine()).one().play()
     - Output is: |
         dog
         dog
+        cat
