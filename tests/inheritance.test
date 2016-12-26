@@ -8,10 +8,13 @@
       example.story: |
         Write to file 1:
           preconditions:
-            a: 1
-            b: 2
+            a: (( a ))
+            b: (( b ))
           scenario:
             - Do thing one
+          params:
+            a: 1
+            b: 2
 
         Write to file 2:
           based on: Write to file 1
@@ -22,10 +25,12 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
-        from strictyaml import Int
+        from strictyaml import Int, Str
 
         class Engine(BaseEngine):
-            preconditions_schema = {"a": Int(), "b": Int()}
+            preconditions_schema = {"a": Str(), "b": Str()}
+            
+            params_schema = {"a": Str(), "b": Str()}
 
             def do_thing_one(self):
                 output("thing one: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
