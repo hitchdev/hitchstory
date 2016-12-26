@@ -27,6 +27,7 @@ def validate(**kwargs):
 class BaseEngine(object):
     preconditions_schema = None
     about_schema = None
+    params_schema = None
 
     @property
     def preconditions(self):
