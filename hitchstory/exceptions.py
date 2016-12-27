@@ -22,7 +22,6 @@ class StoryNotFound(HitchStoryException):
         ))
 
 
-
 class StepException(HitchStoryException):
     """
     Exception relating to a particular step.

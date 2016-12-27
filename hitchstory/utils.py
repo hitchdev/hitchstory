@@ -8,7 +8,10 @@ def replace_parameter(precondition, param_name, param):
     if type(precondition) is list:
         return [replace_parameter(item, param_name, param) for item in precondition]
     elif type(precondition) is dict:
-        return {key: replace_parameter(value, param_name, param) for key, value in precondition.items()}
+        return {
+            key: replace_parameter(value, param_name, param)
+            for key, value in precondition.items()
+        }
     elif type(precondition) is str:
         if "(( {0} ))".format(param_name) in precondition:
             return precondition.replace("(( {0} ))".format(param_name), param)

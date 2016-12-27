@@ -24,8 +24,8 @@ class Arguments(object):
     def parameterize(self, value):
         new_value = value
         for name, param in self._params.items():
-           if "(( {0} ))".format(name) in value:
-               new_value = value.replace("(( {0} ))".format(name), param)
+            if "(( {0} ))".format(name) in value:
+                new_value = value.replace("(( {0} ))".format(name), param)
         return new_value
 
     def validate(self, validators):

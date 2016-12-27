@@ -22,6 +22,11 @@
             b: 3
           scenario:
             - Do thing two
+
+        Write to file 3:
+          based on: Write to file 1
+          params:
+            a: 9
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
@@ -29,7 +34,7 @@
 
         class Engine(BaseEngine):
             preconditions_schema = {"a": Str(), "b": Str()}
-            
+
             params_schema = {"a": Str(), "b": Str()}
 
             def do_thing_one(self):
@@ -46,6 +51,11 @@
     - Output is: |
         thing one: 1, 3
         thing two: 1, 3
+
+    - Run Command: StoryCollection(".", Engine()).named("Write to file 3").play()
+    - Output is: |
+        thing one: 9, 2
+
 
 
 - name: Attempt inheritance from non-existent story

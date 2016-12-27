@@ -120,11 +120,20 @@ class Story(object):
             param_dict[name] = param
         return param_dict
 
-    @property
-    def preconditions(self):
-        precondition_dict = self._collection.named(self._parsed_yaml['based on']).preconditions \
+    def unparameterized_preconditions(self):
+        precondition_dict = {}
+        precondition_dict = self._collection.named(
+            self._parsed_yaml['based on']
+        ).unparameterized_preconditions() \
             if "based on" in self._parsed_yaml else {}
         for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
+            precondition_dict[name] = precondition
+        return precondition_dict
+
+    @property
+    def preconditions(self):
+        precondition_dict = self.unparameterized_preconditions()
+        for name, precondition in precondition_dict.items():
             for param_name, param in self.params.items():
                 precondition = utils.replace_parameter(precondition, param_name, param)
             precondition_dict[name] = precondition
@@ -134,13 +143,15 @@ class Story(object):
     def steps(self):
         step_list = self._collection.named(self._parsed_yaml['based on']).steps \
             if "based on" in self._parsed_yaml else []
-        step_list.extend(self._parsed_yaml['scenario'])
+        step_list.extend(self._parsed_yaml.get('scenario', []))
         return step_list
 
     @property
     def scenario(self):
         return [
-            StoryStep(parsed_step, index, self.params) for index, parsed_step in enumerate(self.steps)
+            StoryStep(
+                parsed_step, index, self.params
+            ) for index, parsed_step in enumerate(self.steps)
         ]
 
     def play(self):
