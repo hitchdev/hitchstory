@@ -1,4 +1,4 @@
-- name: Multiple stories played at once
+- name: Multiple stories in a collection played at once
   tags:
     - story
     - simple
@@ -29,7 +29,42 @@
     - Assert exception:
         command: StoryCollection(".", Engine()).one()
         exception: MoreThanOneStory
+
     - Run command: |
         results = StoryCollection(".", Engine()).ordered_by_name().play()
         output(results.report())
     - Output will be: report of three successful stories
+
+
+- name: Multiple stories played at once in a filename
+  tags:
+    - story
+    - simple
+    - documentation
+    - happy
+  preconditions:
+    files:
+      example1.story: |
+        Create file:
+          scenario:
+            - Create file
+        Create file again:
+          scenario:
+            - Create file
+      example2.story: |
+        Create files:
+          scenario:
+            - Create file
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection, BaseEngine
+
+        class Engine(BaseEngine):
+            def create_file(self, filename="step1.txt", content="example"):
+                with open(filename, 'w') as handle:
+                    handle.write(content)
+
+    - Run command: |
+        results = StoryCollection(".", Engine()).in_filename("example1.story").ordered_by_name().play()
+        output(results.report())
+    - Output will be: report of two successful stories

@@ -172,6 +172,9 @@ class Story(object):
 
 
 class StoryFile(object):
+    """
+    YAML file containing one or more named stories, part of a collection.
+    """
     def __init__(self, filename, engine, collection):
         self._filename = filename
         self._yaml = filename.bytes().decode('utf8')
@@ -215,6 +218,10 @@ class StoryFile(object):
 
 
 class StoryList(object):
+    """
+    A sequence of stories ready to be played in order.
+    """
+
     def __init__(self, stories):
         for story in stories:
             assert type(story) is Story
@@ -234,6 +241,10 @@ class StoryList(object):
 
 
 class StoryCollection(object):
+    """
+    Unordered group of related stories.
+    """
+
     def __init__(self, path, engine):
         if not isinstance(engine, BaseEngine):
             raise exceptions.WrongEngineType(
@@ -241,7 +252,7 @@ class StoryCollection(object):
             )
         self._path = path
         self._engine = engine
-        self._filename = None
+        self._in_filename = None
         self._named = None
         self._filters = []
 
@@ -253,11 +264,6 @@ class StoryCollection(object):
                     raise exceptions.DuplicateStoryNames(story, self._stories[slugify(story.name)])
                 self._stories[slugify(story.name)] = story
 
-    def filename(self, name):
-        new_collection = copy.copy(self)
-        new_collection._filename = name
-        return new_collection
-
     def ordered_arbitrarily(self):
         stories = []
         for story in self._stories.values():
@@ -268,6 +274,9 @@ class StoryCollection(object):
             if self._named is not None:
                 if story.name != self._named:
                     filtered = False
+            if self._in_filename is not None:
+                if story.filename != self._in_filename:
+                    filtered = False
             if filtered:
                 stories.append(story)
         return stories
@@ -276,6 +285,12 @@ class StoryCollection(object):
         assert callable(filter_func)
         new_collection = copy.copy(self)
         new_collection._filters.append(filter_func)
+        return new_collection
+
+    def in_filename(self, filename):
+        assert type(filename) is str
+        new_collection = copy.copy(self)
+        new_collection._in_filename = filename
         return new_collection
 
     def named(self, name):
