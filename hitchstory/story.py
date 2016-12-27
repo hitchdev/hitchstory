@@ -11,6 +11,9 @@ import copy
 
 
 def validate(**kwargs):
+    """
+    Decorator for validating a HitchStory step.
+    """
     def decorator(step_function):
         for arg in kwargs:
             if arg not in step_function.__code__.co_varnames:
@@ -265,6 +268,10 @@ class StoryCollection(object):
                 self._stories[slugify(story.name)] = story
 
     def ordered_arbitrarily(self):
+        """
+        Return a StoryList object containing stories filtered
+        from the collection.
+        """
         stories = []
         for story in self._stories.values():
             filtered = True
@@ -305,8 +312,10 @@ class StoryCollection(object):
         raise exceptions.StoryNotFound(name)
 
     def ordered_by_name(self):
-        stories = self.ordered_arbitrarily()
-        return StoryList(sorted(stories, key=lambda story: story.name))
+        """
+        Return a list of stories ordered by name.
+        """
+        return StoryList(sorted(self.ordered_arbitrarily(), key=lambda story: story.name))
 
     def one(self):
         stories = self.ordered_arbitrarily()
