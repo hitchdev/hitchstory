@@ -19,12 +19,16 @@
             - Do thing with precondition
             - Do other thing: (( myparameter ))
             - Do yet another thing
+            - Do a fourth thing:
+                animals:
+                  pond animal: (( parameter3 ))
           params:
             myparameter: dog
             parameter2: cat
+            parameter3: frog
   scenario:
     - Run command: |
-        from hitchstory import StoryCollection, BaseEngine
+        from hitchstory import StoryCollection, BaseEngine, validate
         from strictyaml import Map, Seq, Int, Str
 
         class Engine(BaseEngine):
@@ -38,6 +42,7 @@
             params_schema = {
                 "myparameter": Str(),
                 "parameter2": Str(),
+                "parameter3": Str(),
             }
 
             def do_other_thing(self, parameter):
@@ -49,8 +54,13 @@
             def do_yet_another_thing(self):
                 output(self.preconditions['hierarchical content']['y'][0])
 
+            @validate(animals=Map({"pond animal": Str()}))
+            def do_a_fourth_thing(self, animals=None):
+                output(animals['pond animal'])
+
         StoryCollection(".", Engine()).one().play()
     - Output is: |
         dog
         dog
         cat
+        frog

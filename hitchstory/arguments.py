@@ -15,18 +15,16 @@ class Arguments(object):
         elif type(yaml_args) is CommentedMap:
             self.is_none = False
             self.single_argument = False
-            self.kwargs = yaml_args
+            self.original_args = yaml_args
         else:
             self.is_none = False
             self.single_argument = True
             self.argument = self.parameterize(yaml_args)
 
     def parameterize(self, value):
-        new_value = value
-        for name, param in self._params.items():
-            if "(( {0} ))".format(name) in value:
-                new_value = value.replace("(( {0} ))".format(name), param)
-        return new_value
+        for name, parameter in self._params.items():
+            value = utils.replace_parameter(value, name, parameter)
+        return value
 
     def validate(self, validators):
         """
@@ -34,7 +32,7 @@ class Arguments(object):
         """
         if not self.is_none and not self.single_argument:
             _kwargs = {}
-            for key, value in self.kwargs.items():
+            for key, value in self.original_args.items():
                 if key in validators.keys():
                     _kwargs[key] = validators[key](value)
                 else:
@@ -42,7 +40,7 @@ class Arguments(object):
                         raise exceptions.StepArgumentWithoutValidatorContainsComplexData
                     else:
                         _kwargs[key] = str(value)
-            self.kwargs = _kwargs
+            self.kwargs = self.parameterize(_kwargs)
 
     def pythonized_kwargs(self):
         pythonized_dict = {}
