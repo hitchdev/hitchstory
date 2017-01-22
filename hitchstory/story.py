@@ -317,6 +317,21 @@ class StoryCollection(object):
         """
         return StoryList(sorted(self.ordered_arbitrarily(), key=lambda story: story.name))
 
+    def shortcut(self, *words):
+        """
+        Return a single story that matches all of the words.
+        """
+        matching = []
+        for story in self.ordered_arbitrarily():
+            if len([word for word in words if slugify(word) in story.slug]) == len(words):
+                matching.append(story)
+        if len(matching) == 0:
+            raise exceptions.StoryNotFound(", ".join(words))
+        elif len(matching) > 1:
+            raise exceptions.MoreThanOneStory()
+        else:
+            return matching[0]
+
     def one(self):
         stories = self.ordered_arbitrarily()
         if len(stories) > 1:
