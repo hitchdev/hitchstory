@@ -14,6 +14,8 @@
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine, validate
         from strictyaml import Int
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             @validate(quantity=Int())
@@ -21,7 +23,7 @@
                 pass
 
 
-        result = StoryCollection(".", Engine()).one().play()
+        result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         output(result.report())
     - Output contains: YAMLValidationError
 
@@ -43,6 +45,8 @@
         command: |
           from hitchstory import StoryCollection, BaseEngine, validate
           from strictyaml import Int
+          from pathquery import pathq
+
 
           class Engine(BaseEngine):
               @validate(not_an_argument=Int())
@@ -50,7 +54,7 @@
                   pass
 
 
-          result = StoryCollection(".", Engine()).one().play()
+          result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
           output(result.report())
         exception: StepContainsInvalidValidator
 
@@ -71,6 +75,8 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def set_up(self):
@@ -79,7 +85,7 @@
             def tear_down(self):
                 pass
 
-        result = StoryCollection(".", Engine()).one().play()
+        result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         output(result.report())
     - Output contains: StepNotCallable
 
@@ -99,6 +105,8 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def set_up(self):
@@ -107,6 +115,6 @@
             def tear_down(self):
                 pass
 
-        result = StoryCollection(".", Engine()).one().play()
+        result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         output(result.report())
     - Output contains: StepNotFound

@@ -30,6 +30,8 @@
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine, validate
         from strictyaml import Map, Seq, Int, Str
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             preconditions_schema = {
@@ -58,7 +60,7 @@
             def do_a_fourth_thing(self, animals=None):
                 output(animals['pond animal'])
 
-        StoryCollection(".", Engine()).one().play()
+        StoryCollection(pathq(".").ext("story"), Engine()).one().play()
     - Output is: |
         dog
         dog

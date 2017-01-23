@@ -16,6 +16,8 @@
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
         from strictyaml import Str
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             preconditions_schema = {
@@ -25,5 +27,5 @@
             def create_file(self):
                 output(self.preconditions['content'])
 
-        StoryCollection(".", Engine()).one().play()
+        StoryCollection(pathq(".").ext("story"), Engine()).one().play()
     - Output is: things

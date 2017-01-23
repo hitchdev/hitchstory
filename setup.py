@@ -37,7 +37,7 @@ setup(name="hitchstory",
     license='AGPL',
     install_requires=[
         'strictyaml', 'path.py',
-        'jinja2', 'colorama', 'pathquery',
+        'jinja2', 'colorama', 'pathquery>=0.2.0',
         'python-slugify>=1.2.1'
     ],
     packages=find_packages(exclude=["docs", ]),

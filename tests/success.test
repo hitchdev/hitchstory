@@ -17,16 +17,18 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def create_file(self, filename="step1.txt", content="example"):
                 with open(filename, 'w') as handle:
                     handle.write(content)
 
-        result = StoryCollection(".", Engine()).named("Create files").play()
+        result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
         output(result.report())
     - Output is: |
-        STORY RAN SUCCESSFULLY example.story: Create files in 0.1 seconds.
+        STORY RAN SUCCESSFULLY ((( anything )))/example.story: Create files in 0.1 seconds.
     - File was created with:
         filename: step1.txt
         contents: example

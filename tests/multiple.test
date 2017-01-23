@@ -20,6 +20,8 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def create_file(self, filename="step1.txt", content="example"):
@@ -27,13 +29,16 @@
                     handle.write(content)
 
     - Assert exception:
-        command: StoryCollection(".", Engine()).one()
+        command: StoryCollection(pathq(".").ext("story"), Engine()).one()
         exception: MoreThanOneStory
 
     - Run command: |
-        results = StoryCollection(".", Engine()).ordered_by_name().play()
+        results = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
         output(results.report())
-    - Output will be: report of three successful stories
+    - Output is: |
+        STORY RAN SUCCESSFULLY ((( anything )))/example1.story: Create file in 0.1 seconds.
+        STORY RAN SUCCESSFULLY ((( anything )))/example1.story: Create file again in 0.1 seconds.
+        STORY RAN SUCCESSFULLY ((( anything )))/example2.story: Create files in 0.1 seconds.
 
 
 - name: Multiple stories played at once in a filename
@@ -58,6 +63,8 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def create_file(self, filename="step1.txt", content="example"):
@@ -65,6 +72,8 @@
                     handle.write(content)
 
     - Run command: |
-        results = StoryCollection(".", Engine()).in_filename("example1.story").ordered_by_name().play()
+        results = StoryCollection(pathq(".").ext("story"), Engine()).in_filename("example1.story").ordered_by_name().play()
         output(results.report())
-    - Output will be: report of two successful stories
+    - Output is: |
+        STORY RAN SUCCESSFULLY ((( anything )))/example1.story: Create file in 0.1 seconds.
+        STORY RAN SUCCESSFULLY ((( anything )))/example1.story: Create file again in 0.1 seconds.

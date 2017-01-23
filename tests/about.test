@@ -1,4 +1,4 @@
-- name: Run through story with preconditions
+- name: Descriptive parameters attached to story
   tags:
     - preconditions
     - simple
@@ -25,6 +25,8 @@
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
         from strictyaml import Map, Str, CommaSeparated
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             about_schema = Map({
@@ -39,12 +41,12 @@
             def do_other_thing(self):
                 output("other thing")
 
-    - Run command: StoryCollection(".", Engine()).ordered_by_name().play()
+    - Run command: StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
     - Output is: |
         other thing
         thing
 
     - Run command: |
-        StoryCollection(".", Engine()).filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
+        StoryCollection(pathq(".").ext("story"), Engine()).filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
     - Output is: |
         thing

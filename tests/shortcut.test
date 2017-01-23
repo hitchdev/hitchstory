@@ -19,6 +19,8 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def create_file(self, filename="step1.txt", content="example"):
@@ -26,14 +28,15 @@
                     handle.write(content)
 
     - Assert exception:
-        command: StoryCollection(".", Engine()).shortcut("toast").play()
+        command: StoryCollection(pathq(".").ext("story"), Engine()).shortcut("toast").play()
         exception: StoryNotFound
 
     - Assert exception:
-        command: StoryCollection(".", Engine()).shortcut("file").play()
+        command: StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file").play()
         exception: MoreThanOneStory
 
     - Run command: |
-        results = StoryCollection(".", Engine()).shortcut("file", "again").play()
+        results = StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file", "again").play()
         output(results.report())
-    - Output will be: report of one successful story
+    - Output is: |
+        STORY RAN SUCCESSFULLY ((( anything )))/example1.story: Create file again in 0.1 seconds.

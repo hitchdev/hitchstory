@@ -34,6 +34,8 @@
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
         from strictyaml import Int, Str
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             preconditions_schema = {"a": Str(), "b": Str()}
@@ -49,18 +51,18 @@
             def do_thing_two(self):
                 output("thing two: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
 
-    - Run Command: StoryCollection(".", Engine()).named("Write to file 1").play()
+    - Run Command: StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file 1").play()
     - Output is: |
         thing one: 1, 2
         thing three: 3
 
-    - Run Command: StoryCollection(".", Engine()).named("Write to file 2").play()
+    - Run Command: StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file 2").play()
     - Output is: |
         thing one: 1, 3
         thing three: 3
         thing two: 1, 3
 
-    - Run Command: StoryCollection(".", Engine()).named("Write to file 3").play()
+    - Run Command: StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file 3").play()
     - Output is: |
         thing one: 9, 2
         thing three: 11
@@ -82,6 +84,8 @@
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
         from strictyaml import Map, Str
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def do_thing_one(self):
@@ -90,5 +94,13 @@
             def do_thing_two(self):
                 output("thing two")
 
-        output(StoryCollection(".", Engine()).named("Write to file").play().report())
-    - Output will be: attempt inheritance from non-existent story
+        output(StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file").play().report())
+    - Output is: |
+        FAILURE IN ((( anything )))/example.story: Write to file in 0.1 seconds.
+
+        StoryNotFound
+          
+            Story not found.
+            
+
+        Story 'Create files' not found.

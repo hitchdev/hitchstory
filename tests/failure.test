@@ -16,6 +16,8 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def passing_step(self):
@@ -27,10 +29,10 @@
             def not_executed_step(self):
                 pass
 
-        result = StoryCollection(".", Engine()).one().play()
+        result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         output(result.report())
     - Output is: |
-        FAILURE IN example.story: Failing story in 0.1 seconds.
+        FAILURE IN ((( anything )))/example.story: Failing story in 0.1 seconds.
 
         ExampleException
           

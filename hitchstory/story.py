@@ -4,7 +4,7 @@ from ruamel.yaml.comments import CommentedMap
 from hitchstory import exceptions
 from hitchstory.arguments import Arguments
 from hitchstory.result import ResultList, Success, Failure
-from pathquery import pathq
+from path import Path
 from slugify import slugify
 import time
 import copy
@@ -248,12 +248,12 @@ class StoryCollection(object):
     Unordered group of related stories.
     """
 
-    def __init__(self, path, engine):
+    def __init__(self, storypaths, engine):
         if not isinstance(engine, BaseEngine):
             raise exceptions.WrongEngineType(
                 "Engine should inherit from hitchstory.BaseEngine."
             )
-        self._path = path
+        self._storypaths = storypaths
         self._engine = engine
         self._in_filename = None
         self._named = None
@@ -261,7 +261,7 @@ class StoryCollection(object):
 
         self._stories = {}
 
-        for filename in pathq(self._path + "/*.story"):
+        for filename in self._storypaths:
             for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
                 if slugify(story.name) in self._stories:
                     raise exceptions.DuplicateStoryNames(story, self._stories[slugify(story.name)])
@@ -282,7 +282,7 @@ class StoryCollection(object):
                 if story.name != self._named:
                     filtered = False
             if self._in_filename is not None:
-                if story.filename != self._in_filename:
+                if Path(story.filename).abspath() != Path(self._in_filename).abspath():
                     filtered = False
             if filtered:
                 stories.append(story)
@@ -297,7 +297,8 @@ class StoryCollection(object):
     def in_filename(self, filename):
         assert type(filename) is str
         new_collection = copy.copy(self)
-        new_collection._in_filename = filename
+        new_collection._in_filename = Path(filename)
+        assert new_collection._in_filename.exists()
         return new_collection
 
     def named(self, name):

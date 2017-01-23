@@ -25,6 +25,8 @@
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine, validate
         from strictyaml import Seq, Str, Int, Map
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def set_up(self):
@@ -37,7 +39,7 @@
             def tear_down(self):
                 pass
 
-        result = StoryCollection(".", Engine()).one().play()
+        result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
     - Output is: Ford Prefect
 
 
@@ -68,6 +70,8 @@
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine, validate
         from strictyaml import Seq, Str, Int, Map
+        from pathquery import pathq
+
 
         class Engine(BaseEngine):
             def set_up(self):
@@ -80,6 +84,6 @@
             def tear_down(self):
                 pass
 
-        result = StoryCollection(".", Engine()).one().play()
+        result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         output(result.report())
     - Output contains: StepArgumentWithoutValidatorContainsComplexData
