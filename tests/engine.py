@@ -142,24 +142,38 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
             ))
         self.path.state.joinpath("output.txt").remove()
 
-    def output_will_be(self, reference):
+    def output_will_be(self, reference, changeable=None):
         output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
 
         artefact = self.path.engine.joinpath(
             "artefacts", "{0}.txt".format(reference.replace(" ", "-").lower())
         )
 
+        simex = DefaultSimex(
+            open_delimeter="(((",
+            close_delimeter=")))",
+        )
+
+        simex_contents = output_contents
+
+        if changeable is not None:
+            for replacement in changeable:
+                simex_contents = simex.compile(replacement).sub(replacement, simex_contents)
+
         if not artefact.exists():
-            artefact.write_text(output_contents)
+            artefact.write_text(simex_contents)
         else:
             if self.settings.get('overwrite artefacts'):
-                artefact.write_text(output_contents)
+                artefact.write_text(simex_contents)
+                self.services.log(output_contents)
             else:
-                if artefact.bytes().decode('utf8') != output_contents:
+                if simex.compile(artefact.bytes().decode('utf8')).match(output_contents) is None:
                     raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
                         artefact.bytes().decode('utf8'),
                         output_contents,
                     ))
+                else:
+                    self.services.log(output_contents)
 
     def pause(self, message=""):
         if hasattr(self, 'services') and self.services is not None:

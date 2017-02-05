@@ -38,5 +38,7 @@
     - Run command: |
         results = StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file", "again").play()
         output(results.report())
-    - Output is: |
-        STORY RAN SUCCESSFULLY ((( anything )))/example1.story: Create file again in 0.1 seconds.
+    - Output will be:
+        reference: successful
+        changeable:
+          - /((( anything )))/example1.story
