@@ -69,9 +69,12 @@ class WrongEngineType(HitchStoryException):
 
 class MoreThanOneStory(HitchStoryException):
     """
-    User tried to use .one() but more than one story was found.
+    More than one story was found matching query.
     """
-    pass
+    def __init__(self, stories):
+        super(HitchStoryException, self).__init__(
+            "More than one matching story:\n{0}\n".format(stories)
+        )
 
 
 class NoStories(HitchStoryException):

@@ -329,7 +329,11 @@ class StoryCollection(object):
         if len(matching) == 0:
             raise exceptions.StoryNotFound(", ".join(words))
         elif len(matching) > 1:
-            raise exceptions.MoreThanOneStory()
+            raise exceptions.MoreThanOneStory(
+                "\n".join([
+                    "{0} (in {1})".format(story.name, story.filename) for story in matching
+                ])
+            )
         else:
             return matching[0]
 
