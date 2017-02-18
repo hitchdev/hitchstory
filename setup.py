@@ -38,7 +38,8 @@ setup(name="hitchstory",
     install_requires=[
         'strictyaml', 'path.py',
         'jinja2', 'colorama', 'pathquery>=0.2.0',
-        'python-slugify>=1.2.1'
+        'python-slugify>=1.2.1',
+        'prettystack',
     ],
     packages=find_packages(exclude=["docs", ]),
     package_data={},

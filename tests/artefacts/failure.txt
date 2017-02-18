@@ -1,0 +1,44 @@
+FAILURE IN ((( anything )))/example.story: Failing story in 0.1 seconds.
+
+
+
+[0]: function '[1mplay[0m'
+((( anything )))/story.py
+
+    
+        167 : 
+        168 :             for step in self.scenario:
+    --> [1m169[0m :                 step.run(self._engine)
+        170 : 
+    
+    
+
+[1]: function '[1mrun[0m'
+((( anything )))/story.py
+
+    
+        68 : 
+        69 :                 if self.arguments.is_none:
+    --> [1m70[0m :                     step_method()
+        71 :                 elif self.arguments.single_argument:
+    
+    
+
+[2]: function '[1mfailing_step[0m'
+((( anything )))/engine.py
+
+    
+        13 : 
+        14 :     def failing_step(self):
+    --> [1m15[0m :         raise ExampleException("Towel not located")
+        16 : 
+    
+    
+
+[31m[1mengine.ExampleException[0m
+  [2m[31m
+    This is a demonstration exception's docstring.
+
+    It spreads across multiple lines.
+    [0m
+[31mTowel not located[39m

@@ -1,12 +1,13 @@
 from strictyaml import load, Map, Str, Seq, Optional, MapPattern, Any
-from hitchstory import utils
-from hitchstory import exceptions
-from hitchstory.arguments import Arguments
 from hitchstory.result import ResultList, Success, Failure
-from path import Path
+from hitchstory.arguments import Arguments
+from hitchstory import exceptions
+from hitchstory import utils
 from slugify import slugify
+from path import Path
+from copy import copy
+import prettystack
 import time
-import copy
 
 
 def validate(**kwargs):
@@ -172,7 +173,8 @@ class Story(object):
             result = Success(self, time.time() - start_time)
         except Exception as exception:
             self._engine.tear_down()
-            result = Failure(self, time.time() - start_time, exception)
+            stack_trace = prettystack.PrettyStackTemplate().to_console().current_stacktrace()
+            result = Failure(self, time.time() - start_time, exception, stack_trace)
         return result
 
 
@@ -292,13 +294,13 @@ class StoryCollection(object):
 
     def filter(self, filter_func):
         assert callable(filter_func)
-        new_collection = copy.copy(self)
+        new_collection = copy(self)
         new_collection._filters.append(filter_func)
         return new_collection
 
     def in_filename(self, filename):
         assert type(filename) is str
-        new_collection = copy.copy(self)
+        new_collection = copy(self)
         new_collection._in_filename = Path(filename)
         assert new_collection._in_filename.exists()
         return new_collection

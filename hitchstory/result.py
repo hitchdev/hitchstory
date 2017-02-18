@@ -79,11 +79,12 @@ class FailureException(object):
 
 
 class Failure(Result):
-    def __init__(self, story, duration, exception):
+    def __init__(self, story, duration, exception, stacktrace):
         assert type(exception) is Exception or RuntimeError
         self._story = story
         self._duration = duration
         self._exception = FailureException(exception)
+        self._stacktrace = stacktrace
 
     @property
     def exit_code(self):
@@ -92,6 +93,10 @@ class Failure(Result):
     @property
     def exception(self):
         return self._exception
+
+    @property
+    def stacktrace(self):
+        return self._stacktrace
 
     def to_dict(self):
         return {

@@ -13,11 +13,16 @@
             - Passing step
             - Failing step
             - Not executed step
-  scenario:
-    - Run command: |
-        from hitchstory import StoryCollection, BaseEngine
-        from pathquery import pathq
+      engine.py: |
+        from hitchstory import BaseEngine
 
+        class ExampleException(Exception):
+            """
+            This is a demonstration exception's docstring.
+
+            It spreads across multiple lines.
+            """
+            pass
 
         class Engine(BaseEngine):
             def passing_step(self):
@@ -28,17 +33,17 @@
 
             def not_executed_step(self):
                 pass
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection
+        from engine import Engine
+        from pathquery import pathq
 
         result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         output(result.report())
-    - Output is: |
-        FAILURE IN ((( anything )))/example.story: Failing story in 0.1 seconds.
-
-        ExampleException
-          
-            This is a demonstration exception's docstring.
-
-            It spreads across multiple lines.
-            
-
-        Towel not located
+    - Output will be:
+        reference: failure
+        changeable:
+          - FAILURE IN ((( anything )))/example.story
+          - ((( anything )))/story.py
+          - ((( anything )))/engine.py
