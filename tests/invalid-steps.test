@@ -25,7 +25,7 @@
 
         result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         output(result.report())
-    - Output contains: YAMLValidationError
+    - Output contains: found non-integer
 
 
 - name: Invalid type

@@ -1,6 +1,5 @@
-from strictyaml import load, Map, Str, Seq, Optional, MapPattern, CommentedYAML
+from strictyaml import load, Map, Str, Seq, Optional, MapPattern, Any
 from hitchstory import utils
-from ruamel.yaml.comments import CommentedMap
 from hitchstory import exceptions
 from hitchstory.arguments import Arguments
 from hitchstory.result import ResultList, Success, Failure
@@ -45,17 +44,17 @@ class BaseEngine(object):
 
 class StoryStep(object):
     def __init__(self, yaml_step, index, params):
-        if type(yaml_step) is str:
+        if isinstance(yaml_step.value, str):
             self.name = str(yaml_step)
             self.arguments = Arguments(None, params)
-        elif type(yaml_step) is CommentedMap and len(yaml_step.keys()) == 1:
+        elif isinstance(yaml_step.value, dict) and len(yaml_step.keys()) == 1:
             self.name = list(yaml_step.keys())[0]
             self.arguments = Arguments(list(yaml_step.values())[0], params)
         else:
             raise RuntimeError("Invalid YAML in step '{}'".format(yaml_step))
 
     def underscore_case_name(self):
-        return utils.to_underscore_style(self.name)
+        return utils.to_underscore_style(str(self.name))
 
     def run(self, engine):
         if hasattr(engine, self.underscore_case_name()):
@@ -70,7 +69,10 @@ class StoryStep(object):
                 if self.arguments.is_none:
                     step_method()
                 elif self.arguments.single_argument:
-                    step_method(self.arguments.argument)
+                    if type(self.arguments.argument) is str:
+                        step_method(self.arguments.argument)
+                    else:
+                        step_method(self.arguments.argument.value)
                 else:
                     step_method(**self.arguments.pythonized_kwargs())
             else:
@@ -117,7 +119,7 @@ class Story(object):
 
     @property
     def params(self):
-        param_dict = self._collection.named(self._parsed_yaml['based on']).params \
+        param_dict = self._collection.named(str(self._parsed_yaml['based on'])).params \
             if "based on" in self._parsed_yaml else {}
         for name, param in self._parsed_yaml.get("params", {}).items():
             param_dict[name] = param
@@ -126,7 +128,7 @@ class Story(object):
     def unparameterized_preconditions(self):
         precondition_dict = {}
         precondition_dict = self._collection.named(
-            self._parsed_yaml['based on']
+            str(self._parsed_yaml['based on'])
         ).unparameterized_preconditions() \
             if "based on" in self._parsed_yaml else {}
         for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
@@ -144,7 +146,7 @@ class Story(object):
 
     @property
     def steps(self):
-        step_list = self._collection.named(self._parsed_yaml['based on']).steps \
+        step_list = self._collection.named(str(self._parsed_yaml['based on'])).steps \
             if "based on" in self._parsed_yaml else []
         step_list.extend(self._parsed_yaml.get('scenario', []))
         return step_list
@@ -184,7 +186,7 @@ class StoryFile(object):
         self._engine = engine
         self._collection = collection
         story_schema = {
-            Optional("scenario"): Seq(CommentedYAML()),
+            Optional("scenario"): Seq(Any()),
             Optional("description"): Str(),
             Optional("based on"): Str(),
         }
@@ -340,7 +342,11 @@ class StoryCollection(object):
     def one(self):
         stories = self.ordered_arbitrarily()
         if len(stories) > 1:
-            raise exceptions.MoreThanOneStory()
+            raise exceptions.MoreThanOneStory(
+                "\n".join([
+                    "{0} (in {1})".format(story.name, story.filename) for story in stories
+                ])
+            )
         elif len(stories) == 0:
             raise exceptions.NoStories()
         else:

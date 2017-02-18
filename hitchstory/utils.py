@@ -1,4 +1,4 @@
-from ruamel.yaml.comments import CommentedMap, CommentedSeq
+from copy import deepcopy
 
 
 def to_underscore_style(text):
@@ -11,17 +11,25 @@ def replace_parameter(thing, param_name, param):
     """
     Replace parameter name in (( and )) with value in step arguments and preconditions.
     """
-    if type(thing) is list or type(thing) is CommentedSeq:
-        return [replace_parameter(item, param_name, param) for item in thing]
-    elif type(thing) is dict or type(thing) is CommentedMap:
-        return {
-            key: replace_parameter(value, param_name, param)
-            for key, value in thing.items()
-        }
-    elif type(thing) is str:
-        if "(( {0} ))".format(param_name) in thing:
-            return thing.replace("(( {0} ))".format(param_name), param)
+    if type(thing) is str:
+        if "(( {0} ))".format(param_name) in str(thing):
+            return thing.replace("(( {0} ))".format(str(param_name)), str(param))
         else:
             return thing
     else:
-        return thing
+        if thing.is_sequence():
+            new_thing = deepcopy(thing)
+
+            for i, item in enumerate(thing):
+                new_thing[i] = replace_parameter(item, param_name, param)
+
+            return new_thing
+        elif thing.is_mapping():
+            new_thing = deepcopy(thing)
+
+            for key, value in thing.items():
+                new_thing[key] = replace_parameter(value, param_name, param)
+
+            return new_thing
+        else:
+            return replace_parameter(str(thing), param_name, param)

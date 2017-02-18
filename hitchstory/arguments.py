@@ -1,5 +1,4 @@
 from hitchstory import utils, exceptions
-from ruamel.yaml.comments import CommentedMap, CommentedSeq
 
 
 class Arguments(object):
@@ -12,7 +11,7 @@ class Arguments(object):
         if yaml_args is None:
             self.is_none = True
             self.single_argument = False
-        elif type(yaml_args) is CommentedMap:
+        elif yaml_args.is_mapping():
             self.is_none = False
             self.single_argument = False
             self.original_args = yaml_args
@@ -23,7 +22,7 @@ class Arguments(object):
 
     def parameterize(self, value):
         for name, parameter in self._params.items():
-            value = utils.replace_parameter(value, name, parameter)
+            value = utils.replace_parameter(value, str(name), str(parameter))
         return value
 
     def validate(self, validators):
@@ -34,16 +33,16 @@ class Arguments(object):
             _kwargs = {}
             for key, value in self.original_args.items():
                 if key in validators.keys():
-                    _kwargs[key] = validators[key](value)
+                    _kwargs[key] = validators[key](value.value)
                 else:
-                    if type(value) in (CommentedMap, CommentedSeq):
+                    if not value.is_scalar():
                         raise exceptions.StepArgumentWithoutValidatorContainsComplexData
                     else:
                         _kwargs[key] = str(value)
-            self.kwargs = self.parameterize(_kwargs)
+            self.kwargs = self.parameterize(self.original_args)
 
     def pythonized_kwargs(self):
         pythonized_dict = {}
         for key, value in self.kwargs.items():
-            pythonized_dict[utils.to_underscore_style(key)] = value
+            pythonized_dict[utils.to_underscore_style(str(key))] = value.value
         return pythonized_dict

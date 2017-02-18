@@ -30,7 +30,7 @@
 
     - Assert exception:
         command: StoryCollection(pathq(".").ext("story"), Engine()).one()
-        exception: MoreThanOneStory
+        exception: Create file again
 
     - Run command: |
         results = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
