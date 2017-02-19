@@ -28,24 +28,26 @@
             parameter3: frog
   scenario:
     - Run command: |
-        from hitchstory import StoryCollection, BaseEngine, validate
+        from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
         from strictyaml import Map, Seq, Int, Str
         from pathquery import pathq
 
 
         class Engine(BaseEngine):
-            preconditions_schema = {
-                "content": Str(),
-                "hierarchical content": Map({
-                    "x": Int(), "y": Seq(Str())
-                }),
-            }
-
-            params_schema = {
-                "myparameter": Str(),
-                "parameter2": Str(),
-                "parameter3": Str(),
-            }
+            schema = StorySchema(
+                preconditions={
+                    "content": Str(),
+                    "hierarchical content": Map({
+                        "x": Int(),
+                        "y": Seq(Str()),
+                    }),
+                },
+                params={
+                    "myparameter": Str(),
+                    "parameter2": Str(),
+                    "parameter3": Str(),
+                },
+            )
 
             def do_other_thing(self, parameter):
                 output(parameter)

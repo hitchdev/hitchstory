@@ -9,31 +9,31 @@
       example.story: |
         Do thing:
           description: General description.
-          about:
-            jiras: JIRA-123, JIRA-124
-            features: files, creating
+          jiras: JIRA-123, JIRA-124
+          features: files, creating
           scenario:
             - Do thing
 
         Do other thing:
-          about:
-            jiras: JIRA-789
-            features: other
+          jiras: JIRA-789
+          features: other
           scenario:
             - Do other thing
   scenario:
     - Run command: |
-        from hitchstory import StoryCollection, BaseEngine
+        from hitchstory import StoryCollection, BaseEngine, StorySchema
         from strictyaml import Map, Str, CommaSeparated
         from pathquery import pathq
 
 
         class Engine(BaseEngine):
-            about_schema = Map({
-                "description": Str(),
-                "jiras": CommaSeparated(Str()),
-                "features": CommaSeparated(Str()),
-            })
+            schema = StorySchema(
+                about={
+                    "description": Str(),
+                    "jiras": CommaSeparated(Str()),
+                    "features": CommaSeparated(Str()),
+                },
+            )
 
             def do_thing(self):
                 output("thing")

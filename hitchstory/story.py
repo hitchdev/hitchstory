@@ -27,10 +27,34 @@ def validate(**kwargs):
     return decorator
 
 
+class StorySchema(object):
+    """
+    Represents user-defineable parts of the hitchstory schema:
+
+    * preconditions
+    * parameters
+    * descriptive properties - e.g. feature names, issue ticket numbers
+    """
+    def __init__(self, preconditions=None, params=None, about=None):
+        self._preconditions = preconditions
+        self._params = params
+        self._about = about
+
+    @property
+    def preconditions(self):
+        return self._preconditions
+
+    @property
+    def params(self):
+        return self._params
+
+    @property
+    def about(self):
+        return self._about
+
+
 class BaseEngine(object):
-    preconditions_schema = None
-    about_schema = None
-    params_schema = None
+    schema = StorySchema()
 
     @property
     def preconditions(self):
@@ -99,7 +123,9 @@ class Story(object):
         self._parsed_yaml = parsed_yaml
         self._engine = engine
         self._steps = []
-        self._about = parsed_yaml.get('about')
+        self._about = {}
+        for about_property in engine.schema.about.keys():
+            self._about[about_property] = parsed_yaml.get(about_property)
         self._collection = collection
 
     @property
@@ -193,20 +219,21 @@ class StoryFile(object):
             Optional("based on"): Str(),
         }
 
-        if self._engine.params_schema is not None:
+        if self._engine.schema.params is not None:
             proposed_schema = {}
-            for param, schema in self._engine.params_schema.items():
+            for param, schema in self._engine.schema.params.items():
                 proposed_schema[Optional(param)] = schema
             story_schema['params'] = Map(proposed_schema)
 
-        if self._engine.preconditions_schema is not None:
+        if self._engine.schema.preconditions is not None:
             proposed_schema = {}
-            for precondition, schema in self._engine.preconditions_schema.items():
+            for precondition, schema in self._engine.schema.preconditions.items():
                 proposed_schema[Optional(precondition)] = schema
             story_schema['preconditions'] = Map(proposed_schema)
 
-        if self._engine.about_schema is not None:
-            story_schema['about'] = engine.about_schema
+        if self._engine.schema.about is not None:
+            for about_property, property_schema in self._engine.schema.about.items():
+                story_schema[about_property] = property_schema
 
         self._parsed_yaml = load(
             self._yaml,

@@ -12,20 +12,26 @@
             content: things
           scenario:
             - Create file
-  scenario:
-    - Run command: |
-        from hitchstory import StoryCollection, BaseEngine
+      engine.py: |
+        from hitchstory import BaseEngine, StorySchema
         from strictyaml import Str
-        from pathquery import pathq
 
+        def output(contents):
+            with open("output.txt", 'a') as handle:
+                handle.write("{0}\n".format(contents))
 
         class Engine(BaseEngine):
-            preconditions_schema = {
-                "content": Str()
-            }
+            schema = StorySchema(
+                preconditions={"content": Str(),},
+            )
 
             def create_file(self):
                 output(self.preconditions['content'])
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection
+        from pathquery import pathq
+        from engine import Engine
 
         StoryCollection(pathq(".").ext("story"), Engine()).one().play()
     - Output is: things
