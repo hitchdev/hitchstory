@@ -94,13 +94,6 @@
             def do_thing_two(self):
                 output("thing two")
 
-        output(StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file").play().report())
-    - Output is: |
-        FAILURE IN ((( anything )))/example.story: Write to file in 0.1 seconds.
-
-        StoryNotFound
-          
-            Story not found.
-            
-
-        Story 'Create files' not found.
+    - Assert Exception:
+        command: StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file").play()
+        exception: StoryNotFound

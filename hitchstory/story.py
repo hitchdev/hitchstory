@@ -290,6 +290,17 @@ class StoryCollection(object):
                     filtered = False
             if filtered:
                 stories.append(story)
+
+        # Check for non-existent inherited stories
+        for story in stories:
+            if "based on" in story._parsed_yaml:
+                inherited_from = story._parsed_yaml['based on']
+                found = False
+                for search_story in stories:
+                    if inherited_from == search_story.name:
+                        found = True
+                if not found:
+                    raise exceptions.StoryNotFound(inherited_from)
         return stories
 
     def filter(self, filter_func):
