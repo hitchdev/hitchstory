@@ -124,8 +124,9 @@ class Story(object):
         self._engine = engine
         self._steps = []
         self._about = {}
-        for about_property in engine.schema.about.keys():
-            self._about[about_property] = parsed_yaml.get(about_property)
+        if engine.schema.about is not None:
+            for about_property in engine.schema.about.keys():
+                self._about[about_property] = parsed_yaml.get(about_property)
         self._collection = collection
 
     @property

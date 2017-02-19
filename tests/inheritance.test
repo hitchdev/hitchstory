@@ -32,15 +32,20 @@
             c: 11
   scenario:
     - Run command: |
-        from hitchstory import StoryCollection, BaseEngine
+        from hitchstory import StoryCollection, BaseEngine, StorySchema
         from strictyaml import Int, Str
         from pathquery import pathq
 
 
         class Engine(BaseEngine):
-            preconditions_schema = {"a": Str(), "b": Str()}
-
-            params_schema = {"a": Str(), "b": Str(), "c": Str()}
+            schema = StorySchema(
+                preconditions={
+                    "a": Str(), "b": Str()
+                },
+                params={
+                    "a": Str(), "b": Str(), "c": Str()
+                },
+            )
 
             def do_thing_one(self):
                 output("thing one: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
