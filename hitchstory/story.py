@@ -69,6 +69,7 @@ class BaseEngine(object):
 
 class StoryStep(object):
     def __init__(self, yaml_step, index, params):
+        self._yaml = yaml_step
         if isinstance(yaml_step.value, str):
             self.name = str(yaml_step)
             self.arguments = Arguments(None, params)
@@ -80,6 +81,10 @@ class StoryStep(object):
 
     def underscore_case_name(self):
         return utils.to_underscore_style(str(self.name))
+
+    @property
+    def yaml(self):
+        return self._yaml
 
     def run(self, engine):
         if hasattr(engine, self.underscore_case_name()):
@@ -190,10 +195,12 @@ class Story(object):
     def play(self):
         start_time = time.time()
         try:
+            current_step = None
             self._engine._preconditions = self.preconditions
             self._engine.set_up()
 
             for step in self.scenario:
+                current_step = step
                 step.run(self._engine)
 
             self._engine.tear_down()
@@ -201,7 +208,13 @@ class Story(object):
         except Exception as exception:
             self._engine.tear_down()
             stack_trace = prettystack.PrettyStackTemplate().to_console().current_stacktrace()
-            result = Failure(self, time.time() - start_time, exception, stack_trace)
+            result = Failure(
+                self,
+                time.time() - start_time,
+                exception,
+                current_step,
+                stack_trace
+            )
         return result
 
 

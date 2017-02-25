@@ -1,15 +1,22 @@
-FAILURE IN ((( anything )))/example.story: Failing story in 0.1 seconds.
+[34m[1mFAILURE IN ((( anything )))/example.story:
+    "Failing story" in 0.1 seconds.
+[22m
 
-
+      scenario:
+      - Passing step
+    [1m  - Failing step[22m
+      - Not executed step
+    
+[39m
 
 [0]: function '[1mplay[0m'
 ((( anything )))/story.py
 
     
-        194 : 
-        195 :             for step in self.scenario:
-    --> [1m196[0m :                 step.run(self._engine)
-        197 : 
+        201 :             for step in self.scenario:
+        202 :                 current_step = step
+    --> [1m203[0m :                 step.run(self._engine)
+        204 : 
     
     
 
@@ -17,10 +24,10 @@ FAILURE IN ((( anything )))/example.story: Failing story in 0.1 seconds.
 ((( anything )))/story.py
 
     
-        92 : 
-        93 :                 if self.arguments.is_none:
-    --> [1m94[0m :                     step_method()
-        95 :                 elif self.arguments.single_argument:
+        97 : 
+        98 :                 if self.arguments.is_none:
+    --> [1m99[0m :                     step_method()
+        100 :                 elif self.arguments.single_argument:
     
     
 

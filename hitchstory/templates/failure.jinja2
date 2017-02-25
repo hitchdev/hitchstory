@@ -1,4 +1,7 @@
-FAILURE IN {{ result.story.filename }}: {{ result.story.name }} in {{ result.duration|round(1, 'ceil') }} seconds.
+{{ Fore.BLUE }}{{ Style.BRIGHT }}FAILURE IN {{ result.story.filename }}:
+    "{{ result.story.name }}" in {{ result.duration|round(1, 'ceil') }} seconds.
+{{ Style.NORMAL }}
 
-
+{{ result.story_failure_snippet }}
+{{ Fore.RESET }}
 {{ result.stacktrace }}

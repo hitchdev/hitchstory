@@ -79,11 +79,12 @@ class FailureException(object):
 
 
 class Failure(Result):
-    def __init__(self, story, duration, exception, stacktrace):
+    def __init__(self, story, duration, exception, failing_step, stacktrace):
         assert type(exception) is Exception or RuntimeError
         self._story = story
         self._duration = duration
         self._exception = FailureException(exception)
+        self._failing_step = failing_step
         self._stacktrace = stacktrace
 
     @property
@@ -97,6 +98,21 @@ class Failure(Result):
     @property
     def stacktrace(self):
         return self._stacktrace
+
+    @property
+    def story_failure_snippet(self):
+        """
+        Snippet of YAML highlighting the failing line.
+        """
+        snippet = "{before}\n{bright}{lines}{normal}\n{after}".format(
+            before=self._failing_step.yaml.lines_before(2),
+            lines=self._failing_step.yaml.lines(),
+            after=self._failing_step.yaml.lines_after(2),
+            bright=colorama.Style.BRIGHT,
+            normal=colorama.Style.NORMAL,
+        )
+        indented_snippet = "    " + snippet.replace("\n", "\n    ")
+        return indented_snippet
 
     def to_dict(self):
         return {
