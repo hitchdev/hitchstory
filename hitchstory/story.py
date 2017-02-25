@@ -174,6 +174,7 @@ class StoryFile(object):
             Optional("based on"): Str(),
         }
 
+        # Arrange YAML schema
         if self._engine.schema.params is not None:
             proposed_schema = {}
             for param, schema in self._engine.schema.params.items():
@@ -190,6 +191,7 @@ class StoryFile(object):
             for about_property, property_schema in self._engine.schema.about.items():
                 story_schema[about_property] = property_schema
 
+        # Load YAML into memory
         self._parsed_yaml = load(
             self._yaml,
             MapPattern(Str(), Map(story_schema))
@@ -200,6 +202,9 @@ class StoryFile(object):
         return self._filename
 
     def ordered_arbitrarily(self):
+        """
+        Return all of the stories in the file.
+        """
         stories = []
         for name, self._parsed_yaml in self._parsed_yaml.items():
             stories.append(Story(self, name, self._parsed_yaml, self._engine, self._collection))
