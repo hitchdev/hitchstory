@@ -13,36 +13,14 @@
 ((( anything )))/story.py
 
     
-        142 :             for step in self.scenario:
-        143 :                 current_step = step
-    --> [1m144[0m :                 step.run(self._engine)
-        145 : 
+        146 :             for step in self.scenario:
+        147 :                 current_step = step
+    --> [1m148[0m :                 step.run(self._engine)
+        149 : 
     
     
 
-[1]: function '[1mrun[0m'
-((( anything )))/story.py
-
-    
-        38 : 
-        39 :                 if self.arguments.is_none:
-    --> [1m40[0m :                     step_method()
-        41 :                 elif self.arguments.single_argument:
-    
-    
-
-[2]: function '[1mfailing_step[0m'
-((( anything )))/engine.py
-
-    
-        13 : 
-        14 :     def failing_step(self):
-    --> [1m15[0m :         raise ExampleException("Towel not located")
-        16 : 
-    
-    
-
-[31m[1mengine.ExampleException[0m
+[31m[1mexception_file.ExampleException[0m
   [2m[31m
     This is a demonstration exception's docstring.
 

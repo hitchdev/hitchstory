@@ -4,8 +4,12 @@ from hitchstory.arguments import Arguments
 from hitchstory import exceptions
 from hitchstory import utils
 from slugify import slugify
+from path import Path
 import prettystack
 import time
+
+
+THIS_DIRECTORY = Path(__file__).realpath().dirname()
 
 
 class StoryStep(object):
@@ -148,7 +152,12 @@ class Story(object):
             result = Success(self, time.time() - start_time)
         except Exception as exception:
             self._engine.tear_down()
-            stack_trace = prettystack.PrettyStackTemplate().to_console().current_stacktrace()
+            stack_trace = prettystack.PrettyStackTemplate()\
+                                     .only_after_file(
+                                         THIS_DIRECTORY.joinpath("story.py")
+                                     )\
+                                     .to_console()\
+                                     .current_stacktrace()
             result = Failure(
                 self,
                 time.time() - start_time,

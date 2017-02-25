@@ -13,9 +13,7 @@
             - Passing step
             - Failing step
             - Not executed step
-      engine.py: |
-        from hitchstory import BaseEngine
-
+      exception_file.py: |
         class ExampleException(Exception):
             """
             This is a demonstration exception's docstring.
@@ -24,12 +22,19 @@
             """
             pass
 
+        def raise_exception(text):
+            raise ExampleException(text)
+      engine.py: |
+        from hitchstory import BaseEngine
+        from exception_file import raise_exception
+
+
         class Engine(BaseEngine):
             def passing_step(self):
                 pass
 
             def failing_step(self):
-                raise ExampleException("Towel not located")
+                raise_exception("Towel not located")
 
             def not_executed_step(self):
                 pass
