@@ -1,56 +1,36 @@
-PARAMETERIZED TESTING
----------------------
+HANDLE UNDERSCORES
+------------------
 
-scenario:
-  - click: test
-  - fill form:
-      first name: (( first name ))
-      last name: (( last name ))
-  - fill form:
-      telephone: (( telephone ))
-  - do thing: (( thistextwillappear ))
-params:
-  first name: Thomas
-  last name: Edison
-  telephone: 07771 1777124
+x:
+  With a Thing: 5
+  
+should run:
 
-* What to do about:
+  x(**kwargs):
+      assert kwargs['With a Thing'] == 5
+    
+
+  x(with_a_thing=None):
+      assert with_a_thing == 5
+
+
+PARAMETERS WHICH ARE NON-STRINGS
+--------------------------------
+
+What to do about parsing:
 
   number of elements: (( number of elements ))
   params:
     number of elements: 4
 
-{{ number of elements }} parsed as string.
 
-* Inheritance with params.
-
-* What to do about params that appear in scenario/preconditions but not params and vice versa.
-
-STACKTRACES
------------
-
-Import pystacktrace
 
 DOCUMENTATION
 -------------
 
-Generate rsts / HTML.
+Using jinja2 template, generate a story.
 
+Somehow attach artefacts (strings, filenames) to individual steps as they are looped through
+in jinja2.
 
-TEMPLATES
----------
-
-Passing tests, failing tests. HTML. Documentation in rst format.
-
-templates/
-  success.jinja2
-  failure.jinja2
-  multiple.jinja2
-  stacktrace.jinja2
-  story.jinja2
-
-.report().without_color()
-.report().in_html()
-.report().with_templates(template_folder)
-
-* Tear down exception.
+return Artefact object.
