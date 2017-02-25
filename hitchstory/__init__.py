@@ -1,4 +1,4 @@
 from hitchstory.story import StoryCollection
-from hitchstory.story import validate
-from hitchstory.story import BaseEngine
-from hitchstory.story import StorySchema
+from hitchstory.engine import validate
+from hitchstory.engine import BaseEngine
+from hitchstory.engine import StorySchema
