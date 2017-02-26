@@ -6,6 +6,7 @@ from hitchstory import utils
 from slugify import slugify
 from path import Path
 import prettystack
+import inspect
 import time
 
 
@@ -49,7 +50,12 @@ class StoryStep(object):
                     else:
                         step_method(self.arguments.argument.value)
                 else:
-                    step_method(**self.arguments.pythonized_kwargs())
+                    argspec = inspect.getargspec(step_method)
+
+                    if argspec.keywords is not None:
+                        step_method(**self.arguments.kwargs.data)
+                    else:
+                        step_method(**self.arguments.pythonized_kwargs())
             else:
                 raise exceptions.StepNotCallable((
                     "Step with name '{}' in {} is not a function "
