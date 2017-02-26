@@ -154,8 +154,7 @@ class Story(object):
             self._engine.tear_down()
             stack_trace = prettystack.PrettyStackTemplate()\
                                      .only_after_file(
-                                         THIS_DIRECTORY.joinpath("story.py")
-                                     )\
+                                         THIS_DIRECTORY.joinpath("story.py"))\
                                      .to_console()\
                                      .current_stacktrace()
             result = Failure(
