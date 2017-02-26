@@ -12,7 +12,7 @@
             - Create file
             - Create file: step2.txt
             - Create file:
-                filename: step3.txt
+                file name: step3.txt
                 content: third step
   scenario:
     - Run command: |
@@ -21,8 +21,8 @@
 
 
         class Engine(BaseEngine):
-            def create_file(self, filename="step1.txt", content="example"):
-                with open(filename, 'w') as handle:
+            def create_file(self, file_name="step1.txt", content="example"):
+                with open(file_name, 'w') as handle:
                     handle.write(content)
 
         result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
