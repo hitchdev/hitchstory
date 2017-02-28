@@ -27,5 +27,5 @@ always run:
 
   - |
     def output(contents):
-        with open("output.txt", 'a') as handle:
+        with open("output.txt", 'w') as handle:
             handle.write("{0}\n".format(contents))

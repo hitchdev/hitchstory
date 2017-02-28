@@ -9,14 +9,25 @@
     
 [39m
 
-[0]: function '[1mplay[0m'
-((( anything )))/story.py
+[2]: function '[1mfailing_step[0m'
+((( anything )))/engine.py
 
     
-        146 :             for step in self.scenario:
-        147 :                 current_step = step
-    --> [1m148[0m :                 step.run(self._engine)
-        149 : 
+        7 : 
+        8 :     def failing_step(self):
+    --> [1m9[0m :         raise_exception("Towel not located")
+        10 : 
+    
+    
+
+[3]: function '[1mraise_exception[0m'
+  /home/colm/hitch/story/state/exception_file.py
+
+    
+        7 : 
+        8 : def raise_exception(text):
+    --> [1m9[0m :     raise ExampleException(text)
+        10 : 
     
     
 
