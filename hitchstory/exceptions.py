@@ -100,3 +100,10 @@ class DuplicateStoryNames(HitchStoryException):
             slugify(story1.name),
             slugify(story2.name)
         ))
+
+
+class InvalidStoryPaths(HitchStoryException):
+    """
+    storypaths iterator fed to StoryCollection is invalid.
+    """
+    pass

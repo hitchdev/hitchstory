@@ -1,44 +1,6 @@
-[1]: function 'test'
-  /home/colm/hitch/faketime/hitch/key.py
+1) When tear_down exception occurs.
 
-    
-        47 : 
-        48 : def test(name):
-    --> 49 :     print(StoryCollection(KEYPATH/"story", Engine(KEYPATH)).shortcut(name).play().report())
-        50 : 
-    
-    
-
-[2]: function '__init__'
-  /home/colm/.hitch/trk1s3/hvenv/lib/python3.5/site-packages/hitchstory/story_collection.py
-
-    
-        26 : 
-        27 :         for filename in self._storypaths:
-    --> 28 :             for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
-        29 :                 if slugify(story.name) in self._stories:
-    
-    
-
-[3]: function '__init__'
-  /home/colm/.hitch/trk1s3/hvenv/lib/python3.5/site-packages/hitchstory/story.py
-
-    
-        180 :     def __init__(self, filename, engine, collection):
-        181 :         self._filename = filename
-    --> 182 :         self._yaml = filename.bytes().decode('utf8')
-        183 :         self._engine = engine
-    
-    
-
-builtins.AttributeError
-  Attribute not found.
-'str' object has no attribute 'bytes'
-
-
-2) When tear_down exception occurs.
-
-3) What to do when this is an exception that indicates a bug in your code.
+2) What to do when this is an exception that indicates a bug in hitch code.
 
 
 PARAMETERS WHICH ARE NON-STRINGS

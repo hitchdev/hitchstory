@@ -158,7 +158,6 @@ class Story(object):
             result = Success(self, time.time() - start_time)
         except Exception as exception:
             self._engine.tear_down()
-            import q ; q(THIS_DIRECTORY.joinpath("story.py"))
             stack_trace = prettystack.PrettyStackTemplate()\
                                      .cut_calling_code(
                                          THIS_DIRECTORY.joinpath("story.py"))\

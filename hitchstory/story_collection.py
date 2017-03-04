@@ -13,10 +13,19 @@ class StoryCollection(object):
     """
 
     def __init__(self, storypaths, engine):
+        """
+        Create a collection of hitch stories from a list (or generator) of
+        story paths and an initialized story engine.
+        """
         if not isinstance(engine, BaseEngine):
             raise exceptions.WrongEngineType(
                 "Engine should inherit from hitchstory.BaseEngine."
             )
+        if isinstance(storypaths, str):
+            raise exceptions.InvalidStoryPaths((
+                "storypaths should be a list or iterator returning a list of story files"
+                " (e.g. using pathquery). Instead it was string '{0}'."
+            ).format(storypaths))
         self._storypaths = storypaths
         self._engine = engine
         self._in_filename = None
@@ -26,6 +35,14 @@ class StoryCollection(object):
         self._stories = {}
 
         for filename in self._storypaths:
+            if not Path(filename).exists():
+                raise exceptions.InvalidStoryPaths(
+                    "Story file name '{0}' does not exist.".format(filename)
+                )
+            if Path(filename).isdir():
+                raise exceptions.InvalidStoryPaths(
+                    "Story path '{0}' is a directory.".format(filename)
+                )
             for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
                 if slugify(story.name) in self._stories:
                     raise exceptions.DuplicateStoryNames(story, self._stories[slugify(story.name)])
