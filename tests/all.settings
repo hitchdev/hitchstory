@@ -29,3 +29,13 @@ always run:
     def output(contents):
         with open("output.txt", 'w') as handle:
             handle.write("{0}\n".format(contents))
+
+  - |
+    def do_something():
+        with open("didsomething.txt", 'w') as handle:
+            handle.write("{0}\n".format("didsomething"))
+
+  - |
+    def do_some_other_thing():
+        with open("didsomeothersomething.txt", 'w') as handle:
+            handle.write("{0}\n".format("didsomeothersomething"))

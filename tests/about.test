@@ -36,17 +36,18 @@
             )
 
             def do_thing(self):
-                output("thing")
+                do_something()
 
             def do_other_thing(self):
-                output("other thing")
+                do_some_other_thing()
 
     - Run command: StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
-    - Output is: |
-        other thing
-        thing
+
+    - Thing was done
+
+    - Some other thing was done
 
     - Run command: |
         StoryCollection(pathq(".").ext("story"), Engine()).filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
-    - Output is: |
-        thing
+
+    - Thing was done
