@@ -1,4 +1,22 @@
 - name: Inherit one story from another
+  descriptions: |
+    You cannot break most software down into a series of
+    individual linear behavioral stories. Software
+    stories branch.
+    
+    While it would be possible to write out each individual
+    story for every possible branch, this would result in a
+    story suite that is non-DRY and much more work to maintain.
+    
+    Story inheritance allows you to base stories on other stories.
+    The base story's preconditions will all be used while the
+    child story's preconditions (if it has any) will override
+    them.
+    
+    The same goes for story parameters.
+    
+    The base story's scenario will be executed before continuing
+    with the child story's scenario.
   tags:
     - inheritance
     - documentation
