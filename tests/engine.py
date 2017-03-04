@@ -115,13 +115,13 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
         """Placeholder to add a new test."""
         pass
 
-    def thing_was_done(self):
-        assert self.path.state.joinpath("didsomething.txt").exists()
-        self.path.state.joinpath("didsomething.txt").remove()
+    def splines_reticulated(self):
+        assert self.path.state.joinpath("splines_reticulated.txt").exists()
+        self.path.state.joinpath("splines_reticulated.txt").remove()
 
-    def some_other_thing_was_done(self):
-        assert self.path.state.joinpath("didsomeothersomething.txt").exists()
-        self.path.state.joinpath("didsomeothersomething.txt").remove()
+    def llamas_ass_kicked(self):
+        assert self.path.state.joinpath("kicked_llamas_ass.txt").exists()
+        self.path.state.joinpath("kicked_llamas_ass.txt").remove()
 
     def output_is(self, expected_contents):
         output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()

@@ -7,18 +7,18 @@
   preconditions:
     files:
       example.story: |
-        Do thing:
-          description: General description.
+        Build city:
+          description: A great city. The best.
           jiras: JIRA-123, JIRA-124
           features: files, creating
           scenario:
-            - Do thing
+            - Reticulate splines
 
-        Do other thing:
+        Live in city:
           jiras: JIRA-789
           features: other
           scenario:
-            - Do other thing
+            - Kick llama's ass
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine, StorySchema
@@ -35,19 +35,19 @@
                 },
             )
 
-            def do_thing(self):
-                do_something()
+            def reticulate_splines(self):
+                reticulate_splines()
 
-            def do_other_thing(self):
-                do_some_other_thing()
+            def kick_llamas_ass(self):
+                kick_llamas_ass()
 
     - Run command: StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
 
-    - Thing was done
+    - Splines reticulated
 
-    - Some other thing was done
+    - Llama's ass kicked
 
     - Run command: |
         StoryCollection(pathq(".").ext("story"), Engine()).filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
 
-    - Thing was done
+    - Splines reticulated

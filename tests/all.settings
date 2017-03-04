@@ -31,11 +31,11 @@ always run:
             handle.write("{0}\n".format(contents))
 
   - |
-    def do_something():
-        with open("didsomething.txt", 'w') as handle:
-            handle.write("{0}\n".format("didsomething"))
+    def reticulate_splines():
+        with open("splines_reticulated.txt", 'w') as handle:
+            handle.write("{0}\n".format("splines_reticulated"))
 
   - |
-    def do_some_other_thing():
-        with open("didsomeothersomething.txt", 'w') as handle:
-            handle.write("{0}\n".format("didsomeothersomething"))
+    def kick_llamas_ass():
+        with open("kicked_llamas_ass.txt", 'w') as handle:
+            handle.write("{0}\n".format("kicked_llamas_ass"))
