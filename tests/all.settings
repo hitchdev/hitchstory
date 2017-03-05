@@ -31,6 +31,11 @@ always run:
             handle.write("{0}\n".format(contents))
 
   - |
+    def append(contents):
+        with open("output.txt", 'a') as handle:
+            handle.write("{0}\n".format(contents))
+
+  - |
     def reticulate_splines():
         with open("splines_reticulated.txt", 'w') as handle:
             handle.write("{0}\n".format("splines_reticulated"))

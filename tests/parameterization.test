@@ -50,17 +50,17 @@
             )
 
             def do_other_thing(self, parameter):
-                output(parameter)
+                append(parameter)
 
             def do_thing_with_precondition(self):
-                output(self.preconditions['content'])
+                append(self.preconditions['content'])
 
             def do_yet_another_thing(self):
-                output(self.preconditions['hierarchical content']['y'][0])
+                append(self.preconditions['hierarchical content']['y'][0])
 
             @validate(animals=Map({"pond animal": Str()}))
             def do_a_fourth_thing(self, animals=None):
-                output(animals['pond animal'])
+                append(animals['pond animal'])
 
         StoryCollection(pathq(".").ext("story"), Engine()).one().play()
     - Output is: |

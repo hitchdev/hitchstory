@@ -1,5 +1,5 @@
 - name: Inherit one story from another
-  descriptions: |
+  description: |
     You cannot break most software down into a series of
     individual linear behavioral stories. Software
     stories branch.
@@ -66,13 +66,13 @@
             )
 
             def do_thing_one(self):
-                output("thing one: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
+                append("thing one: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
 
             def do_thing_three(self, value):
-                output("thing three: {0}".format(value))
+                append("thing three: {0}".format(value))
 
             def do_thing_two(self):
-                output("thing two: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
+                append("thing two: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
 
     - Run Command: StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file 1").play()
     - Output is: |
