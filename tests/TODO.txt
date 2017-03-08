@@ -1,6 +1,22 @@
-1) When tear_down exception occurs.
+1) When tear_down, on_success, on_failure or on_abort exception occurs.
 
-2) What to do when this is an exception that indicates a bug in hitch code.
+2) Parameters should be VALUES and not YAML objects.
+
+3) expected exceptions.
+
+4) shouldbe, etc.
+
+4) assert equivalents which raises always expected exceptions - assert equal, etc.
+
+5) raise SomethingWentWrong("with message") that is equivalent to assert. 
+
+6) hitchstory DEBUG mode.
+
+7) Ctrl-C.
+
+8) on failure, on success.
+
+9) 
 
 
 PARAMETERS WHICH ARE NON-STRINGS
