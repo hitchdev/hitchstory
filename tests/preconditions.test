@@ -26,6 +26,7 @@
             )
 
             def create_file(self):
+                assert type(self.preconditions['content']) is str
                 output(self.preconditions['content'])
   scenario:
     - Run command: |
@@ -33,5 +34,5 @@
         from pathquery import pathq
         from engine import Engine
 
-        StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+        print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
     - Output is: things

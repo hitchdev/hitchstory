@@ -125,7 +125,7 @@ class Story(object):
         for name, precondition in precondition_dict.items():
             for param_name, param in self.params.items():
                 precondition = utils.replace_parameter(precondition, param_name, param)
-            precondition_dict[name] = precondition
+            precondition_dict[name] = precondition.value
         return precondition_dict
 
     @property
