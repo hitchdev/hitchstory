@@ -9,12 +9,13 @@
       example.story: |
         Create files:
           preconditions:
-            content: things
+            thing:
+              content: things
           scenario:
             - Create file
       engine.py: |
         from hitchstory import BaseEngine, StorySchema
-        from strictyaml import Str
+        from strictyaml import Str, MapPattern
 
         def output(contents):
             with open("output.txt", 'a') as handle:
@@ -22,12 +23,12 @@
 
         class Engine(BaseEngine):
             schema = StorySchema(
-                preconditions={"content": Str(),},
+                preconditions={"thing": MapPattern(Str(), Str()),},
             )
 
             def create_file(self):
-                assert type(self.preconditions['content']) is str
-                output(self.preconditions['content'])
+                assert type(self.preconditions['thing']['content']) is str
+                output(self.preconditions['thing']['content'])
   scenario:
     - Run command: |
         from hitchstory import StoryCollection
