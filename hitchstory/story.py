@@ -1,4 +1,4 @@
-from strictyaml import load, Map, Str, Seq, Optional, MapPattern, Any
+from strictyaml import load, Map, Str, Seq, Optional, MapPattern, Any, YAML
 from hitchstory.result import ResultList, Success, Failure
 from hitchstory.arguments import Arguments
 from hitchstory import exceptions
@@ -116,7 +116,7 @@ class Story(object):
         ).unparameterized_preconditions() \
             if "based on" in self._parsed_yaml else {}
         for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
-            precondition_dict[name] = precondition
+            precondition_dict[name.value] = precondition
         return precondition_dict
 
     @property
@@ -125,7 +125,8 @@ class Story(object):
         for name, precondition in precondition_dict.items():
             for param_name, param in self.params.items():
                 precondition = utils.replace_parameter(precondition, param_name, param)
-            precondition_dict[name] = precondition.data
+            precondition_dict[str(name)] = precondition.data \
+                if isinstance(precondition, YAML) else precondition
         return precondition_dict
 
     @property

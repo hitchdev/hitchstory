@@ -28,6 +28,7 @@
 
             def create_file(self):
                 assert type(self.preconditions['thing']['content']) is str
+                assert type(list(self.preconditions.keys())[0]) is str
                 output(self.preconditions['thing']['content'])
   scenario:
     - Run command: |
