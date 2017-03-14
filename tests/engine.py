@@ -83,8 +83,8 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
         self.run_command("import os")
         self.run_command("os.chdir('{}')".format(self.path.state))
 
-        for line in self.settings['always run']:
-            self.run_command(line)
+        self.path.engine.joinpath("code_that_does_things.py").copy(self.path.state)
+        self.run_command("from code_that_does_things import *")
 
     def lint(self, args=None):
         """Lint the source code."""

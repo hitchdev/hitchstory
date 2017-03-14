@@ -158,6 +158,7 @@ class Story(object):
             self._engine.tear_down()
             result = Success(self, time.time() - start_time)
         except Exception as exception:
+            self._engine.on_failure()
             self._engine.tear_down()
             stack_trace = prettystack.PrettyStackTemplate()\
                                      .cut_calling_code(

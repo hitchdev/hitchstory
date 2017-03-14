@@ -13,20 +13,9 @@
             - Passing step
             - Failing step
             - Not executed step
-      exception_file.py: |
-        class ExampleException(Exception):
-            """
-            This is a demonstration exception's docstring.
-
-            It spreads across multiple lines.
-            """
-            pass
-
-        def raise_exception(text):
-            raise ExampleException(text)
       engine.py: |
         from hitchstory import BaseEngine
-        from exception_file import raise_exception
+        from code_that_does_things import *
 
 
         class Engine(BaseEngine):
@@ -34,7 +23,10 @@
                 pass
 
             def failing_step(self):
-                raise_exception("Towel not located")
+                raise_example_exception("Towel not located")
+
+            def on_failure(self):
+                reticulate_splines()
 
             def not_executed_step(self):
                 pass
@@ -52,3 +44,4 @@
           - FAILURE IN ((( anything )))/example.story
           - ((( anything )))/story.py
           - ((( anything )))/engine.py
+    - Splines reticulated
