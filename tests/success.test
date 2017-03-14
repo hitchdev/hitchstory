@@ -14,16 +14,23 @@
             - Create file:
                 file name: step3.txt
                 content: third step
-  scenario:
-    - Run command: |
-        from hitchstory import StoryCollection, BaseEngine
-        from pathquery import pathq
+      engine.py: |
+        from hitchstory import BaseEngine
+        from code_that_does_things import *
 
 
         class Engine(BaseEngine):
             def create_file(self, file_name="step1.txt", content="example"):
                 with open(file_name, 'w') as handle:
                     handle.write(content)
+
+            def on_success(self):
+                reticulate_splines()
+  scenario:
+    - Run command: |
+        from hitchstory import StoryCollection
+        from pathquery import pathq
+        from engine import Engine
 
         result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
         output(result.report())
@@ -38,3 +45,4 @@
     - File was created with:
         filename: step3.txt
         contents: third step
+    - Splines reticulated

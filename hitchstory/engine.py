@@ -60,5 +60,8 @@ class BaseEngine(object):
     def on_failure(self):
         pass
 
+    def on_success(self):
+        pass
+
     def tear_down(self):
         pass

@@ -155,6 +155,7 @@ class Story(object):
                 current_step = step
                 step.run(self._engine)
 
+            self._engine.on_success()
             self._engine.tear_down()
             result = Success(self, time.time() - start_time)
         except Exception as exception:
