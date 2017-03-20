@@ -62,19 +62,23 @@
             )
 
             def do_other_thing(self, parameter):
+                assert type(parameter) is str
                 append(parameter)
 
             def do_thing_with_precondition(self):
+                assert type(self.preconditions['content']) is str
                 append(self.preconditions['content'])
 
             def do_yet_another_thing(self):
+                assert type(self.preconditions['hierarchical content']['y'][0]) is str
                 append(self.preconditions['hierarchical content']['y'][0])
 
             @validate(animals=Map({"pond animal": Str()}))
             def do_a_fourth_thing(self, animals=None):
+                assert type(animals['pond animal']) is str
                 append(animals['pond animal'])
 
-        StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+        print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
     - Output is: |
         dog
         dog

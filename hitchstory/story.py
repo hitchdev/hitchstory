@@ -129,10 +129,11 @@ class Story(object):
     def preconditions(self):
         precondition_dict = self.unparameterized_preconditions()
         for name, precondition in precondition_dict.items():
-            for param_name, param in self.params.items():
-                precondition = utils.replace_parameter(precondition, param_name, param)
-            precondition_dict[str(name)] = precondition.data \
+            precondition_value = precondition.data \
                 if isinstance(precondition, YAML) else precondition
+            for param_name, param in self.params.items():
+                precondition_value = utils.replace_parameter(precondition_value, param_name, param)
+            precondition_dict[str(name)] = precondition_value
         return precondition_dict
 
     @property

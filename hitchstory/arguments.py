@@ -1,4 +1,5 @@
 from hitchstory import utils, exceptions
+from strictyaml import YAML
 
 
 class Arguments(object):
@@ -22,7 +23,8 @@ class Arguments(object):
 
     def parameterize(self, value):
         for name, parameter in self._params.items():
-            value = utils.replace_parameter(value, str(name), str(parameter))
+            original_value = value.data if isinstance(value, YAML) else value
+            value = utils.replace_parameter(original_value, str(name), str(parameter))
         return value
 
     def validate(self, validators):
@@ -44,5 +46,6 @@ class Arguments(object):
     def pythonized_kwargs(self):
         pythonized_dict = {}
         for key, value in self.kwargs.items():
-            pythonized_dict[utils.to_underscore_style(str(key))] = value.value
+            pythonized_dict[utils.to_underscore_style(str(key))] = value.data \
+                if isinstance(value, YAML) else value
         return pythonized_dict

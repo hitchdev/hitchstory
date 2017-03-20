@@ -1,4 +1,3 @@
-from copy import deepcopy
 
 
 def to_underscore_style(text):
@@ -17,15 +16,15 @@ def replace_parameter(thing, param_name, param):
         else:
             return thing
     else:
-        if thing.is_sequence():
-            new_thing = deepcopy(thing)
+        if type(thing) is list:
+            new_thing = []
 
             for i, item in enumerate(thing):
-                new_thing[i] = replace_parameter(item, param_name, param)
+                new_thing.append(replace_parameter(item, param_name, param))
 
             return new_thing
-        elif thing.is_mapping():
-            new_thing = deepcopy(thing)
+        elif type(thing) is dict:
+            new_thing = {}
 
             for key, value in thing.items():
                 new_thing[key] = replace_parameter(value, param_name, param)
