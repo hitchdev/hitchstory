@@ -150,13 +150,13 @@ class Story(object):
             ) for index, parsed_step in enumerate(self.steps)
         ]
 
-    def run_special_method(self, method):
+    def run_special_method(self, method, exception_to_raise):
         try:
             method()
         except Exception as exception:
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
-            raise exceptions.OnSuccessException(
+            raise exception_to_raise(
                 stack_trace
             )
 
@@ -176,10 +176,10 @@ class Story(object):
             failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
         if passed:
-            self.run_special_method(self._engine.on_success)
+            self.run_special_method(self._engine.on_success, exceptions.OnSuccessException)
             result = Success(self, time.time() - start_time)
         else:
-            self._engine.on_failure()
+            self.run_special_method(self._engine.on_failure, exceptions.OnFailureException)
             result = Failure(
                 self,
                 time.time() - start_time,

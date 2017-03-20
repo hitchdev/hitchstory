@@ -111,16 +111,24 @@ class InvalidStoryPaths(HitchStoryException):
 
 class HitchStorySpecialMethodException(HitchStoryException):
     """
-    Exception was raised in special method.
+    Exception was raised in a special method:
+    on_success, on_failure, tear_down
     """
-    pass
+    def __init__(self, stacktrace):
+        super(HitchStorySpecialMethodException, self).__init__(
+            "Stacktrace:\n{0}\n".format(stacktrace)
+        )
 
 
 class OnSuccessException(HitchStorySpecialMethodException):
     """
-    Exception occurred in 
+    Exception occurred in on_success method.
     """
-    def __init__(self, stacktrace):
-        super(OnSuccessException, self).__init__(
-            "Exception was raised in on_success method:\n{0}\n".format(stacktrace)
-        )
+    pass
+
+
+class OnFailureException(HitchStorySpecialMethodException):
+    """
+    Exception occurred in on_failure method.
+    """
+    pass
