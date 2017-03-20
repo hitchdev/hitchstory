@@ -101,6 +101,12 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
     def exited_successfully(self):
         self.finish()
 
+    def exception_raised(self, command, reference, changeable=None):
+        result = self.ipython_step_library.run(command, swallow_exception=True).error
+        assert result is not None
+        self.path.state.joinpath("output.txt").write_text(result)
+        self.output_will_be(reference, changeable)
+
     def file_was_created_with(self, filename="", contents=""):
         if not self.path.state.joinpath(filename).exists():
             raise RuntimeError("{0} does not exist".format(filename))

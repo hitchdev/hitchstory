@@ -13,6 +13,12 @@ import time
 THIS_DIRECTORY = Path(__file__).realpath().dirname()
 
 
+DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
+                                 .cut_calling_code(
+                                    THIS_DIRECTORY.joinpath("story.py"))\
+                                 .to_console()
+
+
 class StoryStep(object):
     def __init__(self, yaml_step, index, params):
         self._yaml = yaml_step
@@ -144,8 +150,19 @@ class Story(object):
             ) for index, parsed_step in enumerate(self.steps)
         ]
 
+    def run_special_method(self, method):
+        try:
+            method()
+        except Exception as exception:
+            stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
+
+            raise exceptions.OnSuccessException(
+                stack_trace
+            )
+
     def play(self):
         start_time = time.time()
+        passed = False
         try:
             current_step = None
             self._engine._preconditions = self.preconditions
@@ -154,18 +171,15 @@ class Story(object):
             for step in self.scenario:
                 current_step = step
                 step.run(self._engine)
-
-            self._engine.on_success()
-            self._engine.tear_down()
-            result = Success(self, time.time() - start_time)
+            passed = True
         except Exception as exception:
+            failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
+
+        if passed:
+            self.run_special_method(self._engine.on_success)
+            result = Success(self, time.time() - start_time)
+        else:
             self._engine.on_failure()
-            self._engine.tear_down()
-            stack_trace = prettystack.PrettyStackTemplate()\
-                                     .cut_calling_code(
-                                         THIS_DIRECTORY.joinpath("story.py"))\
-                                     .to_console()\
-                                     .current_stacktrace()
             result = Failure(
                 self,
                 time.time() - start_time,
@@ -173,6 +187,8 @@ class Story(object):
                 current_step,
                 stack_trace
             )
+
+        self._engine.tear_down()
         return result
 
 

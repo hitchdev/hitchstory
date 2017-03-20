@@ -107,3 +107,20 @@ class InvalidStoryPaths(HitchStoryException):
     storypaths iterator fed to StoryCollection is invalid.
     """
     pass
+
+
+class HitchStorySpecialMethodException(HitchStoryException):
+    """
+    Exception was raised in special method.
+    """
+    pass
+
+
+class OnSuccessException(HitchStorySpecialMethodException):
+    """
+    Exception occurred in 
+    """
+    def __init__(self, stacktrace):
+        super(OnSuccessException, self).__init__(
+            "Exception was raised in on_success method:\n{0}\n".format(stacktrace)
+        )
