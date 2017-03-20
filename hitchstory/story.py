@@ -163,6 +163,7 @@ class Story(object):
     def play(self):
         start_time = time.time()
         passed = False
+        caught_exception = None
         try:
             current_step = None
             self._engine._preconditions = self.preconditions
@@ -173,6 +174,7 @@ class Story(object):
                 step.run(self._engine)
             passed = True
         except Exception as exception:
+            caught_exception = exception
             failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
         if passed:
@@ -183,9 +185,9 @@ class Story(object):
             result = Failure(
                 self,
                 time.time() - start_time,
-                exception,
+                caught_exception,
                 current_step,
-                stack_trace
+                failure_stack_trace
             )
 
         self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
