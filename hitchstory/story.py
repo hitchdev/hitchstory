@@ -188,7 +188,7 @@ class Story(object):
                 stack_trace
             )
 
-        self._engine.tear_down()
+        self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
         return result
 
 

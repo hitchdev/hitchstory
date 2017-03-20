@@ -132,3 +132,10 @@ class OnFailureException(HitchStorySpecialMethodException):
     Exception occurred in on_failure method.
     """
     pass
+
+
+class TearDownException(HitchStorySpecialMethodException):
+    """
+    Exception occurred in tear_down method.
+    """
+    pass
