@@ -24,7 +24,7 @@
                   pond animal: (( parameter3 ))
           params:
             myparameter: dog
-            parameter2: cat
+            parameter2: 42
             parameter3: frog
   scenario:
     - Run command: |
@@ -44,7 +44,7 @@
                 },
                 params={
                     "myparameter": Str(),
-                    "parameter2": Str(),
+                    "parameter2": Int(),
                     "parameter3": Str(),
                 },
             )
@@ -66,5 +66,5 @@
     - Output is: |
         dog
         dog
-        cat
+        42
         frog
