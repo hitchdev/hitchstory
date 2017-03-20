@@ -13,17 +13,6 @@
 7) Ctrl-C / abort / SIGTERM
 
 
-PARAMETERS WHICH ARE NON-STRINGS
---------------------------------
-
-What to do about parsing:
-
-  number of elements: (( number of elements ))
-  params:
-    number of elements: 4
-
-
-
 CUCUMBER COMPARISON
 -------------------
 
