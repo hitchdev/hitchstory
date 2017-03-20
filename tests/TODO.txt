@@ -1,10 +1,8 @@
-1) When tear_down, on_success, on_failure or on_abort exception occurs.
+1) Parameters should be VALUES and not YAML objects.
 
-2) Parameters should be VALUES and not YAML objects.
+2) expected exceptions.
 
-3) expected exceptions.
-
-4) shouldbe, etc.
+3) shouldbe, etc.
 
 4) assert equivalents which raises always expected exceptions - assert equal, etc.
 
