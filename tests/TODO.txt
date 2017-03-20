@@ -10,11 +10,7 @@
 
 6) hitchstory DEBUG mode.
 
-7) Ctrl-C.
-
-8) on failure, on success.
-
-9) 
+7) Ctrl-C / abort / SIGTERM
 
 
 PARAMETERS WHICH ARE NON-STRINGS
@@ -25,18 +21,6 @@ What to do about parsing:
   number of elements: (( number of elements ))
   params:
     number of elements: 4
-
-
-
-DOCUMENTATION
--------------
-
-Using jinja2 template, generate a story.
-
-Somehow attach artefacts (strings, filenames) to individual steps as they are looped through
-in jinja2.
-
-
 
 
 
@@ -85,4 +69,4 @@ Why did you not use standard YAML for hitch?
 --------------------------------------------
 
 hitchtest (the precursor to hitchstory) actually did use standard YAML. StrictYAML was written
-in response to its 
+in response to its flaws. All flaws are described in the StrictYAML FAQ.
