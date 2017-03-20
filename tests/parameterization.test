@@ -1,4 +1,16 @@
-- name: Run through story with parameters
+- name: Story with parameters
+  description: |
+    Parameters are used to describe stories which remain
+    identical except for a changed precondition or step.
+
+    You can use them to perform property based testing
+    or to inherit one story from another where there
+    is a minor variation.
+
+    Parameters can only be used in preconditions or in
+    steps. If you wish to use a parameter in a step or
+    a precondition, that precondition or step value
+    *must* accept strings.
   tags:
     - preconditions
     - parameters
