@@ -1,14 +1,16 @@
-1) expected exceptions.
+1) Gradual typing refactor test to make it more documentation-worthy and also include kwargs.
 
-2) raise SomethingWentWrong("with message") that is always expected to replace runtime error.
+2) expected exceptions.
 
-3) hitchstory DEBUG mode.
+3) raise SomethingWentWrong("with message") that is always expected to replace runtime error.
 
-4) Ctrl-C / abort / SIGTERM
+4) hitchstory DEBUG mode.
 
-5) raise exception - invalid types in schema.
+5) Ctrl-C / abort / SIGTERM
 
-6) raise exception - invalid about params - preconditions, name, description, params in about schema.
+6) raise exception - invalid types in schema.
+
+7) raise exception - invalid about params - preconditions, name, description, params in about schema.
 
 
 CUCUMBER COMPARISON
