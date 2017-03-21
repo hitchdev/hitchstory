@@ -1,7 +1,8 @@
 - name: Story with parameters
   description: |
     Parameters are used to describe stories which remain
-    identical except for a changed precondition or step.
+    identical except for specified changed preconditions
+    or steps.
 
     You can use them to perform property based testing
     or to inherit one story from another where there
@@ -47,18 +48,18 @@
 
         class Engine(BaseEngine):
             schema = StorySchema(
-                preconditions={
+                preconditions=Map({
                     "content": Str(),
                     "hierarchical content": Map({
                         "x": Int(),
                         "y": Seq(Str()),
                     }),
-                },
-                params={
+                }),
+                params=Map({
                     "myparameter": Str(),
                     "parameter2": Int(),
                     "parameter3": Str(),
-                },
+                }),
             )
 
             def do_other_thing(self, parameter):

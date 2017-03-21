@@ -2,11 +2,12 @@
 User-exposed engine related code.
 """
 from hitchstory import exceptions
+from strictyaml import MapPattern, Any
 
 
 def validate(**kwargs):
     """
-    Decorator for validating a HitchStory step.
+    Decorator for validating arguments in a HitchStory step.
     """
     def decorator(step_function):
         for arg in kwargs:
@@ -25,13 +26,13 @@ class StorySchema(object):
     """
     Represents user-defineable parts of the hitchstory schema:
 
-    * preconditions
-    * parameters
-    * descriptive properties - e.g. feature names, issue ticket numbers
+    * preconditions - properties which set up the story.
+    * parameters - variables which you can feed into a story.
+    * about - descriptive properties - e.g. feature names, issue ticket numbers
     """
     def __init__(self, preconditions=None, params=None, about=None):
-        self._preconditions = preconditions
-        self._params = params
+        self._preconditions = MapPattern(Any(), Any()) if preconditions is None else preconditions
+        self._params = MapPattern(Any(), Any()) if params is None else params
         self._about = about
 
     @property

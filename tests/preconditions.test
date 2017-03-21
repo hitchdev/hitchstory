@@ -15,7 +15,7 @@
             - Create file
       engine.py: |
         from hitchstory import BaseEngine, StorySchema
-        from strictyaml import Str, MapPattern
+        from strictyaml import Str, Map, MapPattern
 
         def output(contents):
             with open("output.txt", 'a') as handle:
@@ -23,7 +23,7 @@
 
         class Engine(BaseEngine):
             schema = StorySchema(
-                preconditions={"thing": MapPattern(Str(), Str()),},
+                preconditions=Map({"thing": MapPattern(Str(), Str()),}),
             )
 
             def create_file(self):

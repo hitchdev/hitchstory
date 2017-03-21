@@ -1,5 +1,5 @@
-from hitchstory import utils, exceptions
-from strictyaml import YAML
+from hitchstory import utils
+from strictyaml import YAML, Any
 
 
 class Arguments(object):
@@ -35,12 +35,10 @@ class Arguments(object):
             _kwargs = {}
             for key, value in self.original_args.items():
                 if key in validators.keys():
-                    _kwargs[key] = validators[key](value.value)
+                    _kwargs[key] = validators[key](value.value).data
                 else:
-                    if not value.is_scalar():
-                        raise exceptions.StepArgumentWithoutValidatorContainsComplexData
-                    else:
-                        _kwargs[key] = str(value)
+                    _kwargs[key] = Any()(value.value).data
+
             self.kwargs = self.parameterize(self.original_args)
 
     def pythonized_kwargs(self):

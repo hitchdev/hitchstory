@@ -122,7 +122,7 @@ class Story(object):
         ).unparameterized_preconditions() \
             if "based on" in self._parsed_yaml else {}
         for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
-            precondition_dict[name.value] = precondition
+            precondition_dict[str(name)] = precondition
         return precondition_dict
 
     @property
@@ -162,6 +162,10 @@ class Story(object):
             )
 
     def play(self):
+        """
+        Run a story from beginning to end, time it and return
+        a Result object.
+        """
         start_time = time.time()
         passed = False
         caught_exception = None
@@ -204,28 +208,19 @@ class StoryFile(object):
         self._yaml = filename.bytes().decode('utf8')
         self._engine = engine
         self._collection = collection
+
         story_schema = {
             Optional("scenario"): Seq(Any()),
             Optional("description"): Str(),
             Optional("based on"): Str(),
         }
 
-        # Arrange YAML schema
-        if self._engine.schema.params is not None:
-            proposed_schema = {}
-            for param, schema in self._engine.schema.params.items():
-                proposed_schema[Optional(param)] = schema
-            story_schema['params'] = Map(proposed_schema)
-
-        if self._engine.schema.preconditions is not None:
-            proposed_schema = {}
-            for precondition, schema in self._engine.schema.preconditions.items():
-                proposed_schema[Optional(precondition)] = schema
-            story_schema['preconditions'] = Map(proposed_schema)
-
         if self._engine.schema.about is not None:
             for about_property, property_schema in self._engine.schema.about.items():
                 story_schema[about_property] = property_schema
+
+        story_schema['params'] = self._engine.schema.params
+        story_schema['preconditions'] = self._engine.schema.preconditions
 
         # Load YAML into memory
         self._parsed_yaml = load(

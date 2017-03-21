@@ -6,6 +6,10 @@
 
 4) Ctrl-C / abort / SIGTERM
 
+5) raise exception - invalid types in schema.
+
+6) raise exception - invalid about params - preconditions, name, description, params in about schema.
+
 
 CUCUMBER COMPARISON
 -------------------

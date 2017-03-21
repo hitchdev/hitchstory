@@ -43,23 +43,6 @@ class StepContainsInvalidValidator(StepException):
     pass
 
 
-class StepArgumentWithoutValidatorContainsComplexData(StepException):
-    """
-    Step arguments that contain hierarchical data like so:
-
-    - step name:
-        complex argument:
-          x: 1
-          y: 2
-        complex argument:
-          - list item
-          - list item
-
-    need validators.
-    """
-    pass
-
-
 class WrongEngineType(HitchStoryException):
     """
     Engine should inherit from hitchstory.BaseEngine.

@@ -51,18 +51,18 @@
   scenario:
     - Run command: |
         from hitchstory import StoryCollection, BaseEngine, StorySchema
-        from strictyaml import Int, Str
+        from strictyaml import Map, Int, Str
         from pathquery import pathq
 
 
         class Engine(BaseEngine):
             schema = StorySchema(
-                preconditions={
+                preconditions=Map({
                     "a": Str(), "b": Str()
-                },
-                params={
+                }),
+                params=Map({
                     "a": Str(), "b": Str(), "c": Str()
-                },
+                }),
             )
 
             def do_thing_one(self):
