@@ -172,6 +172,7 @@ class Story(object):
         try:
             current_step = None
             self._engine._preconditions = self.preconditions
+            self._engine.story = self
             self._engine.set_up()
 
             for step in self.scenario:

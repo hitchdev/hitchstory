@@ -26,6 +26,9 @@
 
             def on_success(self):
                 reticulate_splines()
+
+                with open("ranstory.txt", 'w') as handle:
+                    handle.write(self.story.name)
   scenario:
     - Run command: |
         from hitchstory import StoryCollection
@@ -45,4 +48,7 @@
     - File was created with:
         filename: step3.txt
         contents: third step
+    - File was created with:
+        filename: ranstory.txt
+        contents: Create files
     - Splines reticulated
