@@ -1,4 +1,4 @@
-- name: Invalid validator
+- name: Invalid type
   tags:
     - invalid-type
     - exception
@@ -28,9 +28,9 @@
     - Output contains: found non-integer
 
 
-- name: Invalid type
+- name: Invalid validator
   tags:
-    - invalid-type
+    - invalid-validator
     - exception
   preconditions:
     files:
