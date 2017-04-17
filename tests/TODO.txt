@@ -1,3 +1,6 @@
+
+1) validate converts types into types.
+
 1) Gradual typing refactor test to make it more documentation-worthy and also include kwargs.
 
 2) expected exceptions.
