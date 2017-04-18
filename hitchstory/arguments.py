@@ -34,12 +34,12 @@ class Arguments(object):
         if not self.is_none and not self.single_argument:
             _kwargs = {}
             for key, value in self.original_args.items():
-                if key in validators.keys():
+                if str(key) in validators.keys():
                     _kwargs[key] = validators[key](value.value).data
                 else:
                     _kwargs[key] = Any()(value.value).data
 
-            self.kwargs = self.parameterize(self.original_args)
+            self.kwargs = self.parameterize(_kwargs)
 
     def pythonized_kwargs(self):
         pythonized_dict = {}
