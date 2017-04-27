@@ -58,6 +58,9 @@ class BaseEngine(object):
     def set_up(self):
         pass
 
+    def on_abort(self, signal_num, stack_frame):
+        pass
+
     def on_failure(self):
         pass
 

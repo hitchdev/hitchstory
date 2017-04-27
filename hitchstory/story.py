@@ -170,6 +170,13 @@ class Story(object):
         passed = False
         caught_exception = None
         try:
+            from signal import signal, SIGINT, SIGTERM, SIGHUP, SIGQUIT
+
+            signal(SIGINT, self._engine.on_abort)
+            signal(SIGTERM, self._engine.on_abort)
+            signal(SIGHUP, self._engine.on_abort)
+            signal(SIGQUIT, self._engine.on_abort)
+
             current_step = None
             self._engine._preconditions = self.preconditions
             self._engine.story = self

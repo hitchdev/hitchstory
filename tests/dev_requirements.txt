@@ -2,3 +2,4 @@ ipykernel
 pip
 q
 pudb
+psutil
