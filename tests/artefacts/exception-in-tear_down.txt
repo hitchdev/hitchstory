@@ -23,11 +23,11 @@ During handling of the above exception, another exception occurred:
 [0;32m----> 1[0;31m [0mStoryCollection[0m[0;34m([0m[0mpathq[0m[0;34m([0m[0;34m"."[0m[0;34m)[0m[0;34m.[0m[0mext[0m[0;34m([0m[0;34m"story"[0m[0;34m)[0m[0;34m,[0m [0mEngine[0m[0;34m([0m[0;34m)[0m[0;34m)[0m[0;34m.[0m[0mone[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0mplay[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0m
 [0m
 [0;32m/((( anything )))/story.py[0m in [0;36mplay[0;34m(self)[0m
-[1;32m    197[0m             )
-[1;32m    198[0m [0;34m[0m[0m
-[0;32m--> 199[0;31m         [0mself[0m[0;34m.[0m[0mrun_special_method[0m[0;34m([0m[0mself[0m[0;34m.[0m[0m_engine[0m[0;34m.[0m[0mtear_down[0m[0;34m,[0m [0mexceptions[0m[0;34m.[0m[0mTearDownException[0m[0;34m)[0m[0;34m[0m[0m
-[0m[1;32m    200[0m         [0;32mreturn[0m [0mresult[0m[0;34m[0m[0m
-[1;32m    201[0m [0;34m[0m[0m
+[1;32m    204[0m             )
+[1;32m    205[0m [0;34m[0m[0m
+[0;32m--> 206[0;31m         [0mself[0m[0;34m.[0m[0mrun_special_method[0m[0;34m([0m[0mself[0m[0;34m.[0m[0m_engine[0m[0;34m.[0m[0mtear_down[0m[0;34m,[0m [0mexceptions[0m[0;34m.[0m[0mTearDownException[0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m    207[0m         [0;32mreturn[0m [0mresult[0m[0;34m[0m[0m
+[1;32m    208[0m [0;34m[0m[0m
 
 [0;32m/((( anything )))/story.py[0m in [0;36mrun_special_method[0;34m(self, method, exception_to_raise)[0m
 [1;32m    159[0m [0;34m[0m[0m
