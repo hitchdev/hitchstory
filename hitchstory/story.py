@@ -14,9 +14,9 @@ THIS_DIRECTORY = Path(__file__).realpath().dirname()
 
 
 DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
+                                 .to_console()\
                                  .cut_calling_code(
                                     THIS_DIRECTORY.joinpath("story.py"))\
-                                 .to_console()
 
 
 class StoryStep(object):
@@ -59,7 +59,11 @@ class StoryStep(object):
                     argspec = inspect.getargspec(step_method)
 
                     if argspec.keywords is not None:
-                        step_method(**self.arguments.kwargs.data)
+                        kwargs = {
+                            key.data: val for key, val in \
+                                self.arguments.kwargs.items()
+                        }
+                        step_method(**kwargs)
                     else:
                         step_method(**self.arguments.pythonized_kwargs())
             else:
