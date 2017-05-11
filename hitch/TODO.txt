@@ -1,0 +1,120 @@
+* Invalid YAML, raise exception that specifies which file the exception is in, and swallows the YAML exception.
+
+
+1) validate converts types into types.
+
+1) Gradual typing refactor test to make it more documentation-worthy and also include kwargs.
+
+2) expected exceptions.
+
+3) raise SomethingWentWrong("with message") that is always expected to replace runtime error.
+
+4) hitchstory DEBUG mode.
+
+5) Ctrl-C / abort / SIGTERM
+
+6) raise exception - invalid types in schema.
+
+7) raise exception - invalid about params - preconditions, name, description, params in about schema.
+
+
+CUCUMBER COMPARISON
+-------------------
+
+http://coryschires.com/ten-tips-for-writing-better-cucumber-steps/
+
+Why not use Cucumber or other Gherkin-derived BDD languages?
+------------------------------------------------------------
+
+Python equivalents: lettuce, 
+
+Gherkin was not a clearly designed language which even the language
+designer admitted to. It was more of an idea about
+development that was put forward and then cobbled together. Because of this,
+the syntax is both ambiguous and verbose.
+
+While Cucumber's focus on "human readable test cases" led it down
+the right path, the actual design of the language is, to put it
+mildly, a trainwreck.
+
+Is HitchStory's focus on human readable stories?
+------------------------------------------------
+
+No, although non-programmer readability may be a side effect of writing
+hitch stories.
+
+HitchStory's focus is on achieving two programming principles when
+writing test cases:
+
+* Separation of concerns
+* Law of least power
+
+HitchStory has six main goals:
+
+* To make it easier for programmers to write and maintain stories by using a *less powerful* language.
+* To maintain a strict separation of concerns between story *definition* and story *execution*, and
+require the lowest possible number of turing complete lines of code to run the tests.
+* To still make it possible to write *any* kind of test that would have been possible to write in py.test.
+* To be usable as a means to define requirements collaboratively with project stakeholders.
+* To serve as a template that can be used to generate user documentation.
+* Gradual typing - IMHO the future of programming languages - with sensible, loose defaults that make prototyping faster and optional stricter validation of story steps, preconditions and parameters (this is done using StrictYAML).
+
+HitchStory also has three *non* goals:
+
+* To make stories primarily maintainable or writable by *non-programmers*. While knowledge of programming
+is not necessarily needed to write HitchStory YAML, the clarity of mind to write *specific* stories,
+cover edge cases as well as the instinct to de-duplicate code are required and are usually
+
+* To serve as documentation - although many stories may look like documentation or be able to be used
+in lieu of it, the stories should be used instead as a template to *generate* documentation. This
+is what the "hitchdoc" project is for.
+
+* To look like English. Gherkin's focus on "looking similar to English" achieved a similar result to
+COBOL's focus on "looking similar to English" - it made the language ambiguous, verbose and
+as a consequence, a pain to work with and ultimately even *harder* to read than programming
+languages which did *not* make it a goal to be "English like". Marrying the precision
+required of a machine readable language with the ambiguity of English was not a good move
+in either case.
+
+
+I don't like lettuce/cucumber *or* hitchstory. Why shouldn't I just use py.test for my functional test cases?
+-------------------------------------------------------------------------------------------------------------
+
+Two reasons:
+
+* Separation of concerns - blurring the distinction between story specifications and story execution makes
+maintenance of *both* much harder. This is an analogous situation to the distinction between "controller" (views in django) and "view" (or 'template' in Django) in MVC - where one is written in an intentionally simpler, 'dumber'
+language and the other 
+
+
+Gradual typing, strong typing and does not force you to write your own mini-parser.
+
+Strong typing
+Gradual typing
+Does not force you to write your own mini-parsers with regular expressions.
+
+
+Why not use the Robot Framework?
+--------------------------------
+
+It was actually the first trigger that made me write the hitchdev framework. The very idea that you
+could write an executable language that failed on a particular line and *wouldn't tell you which line
+it failed* on implied such an epic failure of imagination that I figured that I couldn't possibly make
+anything worse.
+
+
+Why not write tests using python using a unit testing framework instead of this weird YAML language?
+----------------------------------------------------------------------------------------------------
+
+It seems simpler to just keep everything in the same language, but it's actually not.
+
+A common objection to special 'test' languages is that they
+
+Unit tests.
+
+
+Why did you not use standard YAML for hitch?
+--------------------------------------------
+
+hitchtest (the precursor to hitchstory) actually did use standard YAML. StrictYAML was written
+in response to its flaws. All flaws are described in the StrictYAML FAQ.

@@ -1,0 +1,8 @@
+FAILURE IN example.story: Write to file in 0.1 seconds.
+
+StoryNotFound
+  
+    Story not found.
+    
+
+Story 'Create files' not found.
