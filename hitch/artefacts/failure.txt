@@ -9,28 +9,6 @@
     
 [39m
 
-[0]: function '[1mplay[0m'
-((( anything )))/story.py
-
-    
-        188 :             for step in self.scenario:
-        189 :                 current_step = step
-    --> [1m190[0m :                 step.run(self._engine)
-        191 :             passed = True
-    
-    
-
-[1]: function '[1mrun[0m'
-((( anything )))/story.py
-
-    
-        49 : 
-        50 :                 if self.arguments.is_none:
-    --> [1m51[0m :                     step_method()
-        52 :                 elif self.arguments.single_argument:
-    
-    
-
 [2]: function '[1mfailing_step[0m'
 ((( anything )))/engine.py
 

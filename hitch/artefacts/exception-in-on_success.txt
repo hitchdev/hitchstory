@@ -38,17 +38,6 @@ During handling of the above exception, another exception occurred:
 
 [0;31mOnSuccessException[0m: Stacktrace:
 
-[0]: function '[1mrun_special_method[0m'
-  /((( anything )))/story.py
-
-    
-        157 :     def run_special_method(self, method, exception_to_raise):
-        158 :         try:
-    --> [1m159[0m :             method()
-        160 :         except Exception as exception:
-    
-    
-
 [1]: function '[1mon_success[0m'
   /((( anything )))/engine.py
 
