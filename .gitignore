@@ -7,3 +7,4 @@ dist/
 tests/.hitch
 state/
 hitchstory.egg-info/
+hitch/hitchdir
