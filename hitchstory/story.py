@@ -6,6 +6,7 @@ from hitchstory import utils
 from slugify import slugify
 from path import Path
 import prettystack
+import strictyaml
 import inspect
 import time
 
@@ -235,10 +236,15 @@ class StoryFile(object):
         story_schema['preconditions'] = self._engine.schema.preconditions
 
         # Load YAML into memory
-        self._parsed_yaml = load(
-            self._yaml,
-            MapPattern(Str(), Map(story_schema))
-        )
+        try:
+            self._parsed_yaml = load(
+                self._yaml,
+                MapPattern(Str(), Map(story_schema))
+            )
+        except strictyaml.YAMLError as error:
+            raise exceptions.StoryYAMLError(
+                filename, str(error)
+            )
 
     @property
     def filename(self):
