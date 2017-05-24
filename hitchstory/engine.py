@@ -2,7 +2,7 @@
 User-exposed engine related code.
 """
 from hitchstory import exceptions
-from strictyaml import MapPattern, Any
+from strictyaml import MapPattern, Any, Validator
 from hitchstory.story import NewStory
 
 
@@ -32,8 +32,26 @@ class StorySchema(object):
     * about - descriptive properties - e.g. feature names, issue ticket numbers
     """
     def __init__(self, preconditions=None, params=None, about=None):
-        self._preconditions = MapPattern(Any(), Any()) if preconditions is None else preconditions
-        self._params = MapPattern(Any(), Any()) if params is None else params
+        if preconditions is None:
+            self._preconditions = MapPattern(Any(), Any())
+        else:
+            assert isinstance(preconditions, Validator), \
+                "preconditions must be strictyaml Validator"
+            self._preconditions = preconditions
+
+        if params is None:
+            self._params = MapPattern(Any(), Any())
+        else:
+            assert isinstance(params, Validator), \
+                "params must be strictyaml Validator"
+            self._params = params
+
+        if about is not None:
+            assert isinstance(about, dict), "about must be a dict of named validators"
+            for key, validator in about.items():
+                assert isinstance(key, str), "name must be a string"
+                assert isinstance(validator, Validator), "validator must be strictyaml Validator"
+
         self._about = about
 
     @property
