@@ -9,6 +9,7 @@ import prettystack
 import strictyaml
 import inspect
 import time
+import copy
 
 
 THIS_DIRECTORY = Path(__file__).realpath().dirname()
@@ -21,8 +22,10 @@ DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
 
 
 class StoryStep(object):
-    def __init__(self, yaml_step, index, params):
+    def __init__(self, story, yaml_step, index, params):
         self._yaml = yaml_step
+        self._story = story
+        self._index = index
         if isinstance(yaml_step.value, str):
             self.name = str(yaml_step)
             self.arguments = Arguments(None, params)
@@ -34,6 +37,13 @@ class StoryStep(object):
 
     def underscore_case_name(self):
         return utils.to_underscore_style(str(self.name))
+
+    def update(self, **kwargs):
+        self._story.update(self, kwargs)
+
+    @property
+    def index(self):
+        return self._index
 
     @property
     def yaml(self):
@@ -96,6 +106,13 @@ class Story(object):
                 self._about[about_property] = parsed_yaml.get(about_property)
         self._collection = collection
 
+    def update(self, step, kwargs):
+        self._story_file.update(self, step, kwargs)
+
+    @property
+    def story_file(self):
+        return self._story_file
+
     @property
     def filename(self):
         return self._story_file.filename
@@ -152,7 +169,7 @@ class Story(object):
     def scenario(self):
         return [
             StoryStep(
-                parsed_step, index, self.params
+                self, parsed_step, index, self.params
             ) for index, parsed_step in enumerate(self.steps)
         ]
 
@@ -189,6 +206,7 @@ class Story(object):
 
             for step in self.scenario:
                 current_step = step
+                self._engine.current_step = current_step
                 step.run(self._engine)
             passed = True
         except Exception as exception:
@@ -241,14 +259,23 @@ class StoryFile(object):
                 self._yaml,
                 MapPattern(Str(), Map(story_schema))
             )
+            self._updated_yaml = copy.copy(self._parsed_yaml)
         except strictyaml.YAMLError as error:
             raise exceptions.StoryYAMLError(
                 filename, str(error)
             )
 
+    def update(self, story, step, kwargs):
+        self._updated_yaml[story.name]['scenario'][step.index][step.name] = \
+            list(kwargs.values())[0]
+
     @property
     def filename(self):
         return self._filename
+
+    @property
+    def path(self):
+        return Path(self._filename)
 
     def ordered_arbitrarily(self):
         """
@@ -256,8 +283,22 @@ class StoryFile(object):
         """
         stories = []
         for name, self._parsed_yaml in self._parsed_yaml.items():
-            stories.append(Story(self, name, self._parsed_yaml, self._engine, self._collection))
+            stories.append(Story(self, str(name), self._parsed_yaml, self._engine, self._collection))
         return stories
+
+
+class NewStory(object):
+    def __init__(self, engine):
+        self._engine = engine
+
+    def save(self):
+        """
+        Write out the updated story to file.
+        """
+        story_file = self._engine.story.story_file
+        story_file.path.write_text(
+            story_file._updated_yaml.as_yaml()
+        )
 
 
 class StoryList(object):

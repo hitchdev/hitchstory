@@ -3,6 +3,7 @@ User-exposed engine related code.
 """
 from hitchstory import exceptions
 from strictyaml import MapPattern, Any
+from hitchstory.story import NewStory
 
 
 def validate(**kwargs):
@@ -50,6 +51,10 @@ class StorySchema(object):
 
 class BaseEngine(object):
     schema = StorySchema()
+
+    @property
+    def new_story(self):
+        return NewStory(self)
 
     @property
     def preconditions(self):

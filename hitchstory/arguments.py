@@ -35,9 +35,9 @@ class Arguments(object):
             _kwargs = {}
             for key, value in self.original_args.items():
                 if str(key) in validators.keys():
-                    _kwargs[key] = validators[key](value.value).data
+                    _kwargs[key] = validators[key](value._chunk).data
                 else:
-                    _kwargs[key] = Any()(value.value).data
+                    _kwargs[key] = Any()(value._chunk).data
 
             self.kwargs = self.parameterize(_kwargs)
 

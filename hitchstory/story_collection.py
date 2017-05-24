@@ -44,9 +44,9 @@ class StoryCollection(object):
                     "Story path '{0}' is a directory.".format(filename)
                 )
             for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
-                if slugify(story.name) in self._stories:
-                    raise exceptions.DuplicateStoryNames(story, self._stories[slugify(story.name)])
-                self._stories[slugify(story.name)] = story
+                if story.slug in self._stories:
+                    raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
+                self._stories[story.slug] = story
 
     def ordered_arbitrarily(self):
         """

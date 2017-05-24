@@ -15,6 +15,7 @@ import hitchdoc
 from simex import DefaultSimex
 from hitchrun import genpath
 from commandlib import python
+from hitchrun import hitch_maintenance
 
 
 KEYPATH = Path(__file__).abspath().dirname()
@@ -180,7 +181,7 @@ class Engine(BaseEngine):
                 ])
             self.services.stop_interactive_mode()
 
-    def assert_file_contains(self, filename, contents):
+    def file_contents_will_be(self, filename, contents):
         assert self.path.state.joinpath(filename).bytes().decode('utf8').strip() == contents.strip()
         self.doc.step("filename contains", filename=filename, contents=contents)
 
@@ -322,6 +323,13 @@ def lint():
         "--exclude=__init__.py",
     ).run()
     print("Lint success!")
+
+
+def hitch(*args):
+    """
+    Use 'h hitch --help' to get help on these commands.
+    """
+    hitch_maintenance(*args)
 
 
 def docgen():
