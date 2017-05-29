@@ -2,7 +2,7 @@
 User-exposed engine related code.
 """
 from hitchstory import exceptions
-from strictyaml import MapPattern, Any, Validator
+from strictyaml import MapPattern, Any, Validator, Optional
 from hitchstory.story import NewStory
 
 
@@ -49,7 +49,8 @@ class StorySchema(object):
         if about is not None:
             assert isinstance(about, dict), "about must be a dict of named validators"
             for key, validator in about.items():
-                assert isinstance(key, str), "name must be a string"
+                assert isinstance(key, str) or isinstance(key, Optional), \
+                    "name must be a string or strictyaml Optional."
                 assert isinstance(validator, Validator), "validator must be strictyaml Validator"
 
         self._about = about
