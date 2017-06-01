@@ -40,6 +40,10 @@ class Result(object):
         return 0
 
     @property
+    def passed(self):
+        return True
+
+    @property
     def duration(self):
         return self._duration
 
@@ -90,6 +94,10 @@ class Failure(Result):
     @property
     def exit_code(self):
         return 1
+
+    @property
+    def passed(self):
+        return False
 
     @property
     def exception(self):

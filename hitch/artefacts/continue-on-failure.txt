@@ -1,0 +1,20 @@
+STORY RAN SUCCESSFULLY /home/colm/hitch/story/state/example1.story: A Create file in 0.1 seconds.
+[34m[1mFAILURE IN ((( anything )))/example1.story:
+    "B Create file" in 0.1 seconds.
+[22m
+
+    B Create file:
+      scenario:
+    [1m  - Fail[22m
+    
+[39m
+
+[2]: function '[1mfail[0m'
+  <ipython-input-5-fc3f0a447d28>
+
+    
+
+[31m[1mbuiltins.Exception[0m
+  [2m[31mCommon base class for all non-exit exceptions.[0m
+[31mError[39m
+STORY RAN SUCCESSFULLY /home/colm/hitch/story/state/example2.story: C Create file a third time in 0.1 seconds.
