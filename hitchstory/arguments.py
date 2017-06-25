@@ -19,9 +19,13 @@ class Arguments(object):
         else:
             self.is_none = False
             self.single_argument = True
-            self.argument = self.parameterize(yaml_args)
+            self.argument = yaml_args
 
     def parameterize(self, value):
+        """
+        Take parameters in the story "My name is ((( name )))" and replace them
+        with specified params, e.g. "My name is Tony".
+        """
         for name, parameter in self._params.items():
             original_value = value.data if isinstance(value, YAML) else value
             value = utils.replace_parameter(original_value, str(name), str(parameter))
@@ -29,7 +33,7 @@ class Arguments(object):
 
     def validate(self, validators):
         """
-        Validate step using validators specified in decorators.
+        Validate step using StrictYAML validators specified in @validate decorators.
         """
         if not self.is_none and not self.single_argument:
             _kwargs = {}
@@ -40,8 +44,18 @@ class Arguments(object):
                     _kwargs[key] = Any()(value._chunk).data
 
             self.kwargs = self.parameterize(_kwargs)
+        if self.single_argument:
+            if len(validators) == 0:
+                self.argument = Any()(self.argument._chunk)
+            else:
+                self.argument = list(validators.values())[0](self.argument._chunk)
+            self.argument = self.parameterize(self.argument)
 
     def pythonized_kwargs(self):
+        """
+        Convert keyword arguments from readable English (e.g. Do a thing)
+        into an underscore style method name (do_a_thing).
+        """
         pythonized_dict = {}
         for key, value in self.kwargs.items():
             pythonized_dict[utils.to_underscore_style(str(key))] = value.data \

@@ -7,6 +7,10 @@ Strong typing:
     This will not only validate the data fed to your
     steps, it will convert it to the correct types
     as well.
+
+    This feature is optional as all parameters will,
+    by default, be parsed as strings, lists and dicts
+    instead.
   preconditions:
     files:
       example.story: |
@@ -21,8 +25,10 @@ Strong typing:
                 options:
                   tagline: Hoopy
                   nametag: Ford Prefect
+            - Put back items: 1
   scenario:
     - Run command: |
+        from code_that_does_things import *
         from hitchstory import StoryCollection, BaseEngine, validate
         from strictyaml import Seq, Str, Int, Map
         from pathquery import pathq
@@ -37,14 +43,21 @@ Strong typing:
                 quantity=Int(),
                 options=Map({"tagline": Str(), "nametag": Str()})
             )
-            def add_product(self, name=None, versions=None, quantity=None, options=None):
-                assert type(versions[0]) is str, "not a string"
+            def add_product(self, quantity, name=None, versions=None, options=None):
                 assert type(quantity) is int, "not an integer"
+                assert type(versions[0]) is str, "not a string"
                 output(options['nametag'])
+
+            @validate(number_of_items=Int())
+            def put_back_items(self, number_of_items):
+                assert type(number_of_items) is int, "not an integer"
+                append("Items put back: {0}".format(number_of_items))
 
             def tear_down(self):
                 pass
 
         result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         print(result.report())
-    - Output is: Ford Prefect
+    - Output is: |
+        Ford Prefect
+        Items put back: 1
