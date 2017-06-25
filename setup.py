@@ -14,7 +14,7 @@ def read(*parts):
 
 setup(name="hitchstory",
     version=read('VERSION').replace('\n', ''),
-    description="DSL parser designed to execute .story files.",
+    description="BDD, strongly typed with StrictYAML and Python.",
     long_description=read('README.rst'),
     classifiers=[
         'Development Status :: 3 - Alpha',
