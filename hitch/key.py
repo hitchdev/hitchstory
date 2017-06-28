@@ -276,7 +276,7 @@ def test(*words):
     """
     print(
         StoryCollection(
-            pathq(DIR.key).ext("story"), Engine(DIR.key, {"overwrite artefacts": True})
+            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
         ).shortcut(*words).play().report()
     )
 
@@ -288,7 +288,7 @@ def ci():
     lint()
     print(
         StoryCollection(
-            pathq(DIR.key).ext("story"), Engine(DIR.key, {})
+            pathq(DIR.key).ext("story"), Engine(DIR, {})
         ).ordered_by_name().play().report()
     )
 
