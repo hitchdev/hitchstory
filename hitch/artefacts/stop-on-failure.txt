@@ -1,4 +1,4 @@
-STORY RAN SUCCESSFULLY /home/colm/hitch/story/state/example1.story: A Create file in 0.1 seconds.
+STORY RAN SUCCESSFULLY /home/colm/.hitch/0d2arc/state/example1.story: A Create file in 0.1 seconds.
 [34m[1mFAILURE IN ((( anything )))/example1.story:
     "B Create file" in 0.1 seconds.
 [22m
