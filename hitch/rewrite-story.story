@@ -10,6 +10,9 @@ Rewrite story:
             - Do thing: x
             - Do thing: y
             - Do thing: z
+            - Do other thing:
+                variable1: a
+                variable2: b
       engine.py: |
         from hitchstory import BaseEngine
         from code_that_does_things import *
@@ -19,6 +22,11 @@ Rewrite story:
             def do_thing(self, variable):
                 self.current_step.update(
                     variable="xxx"
+                )
+
+            def do_other_thing(self, variable1=None, variable2=None):
+                self.current_step.update(
+                    variable2="xxx"
                 )
 
             def on_success(self):
@@ -41,3 +49,6 @@ Rewrite story:
             - Do thing: xxx
             - Do thing: xxx
             - Do thing: xxx
+            - Do other thing:
+                variable1: a
+                variable2: xxx

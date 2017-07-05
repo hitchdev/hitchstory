@@ -266,8 +266,16 @@ class StoryFile(object):
             )
 
     def update(self, story, step, kwargs):
-        self._updated_yaml[story.name]['scenario'][step.index][step.name] = \
-            list(kwargs.values())[0]
+        """
+        Update a specific step in a particular story during a test run.
+        """
+        if step.arguments.single_argument:
+            self._updated_yaml[story.name]['scenario'][step.index][step.name] = \
+                load(list(kwargs.values())[0])
+        else:
+            for key, value in kwargs.items():
+                self._updated_yaml[story.name]['scenario'][step.index][step.name][key] = \
+                    load(value)
 
     @property
     def filename(self):

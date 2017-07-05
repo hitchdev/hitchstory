@@ -21,7 +21,7 @@
     
 
 [3]: function '[1mraise_example_exception[0m'
-  /home/colm/hitch/story/state/code_that_does_things.py
+  /home/colm/.hitch/0d2arc/state/code_that_does_things.py
 
     
         20 : 

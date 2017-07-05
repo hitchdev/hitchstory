@@ -209,7 +209,7 @@ class Engine(BaseEngine):
     def output_will_be(self, reference, changeable=None):
         output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
 
-        artefact = self.path.engine.joinpath(
+        artefact = self.path.key.joinpath(
             "artefacts", "{0}.txt".format(reference.replace(" ", "-").lower())
         )
 

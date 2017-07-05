@@ -1,7 +1,6 @@
-* Invalid YAML, raise exception that specifies which file the exception is in, and swallows the YAML exception.
+1) Use non-ascii characters in all tests.
 
-
-1) validate converts types into types.
+1) Invalid YAML, raise exception that specifies which file the exception is in, and swallows the YAML exception.
 
 1) Gradual typing refactor test to make it more documentation-worthy and also include kwargs.
 

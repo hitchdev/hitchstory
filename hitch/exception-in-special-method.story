@@ -25,7 +25,7 @@ Exception in on_success:
         command: StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         reference: exception in on_success
         changeable:
-          - /((( anything )))/story.py
+          - ~/((( anything )))/story.py
           - /((( anything )))/code_that_does_things.py
           - /((( anything )))/engine.py
           - <ipython-input-((( anything )))>
@@ -57,7 +57,7 @@ Exception in on_failure:
         command: StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         reference: exception in on_failure
         changeable:
-          - /((( anything )))/story.py
+          - ~/((( anything )))/story.py
           - /((( anything )))/code_that_does_things.py
           - /((( anything )))/engine.py
           - <ipython-input-((( anything )))>
@@ -90,7 +90,7 @@ Exception in tear_down:
         command: StoryCollection(pathq(".").ext("story"), Engine()).one().play()
         reference: exception in tear_down
         changeable:
-          - /((( anything )))/story.py
+          - ~/((( anything )))/story.py
           - /((( anything )))/code_that_does_things.py
           - /((( anything )))/engine.py
           - <ipython-input-((( anything )))>
