@@ -1,4 +1,4 @@
-STORY RAN SUCCESSFULLY /home/colm/.hitch/0d2arc/state/example1.story: A Create file in 0.1 seconds.
+STORY RAN SUCCESSFULLY ((( anything )))/example1.story: A Create file in 0.1 seconds.
 [34m[1mFAILURE IN ((( anything )))/example1.story:
     "B Create file" in 0.1 seconds.
 [22m
@@ -17,4 +17,4 @@ STORY RAN SUCCESSFULLY /home/colm/.hitch/0d2arc/state/example1.story: A Create f
 [31m[1mbuiltins.Exception[0m
   [2m[31mCommon base class for all non-exit exceptions.[0m
 [31mError[39m
-STORY RAN SUCCESSFULLY /home/colm/.hitch/0d2arc/state/example2.story: C Create file a third time in 0.1 seconds.
+STORY RAN SUCCESSFULLY ((( anything )))/example2.story: C Create file a third time in 0.1 seconds.

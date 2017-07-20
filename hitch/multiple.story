@@ -105,9 +105,11 @@ Continue on failure and stop on failure:
     - Output will be:
         reference: continue-on-failure
         changeable:
+          - STORY RAN SUCCESSFULLY ((( anything )))/example1.story
           - FAILURE IN ((( anything )))/example1.story
           - ((( anything )))/story.py
           - ((( anything )))/engine.py
+          - STORY RAN SUCCESSFULLY ((( anything )))/example2.story
 
     - Run command: |
         results = StoryCollection(
@@ -117,6 +119,7 @@ Continue on failure and stop on failure:
     - Output will be:
         reference: stop-on-failure
         changeable:
+          - STORY RAN SUCCESSFULLY ((( anything )))/example1.story
           - FAILURE IN ((( anything )))/example1.story
           - ((( anything )))/story.py
           - ((( anything )))/engine.py

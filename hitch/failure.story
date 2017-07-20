@@ -37,6 +37,7 @@ Simple failure report:
     - Output will be:
         reference: failure
         changeable:
+          - ((( anything )))/code_that_does_things.py
           - FAILURE IN ((( anything )))/example.story
           - ((( anything )))/story.py
           - ((( anything )))/engine.py
