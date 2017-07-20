@@ -1,3 +1,5 @@
+1) Inheriting from story not found.
+
 1) Use non-ascii characters in all tests.
 
 1) Invalid YAML, raise exception that specifies which file the exception is in, and swallows the YAML exception.
