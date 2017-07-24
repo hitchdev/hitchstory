@@ -45,7 +45,7 @@ Exception in on_failure:
             def do_thing(self):
                 raise_example_exception()
 
-            def on_failure(self):
+            def on_failure(self, result):
                 raise_example_exception()
   scenario:
     - Run command: |

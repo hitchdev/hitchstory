@@ -21,8 +21,8 @@ Simple failure report:
             def failing_step(self):
                 raise_example_exception("Towel not located")
 
-            def on_failure(self):
-                reticulate_splines()
+            def on_failure(self, result):
+                output(result.report())
 
             def not_executed_step(self):
                 pass
@@ -33,12 +33,22 @@ Simple failure report:
         from pathquery import pathq
 
         result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
-        output(result.report())
+
     - Output will be:
-        reference: failure
+        reference: failure printed in on_failure
         changeable:
           - ((( anything )))/code_that_does_things.py
           - FAILURE IN ((( anything )))/example.story
           - ((( anything )))/story.py
           - ((( anything )))/engine.py
-    - Splines reticulated
+
+    - Run command: |
+        output(result.report())
+
+    - Output will be:
+        reference: failure printed by default
+        changeable:
+          - ((( anything )))/code_that_does_things.py
+          - FAILURE IN ((( anything )))/example.story
+          - ((( anything )))/story.py
+          - ((( anything )))/engine.py

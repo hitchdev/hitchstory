@@ -85,7 +85,7 @@ class BaseEngine(object):
     def on_abort(self, signal_num, stack_frame):
         pass
 
-    def on_failure(self):
+    def on_failure(self, report):
         pass
 
     def on_success(self):
