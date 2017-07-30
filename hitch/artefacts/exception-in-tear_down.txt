@@ -1,9 +1,9 @@
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mExampleException[0m                          Traceback (most recent call last)
 [0;32m~/((( anything )))/story.py[0m in [0;36mrun_special_method[0;34m(self, method, exception_to_raise, result)[0m
-[1;32m    178[0m             [0;32mif[0m [0mresult[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m[0m
-[0;32m--> 179[0;31m                 [0mmethod[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0m
-[0m[1;32m    180[0m             [0;32melse[0m[0;34m:[0m[0;34m[0m[0m
+[1;32m    183[0m             [0;32mif[0m [0mresult[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m[0m
+[0;32m--> 184[0;31m                 [0mmethod[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m    185[0m             [0;32melse[0m[0;34m:[0m[0;34m[0m[0m
 
 [0;32m~/((( anything )))/engine.py[0m in [0;36mtear_down[0;34m(self)[0m
 [1;32m      8[0m     [0;32mdef[0m [0mtear_down[0m[0;34m([0m[0mself[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0m
@@ -23,18 +23,18 @@ During handling of the above exception, another exception occurred:
 [0;32m----> 1[0;31m [0mStoryCollection[0m[0;34m([0m[0mpathq[0m[0;34m([0m[0;34m"."[0m[0;34m)[0m[0;34m.[0m[0mext[0m[0;34m([0m[0;34m"story"[0m[0;34m)[0m[0;34m,[0m [0mEngine[0m[0;34m([0m[0;34m)[0m[0;34m)[0m[0;34m.[0m[0mone[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0mplay[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0m
 [0m
 [0;32m~/((( anything )))/story.py[0m in [0;36mplay[0;34m(self)[0m
-[1;32m    230[0m             [0mself[0m[0;34m.[0m[0mrun_special_method[0m[0;34m([0m[0mself[0m[0;34m.[0m[0m_engine[0m[0;34m.[0m[0mon_failure[0m[0;34m,[0m [0mexceptions[0m[0;34m.[0m[0mOnFailureException[0m[0;34m,[0m [0mresult[0m[0;34m=[0m[0mresult[0m[0;34m)[0m[0;34m[0m[0m
-[1;32m    231[0m [0;34m[0m[0m
-[0;32m--> 232[0;31m         [0mself[0m[0;34m.[0m[0mrun_special_method[0m[0;34m([0m[0mself[0m[0;34m.[0m[0m_engine[0m[0;34m.[0m[0mtear_down[0m[0;34m,[0m [0mexceptions[0m[0;34m.[0m[0mTearDownException[0m[0;34m)[0m[0;34m[0m[0m
-[0m[1;32m    233[0m         [0;32mreturn[0m [0mresult[0m[0;34m[0m[0m
-[1;32m    234[0m [0;34m[0m[0m
+[1;32m    235[0m             [0mself[0m[0;34m.[0m[0mrun_special_method[0m[0;34m([0m[0mself[0m[0;34m.[0m[0m_engine[0m[0;34m.[0m[0mon_failure[0m[0;34m,[0m [0mexceptions[0m[0;34m.[0m[0mOnFailureException[0m[0;34m,[0m [0mresult[0m[0;34m=[0m[0mresult[0m[0;34m)[0m[0;34m[0m[0m
+[1;32m    236[0m [0;34m[0m[0m
+[0;32m--> 237[0;31m         [0mself[0m[0;34m.[0m[0mrun_special_method[0m[0;34m([0m[0mself[0m[0;34m.[0m[0m_engine[0m[0;34m.[0m[0mtear_down[0m[0;34m,[0m [0mexceptions[0m[0;34m.[0m[0mTearDownException[0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m    238[0m         [0;32mreturn[0m [0mresult[0m[0;34m[0m[0m
+[1;32m    239[0m [0;34m[0m[0m
 
 [0;32m~/((( anything )))/story.py[0m in [0;36mrun_special_method[0;34m(self, method, exception_to_raise, result)[0m
-[1;32m    184[0m [0;34m[0m[0m
-[1;32m    185[0m             raise exception_to_raise(
-[0;32m--> 186[0;31m                 [0mstack_trace[0m[0;34m[0m[0m
-[0m[1;32m    187[0m             )
-[1;32m    188[0m [0;34m[0m[0m
+[1;32m    189[0m [0;34m[0m[0m
+[1;32m    190[0m             raise exception_to_raise(
+[0;32m--> 191[0;31m                 [0mstack_trace[0m[0;34m[0m[0m
+[0m[1;32m    192[0m             )
+[1;32m    193[0m [0;34m[0m[0m
 
 [0;31mTearDownException[0m: Stacktrace:
 
