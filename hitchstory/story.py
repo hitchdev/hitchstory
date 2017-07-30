@@ -94,13 +94,14 @@ class StoryStep(object):
 
 
 class Story(object):
-    def __init__(self, story_file, name, parsed_yaml, engine, collection):
+    def __init__(self, story_file, name, parsed_yaml, engine, collection, parent=None):
         self._story_file = story_file
         self._name = name
         self._parsed_yaml = parsed_yaml
         self._engine = engine
         self._steps = []
         self._about = {}
+        self._parent = parent
         if engine.schema.about is not None:
             for about_property in engine.schema.about.keys():
                 self._about[about_property] = parsed_yaml.get(about_property)
@@ -108,6 +109,10 @@ class Story(object):
 
     def update(self, step, kwargs):
         self._story_file.update(self, step, kwargs)
+    
+    @property
+    def based_on(self):
+        return str(self._parsed_yaml['based on']) if "based on" in self._parsed_yaml else self._parent
 
     @property
     def story_file(self):
@@ -131,8 +136,8 @@ class Story(object):
 
     @property
     def params(self):
-        param_dict = self._collection.named(str(self._parsed_yaml['based on'])).params \
-            if "based on" in self._parsed_yaml else {}
+        param_dict = self._collection.named(self.based_on).params \
+            if self.based_on is not None else {}
         for name, param in self._parsed_yaml.get("params", {}).items():
             param_dict[name] = param
         return param_dict
@@ -140,9 +145,9 @@ class Story(object):
     def unparameterized_preconditions(self):
         precondition_dict = {}
         precondition_dict = self._collection.named(
-            str(self._parsed_yaml['based on'])
+            self.based_on
         ).unparameterized_preconditions() \
-            if "based on" in self._parsed_yaml else {}
+            if self.based_on is not None else {}
         for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
             precondition_dict[str(name)] = precondition
         return precondition_dict
@@ -160,8 +165,8 @@ class Story(object):
 
     @property
     def steps(self):
-        step_list = self._collection.named(str(self._parsed_yaml['based on'])).steps \
-            if "based on" in self._parsed_yaml else []
+        step_list = self._collection.named(self.based_on).steps \
+            if self.based_on is not None else []
         step_list.extend(self._parsed_yaml.get('scenario', []))
         return step_list
 
@@ -248,6 +253,11 @@ class StoryFile(object):
             Optional("description"): Str(),
             Optional("based on"): Str(),
         }
+        
+        variation_schema = {
+            Optional("scenario"): Seq(Any()),
+            Optional("description"): Str(),
+        }
 
         if self._engine.schema.about is not None:
             for about_property, property_schema in self._engine.schema.about.items():
@@ -255,6 +265,9 @@ class StoryFile(object):
 
         story_schema['params'] = self._engine.schema.params
         story_schema['preconditions'] = self._engine.schema.preconditions
+        variation_schema['params'] = self._engine.schema.params
+        variation_schema['preconditions'] = self._engine.schema.preconditions
+        story_schema['variations'] = MapPattern(Str(), Map(variation_schema))
 
         # Load YAML into memory
         try:
@@ -293,8 +306,20 @@ class StoryFile(object):
         Return all of the stories in the file.
         """
         stories = []
-        for name, self._parsed_yaml in self._parsed_yaml.items():
-            stories.append(Story(self, str(name), self._parsed_yaml, self._engine, self._collection))
+        for name, parsed_main_story in self._parsed_yaml.items():
+            stories.append(Story(self, str(name), parsed_main_story, self._engine, self._collection))
+            
+            for variation_name, parsed_var_name in self._parsed_yaml[name].get("variations", {}).items():
+                stories.append(
+                    Story(
+                        self,
+                        "{0}/{1}".format(name, variation_name),
+                        parsed_var_name,
+                        self._engine,
+                        self._collection,
+                        parent=str(name),
+                    )
+                )
         return stories
 
 
