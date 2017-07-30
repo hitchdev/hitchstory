@@ -1,22 +1,37 @@
-1) Inheriting from story not found.
+* Inheriting from story not found -- make it a clearer error with the exact story name and file name in question.
 
-1) Use non-ascii characters in all tests.
+* Inherit from story - use slugify.
 
-1) Invalid YAML, raise exception that specifies which file the exception is in, and swallows the YAML exception.
+* given instead of preconditions.
 
-1) Gradual typing refactor test to make it more documentation-worthy and also include kwargs.
+* Use non-ascii characters in all tests.
 
-2) expected exceptions.
+* hierarchical stories and substories.
 
-3) raise SomethingWentWrong("with message") that is always expected to replace runtime error.
+* poststep method - self.poststep(self, previous_step)
 
-4) hitchstory DEBUG mode.
+* pre_storyrun - run once on any group of stories.
+
+* post_storyrun - run once at the end of any group of stories.
+
+* global parent story.
+
+* Invalid YAML, raise exception that specifies which file the exception is in, and swallows the YAML exception.
+
+* kwargs
+
+* expected exceptions.
+
+* hitchstory DEBUG mode.
 
 5) Ctrl-C / abort / SIGTERM
 
-6) raise exception - invalid types in schema.
+6) raise clearer exception - invalid types in schema.
 
-7) raise exception - invalid about params - preconditions, name, description, params in about schema.
+7) raise clearer exception - invalid about params - preconditions, name, description, params in about schema.
+
+
+If you try to make it look like English, it will end up looking like COBOL.
 
 
 CUCUMBER COMPARISON
@@ -44,10 +59,14 @@ Is HitchStory's focus on human readable stories?
 No, although non-programmer readability may be a side effect of writing
 hitch stories.
 
+HitchStory should be writable and readable by subject matter experts who
+have been trained in its usage, however, who do not have to be knowledgeable
+in programming in turing complete languages.
+
 HitchStory's focus is on achieving two programming principles when
 writing test cases:
 
-* Separation of concerns
+* Separation of concerns - creating a language 
 * Law of least power
 
 HitchStory has six main goals:
