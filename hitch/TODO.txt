@@ -30,6 +30,11 @@
 
 7) raise clearer exception - invalid about params - preconditions, name, description, params in about schema.
 
+8) Many different kinds of inheritance:
+
+-- take preconditions, don't take preconditions, start at the end of the story, start at the beginning of the story, ignore the story - STEP INHERITED.
+-- step bundles.
+
 
 If you try to make it look like English, it will end up looking like COBOL.
 
