@@ -1,18 +1,14 @@
-* Inheriting from story not found -- make it a clearer error with the exact story name and file name in question.
-
 * Inherit from story - use slugify.
 
-* given instead of preconditions.
+* given instead of preconditions, steps instead of scenario.
 
 * Use non-ascii characters in all tests.
 
-* hierarchical stories and substories.
-
 * poststep method - self.poststep(self, previous_step)
 
-* pre_storyrun - run once on any group of stories.
+* prestep method
 
-* post_storyrun - run once at the end of any group of stories.
+* pre_stories / post_stories - run once when any group of stories is run - use for build.
 
 * global parent story.
 
@@ -23,6 +19,8 @@
 * expected exceptions.
 
 * hitchstory DEBUG mode.
+
+* strategies --- strategies for params.
 
 5) Ctrl-C / abort / SIGTERM
 
