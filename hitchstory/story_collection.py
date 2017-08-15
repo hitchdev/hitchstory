@@ -53,7 +53,8 @@ class StoryCollection(object):
         Return a StoryList object containing stories filtered
         from the collection.
         """
-        stories = []
+        filtered_stories = []
+        all_stories = []
         for story in self._stories.values():
             filtered = True
             for filter_func in self._filters:
@@ -66,19 +67,20 @@ class StoryCollection(object):
                 if Path(story.filename).abspath() != Path(self._in_filename).abspath():
                     filtered = False
             if filtered:
-                stories.append(story)
+                filtered_stories.append(story)
+            all_stories.append(story)
 
         # Check for non-existent inherited stories
-        for story in stories:
+        for story in filtered_stories:
             if "based on" in story._parsed_yaml:
                 inherited_from = story._parsed_yaml['based on']
                 found = False
-                for search_story in stories:
+                for search_story in all_stories:
                     if inherited_from == search_story.name:
                         found = True
                 if not found:
                     raise exceptions.StoryNotFound(inherited_from)
-        return stories
+        return filtered_stories
 
     def filter(self, filter_func):
         assert callable(filter_func)

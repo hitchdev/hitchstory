@@ -39,11 +39,17 @@ Multiple stories played:
 Multiple stories played in a filename:
   preconditions:
     files:
+      base.story: |
+        Base story:
+          preconditions:
+            run: yes
       example1.story: |
         Create file:
+          based on: Base story
           scenario:
             - Create file
         Create file again:
+          based on: Base story
           scenario:
             - Create file
       example2.story: |
