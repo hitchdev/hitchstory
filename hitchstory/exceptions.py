@@ -32,6 +32,20 @@ class StoryNotFound(HitchStoryException):
         ))
 
 
+class BasedOnStoryNotFound(HitchStoryException):
+    """
+    Story that other story inherits from is not found.
+    """
+    def __init__(self, inherited_story_name, inheriting_story_name, inheriting_story_filename):
+        super(HitchStoryException, self).__init__((
+            "Story '{0}' which '{1}' in '{2}' is based upon not found.".format(
+                inherited_story_name,
+                inheriting_story_name,
+                inheriting_story_filename,
+            )
+        ))
+    
+
 class StepException(HitchStoryException):
     """
     Exception relating to a particular step.

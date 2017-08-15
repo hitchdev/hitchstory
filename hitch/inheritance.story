@@ -112,4 +112,4 @@ Attempt inheritance from non-existent story:
 
     - Assert Exception:
         command: StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file").play()
-        exception: StoryNotFound
+        exception: BasedOnStoryNotFound

@@ -79,7 +79,11 @@ class StoryCollection(object):
                     if inherited_from == search_story.name:
                         found = True
                 if not found:
-                    raise exceptions.StoryNotFound(inherited_from)
+                    raise exceptions.BasedOnStoryNotFound(
+                        inherited_from,
+                        story.name,
+                        story.filename,
+                    )
         return filtered_stories
 
     def filter(self, filter_func):
