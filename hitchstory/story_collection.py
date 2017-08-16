@@ -93,10 +93,10 @@ class StoryCollection(object):
         return new_collection
 
     def in_filename(self, filename):
-        assert type(filename) is str
         new_collection = copy(self)
         new_collection._in_filename = Path(filename)
-        assert new_collection._in_filename.exists()
+        if not new_collection._in_filename.exists():
+            raise exceptions.FileNotFound(filename)
         return new_collection
 
     def named(self, name):
