@@ -287,11 +287,11 @@ class StoryFile(object):
         """
         if step.arguments.single_argument:
             self._updated_yaml[story.name]['scenario'][step.index][step.name] = \
-                load(list(kwargs.values())[0])
+                list(kwargs.values())[0]
         else:
             for key, value in kwargs.items():
                 self._updated_yaml[story.name]['scenario'][step.index][step.name][key] = \
-                    load(value)
+                    value
 
     @property
     def filename(self):
