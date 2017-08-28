@@ -384,7 +384,7 @@ def regression():
     """
     Continuos integration - run all tests and linter.
     """
-    #lint()
+    lint()
     print(
         StoryCollection(
             pathq(DIR.key).ext("story"), Engine(DIR, {})

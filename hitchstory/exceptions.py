@@ -20,7 +20,6 @@ class FileNotFound(HitchStoryException):
         super(HitchStoryException, self).__init__((
             "File '{0}' not found.".format(filename)
         ))
-    
 
 
 class StoryYAMLError(HitchStoryException):
@@ -55,7 +54,7 @@ class BasedOnStoryNotFound(HitchStoryException):
                 inheriting_story_filename,
             )
         ))
-    
+
 
 class StepException(HitchStoryException):
     """

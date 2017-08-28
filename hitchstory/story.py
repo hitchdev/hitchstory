@@ -18,7 +18,8 @@ THIS_DIRECTORY = Path(__file__).realpath().dirname()
 DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
                                  .to_console()\
                                  .cut_calling_code(
-                                    THIS_DIRECTORY.joinpath("story.py"))\
+                                      THIS_DIRECTORY.joinpath("story.py")
+                                  )
 
 
 class StoryStep(object):
@@ -71,8 +72,8 @@ class StoryStep(object):
 
                     if argspec.keywords is not None:
                         kwargs = {
-                            key.data: val for key, val in \
-                                self.arguments.kwargs.items()
+                            key.data: val for key, val in
+                            self.arguments.kwargs.items()
                         }
                         step_method(**kwargs)
                     else:
@@ -109,10 +110,11 @@ class Story(object):
 
     def update(self, step, kwargs):
         self._story_file.update(self, step, kwargs)
-    
+
     @property
     def based_on(self):
-        return str(self._parsed_yaml['based on']) if "based on" in self._parsed_yaml else self._parent
+        return str(self._parsed_yaml['based on']) \
+          if "based on" in self._parsed_yaml else self._parent
 
     @property
     def story_file(self):
@@ -232,7 +234,11 @@ class Story(object):
                 current_step,
                 failure_stack_trace
             )
-            self.run_special_method(self._engine.on_failure, exceptions.OnFailureException, result=result)
+            self.run_special_method(
+                self._engine.on_failure,
+                exceptions.OnFailureException,
+                result=result
+            )
 
         self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
         return result
@@ -253,7 +259,7 @@ class StoryFile(object):
             Optional("description"): Str(),
             Optional("based on"): Str(),
         }
-        
+
         variation_schema = {
             Optional("scenario"): Seq(Any()),
             Optional("description"): Str(),
@@ -307,9 +313,13 @@ class StoryFile(object):
         """
         stories = []
         for name, parsed_main_story in self._parsed_yaml.items():
-            stories.append(Story(self, str(name), parsed_main_story, self._engine, self._collection))
-            
-            for variation_name, parsed_var_name in self._parsed_yaml[name].get("variations", {}).items():
+            stories.append(Story(
+                self, str(name), parsed_main_story, self._engine, self._collection
+            ))
+
+            variations = self._parsed_yaml[name].get("variations", {}).items()
+
+            for variation_name, parsed_var_name in variations:
                 stories.append(
                     Story(
                         self,
