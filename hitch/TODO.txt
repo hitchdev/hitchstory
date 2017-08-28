@@ -1,3 +1,36 @@
+* Update steps make it work on variations.
+* Update steps make save only run if something actually changed so as not to mess up indenting.
+
+given
+steps
+examples:
+
+example generators:
+
+known counterexamples:
+
+based on:
+variations:
+
+continues from:
+continues as:
+
+examples:
+
+
+parameters from:
+
+
+preconditions (should use given)
+scenario (should use steps)
+
+
+* continue from -- scenario followed on from.
+
+* based on -- precondiions and pparameterarameters inherited
+
+* CANNOT DO BOTH
+
 * Inherit from story - use slugify.
 
 * given instead of preconditions, steps instead of scenario.
@@ -6,9 +39,9 @@
 
 * poststep method - self.poststep(self, previous_step)
 
-* prestep method
+* prestep method - self.prestep(self, following_step)
 
-* pre_stories / post_stories - run once when any group of stories is run - use for build.
+* pre_testrun / post_testrun - run once when any group of stories is run - use for build.?
 
 * global parent story.
 
@@ -105,16 +138,9 @@ I don't like lettuce/cucumber *or* hitchstory. Why shouldn't I just use py.test 
 
 Two reasons:
 
-* Separation of concerns - blurring the distinction between story specifications and story execution makes
-maintenance of *both* much harder. This is an analogous situation to the distinction between "controller" (views in django) and "view" (or 'template' in Django) in MVC - where one is written in an intentionally simpler, 'dumber'
-language and the other 
+* Separation of concerns - blurring the distinction between story specifications and story execution makes both clearer.
 
-
-Gradual typing, strong typing and does not force you to write your own mini-parser.
-
-Strong typing
-Gradual typing
-Does not force you to write your own mini-parsers with regular expressions.
+* This is an analogous situation to the distinction between "controller" (views in django) and "view" (or 'template' in Django) in MVC - where one is written in an intentionally 'less powerful' language.
 
 
 Why not use the Robot Framework?
@@ -123,21 +149,34 @@ Why not use the Robot Framework?
 It was actually the first trigger that made me write the hitchdev framework. The very idea that you
 could write an executable language that failed on a particular line and *wouldn't tell you which line
 it failed* on implied such an epic failure of imagination that I figured that I couldn't possibly make
-anything worse.
+something worse.
 
-
-Why not write tests using python using a unit testing framework instead of this weird YAML language?
-----------------------------------------------------------------------------------------------------
-
-It seems simpler to just keep everything in the same language, but it's actually not.
-
-A common objection to special 'test' languages is that they
-
-Unit tests.
 
 
 Why did you not use standard YAML for hitch?
 --------------------------------------------
 
 hitchtest (the precursor to hitchstory) actually did use standard YAML. StrictYAML was written
-in response to its flaws. All flaws are described in the StrictYAML FAQ.
+in response to its flaws. All of the flaws and the justifications for fixing them 
+are documented in the StrictYAML FAQ.
+
+I see given but where is when and then?
+---------------------------------------
+
+Given/When/Then operate as a kind of training wheels for BDD. You can certainly write user stories using
+when and then like so:
+
+  Given:
+    I have: red box
+  Steps:
+    - When I click the red button
+    - Then it goes kaboom
+  
+Training wheels are supposed to come off, however:
+
+  given:
+    box: red
+  steps:
+    - click: red button
+    - goes kaboom
+    

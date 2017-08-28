@@ -10,8 +10,14 @@ STORY RAN SUCCESSFULLY ((( anything )))/example1.story: A Create file in 0.1 sec
 [39m
 
 [2]: function '[1mfail[0m'
-  <ipython-input-5-fc3f0a447d28>
+  /home/colm/.hitch/90646u/state/runmypy.py
 
+    
+        19 : 
+        20 :     def fail(self):
+    --> [1m21[0m :         raise Exception("Error")
+        22 : 
+    
     
 
 [31m[1mbuiltins.Exception[0m

@@ -12,29 +12,30 @@ Abort a story with ctrl-C:
     engine, feeding it the signal number (integer)
     and stack frame.
   preconditions:
-    files:
-      example.story: |
-        Create files:
-          scenario:
-            - Pause forever
-      engine.py: |
-        from hitchstory import BaseEngine
-        from code_that_does_things import *
-        import psutil
+    example.story: |
+      Create files:
+        scenario:
+          - Pause forever
+    engine.py: |
+      from hitchstory import BaseEngine
+      from code_that_does_things import *
+      import psutil
 
 
-        class Engine(BaseEngine):
-            def pause_forever(self):
-                psutil.Process().terminate()
+      class Engine(BaseEngine):
+          def pause_forever(self):
+              psutil.Process().terminate()
 
-            def on_abort(self, signal_num, stack_frame):
-                reticulate_splines()
+          def on_abort(self, signal_num, stack_frame):
+              reticulate_splines()
+    setup: |
+      from code_that_does_things import *
+      from hitchstory import StoryCollection
+      from pathquery import pathq
+      from engine import Engine
+    code: |
+      result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
+      output(result.report())
   scenario:
-    - Run command: |
-        from hitchstory import StoryCollection
-        from pathquery import pathq
-        from engine import Engine
-
-        result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
-        output(result.report())
+    - Run code
     - Splines reticulated

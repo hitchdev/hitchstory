@@ -1,96 +1,77 @@
-Exception in on_success:
+Exception in special methods:
   preconditions:
-    files:
-      example.story: |
-        Do thing:
-          scenario:
-            - Do thing
-      engine.py: |
-        from hitchstory import BaseEngine
-        from code_that_does_things import *
+    example.story: |
+      Do thing:
+        scenario:
+          - Do thing
+    setup: |
+      from hitchstory import StoryCollection
+      from pathquery import pathq
+      from engine import Engine
+    code: |
+      StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+  variations:
+    in on_success:
+      preconditions:
+        engine.py: |
+          from hitchstory import BaseEngine
+          from code_that_does_things import *
 
-        class Engine(BaseEngine):
-            def do_thing(self):
-                pass
+          class Engine(BaseEngine):
+              def do_thing(self):
+                  pass
 
-            def on_success(self):
-                raise_example_exception()
-  scenario:
-    - Run command: |
-        from hitchstory import StoryCollection
-        from pathquery import pathq
-        from engine import Engine
+              def on_success(self):
+                  raise_example_exception()
+      scenario:
+        - Long form exception raised:
+            artefact: exception in on_success
+            changeable:
+              - ~/((( anything )))/story.py
+              - /((( anything )))/code_that_does_things.py
+              - /((( anything )))/engine.py
+              - <ipython-input-((( anything )))>
+              
+              
+    in on_failure:
+      preconditions:
+        engine.py: |
+          from hitchstory import BaseEngine
+          from code_that_does_things import *
 
-    - Exception raised: 
-        command: StoryCollection(pathq(".").ext("story"), Engine()).one().play()
-        reference: exception in on_success
-        changeable:
-          - ~/((( anything )))/story.py
-          - /((( anything )))/code_that_does_things.py
-          - /((( anything )))/engine.py
-          - <ipython-input-((( anything )))>
+          class Engine(BaseEngine):
+              def do_thing(self):
+                  raise_example_exception()
 
-Exception in on_failure:
-  preconditions:
-    files:
-      example.story: |
-        Do thing:
-          scenario:
-            - Do thing
-      engine.py: |
-        from hitchstory import BaseEngine
-        from code_that_does_things import *
+              def on_failure(self, result):
+                  raise_example_exception()
+      scenario:
+        - Long form exception raised:
+            artefact: exception in on_failure
+            changeable:
+              - ~/((( anything )))/story.py
+              - /((( anything )))/code_that_does_things.py
+              - /((( anything )))/engine.py
+              - <ipython-input-((( anything )))>
+              
+              
+    in tear_down:
+      preconditions:
+        engine.py: |
+          from hitchstory import BaseEngine
+          from code_that_does_things import *
 
-        class Engine(BaseEngine):
-            def do_thing(self):
-                raise_example_exception()
+          class Engine(BaseEngine):
+              def do_thing(self):
+                  pass
 
-            def on_failure(self, result):
-                raise_example_exception()
-  scenario:
-    - Run command: |
-        from hitchstory import StoryCollection
-        from pathquery import pathq
-        from engine import Engine
-
-    - Exception raised: 
-        command: StoryCollection(pathq(".").ext("story"), Engine()).one().play()
-        reference: exception in on_failure
-        changeable:
-          - ~/((( anything )))/story.py
-          - /((( anything )))/code_that_does_things.py
-          - /((( anything )))/engine.py
-          - <ipython-input-((( anything )))>
-
-
-Exception in tear_down:
-  preconditions:
-    files:
-      example.story: |
-        Do thing:
-          scenario:
-            - Do thing
-      engine.py: |
-        from hitchstory import BaseEngine
-        from code_that_does_things import *
-
-        class Engine(BaseEngine):
-            def do_thing(self):
-                pass
-
-            def tear_down(self):
-                raise_example_exception()
-  scenario:
-    - Run command: |
-        from hitchstory import StoryCollection
-        from pathquery import pathq
-        from engine import Engine
-
-    - Exception raised: 
-        command: StoryCollection(pathq(".").ext("story"), Engine()).one().play()
-        reference: exception in tear_down
-        changeable:
-          - ~/((( anything )))/story.py
-          - /((( anything )))/code_that_does_things.py
-          - /((( anything )))/engine.py
-          - <ipython-input-((( anything )))>
+              def tear_down(self):
+                  raise_example_exception()
+      scenario:
+        - Long form exception raised:
+            artefact: exception in tear_down
+            changeable:
+              - ~/((( anything )))/story.py
+              - /((( anything )))/code_that_does_things.py
+              - /((( anything )))/engine.py
+              - <ipython-input-((( anything )))>

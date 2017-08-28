@@ -6,7 +6,6 @@ Invalid YAML:
     Names of stories and their filenames should
     be reported.
   preconditions:
-    files:
       example1.story: |
         Invalid YAML:
           scenario
@@ -25,12 +24,11 @@ Invalid YAML:
         class Engine(BaseEngine):
             def do_something(self, text):
                 pass
-  scenario:
-    - Run command: |
+      setup: |
         from hitchstory import StoryCollection
         from engine import Engine
         from pathquery import pathq
-
-    - Assert Exception:
-        command: StoryCollection(pathq(".").ext("story"), Engine()).named("Valid YAML").play()
-        exception: example1.story
+      code: |
+        StoryCollection(pathq(".").ext("story"), Engine()).named("Valid YAML").play()
+  scenario:
+    - Raises exception: example1.story

@@ -6,7 +6,7 @@ import hitchserve
 from hitchstory import StoryCollection, StorySchema, BaseEngine, exceptions, validate
 from hitchrun import expected
 import strictyaml
-from strictyaml import MapPattern, Str, Seq, Map
+from strictyaml import MapPattern, Str, Seq, Map, Optional
 from pathquery import pathq
 import hitchtest
 import hitchdoc
@@ -14,6 +14,7 @@ from simex import DefaultSimex
 from commandlib import python
 from hitchrun import hitch_maintenance
 from hitchrun import DIR
+from hitchrunpy import ExamplePythonCode, ExpectedExceptionMessageWasDifferent
 
 
 class Engine(BaseEngine):
@@ -21,7 +22,14 @@ class Engine(BaseEngine):
 
     schema = StorySchema(
         preconditions=Map({
-            "files": MapPattern(Str(), Str()),
+            Optional("files"): MapPattern(Str(), Str()), # TODO : remove
+            Optional("base.story"): Str(),
+            Optional("example.story"): Str(),
+            Optional("example1.story"): Str(),
+            Optional("example2.story"): Str(),
+            Optional("engine.py"): Str(),
+            "setup": Str(),
+            "code": Str(),
         }),
         about={
             "tags": Seq(Str()),
@@ -45,6 +53,11 @@ class Engine(BaseEngine):
             self.path.state.rmtree(ignore_errors=True)
         self.path.state.mkdir()
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
+        
+        for filename in ["example.story", "example1.story", "example2.story", "engine.py", ]:
+            if filename in self.preconditions:
+                self.path.state.joinpath(filename).write_text(self.preconditions[filename])
+        
 
         for filename, text in self.preconditions.get("files", {}).items():
             filepath = self.path.state.joinpath(filename)
@@ -66,27 +79,137 @@ class Engine(BaseEngine):
                 run(self.pip("install", "-r", "debugrequirements.txt").in_dir(self.path.key))
 
         # Uninstall and reinstall
-        self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
-        self.pip("install", ".").in_dir(self.path.project).run()
+        with hitchtest.monitor(
+            pathq(self.path.project.joinpath("hitchstory")).ext("py")
+        ) as changed:
+            if changed:
+                self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
+                self.pip("install", ".").in_dir(self.path.project).run()
 
-        self.services = hitchserve.ServiceBundle(
-            str(self.path.project),
-            startup_timeout=8.0,
-            shutdown_timeout=1.0
+        #self.services = hitchserve.ServiceBundle(
+            #str(self.path.project),
+            #startup_timeout=8.0,
+            #shutdown_timeout=1.0
+        #)
+
+        #self.services['IPython'] = hitchpython.IPythonKernelService(self.python_package)
+
+        #self.services.startup(interactive=False)
+        #self.ipython_kernel_filename = self.services['IPython'].wait_and_get_ipykernel_filename()
+        #self.ipython_step_library = hitchpython.IPythonStepLibrary()
+        #self.ipython_step_library.startup_connection(self.ipython_kernel_filename)
+
+        #self.shutdown_connection = self.ipython_step_library.shutdown_connection
+        #self.ipython_step_library.run("import os")
+        #self.ipython_step_library.run("from path import Path")
+        #self.ipython_step_library.run("os.chdir('{}')".format(self.path.state))
+        #self.ipython_step_library.run("from code_that_does_things import output")
+    
+    def run_code(self):
+        #from jinja2.environment import Environment
+        #from jinja2 import DictLoader
+        #from strictyaml import load
+
+        #class UnexpectedException(Exception):
+            #pass
+        
+        #error_path = self.path.state.joinpath("error.txt")
+        #runpy = self.path.state.joinpath("runmypy.py")
+        #if error_path.exists():
+            #error_path.remove()
+        #env = Environment()
+        #env.loader = DictLoader(
+            #load(self.path.key.joinpath("codetemplates.yml").bytes().decode('utf8')).data
+        #)
+        #runpy.write_text(env.get_template("run_code").render(
+            #setup=self.preconditions['setup'],
+            #code=self.preconditions['code'],
+            #error_path=error_path,
+        #))
+        #self.python(runpy).in_dir(self.path.state).run()
+        #if error_path.exists():
+            #raise UnexpectedException(error_path.bytes().decode('utf8'))
+        ExamplePythonCode(
+            self.preconditions['code']
+        ).with_setup_code(self.preconditions.get('setup', ''))\
+         .run(self.path.state, self.python)
+
+    def long_form_exception_raised(self, artefact=None, changeable=None):
+        #exception = message
+        from jinja2.environment import Environment
+        from jinja2 import DictLoader
+        from strictyaml import load
+
+        class ExpectedExceptionDidNotHappen(Exception):
+            pass
+        
+        error_path = self.path.state.joinpath("error.txt")
+        runpy = self.path.state.joinpath("runmypy.py")
+        if error_path.exists():
+            error_path.remove()
+        env = Environment()
+        env.loader = DictLoader(
+            load(self.path.key.joinpath("codetemplates.yml").bytes().decode('utf8')).data
         )
+        runpy.write_text(env.get_template("run_code").render(
+            setup=self.preconditions['setup'],
+            code=self.preconditions['code'],
+            error_path=error_path,
+        ))
+        self.python(runpy).in_dir(self.path.state).run()
+        if not error_path.exists():
+            raise ExpectedExceptionDidNotHappen()
+        else:
+            self.path.state.joinpath("output.txt").write_text(error_path.bytes().decode('utf8'))
+            self.output_will_be(artefact, changeable=changeable)
+    
+    
+    def raises_exception(self, message=None, exception_type=None):
+        #try:
+            #ExamplePythonCode(
+                #self.preconditions['code']
+            #).with_setup_code(self.preconditions.get('setup', ''))\
+            #.expect_exception(exception_type, message)\
+            #.run(self.path.state, self.python)
+        #except ExpectedExceptionMessageWasDifferent as exception:
+            #self.current_step.update(message=exception.actual_message)
 
-        self.services['IPython'] = hitchpython.IPythonKernelService(self.python_package)
+        exception = message
+        from jinja2.environment import Environment
+        from jinja2 import DictLoader
+        from strictyaml import load
 
-        self.services.startup(interactive=False)
-        self.ipython_kernel_filename = self.services['IPython'].wait_and_get_ipykernel_filename()
-        self.ipython_step_library = hitchpython.IPythonStepLibrary()
-        self.ipython_step_library.startup_connection(self.ipython_kernel_filename)
+        class ExpectedExceptionDidNotHappen(Exception):
+            pass
+        
+        error_path = self.path.state.joinpath("error.txt")
+        runpy = self.path.state.joinpath("runmypy.py")
+        if error_path.exists():
+            error_path.remove()
+        env = Environment()
+        env.loader = DictLoader(
+            load(self.path.key.joinpath("codetemplates.yml").bytes().decode('utf8')).data
+        )
+        runpy.write_text(env.get_template("run_code").render(
+            setup=self.preconditions['setup'],
+            code=self.preconditions['code'],
+            error_path=error_path,
+        ))
+        self.python(runpy).in_dir(self.path.state).run()
+        if not error_path.exists():
+            raise ExpectedExceptionDidNotHappen()
+        else:
+            import difflib
+            actual_error = error_path.bytes().decode('utf8')
+            if not exception.strip() in actual_error:
+                raise Exception(
+                    "actual:\n{0}\nexpected:\n{1}\ndiff:\n{2}".format(
+                        actual_error,
+                        exception,
+                        ''.join(difflib.context_diff(exception, actual_error)),
+                    )
+                )
 
-        self.shutdown_connection = self.ipython_step_library.shutdown_connection
-        self.ipython_step_library.run("import os")
-        self.ipython_step_library.run("from path import Path")
-        self.ipython_step_library.run("os.chdir('{}')".format(self.path.state))
-        self.ipython_step_library.run("from code_that_does_things import output")
 
     def run_command(self, command):
         self.ipython_step_library.run(command)
@@ -107,17 +230,6 @@ class Engine(BaseEngine):
         self.ipython_step_library.run(command)
         self.doc.step("code", command=command)
 
-    def raises_exception(self, command, exception, why=''):
-        error = self.ipython_step_library.run(
-            command, swallow_exception=True
-        ).error
-        assert exception.strip() in error
-        self.doc.step(
-            "exception",
-            command=command,
-            exception=exception,
-            why=why,
-        )
 
     def returns_true(self, command, why=''):
         self.ipython_step_library.assert_true(command)
@@ -134,37 +246,10 @@ class Engine(BaseEngine):
         assert exception.strip() in error
         self.doc.step("exception", command=command, exception=exception)
 
-    def on_failure(self):
+    def on_failure(self, result):
         if self.settings.get("pause_on_failure", True):
             if self.preconditions.get("launch_shell", False):
                 self.services.log(message=self.stacktrace.to_template())
-                self.shell()
-
-    def shell(self):
-        if hasattr(self, 'services'):
-            self.services.start_interactive_mode()
-            import sys
-            import time
-            time.sleep(0.5)
-            if path.exists(path.join(
-                path.expanduser("~"), ".ipython/profile_default/security/",
-                self.ipython_kernel_filename)
-            ):
-                call([
-                        sys.executable, "-m", "IPython", "console",
-                        "--existing", "--no-confirm-exit",
-                        path.join(
-                            path.expanduser("~"),
-                            ".ipython/profile_default/security/",
-                            self.ipython_kernel_filename
-                        )
-                    ])
-            else:
-                call([
-                    sys.executable, "-m", "IPython", "console",
-                    "--existing", self.ipython_kernel_filename
-                ])
-            self.services.stop_interactive_mode()
 
     def file_contents_will_be(self, filename, contents):
         assert self.path.state.joinpath(filename).bytes().decode('utf8').strip() == contents.strip()
@@ -229,7 +314,7 @@ class Engine(BaseEngine):
         else:
             if self.settings.get('overwrite artefacts'):
                 artefact.write_text(simex_contents)
-                self.services.log(output_contents)
+                print(output_contents)
             else:
                 if simex.compile(artefact.bytes().decode('utf8')).match(output_contents) is None:
                     raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
@@ -237,7 +322,7 @@ class Engine(BaseEngine):
                         output_contents,
                     ))
                 else:
-                    self.services.log(output_contents)
+                    print(output_contents)
 
     def splines_reticulated(self):
         assert self.path.state.joinpath("splines_reticulated.txt").exists()
@@ -258,6 +343,9 @@ class Engine(BaseEngine):
         assert result is not None
         self.path.state.joinpath("output.txt").write_text(result)
         self.output_will_be(reference, changeable)
+      
+    def on_success(self):
+        pass #self.new_story.save()
 
     def tear_down(self):
         try:
@@ -268,9 +356,8 @@ class Engine(BaseEngine):
             self.services.shutdown()
 
 
-@expected(strictyaml.exceptions.YAMLValidationError)
 @expected(exceptions.HitchStoryException)
-def test(*words):
+def tdd(*words):
     """
     Run test with words.
     """
@@ -281,11 +368,23 @@ def test(*words):
     )
 
 
-def ci():
+@expected(exceptions.HitchStoryException)
+def testfile(filename):
+    """
+    Run all stories in filename 'filename'.
+    """
+    print(
+        StoryCollection(
+            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
+        ).in_filename(filename).ordered_by_name().play().report()
+    )
+
+
+def regression():
     """
     Continuos integration - run all tests and linter.
     """
-    lint()
+    #lint()
     print(
         StoryCollection(
             pathq(DIR.key).ext("story"), Engine(DIR, {})
@@ -298,15 +397,15 @@ def lint():
     Lint all code.
     """
     python("-m", "flake8")(
-        DIR.project.joinpath("strictyaml"),
+        DIR.project.joinpath("hitchstory"),
         "--max-line-length=100",
         "--exclude=__init__.py",
     ).run()
-    python("-m", "flake8")(
-        DIR.key.joinpath("key.py"),
-        "--max-line-length=100",
-        "--exclude=__init__.py",
-    ).run()
+    #python("-m", "flake8")(
+        #DIR.key.joinpath("key.py"),
+        #"--max-line-length=100",
+        #"--exclude=__init__.py",
+    #).run()
     print("Lint success!")
 
 
