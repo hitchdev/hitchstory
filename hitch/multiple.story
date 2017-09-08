@@ -97,6 +97,7 @@ Fail fast:
               - FAILURE IN ((( anything )))/example1.story
               - ((( anything )))/story.py
               - ((( anything )))/engine.py
+              - ((( anything )))/examplepythoncode.py
               - STORY RAN SUCCESSFULLY ((( anything )))/example2.story
               
               
@@ -116,4 +117,5 @@ Fail fast:
               - FAILURE IN ((( anything )))/example1.story
               - ((( anything )))/story.py
               - ((( anything )))/engine.py
+              - ((( anything )))/examplepythoncode.py
               - STORY RAN SUCCESSFULLY ((( anything )))/example2.story

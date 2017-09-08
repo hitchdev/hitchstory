@@ -10,13 +10,13 @@ STORY RAN SUCCESSFULLY ((( anything )))/example1.story: A Create file in 0.1 sec
 [39m
 
 [2]: function '[1mfail[0m'
-  /home/colm/.hitch/90646u/state/runmypy.py
+((( anything )))/examplepythoncode.py
 
     
-        19 : 
-        20 :     def fail(self):
-    --> [1m21[0m :         raise Exception("Error")
-        22 : 
+        28 :     
+        29 :         def fail(self):
+    --> [1m30[0m :             raise Exception("Error")
+        31 : 
     
     
 
