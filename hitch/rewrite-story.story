@@ -12,6 +12,11 @@ Rewrite story:
           - Do other thing:
               variable1: a
               variable2: b
+      
+        variations:
+          Do more things:
+            scenario:
+              - Do thing: c
     engine.py: |
       from hitchstory import BaseEngine
       from code_that_does_things import *
@@ -36,15 +41,16 @@ Rewrite story:
       from engine import Engine
 
     code: |
-      result = StoryCollection(pathq(".").ext("story"), Engine()).named("Do things").play()
+      result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
       output(result.report())
   scenario:
     - Run code
     - Output is: |
         STORY RAN SUCCESSFULLY ((( anything )))/example.story: Do things in 0.1 seconds.
+        STORY RAN SUCCESSFULLY /home/colm/.hitch/90646u/state/example.story: Do things/Do more things in 0.1 seconds.
     - File contents will be:
         filename: example.story
-        contents: |
+        contents: |-
           Do things:
             scenario:
             - Do thing: |-
@@ -62,3 +68,11 @@ Rewrite story:
                   complicated:
                   multiline
                   string
+                             
+
+            variations:
+              Do more things:
+                scenario:
+                - Do thing: |-
+                    xxx:
+                    yyy

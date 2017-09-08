@@ -23,10 +23,11 @@ DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
 
 
 class StoryStep(object):
-    def __init__(self, story, yaml_step, index, params):
+    def __init__(self, story, yaml_step, index, child_index, params):
         self._yaml = yaml_step
         self._story = story
         self._index = index
+        self._child_index = child_index
         if isinstance(yaml_step.value, str):
             self.name = str(yaml_step)
             self.arguments = Arguments(None, params)
@@ -45,6 +46,10 @@ class StoryStep(object):
     @property
     def index(self):
         return self._index
+
+    @property
+    def child_index(self):
+        return self._child_index
 
     @property
     def yaml(self):
@@ -95,7 +100,16 @@ class StoryStep(object):
 
 
 class Story(object):
-    def __init__(self, story_file, name, parsed_yaml, engine, collection, parent=None):
+    def __init__(
+        self,
+        story_file,
+        name,
+        parsed_yaml,
+        engine,
+        collection,
+        parent=None,
+        variation=False
+    ):
         self._story_file = story_file
         self._name = name
         self._parsed_yaml = parsed_yaml
@@ -107,6 +121,7 @@ class Story(object):
             for about_property in engine.schema.about.keys():
                 self._about[about_property] = parsed_yaml.get(about_property)
         self._collection = collection
+        self.variation = variation
 
     def update(self, step, kwargs):
         self._story_file.update(self, step, kwargs)
@@ -114,7 +129,7 @@ class Story(object):
     @property
     def based_on(self):
         return str(self._parsed_yaml['based on']) \
-          if "based on" in self._parsed_yaml else self._parent
+            if "based on" in self._parsed_yaml else self._parent
 
     @property
     def story_file(self):
@@ -129,12 +144,17 @@ class Story(object):
         return self._about
 
     @property
-    def name(self):
+    def child_name(self):
         return self._name
 
     @property
+    def name(self):
+        return self._name if not self.variation\
+            else "{0}/{1}".format(self._parent, self._name)
+
+    @property
     def slug(self):
-        return slugify(self._name)
+        return slugify(self.name)
 
     @property
     def params(self):
@@ -166,17 +186,22 @@ class Story(object):
         return precondition_dict
 
     @property
-    def steps(self):
-        step_list = self._collection.named(self.based_on).steps \
+    def parent_steps(self):
+        return self._collection.named(self.based_on).steps \
             if self.based_on is not None else []
+
+    @property
+    def steps(self):
+        step_list = self.parent_steps
         step_list.extend(self._parsed_yaml.get('scenario', []))
         return step_list
 
     @property
     def scenario(self):
+        number_of_parent_steps = len(self.parent_steps)
         return [
             StoryStep(
-                self, parsed_step, index, self.params
+                self, parsed_step, index, index - number_of_parent_steps, self.params
             ) for index, parsed_step in enumerate(self.steps)
         ]
 
@@ -291,13 +316,33 @@ class StoryFile(object):
         """
         Update a specific step in a particular story during a test run.
         """
-        if step.arguments.single_argument:
-            self._updated_yaml[story.name]['scenario'][step.index][step.name] = \
-                list(kwargs.values())[0]
+        if story.variation:
+            if step.child_index >= 0:
+                yaml_story = self._updated_yaml[story.based_on]['variations'][story.child_name]
+                if step.arguments.single_argument:
+                    yaml_story['scenario'][step.child_index][step.name] = \
+                        list(kwargs.values())[0]
+                else:
+                    for key, value in kwargs.items():
+                        yaml_story['scenario'][step.child_index][step.name][key] = \
+                            value
+            else:
+                yaml_story = self._updated_yaml[story.based_on]
+                if step.arguments.single_argument:
+                    yaml_story['scenario'][step.index][step.name] = \
+                        list(kwargs.values())[0]
+                else:
+                    for key, value in kwargs.items():
+                        yaml_story['scenario'][step.index][step.name][key] = \
+                          value
         else:
-            for key, value in kwargs.items():
-                self._updated_yaml[story.name]['scenario'][step.index][step.name][key] = \
-                    value
+            if step.arguments.single_argument:
+                self._updated_yaml[story.name]['scenario'][step.index][step.name] = \
+                    list(kwargs.values())[0]
+            else:
+                for key, value in kwargs.items():
+                    self._updated_yaml[story.name]['scenario'][step.index][step.name][key] = \
+                      value
 
     @property
     def filename(self):
@@ -323,11 +368,12 @@ class StoryFile(object):
                 stories.append(
                     Story(
                         self,
-                        "{0}/{1}".format(name, variation_name),
+                        variation_name,
                         parsed_var_name,
                         self._engine,
                         self._collection,
                         parent=str(name),
+                        variation=True,
                     )
                 )
         return stories
