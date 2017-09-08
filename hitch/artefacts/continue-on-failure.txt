@@ -23,4 +23,3 @@ STORY RAN SUCCESSFULLY ((( anything )))/example1.story: A Create file in 0.1 sec
 [31m[1mbuiltins.Exception[0m
   [2m[31mCommon base class for all non-exit exceptions.[0m
 [31mError[39m
-STORY RAN SUCCESSFULLY ((( anything )))/example2.story: C Create file a third time in 0.1 seconds.
