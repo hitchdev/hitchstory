@@ -15,7 +15,7 @@ Descriptive parameters attached to story:
           - Kick llama's ass
     setup: |
       from hitchstory import StoryCollection, BaseEngine, StorySchema
-      from strictyaml import Map, Str, CommaSeparated
+      from strictyaml import Map, Str, CommaSeparated, Optional
       from pathquery import pathq
       from code_that_does_things import *
 
@@ -23,7 +23,7 @@ Descriptive parameters attached to story:
       class Engine(BaseEngine):
           schema = StorySchema(
               about={
-                  "description": Str(),
+                  Optional("description"): Str(),
                   "jiras": CommaSeparated(Str()),
                   "features": CommaSeparated(Str()),
               },

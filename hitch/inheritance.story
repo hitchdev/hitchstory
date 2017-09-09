@@ -45,17 +45,17 @@ Inherit one story from another:
           c: 11
     setup: |
       from hitchstory import StoryCollection, BaseEngine, StorySchema
-      from strictyaml import Map, Int, Str
+      from strictyaml import Map, Int, Str, Optional
       from pathquery import pathq
       from code_that_does_things import *
 
       class Engine(BaseEngine):
           schema = StorySchema(
               preconditions=Map({
-                  "a": Str(), "b": Str()
+                  Optional("a"): Str(), Optional("b"): Str()
               }),
               params=Map({
-                  "a": Str(), "b": Str(), "c": Str()
+                  Optional("a"): Str(), Optional("b"): Str(), Optional("c"): Str()
               }),
           )
 

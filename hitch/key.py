@@ -105,7 +105,7 @@ class Engine(BaseEngine):
         #self.ipython_step_library.run("os.chdir('{}')".format(self.path.state))
         #self.ipython_step_library.run("from code_that_does_things import output")
     
-    def run_code(self):
+    def run_code(self, expect_output=None):
         #from jinja2.environment import Environment
         #from jinja2 import DictLoader
         #from strictyaml import load
@@ -129,10 +129,13 @@ class Engine(BaseEngine):
         #self.python(runpy).in_dir(self.path.state).run()
         #if error_path.exists():
             #raise UnexpectedException(error_path.bytes().decode('utf8'))
-        ExamplePythonCode(
+        example_python_code = ExamplePythonCode(
             self.preconditions['code']
-        ).with_setup_code(self.preconditions.get('setup', ''))\
-         .run(self.path.state, self.python)
+        ).with_setup_code(self.preconditions.get('setup', ''))
+        
+        if expect_output is not None:
+            example_python_code = example_python_code.expect_output('SUCCESS')
+        example_python_code.run(self.path.state, self.python)
 
     def long_form_exception_raised(self, artefact=None, changeable=None):
         #exception = message
@@ -314,15 +317,15 @@ class Engine(BaseEngine):
         else:
             if self.settings.get('overwrite artefacts'):
                 artefact.write_text(simex_contents)
-                print(output_contents)
+                #print(output_contents)
             else:
                 if simex.compile(artefact.bytes().decode('utf8')).match(output_contents) is None:
                     raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
                         artefact.bytes().decode('utf8'),
                         output_contents,
                     ))
-                else:
-                    print(output_contents)
+                #else:
+                    #print(output_contents)
 
     def splines_reticulated(self):
         assert self.path.state.joinpath("splines_reticulated.txt").exists()

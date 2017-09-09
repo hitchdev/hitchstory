@@ -294,11 +294,11 @@ class StoryFile(object):
             for about_property, property_schema in self._engine.schema.about.items():
                 story_schema[about_property] = property_schema
 
-        story_schema['params'] = self._engine.schema.params
-        story_schema['preconditions'] = self._engine.schema.preconditions
-        variation_schema['params'] = self._engine.schema.params
-        variation_schema['preconditions'] = self._engine.schema.preconditions
-        story_schema['variations'] = MapPattern(Str(), Map(variation_schema))
+        story_schema[Optional('params')] = self._engine.schema.params
+        story_schema[Optional('preconditions')] = self._engine.schema.preconditions
+        variation_schema[Optional('params')] = self._engine.schema.params
+        variation_schema[Optional('preconditions')] = self._engine.schema.preconditions
+        story_schema[Optional('variations')] = MapPattern(Str(), Map(variation_schema))
 
         # Load YAML into memory
         try:

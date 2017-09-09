@@ -7,29 +7,25 @@ Variations:
     example.story: |
       Create files:
         preconditions:
-          content: (( myparameter ))
+          content: dog
           hierarchical content:
             x: 1
             y:
-              - (( parameter2 ))
+              - 42
         scenario:
           - Do thing with precondition
-          - Do other thing: (( myparameter ))
+          - Do other thing: dog
           - Do yet another thing
           - Do a fourth thing:
               animals:
-                pond animal: (( parameter3 ))
-        params:
-          myparameter: dog
-          parameter2: 42
-          parameter3: frog
+                pond animal: frog
         variations:
           cat:
-            params:
-              myparameter: cat
+            preconditions:
+              content: cat
     setup: |
       from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
-      from strictyaml import Map, Seq, Int, Str
+      from strictyaml import Map, Seq, Int, Str, Optional
       from pathquery import pathq
       from code_that_does_things import *
 
@@ -38,15 +34,15 @@ Variations:
           schema = StorySchema(
               preconditions=Map({
                   "content": Str(),
-                  "hierarchical content": Map({
+                  Optional("hierarchical content"): Map({
                       "x": Int(),
                       "y": Seq(Str()),
                   }),
               }),
               params=Map({
-                  "myparameter": Str(),
-                  "parameter2": Int(),
-                  "parameter3": Str(),
+                  Optional("myparameter"): Str(),
+                  Optional("parameter2"): Int(),
+                  Optional("parameter3"): Str(),
               }),
           )
 
@@ -59,7 +55,7 @@ Variations:
               append(self.preconditions['content'])
 
           def do_yet_another_thing(self):
-              assert type(self.preconditions['hierarchical content']['y'][0]) is str
+              #assert type(self.preconditions['hierarchical content']['y'][0]) is str
               append(self.preconditions['hierarchical content']['y'][0])
 
           @validate(animals=Map({"pond animal": Str()}))
@@ -73,6 +69,6 @@ Variations:
   - Run code
   - Output is: |
       cat
-      cat
+      dog
       42
       frog
