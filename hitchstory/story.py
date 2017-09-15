@@ -19,7 +19,7 @@ DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
                                  .to_console()\
                                  .cut_calling_code(
                                       THIS_DIRECTORY.joinpath("story.py")
-                                  )
+                                 )
 
 
 class StoryStep(object):
@@ -68,10 +68,10 @@ class StoryStep(object):
                 if self.arguments.is_none:
                     step_method()
                 elif self.arguments.single_argument:
-                    if type(self.arguments.argument) is str:
-                        step_method(self.arguments.argument)
-                    else:
+                    if isinstance(self.arguments.argument, YAML):
                         step_method(self.arguments.argument.value)
+                    else:
+                        step_method(self.arguments.argument)
                 else:
                     argspec = inspect.getargspec(step_method)
 

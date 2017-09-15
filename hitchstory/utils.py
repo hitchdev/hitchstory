@@ -31,4 +31,4 @@ def replace_parameter(thing, param_name, param):
 
             return new_thing
         else:
-            return replace_parameter(str(thing), param_name, param)
+            return thing

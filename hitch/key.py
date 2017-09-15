@@ -85,57 +85,15 @@ class Engine(BaseEngine):
             if changed:
                 self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
                 self.pip("install", ".").in_dir(self.path.project).run()
-
-        #self.services = hitchserve.ServiceBundle(
-            #str(self.path.project),
-            #startup_timeout=8.0,
-            #shutdown_timeout=1.0
-        #)
-
-        #self.services['IPython'] = hitchpython.IPythonKernelService(self.python_package)
-
-        #self.services.startup(interactive=False)
-        #self.ipython_kernel_filename = self.services['IPython'].wait_and_get_ipykernel_filename()
-        #self.ipython_step_library = hitchpython.IPythonStepLibrary()
-        #self.ipython_step_library.startup_connection(self.ipython_kernel_filename)
-
-        #self.shutdown_connection = self.ipython_step_library.shutdown_connection
-        #self.ipython_step_library.run("import os")
-        #self.ipython_step_library.run("from path import Path")
-        #self.ipython_step_library.run("os.chdir('{}')".format(self.path.state))
-        #self.ipython_step_library.run("from code_that_does_things import output")
     
     def run_code(self, expect_output=None):
-        #from jinja2.environment import Environment
-        #from jinja2 import DictLoader
-        #from strictyaml import load
-
-        #class UnexpectedException(Exception):
-            #pass
-        
-        #error_path = self.path.state.joinpath("error.txt")
-        #runpy = self.path.state.joinpath("runmypy.py")
-        #if error_path.exists():
-            #error_path.remove()
-        #env = Environment()
-        #env.loader = DictLoader(
-            #load(self.path.key.joinpath("codetemplates.yml").bytes().decode('utf8')).data
-        #)
-        #runpy.write_text(env.get_template("run_code").render(
-            #setup=self.preconditions['setup'],
-            #code=self.preconditions['code'],
-            #error_path=error_path,
-        #))
-        #self.python(runpy).in_dir(self.path.state).run()
-        #if error_path.exists():
-            #raise UnexpectedException(error_path.bytes().decode('utf8'))
-        example_python_code = ExamplePythonCode(
+        result = example_python_code = ExamplePythonCode(
             self.preconditions['code']
-        ).with_setup_code(self.preconditions.get('setup', ''))
+        ).with_setup_code(self.preconditions.get('setup', ''))\
+         .run(self.path.state, self.python)
         
         if expect_output is not None:
-            example_python_code = example_python_code.expect_output('SUCCESS')
-        example_python_code.run(self.path.state, self.python)
+            result.final_output_was('SUCCESS')
 
     def long_form_exception_raised(self, artefact=None, changeable=None):
         #exception = message

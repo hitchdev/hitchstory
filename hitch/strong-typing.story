@@ -14,6 +14,10 @@ Strong typing:
   preconditions:
     example.story: |
       Create files:
+        preconditions:
+          x: 1
+        params:
+          var: 1
         scenario:
           - Add product:
               name: Towel
@@ -26,23 +30,28 @@ Strong typing:
                 nametag: Ford Prefect
           - Put back items: 1
     engine.py: |
-      from hitchstory import BaseEngine, validate
+      from hitchstory import BaseEngine, validate, StorySchema
       from strictyaml import Seq, Str, Int, Map
       from code_that_does_things import *
         
       class Engine(BaseEngine):
+          schema = StorySchema(
+              preconditions=Map({"x": Int()}),
+              params=Map({"var": Int()}),
+          )
           def set_up(self):
               pass
 
           @validate(
               versions=Seq(Str()),
               quantity=Int(),
-              options=Map({"tagline": Str(), "nametag": Str()})
+              options=Map({"tagline": Str(), "nametag": Str()}),
           )
           def add_product(self, quantity, name=None, versions=None, options=None):
               assert type(quantity) is int, "not an integer"
               assert type(versions[0]) is str, "not a string"
-              output(options['nametag'])
+              assert type(options['tagline']) is str, "not a string"
+              append(options['nametag'])
 
           @validate(number_of_items=Int())
           def put_back_items(self, number_of_items):
@@ -57,10 +66,11 @@ Strong typing:
       from pathquery import pathq
       from engine import Engine
     code: |
-      result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+      result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
       print(result.report())
   scenario:
     - Run code
     - Output is: |
         Ford Prefect
         Items put back: 1
+
