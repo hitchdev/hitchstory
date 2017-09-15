@@ -1,5 +1,14 @@
-* Update steps make it work on variations.
+* Don't convert mapping validated step code to string.
+* Run tests with specified params via code.
+* Params are parsed as a special "orred" YAML.
+* Make everything in preconditions / params schema optional.
+* Params should match the schema of the precondition or step?
 * Update steps make save only run if something actually changed so as not to mess up indenting.
+* Rename preconditions -> given
+* Rename scenario - steps
+* Examples -- parameters via a name.
+* Counter examples -- known failures, params with a name.
+* Example generator --
 
 given
 steps
@@ -41,7 +50,7 @@ scenario (should use steps)
 
 * prestep method - self.prestep(self, following_step)
 
-* pre_testrun / post_testrun - run once when any group of stories is run - use for build.?
+* pre_testrun / post_testrun - run once when any group of stories is run - use for build? Does not work if build preconditions fail.
 
 * global parent story.
 
