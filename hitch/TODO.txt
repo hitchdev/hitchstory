@@ -1,8 +1,6 @@
-
-* Engine should be refreshed before running a second run?
+* Run tests with specified parameters.
 * Don't convert mapping validated step code to string.
 * Run tests with specified params via code.
-* Params are parsed as a special "orred" YAML.
 * Make everything in preconditions / params schema optional.
 * Params should match the schema of the precondition or step?
 * Update steps make save only run if something actually changed so as not to mess up indenting.
@@ -28,16 +26,36 @@ examples:
     python version: 2.7.10
     ruamel version: 3.11.0
     
+    
+class Strategies(object):
+    def __init__(self, cache_dir):
+        self._cache = cache_dir
+
+    def important_python_versions(self):
+        return sampled_from(
+            hitchbuildpy.python_versions()\
+                        .important()\
+                        .greater_than("2.6.3")\
+                        .cache_in(self._cache)
+        )
+        
+    def important_ruamel_yaml_versions(self):
+        return sampled_from(
+            hitchpypi.pypi_package_versions("ruamel.yaml")\
+                    .since(months=6)\
+                    .more_downloads_than(1000)\
+                    .cache_in(self._cache)
+        )
 
 example strategies:
   python version: important python versions
 
   
-.only_default()
-.all_examples()
+.default_only()
+.all_specified_examples()
 .strategies()
-    
 
+known failure: yes
 
 known counterexamples:
 
@@ -52,11 +70,6 @@ examples:
 
 parameters from:
 
-
-preconditions (should use given)
-scenario (should use steps)
-
-
 * continue from -- scenario followed on from.
 
 * based on -- precondiions and pparameterarameters inherited
@@ -65,7 +78,9 @@ scenario (should use steps)
 
 * Inherit from story - use slugify.
 
-* given instead of preconditions, steps instead of scenario.
+* given instead of preconditions, steps instead of scenario (but allow the use of either).
+
+* Ban the use of reserved step names: preconditions, steps, scenario, poststep, prestep, tear_down, setup
 
 * Use non-ascii characters in all tests.
 
@@ -75,17 +90,15 @@ scenario (should use steps)
 
 * pre_testrun / post_testrun - run once when any group of stories is run - use for build? Does not work if build preconditions fail.
 
-* global parent story.
+* global parent story?
 
-* Invalid YAML, raise exception that specifies which file the exception is in, and swallows the YAML exception.
+* kwargs story, demonstrate that conversion to underscore case does not happen in kwargs whereas it does in named args.
 
-* kwargs
+* *args story.
 
 * expected exceptions.
 
 * hitchstory DEBUG mode.
-
-* strategies --- strategies for params.
 
 5) Ctrl-C / abort / SIGTERM
 
@@ -93,7 +106,7 @@ scenario (should use steps)
 
 7) raise clearer exception - invalid about params - preconditions, name, description, params in about schema.
 
-8) Many different kinds of inheritance:
+8) Many different kinds of inheritance?
 
 -- take preconditions, don't take preconditions, start at the end of the story, start at the beginning of the story, ignore the story - STEP INHERITED.
 -- step bundles?   
