@@ -1,3 +1,5 @@
+
+* Engine should be refreshed before running a second run?
 * Don't convert mapping validated step code to string.
 * Run tests with specified params via code.
 * Params are parsed as a special "orred" YAML.
@@ -14,7 +16,28 @@ given
 steps
 examples:
 
-example generators:
+default params:
+  python version: 3.5.0
+  ruamel version: 
+  
+examples:
+  default:
+    python version: 3.5.0
+    ruamel version: 3.11.0
+  python 2:
+    python version: 2.7.10
+    ruamel version: 3.11.0
+    
+
+example strategies:
+  python version: important python versions
+
+  
+.only_default()
+.all_examples()
+.strategies()
+    
+
 
 known counterexamples:
 
@@ -73,119 +96,4 @@ scenario (should use steps)
 8) Many different kinds of inheritance:
 
 -- take preconditions, don't take preconditions, start at the end of the story, start at the beginning of the story, ignore the story - STEP INHERITED.
--- step bundles.
-
-
-If you try to make it look like English, it will end up looking like COBOL.
-
-
-CUCUMBER COMPARISON
--------------------
-
-http://coryschires.com/ten-tips-for-writing-better-cucumber-steps/
-
-Why not use Cucumber or other Gherkin-derived BDD languages?
-------------------------------------------------------------
-
-Python equivalents: lettuce, 
-
-Gherkin was not a clearly designed language which even the language
-designer admitted to. It was more of an idea about
-development that was put forward and then cobbled together. Because of this,
-the syntax is both ambiguous and verbose.
-
-While Cucumber's focus on "human readable test cases" led it down
-the right path, the actual design of the language is, to put it
-mildly, a trainwreck.
-
-Is HitchStory's focus on human readable stories?
-------------------------------------------------
-
-No, although non-programmer readability may be a side effect of writing
-hitch stories.
-
-HitchStory should be writable and readable by subject matter experts who
-have been trained in its usage, however, who do not have to be knowledgeable
-in programming in turing complete languages.
-
-HitchStory's focus is on achieving two programming principles when
-writing test cases:
-
-* Separation of concerns - creating a language 
-* Law of least power
-
-HitchStory has six main goals:
-
-* To make it easier for programmers to write and maintain stories by using a *less powerful* language.
-* To maintain a strict separation of concerns between story *definition* and story *execution*, and
-require the lowest possible number of turing complete lines of code to run the tests.
-* To still make it possible to write *any* kind of test that would have been possible to write in py.test.
-* To be usable as a means to define requirements collaboratively with project stakeholders.
-* To serve as a template that can be used to generate user documentation.
-* Gradual typing - IMHO the future of programming languages - with sensible, loose defaults that make prototyping faster and optional stricter validation of story steps, preconditions and parameters (this is done using StrictYAML).
-
-HitchStory also has three *non* goals:
-
-* To make stories primarily maintainable or writable by *non-programmers*. While knowledge of programming
-is not necessarily needed to write HitchStory YAML, the clarity of mind to write *specific* stories,
-cover edge cases as well as the instinct to de-duplicate code are required and are usually
-
-* To serve as documentation - although many stories may look like documentation or be able to be used
-in lieu of it, the stories should be used instead as a template to *generate* documentation. This
-is what the "hitchdoc" project is for.
-
-* To look like English. Gherkin's focus on "looking similar to English" achieved a similar result to
-COBOL's focus on "looking similar to English" - it made the language ambiguous, verbose and
-as a consequence, a pain to work with and ultimately even *harder* to read than programming
-languages which did *not* make it a goal to be "English like". Marrying the precision
-required of a machine readable language with the ambiguity of English was not a good move
-in either case.
-
-
-I don't like lettuce/cucumber *or* hitchstory. Why shouldn't I just use py.test for my functional test cases?
--------------------------------------------------------------------------------------------------------------
-
-Two reasons:
-
-* Separation of concerns - blurring the distinction between story specifications and story execution makes both clearer.
-
-* This is an analogous situation to the distinction between "controller" (views in django) and "view" (or 'template' in Django) in MVC - where one is written in an intentionally 'less powerful' language.
-
-
-Why not use the Robot Framework?
---------------------------------
-
-It was actually the first trigger that made me write the hitchdev framework. The very idea that you
-could write an executable language that failed on a particular line and *wouldn't tell you which line
-it failed* on implied such an epic failure of imagination that I figured that I couldn't possibly make
-something worse.
-
-
-
-Why did you not use standard YAML for hitch?
---------------------------------------------
-
-hitchtest (the precursor to hitchstory) actually did use standard YAML. StrictYAML was written
-in response to its flaws. All of the flaws and the justifications for fixing them 
-are documented in the StrictYAML FAQ.
-
-I see given but where is when and then?
----------------------------------------
-
-Given/When/Then operate as a kind of training wheels for BDD. You can certainly write user stories using
-when and then like so:
-
-  Given:
-    I have: red box
-  Steps:
-    - When I click the red button
-    - Then it goes kaboom
-  
-Training wheels are supposed to come off, however:
-
-  given:
-    box: red
-  steps:
-    - click: red button
-    - goes kaboom
-    
+-- step bundles?   
