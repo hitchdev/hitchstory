@@ -16,7 +16,7 @@
         7 : 
         8 :     def failing_step(self):
     --> [1m9[0m :         raise_example_exception("Towel not located")
-        10 : 
+        10 :     
     
     
 

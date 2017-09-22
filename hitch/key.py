@@ -1,6 +1,6 @@
 from subprocess import call
 from os import path
-from commandlib import run, Command
+from commandlib import run, Command, CommandError
 import hitchpython
 import hitchserve
 from hitchstory import StoryCollection, StorySchema, BaseEngine, exceptions, validate
@@ -341,6 +341,7 @@ def testfile(filename):
     )
 
 
+@expected(exceptions.HitchStoryException)
 def regression():
     """
     Continuos integration - run all tests and linter.
@@ -352,7 +353,7 @@ def regression():
         ).ordered_by_name().play().report()
     )
 
-
+@expected(CommandError)
 def lint():
     """
     Lint all code.

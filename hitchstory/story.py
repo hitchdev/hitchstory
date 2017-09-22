@@ -55,34 +55,11 @@ class StoryStep(object):
     def yaml(self):
         return self._yaml
 
-    def run(self, engine):
+    def step_method(self, engine):
         if hasattr(engine, self.underscore_case_name()):
             attr = getattr(engine, self.underscore_case_name())
             if hasattr(attr, '__call__'):
-                step_method = attr
-
-                validators = step_method._validators \
-                    if hasattr(step_method, '_validators') else {}
-                self.arguments.validate(validators)
-
-                if self.arguments.is_none:
-                    step_method()
-                elif self.arguments.single_argument:
-                    if isinstance(self.arguments.argument, YAML):
-                        step_method(self.arguments.argument.value)
-                    else:
-                        step_method(self.arguments.argument)
-                else:
-                    argspec = inspect.getargspec(step_method)
-
-                    if argspec.keywords is not None:
-                        kwargs = {
-                            key.data: val for key, val in
-                            self.arguments.kwargs.items()
-                        }
-                        step_method(**kwargs)
-                    else:
-                        step_method(**self.arguments.pythonized_kwargs())
+                return attr
             else:
                 raise exceptions.StepNotCallable((
                     "Step with name '{}' in {} is not a function "
@@ -97,6 +74,43 @@ class StoryStep(object):
                 self.underscore_case_name(),
                 engine.__repr__()
             ))
+
+    def expect_exception(self, engine, exception):
+        try:
+            step_method = self.step_method(engine)
+        except exceptions.HitchStoryException:
+            return []
+
+        if hasattr(step_method, '_expected_exceptions'):
+            return isinstance(exception, tuple(step_method._expected_exceptions))
+
+        return []
+
+    def run(self, engine):
+        step_method = self.step_method(engine)
+
+        validators = step_method._validators \
+            if hasattr(step_method, '_validators') else {}
+        self.arguments.validate(validators)
+
+        if self.arguments.is_none:
+            step_method()
+        elif self.arguments.single_argument:
+            if isinstance(self.arguments.argument, YAML):
+                step_method(self.arguments.argument.value)
+            else:
+                step_method(self.arguments.argument)
+        else:
+            argspec = inspect.getargspec(step_method)
+
+            if argspec.keywords is not None:
+                kwargs = {
+                    key.data: val for key, val in
+                    self.arguments.kwargs.items()
+                }
+                step_method(**kwargs)
+            else:
+                step_method(**self.arguments.pythonized_kwargs())
 
 
 class Story(object):
@@ -246,7 +260,11 @@ class Story(object):
             passed = True
         except Exception as exception:
             caught_exception = exception
-            failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
+
+            if current_step.expect_exception(self._engine, caught_exception):
+                failure_stack_trace = DEFAULT_STACK_TRACE.only_the_exception().current_stacktrace()
+            else:
+                failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
         if passed:
             self.run_special_method(self._engine.on_success, exceptions.OnSuccessException)
@@ -257,7 +275,7 @@ class Story(object):
                 time.time() - start_time,
                 caught_exception,
                 current_step,
-                failure_stack_trace
+                failure_stack_trace,
             )
             self.run_special_method(
                 self._engine.on_failure,

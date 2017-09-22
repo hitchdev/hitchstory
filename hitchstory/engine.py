@@ -23,6 +23,19 @@ def validate(**kwargs):
     return decorator
 
 
+def expected_exception(exception_type):
+    """
+    Tag a method as expecting an exception of exception type.
+    """
+    def decorator(step_function):
+        if not hasattr(step_function, '_expected_exceptions'):
+            step_function._expected_exceptions = [exception_type, ]
+        else:
+            step_function._expected_exceptions.append(exception_type)
+        return step_function
+    return decorator
+
+
 class StorySchema(object):
     """
     Represents user-defineable parts of the hitchstory schema:

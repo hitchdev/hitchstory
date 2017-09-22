@@ -1,0 +1,17 @@
+[34m[1mFAILURE IN ((( anything )))/example.story:
+    "Failing story" in 0.1 seconds.
+[22m
+
+    Failing story:
+      scenario:
+    [1m  - Failing step without stacktrace[22m
+    
+[39m
+
+[31m[1mcode_that_does_things.ExampleException[0m
+  [2m[31m
+    This is a demonstration exception's docstring.
+
+    It spreads across multiple lines.
+    [0m
+[31mExpected exception[39m

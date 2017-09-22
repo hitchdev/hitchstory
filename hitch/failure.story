@@ -9,7 +9,7 @@ Simple failure report:
           - Failing step
           - Not executed step
     engine.py: |
-      from hitchstory import BaseEngine
+      from hitchstory import BaseEngine, expected_exception
       from code_that_does_things import *
 
 
@@ -19,6 +19,10 @@ Simple failure report:
 
           def failing_step(self):
               raise_example_exception("Towel not located")
+          
+          @expected_exception(ExampleException)
+          def failing_step_without_stacktrace(self):
+              raise_example_exception("Expected exception")
 
           def on_failure(self, result):
               output(result.report())
@@ -59,29 +63,23 @@ Simple failure report:
               - ((( anything )))/engine.py
 
       
-  #scenario:
-    #- Run command: |
-        #from hitchstory import StoryCollection
-        #from engine import Engine
-        #from pathquery import pathq
-
-        #result = StoryCollection(pathq(".").ext("story"), Engine()).one().play()
-
-    #- Output will be:
-        #reference: failure printed in on_failure
-        #changeable:
-          #- ((( anything )))/code_that_does_things.py
-          #- FAILURE IN ((( anything )))/example.story
-          #- ((( anything )))/story.py
-          #- ((( anything )))/engine.py
-
-    #- Run command: |
-        #output(result.report())
-
-    #- Output will be:
-        #reference: failure printed by default
-        #changeable:
-          #- ((( anything )))/code_that_does_things.py
-          #- FAILURE IN ((( anything )))/example.story
-          #- ((( anything )))/story.py
-          #- ((( anything )))/engine.py
+    Failure expected exception:
+      description: |
+        For common expected failures where you do not want
+        to see the whole stacktrace.
+      preconditions:
+        example.story: |
+          Failing story:
+            scenario:
+              - Failing step without stacktrace
+        code: |
+          StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+      scenario:
+        - Run code
+        - Output will be:
+            reference: failure with expected exception
+            changeable:
+              - ((( anything )))/code_that_does_things.py
+              - FAILURE IN ((( anything )))/example.story
+              - ((( anything )))/story.py
+              - ((( anything )))/engine.py
