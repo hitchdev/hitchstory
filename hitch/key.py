@@ -14,7 +14,8 @@ from simex import DefaultSimex
 from commandlib import python
 from hitchrun import hitch_maintenance
 from hitchrun import DIR
-from hitchrunpy import ExamplePythonCode, ExpectedExceptionMessageWasDifferent
+from hitchrunpy import ExamplePythonCode, ExpectedExceptionMessageWasDifferent, HitchRunPyException
+from hitchstory import expected_exception
 
 
 class Engine(BaseEngine):
@@ -86,6 +87,7 @@ class Engine(BaseEngine):
                 self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
                 self.pip("install", ".").in_dir(self.path.project).run()
     
+    @expected_exception(HitchRunPyException)
     def run_code(self, expect_output=None):
         result = example_python_code = ExamplePythonCode(
             self.preconditions['code']
@@ -171,24 +173,7 @@ class Engine(BaseEngine):
                     )
                 )
 
-
-    def run_command(self, command):
-        self.ipython_step_library.run(command)
-        self.doc.step("code", command=command)
-
-    def variable(self, name, value):
-        self.path.state.joinpath("{}.yaml".format(name)).write_text(
-            value
-        )
-        self.ipython_step_library.run(
-            """{} = Path("{}").bytes().decode("utf8")""".format(
-                name, "{}.yaml".format(name)
-            )
-        )
-        self.doc.step("variable", var_name=name, value=value)
-
     def code(self, command):
-        self.ipython_step_library.run(command)
         self.doc.step("code", command=command)
 
 
@@ -201,9 +186,6 @@ class Engine(BaseEngine):
         self.doc.step("true", command=command)
 
     def assert_exception(self, command, exception):
-        error = self.ipython_step_library.run(
-            command, swallow_exception=True
-        ).error
         assert exception.strip() in error
         self.doc.step("exception", command=command, exception=exception)
 
