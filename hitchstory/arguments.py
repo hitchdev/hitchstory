@@ -23,12 +23,12 @@ class Arguments(object):
 
     def parameterize(self, value):
         """
-        Take parameters in the story "My name is ((( name )))" and replace them
-        with specified params, e.g. "My name is Tony".
+        Replace parameters with specified variables.
         """
         for name, parameter in self._params.items():
-            original_value = value.data if isinstance(value, YAML) else value
-            value = utils.replace_parameter(original_value, str(name), str(parameter))
+            if utils.is_parameter(value):
+                if name == utils.parameter_name(value):
+                    return parameter
         return value
 
     def validate(self, validators):
@@ -39,11 +39,12 @@ class Arguments(object):
             _kwargs = {}
             for key, value in self.original_args.items():
                 if str(key) in validators.keys():
-                    _kwargs[key] = validators[key](value._chunk).data
+                    validator = utils.YAML_Param | validators[key]
+                    _kwargs[key] = self.parameterize(validator(value._chunk).data)
                 else:
-                    _kwargs[key] = Any()(value._chunk).data
+                    _kwargs[key] = self.parameterize(Any()(value._chunk).data)
 
-            self.kwargs = self.parameterize(_kwargs)
+            self.kwargs = _kwargs
         if self.single_argument:
             if len(validators) == 0:
                 self.argument = Any()(self.argument._chunk)

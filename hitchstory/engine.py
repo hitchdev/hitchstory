@@ -2,8 +2,9 @@
 User-exposed engine related code.
 """
 from hitchstory import exceptions
-from strictyaml import MapPattern, Any, Validator, Optional
+from strictyaml import MapPattern, Any, Map, Validator, Optional, Regex
 from hitchstory.story import NewStory
+from hitchstory import utils
 
 
 def validate(**kwargs):
@@ -46,18 +47,13 @@ class StorySchema(object):
     """
     def __init__(self, preconditions=None, params=None, about=None):
         if preconditions is None:
-            self._preconditions = MapPattern(Any(), Any())
+            self._preconditions = MapPattern(utils.YAML_Param | Any(), utils.YAML_Param | Any())
         else:
-            assert isinstance(preconditions, Validator), \
-                "preconditions must be strictyaml Validator"
-            self._preconditions = preconditions
-
-        if params is None:
-            self._params = MapPattern(Any(), Any())
-        else:
-            assert isinstance(params, Validator), \
-                "params must be strictyaml Validator"
-            self._params = params
+            _preconditions = {}
+            for name, validator in preconditions.items():
+                assert isinstance(validator, Validator), "precondition schema must be strictyaml Validators"
+                _preconditions[name] = utils.YAML_Param | validator
+            self._preconditions = Map(_preconditions)
 
         if about is not None:
             assert isinstance(about, dict), "about must be a dict of named validators"
@@ -71,10 +67,6 @@ class StorySchema(object):
     @property
     def preconditions(self):
         return self._preconditions
-
-    @property
-    def params(self):
-        return self._params
 
     @property
     def about(self):

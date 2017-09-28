@@ -174,7 +174,7 @@ class Story(object):
     def params(self):
         param_dict = self._collection.named(self.based_on).params \
             if self.based_on is not None else {}
-        for name, param in self._parsed_yaml.get("params", {}).items():
+        for name, param in self._parsed_yaml.get("default", {}).items():
             param_dict[name] = param
         return param_dict
 
@@ -192,11 +192,11 @@ class Story(object):
     def preconditions(self):
         precondition_dict = self.unparameterized_preconditions()
         for name, precondition in precondition_dict.items():
-            precondition_value = precondition.data \
-                if isinstance(precondition, YAML) else precondition
-            for param_name, param in self.params.items():
-                precondition_value = utils.replace_parameter(precondition_value, param_name, param)
-            precondition_dict[str(name)] = precondition_value
+            if utils.is_parameter(precondition.data):
+                precondition_dict[name] = \
+                    self._parsed_yaml['default'][utils.parameter_name(precondition.data)].data
+            else:
+                precondition_dict[name] = precondition.data
         return precondition_dict
 
     @property
@@ -261,7 +261,7 @@ class Story(object):
         except Exception as exception:
             caught_exception = exception
 
-            if current_step.expect_exception(self._engine, caught_exception):
+            if current_step is not None and current_step.expect_exception(self._engine, caught_exception):
                 failure_stack_trace = DEFAULT_STACK_TRACE.only_the_exception().current_stacktrace()
             else:
                 failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
@@ -301,21 +301,20 @@ class StoryFile(object):
             Optional("scenario"): Seq(Any()),
             Optional("description"): Str(),
             Optional("based on"): Str(),
+            Optional("default"): Any(),
         }
 
         variation_schema = {
             Optional("scenario"): Seq(Any()),
             Optional("description"): Str(),
+            Optional('preconditions'): self._engine.schema.preconditions,
         }
 
         if self._engine.schema.about is not None:
             for about_property, property_schema in self._engine.schema.about.items():
                 story_schema[about_property] = property_schema
 
-        story_schema[Optional('params')] = self._engine.schema.params
         story_schema[Optional('preconditions')] = self._engine.schema.preconditions
-        variation_schema[Optional('params')] = self._engine.schema.params
-        variation_schema[Optional('preconditions')] = self._engine.schema.preconditions
         story_schema[Optional('variations')] = MapPattern(Str(), Map(variation_schema))
 
         # Load YAML into memory

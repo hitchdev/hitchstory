@@ -97,6 +97,8 @@ class Engine(BaseEngine):
         if expect_output is not None:
             result.final_output_was('SUCCESS')
 
+        print(result.output)
+
     def long_form_exception_raised(self, artefact=None, changeable=None):
         #exception = message
         from jinja2.environment import Environment
@@ -415,3 +417,12 @@ def docgen():
             "rst",
             docpath.joinpath("{0}.rst".format(story.slug))
         )
+
+
+def rerun(version="3.5.0"):
+    """
+    Rerun last example code block with specified version of python.
+    """
+    Command(DIR.gen.joinpath("py{0}".format(version), "bin", "python"))(
+        DIR.gen.joinpath("state", "examplepythoncode.py")
+    ).in_dir(DIR.gen.joinpath("state")).run()

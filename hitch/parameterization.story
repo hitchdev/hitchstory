@@ -12,14 +12,16 @@ Story with parameters:
   preconditions:
     example.story: |
       Click magic button:
+        default:
+          browser:
+            name: firefox
+            version: 37
         preconditions:
           browser: (( browser ))
         scenario:
           - Click on button
-        default:
-          browser:
-            name: internet explorer
-            version: 11
+          - Save screenshot:
+              browser: (( browser ))
     engine.py: |
       from hitchstory import BaseEngine, StorySchema, validate
       from strictyaml import Map, Seq, Int, Str, Optional
@@ -27,17 +29,22 @@ Story with parameters:
 
       class Engine(BaseEngine):
           schema = StorySchema(
-              preconditions=Map({
+              preconditions={
                   Optional("browser"): Map({"name": Str(), "version": Int()}),
-              }),
+              },
           )
           
-          def setup(self):
+          def set_up(self):
               append(self.preconditions['browser']['name'])
               append(self.preconditions['browser']['version'])
 
           def click_on_button(self):
               append("clicked!")
+          
+          @validate(browser=Map({"name": Str(), "version": Int()}))
+          def save_screenshot(self, browser):
+              append('save screenshot:')
+              append("screenshot-{0}-{1}.png".format(browser['name'], browser['version']))
 
     setup: |
       from hitchstory import StoryCollection
@@ -51,6 +58,8 @@ Story with parameters:
       scenario:
         - Run code
         - Output is: |
-            internet explorer
-            11
+            firefox
+            37
             clicked!
+            save screenshot:
+            screenshot-firefox-37.png
