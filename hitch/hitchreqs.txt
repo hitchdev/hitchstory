@@ -56,7 +56,7 @@ ruamel.yaml==0.14.11      # via strictyaml
 simex==0.3.5
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via hitch-pip-tools, prompt-toolkit, python-dateutil, traitlets
-strictyaml==0.7.1         # via hitchdoc, hitchstory
+strictyaml==0.7.2         # via hitchdoc, hitchstory
 tblib==1.3.2              # via hitchserve
 tornado==4.5.1            # via ipykernel
 tqdm==4.14.0              # via twine

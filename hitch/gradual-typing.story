@@ -4,11 +4,11 @@ Gradual typing of story steps:
     of a test suite, the structure of your YAML data
     specified in preconditions, parameters and step
     arguments need not be specified in advance.
-    
+
     All data that is parsed without a validator
     is parsed either as a dict, list or string, as
     per the StrictYAML spec.
-    
+
     When your test suite matures and the structure of
     your story files is more locked down, you can
     specify validators that fail fast when YAML
@@ -48,12 +48,12 @@ Gradual typing of story steps:
       result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
       output(result.report())
   scenario:
-    - Run code
-    - Output is: |
-        STORY RAN SUCCESSFULLY ((( anything )))/example.story: Create files in 0.1 seconds.
-    - File was created with:
-        filename: preconditionfile.txt
-        contents: some text
-    - File was created with:
-        filename: step1.txt
-        contents: some other text
+  - Run code
+  - Output is: |
+      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Create files in 0.1 seconds.
+  - File was created with:
+      filename: preconditionfile.txt
+      contents: some text
+  - File was created with:
+      filename: step1.txt
+      contents: some other text

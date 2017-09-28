@@ -31,9 +31,11 @@ class StoryCollection(object):
         self._in_filename = None
         self._named = None
         self._filters = []
+        self._params = {}
 
-        self._stories = {}
-
+    @property
+    def stories(self):
+        _stories = {}
         for filename in self._storypaths:
             if not Path(filename).exists():
                 raise exceptions.InvalidStoryPaths(
@@ -44,9 +46,10 @@ class StoryCollection(object):
                     "Story path '{0}' is a directory.".format(filename)
                 )
             for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
-                if story.slug in self._stories:
-                    raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
-                self._stories[story.slug] = story
+                if story.slug in _stories:
+                    raise exceptions.DuplicateStoryNames(story, _stories[story.slug])
+                _stories[story.slug] = story
+        return _stories
 
     def ordered_arbitrarily(self):
         """
@@ -55,7 +58,7 @@ class StoryCollection(object):
         """
         filtered_stories = []
         all_stories = []
-        for story in self._stories.values():
+        for story in self.stories.values():
             filtered = True
             for filter_func in self._filters:
                 if not filter_func(story):
@@ -97,6 +100,11 @@ class StoryCollection(object):
         new_collection._in_filename = Path(filename)
         if not new_collection._in_filename.exists():
             raise exceptions.FileNotFound(filename)
+        return new_collection
+
+    def with_params(self, **params):
+        new_collection = copy(self)
+        new_collection._params = params
         return new_collection
 
     def named(self, name):

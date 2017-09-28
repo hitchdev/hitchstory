@@ -2,7 +2,7 @@
 User-exposed engine related code.
 """
 from hitchstory import exceptions
-from strictyaml import MapPattern, Any, Map, Validator, Optional, Regex
+from strictyaml import MapPattern, Any, Map, Validator, Optional
 from hitchstory.story import NewStory
 from hitchstory import utils
 
@@ -51,7 +51,8 @@ class StorySchema(object):
         else:
             _preconditions = {}
             for name, validator in preconditions.items():
-                assert isinstance(validator, Validator), "precondition schema must be strictyaml Validators"
+                assert isinstance(validator, Validator),\
+                    "precondition schema must be strictyaml Validators"
                 _preconditions[name] = utils.YAML_Param | validator
             self._preconditions = Map(_preconditions)
 

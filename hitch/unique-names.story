@@ -20,9 +20,11 @@ All stories must have a unique name:
               with open(filename, 'w') as handle:
                   handle.write(content)
     code: |
-      StoryCollection(pathq(".").ext("story"), Engine())
+      StoryCollection(pathq(".").ext("story"), Engine()).ordered_arbitrarily()
 
   scenario:
-  - Raises Exception: |
-      Story 'Create file' in '/home/colm/.hitch/90646u/state/example1.story' and 'create-file' in '/home/colm/.hitch/90646u/state/example2.story' are identical when slugified ('create-file' and 'create-file').
+  - Raises Exception:
+      exception type: hitchstory.exceptions.DuplicateStoryNames
+      message: |-
+        Story 'Create file' in '/home/colm/.hitch/90646u/state/example1.story' and 'create-file' in '/home/colm/.hitch/90646u/state/example2.story' are identical when slugified ('create-file' and 'create-file').
 

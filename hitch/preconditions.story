@@ -17,7 +17,7 @@ Story with preconditions:
 
       class Engine(BaseEngine):
           schema = StorySchema(
-              preconditions=Map({"thing": MapPattern(Str(), Str()),}),
+              preconditions={"thing": MapPattern(Str(), Str())},
           )
 
           def create_file(self):
@@ -30,7 +30,6 @@ Story with preconditions:
       from engine import Engine
     code: |
       print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
-    
   scenario:
-    - Run code
-    - Output is: things
+  - Run code
+  - Output is: things

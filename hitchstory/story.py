@@ -176,6 +176,8 @@ class Story(object):
             if self.based_on is not None else {}
         for name, param in self._parsed_yaml.get("default", {}).items():
             param_dict[name] = param
+        for name, param in self._collection._params.items():
+            param_dict[name] = param
         return param_dict
 
     def unparameterized_preconditions(self):
@@ -194,7 +196,7 @@ class Story(object):
         for name, precondition in precondition_dict.items():
             if utils.is_parameter(precondition.data):
                 precondition_dict[name] = \
-                    self._parsed_yaml['default'][utils.parameter_name(precondition.data)].data
+                    self.params[utils.parameter_name(precondition.data)]
             else:
                 precondition_dict[name] = precondition.data
         return precondition_dict
@@ -261,7 +263,9 @@ class Story(object):
         except Exception as exception:
             caught_exception = exception
 
-            if current_step is not None and current_step.expect_exception(self._engine, caught_exception):
+            if current_step is not None and current_step.expect_exception(
+                self._engine, caught_exception
+            ):
                 failure_stack_trace = DEFAULT_STACK_TRACE.only_the_exception().current_stacktrace()
             else:
                 failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()

@@ -32,18 +32,13 @@ Variations:
 
       class Engine(BaseEngine):
           schema = StorySchema(
-              preconditions=Map({
+              preconditions={
                   "content": Str(),
                   Optional("hierarchical content"): Map({
                       "x": Int(),
                       "y": Seq(Str()),
                   }),
-              }),
-              params=Map({
-                  Optional("myparameter"): Str(),
-                  Optional("parameter2"): Int(),
-                  Optional("parameter3"): Str(),
-              }),
+              },
           )
 
           def do_other_thing(self, parameter):
@@ -55,7 +50,7 @@ Variations:
               append(self.preconditions['content'])
 
           def do_yet_another_thing(self):
-              #assert type(self.preconditions['hierarchical content']['y'][0]) is str
+              assert type(self.preconditions['hierarchical content']['y'][0]) is str
               append(self.preconditions['hierarchical content']['y'][0])
 
           @validate(animals=Map({"pond animal": Str()}))

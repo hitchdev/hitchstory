@@ -49,8 +49,9 @@ class Arguments(object):
             if len(validators) == 0:
                 self.argument = Any()(self.argument._chunk)
             else:
-                self.argument = list(validators.values())[0](self.argument._chunk)
-            self.argument = self.parameterize(self.argument)
+                validator = utils.YAML_Param | list(validators.values())[0]
+                self.argument = validator(self.argument._chunk)
+            self.argument = self.parameterize(self.argument.data)
 
     def pythonized_kwargs(self):
         """

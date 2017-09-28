@@ -43,7 +43,8 @@ Invalid story:
       scenario:
       - Raises exception:
           exception_type: hitchstory.exceptions.StepContainsInvalidValidator
-          message: does not contain argument 'not_an_argument' listed as a validator
+          message: Step <function Engine.add_product at 0x7fd810e91598> does not contain
+            argument 'not_an_argument' listed as a validator.
 
     Callable step not found:
       preconditions:

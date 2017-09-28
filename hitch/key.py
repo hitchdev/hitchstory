@@ -29,11 +29,11 @@ class Engine(BaseEngine):
             Optional("example1.story"): Str(),
             Optional("example2.story"): Str(),
             Optional("engine.py"): Str(),
-            "setup": Str(),
-            "code": Str(),
+            Optional("setup"): Str(),
+            Optional("code"): Str(),
         }),
         about={
-            "tags": Seq(Str()),
+            Optional("tags"): Seq(Str()),
         },
     )
 
@@ -130,50 +130,52 @@ class Engine(BaseEngine):
     
     
     def raises_exception(self, message=None, exception_type=None):
-        #try:
-            #ExamplePythonCode(
-                #self.preconditions['code']
-            #).with_setup_code(self.preconditions.get('setup', ''))\
-            #.expect_exception(exception_type, message)\
-            #.run(self.path.state, self.python)
-        #except ExpectedExceptionMessageWasDifferent as exception:
-            #self.current_step.update(message=exception.actual_message)
+        try:
+            self.result = ExamplePythonCode(
+                self.preconditions['code']
+            ).with_setup_code(self.preconditions.get('setup', ''))\
+             .expect_exceptions()\
+             .run(self.path.state, self.python)
+            
+            self.result.exception_was_raised(exception_type, message)
+        except ExpectedExceptionMessageWasDifferent as exception:
+            self.current_step.update(message=exception.actual_message)
 
-        exception = message
-        from jinja2.environment import Environment
-        from jinja2 import DictLoader
-        from strictyaml import load
+        #exception = message
+        #from jinja2.environment import Environment
+        #from jinja2 import DictLoader
+        #from strictyaml import load
 
-        class ExpectedExceptionDidNotHappen(Exception):
-            pass
+        #class ExpectedExceptionDidNotHappen(Exception):
+            #pass
         
-        error_path = self.path.state.joinpath("error.txt")
-        runpy = self.path.state.joinpath("runmypy.py")
-        if error_path.exists():
-            error_path.remove()
-        env = Environment()
-        env.loader = DictLoader(
-            load(self.path.key.joinpath("codetemplates.yml").bytes().decode('utf8')).data
-        )
-        runpy.write_text(env.get_template("run_code").render(
-            setup=self.preconditions['setup'],
-            code=self.preconditions['code'],
-            error_path=error_path,
-        ))
-        self.python(runpy).in_dir(self.path.state).run()
-        if not error_path.exists():
-            raise ExpectedExceptionDidNotHappen()
-        else:
-            import difflib
-            actual_error = error_path.bytes().decode('utf8')
-            if not exception.strip() in actual_error:
-                raise Exception(
-                    "actual:\n{0}\nexpected:\n{1}\ndiff:\n{2}".format(
-                        actual_error,
-                        exception,
-                        ''.join(difflib.context_diff(exception, actual_error)),
-                    )
-                )
+        #error_path = self.path.state.joinpath("error.txt")
+        #runpy = self.path.state.joinpath("runmypy.py")
+        #if error_path.exists():
+            #error_path.remove()
+        #env = Environment()
+        #env.loader = DictLoader(
+            #load(self.path.key.joinpath("codetemplates.yml").bytes().decode('utf8')).data
+        #)
+        #runpy.write_text(env.get_template("run_code").render(
+            #setup=self.preconditions['setup'],
+            #code=self.preconditions['code'],
+            #error_path=error_path,
+        #))
+        #self.python(runpy).in_dir(self.path.state).run()
+        #if not error_path.exists():
+            #raise ExpectedExceptionDidNotHappen()
+        #else:
+            #import difflib
+            #actual_error = error_path.bytes().decode('utf8')
+            #if not exception.strip() in actual_error:
+                #raise Exception(
+                    #"actual:\n{0}\nexpected:\n{1}\ndiff:\n{2}".format(
+                        #actual_error,
+                        #exception,
+                        #''.join(difflib.context_diff(exception, actual_error)),
+                    #)
+                #)
 
     def code(self, command):
         self.doc.step("code", command=command)
@@ -290,7 +292,7 @@ class Engine(BaseEngine):
         self.output_will_be(reference, changeable)
       
     def on_success(self):
-        pass #self.new_story.save()
+        self.new_story.save()
 
     def tear_down(self):
         try:

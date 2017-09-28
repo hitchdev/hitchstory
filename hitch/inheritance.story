@@ -20,16 +20,16 @@ Inherit one story from another:
   preconditions:
     example.story: |
       Write to file 1:
+        default:
+          a: 1
+          b: 2
+          c: 3
         preconditions:
           a: (( a ))
           b: (( b ))
         scenario:
           - Do thing one
           - Do thing three: (( c ))
-        params:
-          a: 1
-          b: 2
-          c: 3
 
       Write to file 2:
         based on: Write to file 1
@@ -40,34 +40,32 @@ Inherit one story from another:
 
       Write to file 3:
         based on: Write to file 1
-        params:
+        default:
           a: 9
           c: 11
     setup: |
-      from hitchstory import StoryCollection, BaseEngine, StorySchema
+      from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
       from strictyaml import Map, Int, Str, Optional
       from pathquery import pathq
       from code_that_does_things import *
 
       class Engine(BaseEngine):
           schema = StorySchema(
-              preconditions=Map({
+              preconditions={
                   Optional("a"): Str(), Optional("b"): Str()
-              }),
-              params=Map({
-                  Optional("a"): Str(), Optional("b"): Str(), Optional("c"): Str()
-              }),
+              },
           )
 
           def do_thing_one(self):
               append("thing one: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
 
+          @validate(value=Str())
           def do_thing_three(self, value):
               append("thing three: {0}".format(value))
 
           def do_thing_two(self):
               append("thing two: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
-      
+
       collection = StoryCollection(pathq(".").ext("story"), Engine())
   variations:
     Original story:
@@ -79,7 +77,7 @@ Inherit one story from another:
       - Output is: |
           thing one: 1, 2
           thing three: 3
-    
+
     Override preconditions:
       preconditions:
         code: |
@@ -90,7 +88,7 @@ Inherit one story from another:
           thing one: 1, 3
           thing three: 3
           thing two: 1, 3
-        
+
     Override parameters:
       preconditions:
         code: |
@@ -104,7 +102,7 @@ Inherit one story from another:
 
 
 Attempt inheritance from non-existent story:
-  preconditions:  
+  preconditions:
     example.story: |
       Write to file:
         based on: Create files
@@ -126,4 +124,7 @@ Attempt inheritance from non-existent story:
     code: |
       StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file").play()
   scenario:
-  - Raises exception: not found
+  - Raises exception:
+      exception type: hitchstory.exceptions.BasedOnStoryNotFound
+      message: Story 'Create files' which 'Write to file' in '/home/colm/.hitch/90646u/state/example.story'
+        is based upon not found.

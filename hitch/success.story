@@ -32,19 +32,19 @@ Story success:
       result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
       output(result.report())
   scenario:
-    - Run code
-    - Output is: |
-        STORY RAN SUCCESSFULLY ((( anything )))/example.story: Create files in 0.1 seconds.
-    - File was created with:
-        filename: step1.txt
-        contents: example
-    - File was created with:
-        filename: step2.txt
-        contents: example
-    - File was created with:
-        filename: step3.txt
-        contents: third step
-    - File was created with:
-        filename: ranstory.txt
-        contents: Create files
-    - Splines reticulated
+  - Run code
+  - Output is: |
+      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Create files in 0.1 seconds.
+  - File was created with:
+      filename: step1.txt
+      contents: example
+  - File was created with:
+      filename: step2.txt
+      contents: example
+  - File was created with:
+      filename: step3.txt
+      contents: third step
+  - File was created with:
+      filename: ranstory.txt
+      contents: Create files
+  - Splines reticulated

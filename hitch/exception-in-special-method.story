@@ -24,15 +24,15 @@ Exception in special methods:
               def on_success(self):
                   raise_example_exception()
       scenario:
-        - Long form exception raised:
-            artefact: exception in on_success
-            changeable:
-              - ~/((( anything )))/story.py
-              - /((( anything )))/code_that_does_things.py
-              - /((( anything )))/engine.py
-              - <ipython-input-((( anything )))>
-              
-              
+      - Long form exception raised:
+          artefact: exception in on_success
+          changeable:
+          - ~/((( anything )))/story.py
+          - /((( anything )))/code_that_does_things.py
+          - /((( anything )))/engine.py
+          - <ipython-input-((( anything )))>
+
+
     in on_failure:
       preconditions:
         engine.py: |
@@ -46,15 +46,15 @@ Exception in special methods:
               def on_failure(self, result):
                   raise_example_exception()
       scenario:
-        - Long form exception raised:
-            artefact: exception in on_failure
-            changeable:
-              - ~/((( anything )))/story.py
-              - /((( anything )))/code_that_does_things.py
-              - /((( anything )))/engine.py
-              - <ipython-input-((( anything )))>
-              
-              
+      - Long form exception raised:
+          artefact: exception in on_failure
+          changeable:
+          - ~/((( anything )))/story.py
+          - /((( anything )))/code_that_does_things.py
+          - /((( anything )))/engine.py
+          - <ipython-input-((( anything )))>
+
+
     in tear_down:
       preconditions:
         engine.py: |
@@ -68,10 +68,10 @@ Exception in special methods:
               def tear_down(self):
                   raise_example_exception()
       scenario:
-        - Long form exception raised:
-            artefact: exception in tear_down
-            changeable:
-              - ~/((( anything )))/story.py
-              - /((( anything )))/code_that_does_things.py
-              - /((( anything )))/engine.py
-              - <ipython-input-((( anything )))>
+      - Long form exception raised:
+          artefact: exception in tear_down
+          changeable:
+          - ~/((( anything )))/story.py
+          - /((( anything )))/code_that_does_things.py
+          - /((( anything )))/engine.py
+          - <ipython-input-((( anything )))>

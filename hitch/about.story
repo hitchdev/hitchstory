@@ -40,15 +40,15 @@ Descriptive parameters attached to story:
         code: |
           StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
       scenario:
-        - Run code
-        - Splines reticulated
-        - Llama's ass kicked
+      - Run code
+      - Splines reticulated
+      - Llama's ass kicked
 
     Run only filtered stories:
       preconditions:
         code: |
-         StoryCollection(pathq(".").ext("story"), Engine()).filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
+          StoryCollection(pathq(".").ext("story"), Engine()).filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
       scenario:
-        - Run code
-        - Splines reticulated
-    
+      - Run code
+      - Splines reticulated
+

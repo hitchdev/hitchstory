@@ -16,7 +16,7 @@ Strong typing:
       Create files:
         preconditions:
           x: 1
-        params:
+        default:
           var: 1
         scenario:
           - Add product:
@@ -29,37 +29,19 @@ Strong typing:
                 tagline: Hoopy
                 nametag: Ford Prefect
           - Put back items: 1
-    engine.py: |
-      from hitchstory import BaseEngine, validate, StorySchema
-      from strictyaml import Seq, Str, Int, Map
-      from code_that_does_things import *
-        
-      class Engine(BaseEngine):
-          schema = StorySchema(
-              preconditions=Map({"x": Int()}),
-              params=Map({"var": Int()}),
-          )
-          def set_up(self):
-              pass
-
-          @validate(
-              versions=Seq(Str()),
-              quantity=Int(),
-              options=Map({"tagline": Str(), "nametag": Str()}),
-          )
-          def add_product(self, quantity, name=None, versions=None, options=None):
-              assert type(quantity) is int, "not an integer"
-              assert type(versions[0]) is str, "not a string"
-              assert type(options['tagline']) is str, "not a string"
-              append(options['nametag'])
-
-          @validate(number_of_items=Int())
-          def put_back_items(self, number_of_items):
-              assert type(number_of_items) is int, "not an integer"
-              append("Items put back: {0}".format(number_of_items))
-
-          def tear_down(self):
-              pass
+    engine.py: "from hitchstory import BaseEngine, validate, StorySchema\nfrom strictyaml\
+      \ import Seq, Str, Int, Map\nfrom code_that_does_things import *\n  \nclass\
+      \ Engine(BaseEngine):\n    schema = StorySchema(\n        preconditions={\"\
+      x\": Int()},\n    )\n    def set_up(self):\n        pass\n\n    @validate(\n\
+      \        versions=Seq(Str()),\n        quantity=Int(),\n        options=Map({\"\
+      tagline\": Str(), \"nametag\": Str()}),\n    )\n    def add_product(self, quantity,\
+      \ name=None, versions=None, options=None):\n        assert type(quantity) is\
+      \ int, \"not an integer\"\n        assert type(versions[0]) is str, \"not a\
+      \ string\"\n        assert type(options['tagline']) is str, \"not a string\"\
+      \n        append(options['nametag'])\n\n    @validate(number_of_items=Int())\n\
+      \    def put_back_items(self, number_of_items):\n        assert type(number_of_items)\
+      \ is int, \"not an integer\"\n        append(\"Items put back: {}\".format(number_of_items))\n\
+      \n    def tear_down(self):\n        pass\n"
     setup: |
       from hitchstory import StoryCollection
       from code_that_does_things import *
@@ -69,8 +51,8 @@ Strong typing:
       result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
       print(result.report())
   scenario:
-    - Run code
-    - Output is: |
-        Ford Prefect
-        Items put back: 1
+  - Run code
+  - Output is: |
+      Ford Prefect
+      Items put back: 1
 

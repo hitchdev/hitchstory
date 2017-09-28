@@ -27,14 +27,18 @@ Shortcut lookup for story names:
         code: |
           StoryCollection(pathq(".").ext("story"), Engine()).shortcut("toast").play()
       scenario:
-        - Raises Exception: Story 'toast' not found.
-    
+      - Raises Exception: Story 'toast' not found.
+
     More than one story found:
       preconditions:
         code: |
           StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file").play()
       scenario:
-        - Raises Exception: More than one matching story
+      - Raises Exception: |
+          More than one matching story:
+          Create file again (in /home/colm/.hitch/90646u/state/example1.story)
+          Create files (in /home/colm/.hitch/90646u/state/example2.story)
+          Create file (in /home/colm/.hitch/90646u/state/example1.story)
 
     Story found and run:
       preconditions:
@@ -42,11 +46,11 @@ Shortcut lookup for story names:
           results = StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file", "again").play()
           output(results.report())
       scenario:
-        - Run code
-        - Output will be:
-            reference: successful
-            changeable:
-              - /((( anything )))/example1.story
+      - Run code
+      - Output will be:
+          reference: successful
+          changeable:
+          - /((( anything )))/example1.story
 
 
   #scenario:

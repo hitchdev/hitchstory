@@ -12,7 +12,7 @@ Rewrite story:
           - Do other thing:
               variable1: a
               variable2: b
-      
+
         variations:
           Do more things:
             scenario:
@@ -44,35 +44,15 @@ Rewrite story:
       result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
       output(result.report())
   scenario:
-    - Run code
-    - Output is: |
-        STORY RAN SUCCESSFULLY ((( anything )))/example.story: Do things in 0.1 seconds.
-        STORY RAN SUCCESSFULLY /home/colm/.hitch/90646u/state/example.story: Do things/Do more things in 0.1 seconds.
-    - File contents will be:
-        filename: example.story
-        contents: |-
-          Do things:
-            scenario:
-            - Do thing: |-
-                xxx:
-                yyy
-            - Do thing: |-
-                xxx:
-                yyy
-            - Do thing: |-
-                xxx:
-                yyy
-            - Do other thing:
-                variable1: a
-                variable2: |-
-                  complicated:
-                  multiline
-                  string
-                             
-
-            variations:
-              Do more things:
-                scenario:
-                - Do thing: |-
-                    xxx:
-                    yyy
+  - Run code
+  - Output is: |
+      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Do things in ((( anything ))) seconds.
+      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Do things/Do more things in ((( anything ))) seconds.
+  - File contents will be:
+      filename: example.story
+      contents: "Do things:\n  scenario:\n  - Do thing: |-\n      xxx:\n      yyy\n\
+        \  - Do thing: |-\n      xxx:\n      yyy\n  - Do thing: |-\n      xxx:\n \
+        \     yyy\n  - Do other thing:\n      variable1: a\n      variable2: |-\n\
+        \        complicated:\n        multiline\n        string\n               \
+        \    \n\n  variations:\n    Do more things:\n      scenario:\n      - Do thing:\
+        \ |-\n          xxx:\n          yyy"

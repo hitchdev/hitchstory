@@ -37,5 +37,5 @@ Abort a story with ctrl-C:
       result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
       output(result.report())
   scenario:
-    - Run code
-    - Splines reticulated
+  - Run code
+  - Splines reticulated
