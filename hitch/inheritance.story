@@ -64,6 +64,8 @@ Inherit one story from another:
               append("thing three: {0}".format(value))
 
           def do_thing_two(self):
+              assert isinstance(self.preconditions['a'], str)
+              assert isinstance(self.preconditions['b'], str)
               append("thing two: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
 
       collection = StoryCollection(pathq(".").ext("story"), Engine())
@@ -81,7 +83,7 @@ Inherit one story from another:
     Override preconditions:
       preconditions:
         code: |
-          collection.named("Write to file 2").play()
+          print(collection.named("Write to file 2").play().report())
       scenario:
       - Run code
       - Output is: |

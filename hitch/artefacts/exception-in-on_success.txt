@@ -1,7 +1,7 @@
 Stacktrace:
 
 [1]: function '[1mon_success[0m'
-  /((( anything )))/engine.py
+  /path/to/engine.py
 
     
         6 : 
@@ -12,7 +12,7 @@ Stacktrace:
     
 
 [2]: function '[1mraise_example_exception[0m'
-  /((( anything )))/code_that_does_things.py
+  /path/to/code_that_does_things.py
 
     
         20 : 

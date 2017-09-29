@@ -93,41 +93,24 @@ class Engine(BaseEngine):
             self.preconditions['code']
         ).with_setup_code(self.preconditions.get('setup', ''))\
          .run(self.path.state, self.python)
-        
-        if expect_output is not None:
-            result.final_output_was('SUCCESS')
-
         print(result.output)
 
-    def long_form_exception_raised(self, artefact=None, changeable=None):
-        #exception = message
-        from jinja2.environment import Environment
-        from jinja2 import DictLoader
-        from strictyaml import load
-
-        class ExpectedExceptionDidNotHappen(Exception):
-            pass
-        
-        error_path = self.path.state.joinpath("error.txt")
-        runpy = self.path.state.joinpath("runmypy.py")
-        if error_path.exists():
-            error_path.remove()
-        env = Environment()
-        env.loader = DictLoader(
-            load(self.path.key.joinpath("codetemplates.yml").bytes().decode('utf8')).data
-        )
-        runpy.write_text(env.get_template("run_code").render(
-            setup=self.preconditions['setup'],
-            code=self.preconditions['code'],
-            error_path=error_path,
-        ))
-        self.python(runpy).in_dir(self.path.state).run()
-        if not error_path.exists():
-            raise ExpectedExceptionDidNotHappen()
-        else:
-            self.path.state.joinpath("output.txt").write_text(error_path.bytes().decode('utf8'))
-            self.output_will_be(artefact, changeable=changeable)
-    
+    def long_form_exception_raised(self, artefact=None):
+        try:
+            self.result = ExamplePythonCode(
+                self.preconditions['code']
+            ).with_setup_code(self.preconditions.get('setup', ''))\
+             .expect_exceptions()\
+             .run(self.path.state, self.python)
+            processed_message = self.result.exception.message.replace(self.path.state, "/path/to")
+            assert processed_message == self.path.key.joinpath(
+                "artefacts", "{0}.txt".format(artefact.replace(" ", "-").lower())
+            ).bytes().decode('utf8')
+        except AssertionError:
+            if self.settings.get("overwrite artefacts"):
+                self.path.key.joinpath(
+                    "artefacts", "{0}.txt".format(artefact.replace(" ", "-").lower())
+                ).write_text(processed_message)
     
     def raises_exception(self, message=None, exception_type=None):
         try:
@@ -136,46 +119,15 @@ class Engine(BaseEngine):
             ).with_setup_code(self.preconditions.get('setup', ''))\
              .expect_exceptions()\
              .run(self.path.state, self.python)
-            
-            self.result.exception_was_raised(exception_type, message)
-        except ExpectedExceptionMessageWasDifferent as exception:
-            self.current_step.update(message=exception.actual_message)
-
-        #exception = message
-        #from jinja2.environment import Environment
-        #from jinja2 import DictLoader
-        #from strictyaml import load
-
-        #class ExpectedExceptionDidNotHappen(Exception):
-            #pass
-        
-        #error_path = self.path.state.joinpath("error.txt")
-        #runpy = self.path.state.joinpath("runmypy.py")
-        #if error_path.exists():
-            #error_path.remove()
-        #env = Environment()
-        #env.loader = DictLoader(
-            #load(self.path.key.joinpath("codetemplates.yml").bytes().decode('utf8')).data
-        #)
-        #runpy.write_text(env.get_template("run_code").render(
-            #setup=self.preconditions['setup'],
-            #code=self.preconditions['code'],
-            #error_path=error_path,
-        #))
-        #self.python(runpy).in_dir(self.path.state).run()
-        #if not error_path.exists():
-            #raise ExpectedExceptionDidNotHappen()
-        #else:
-            #import difflib
-            #actual_error = error_path.bytes().decode('utf8')
-            #if not exception.strip() in actual_error:
-                #raise Exception(
-                    #"actual:\n{0}\nexpected:\n{1}\ndiff:\n{2}".format(
-                        #actual_error,
-                        #exception,
-                        #''.join(difflib.context_diff(exception, actual_error)),
-                    #)
-                #)
+           
+            import re
+            self.result.exception_was_raised(exception_type=exception_type)
+            processed_message = self.result.exception.message.replace(self.path.state, "/path/to")
+            processed_message = re.compile(r'0x[0-9a-f]+').sub("0xffffffff", processed_message)
+            assert message == processed_message
+        except AssertionError:
+            if self.settings.get("overwrite artefacts"):
+                self.current_step.update(message=processed_message)
 
     def code(self, command):
         self.doc.step("code", command=command)
@@ -210,6 +162,7 @@ class Engine(BaseEngine):
         if hasattr(self, 'services'):
             self.services.stop_interactive_mode()
 
+    @expected_exception(FileNotFoundError)
     def output_is(self, expected_contents):
         output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
         regex = DefaultSimex(

@@ -26,11 +26,6 @@ Exception in special methods:
       scenario:
       - Long form exception raised:
           artefact: exception in on_success
-          changeable:
-          - ~/((( anything )))/story.py
-          - /((( anything )))/code_that_does_things.py
-          - /((( anything )))/engine.py
-          - <ipython-input-((( anything )))>
 
 
     in on_failure:
@@ -48,11 +43,6 @@ Exception in special methods:
       scenario:
       - Long form exception raised:
           artefact: exception in on_failure
-          changeable:
-          - ~/((( anything )))/story.py
-          - /((( anything )))/code_that_does_things.py
-          - /((( anything )))/engine.py
-          - <ipython-input-((( anything )))>
 
 
     in tear_down:
@@ -70,8 +60,3 @@ Exception in special methods:
       scenario:
       - Long form exception raised:
           artefact: exception in tear_down
-          changeable:
-          - ~/((( anything )))/story.py
-          - /((( anything )))/code_that_does_things.py
-          - /((( anything )))/engine.py
-          - <ipython-input-((( anything )))>

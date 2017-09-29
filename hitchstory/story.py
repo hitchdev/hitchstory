@@ -175,30 +175,29 @@ class Story(object):
         param_dict = self._collection.named(self.based_on).params \
             if self.based_on is not None else {}
         for name, param in self._parsed_yaml.get("default", {}).items():
-            param_dict[name] = param
+            param_dict[name] = param.data
         for name, param in self._collection._params.items():
             param_dict[name] = param
         return param_dict
 
     def unparameterized_preconditions(self):
-        precondition_dict = {}
         precondition_dict = self._collection.named(
             self.based_on
         ).unparameterized_preconditions() \
             if self.based_on is not None else {}
         for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
-            precondition_dict[str(name)] = precondition
+            precondition_dict[str(name)] = precondition.data
         return precondition_dict
 
     @property
     def preconditions(self):
         precondition_dict = self.unparameterized_preconditions()
         for name, precondition in precondition_dict.items():
-            if utils.is_parameter(precondition.data):
+            if utils.is_parameter(precondition):
                 precondition_dict[name] = \
-                    self.params[utils.parameter_name(precondition.data)]
+                    self.params[utils.parameter_name(precondition)]
             else:
-                precondition_dict[name] = precondition.data
+                precondition_dict[name] = precondition
         return precondition_dict
 
     @property

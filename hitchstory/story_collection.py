@@ -4,7 +4,7 @@ from hitchstory.story import StoryFile
 from hitchstory import exceptions
 from slugify import slugify
 from path import Path
-from copy import copy
+from copy import copy, deepcopy
 
 
 class StoryCollection(object):
@@ -33,9 +33,7 @@ class StoryCollection(object):
         self._filters = []
         self._params = {}
 
-    @property
-    def stories(self):
-        _stories = {}
+        self._stories = {}
         for filename in self._storypaths:
             if not Path(filename).exists():
                 raise exceptions.InvalidStoryPaths(
@@ -46,10 +44,13 @@ class StoryCollection(object):
                     "Story path '{0}' is a directory.".format(filename)
                 )
             for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
-                if story.slug in _stories:
-                    raise exceptions.DuplicateStoryNames(story, _stories[story.slug])
-                _stories[story.slug] = story
-        return _stories
+                if story.slug in self._stories:
+                    raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
+                self._stories[story.slug] = story
+
+    @property
+    def stories(self):
+        return self._stories
 
     def ordered_arbitrarily(self):
         """
@@ -103,7 +104,7 @@ class StoryCollection(object):
         return new_collection
 
     def with_params(self, **params):
-        new_collection = copy(self)
+        new_collection = deepcopy(self)
         new_collection._params = params
         return new_collection
 

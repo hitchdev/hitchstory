@@ -30,18 +30,18 @@ Strong typing:
                 nametag: Ford Prefect
           - Put back items: 1
     engine.py: "from hitchstory import BaseEngine, validate, StorySchema\nfrom strictyaml\
-      \ import Seq, Str, Int, Map\nfrom code_that_does_things import *\n  \nclass\
-      \ Engine(BaseEngine):\n    schema = StorySchema(\n        preconditions={\"\
-      x\": Int()},\n    )\n    def set_up(self):\n        pass\n\n    @validate(\n\
-      \        versions=Seq(Str()),\n        quantity=Int(),\n        options=Map({\"\
-      tagline\": Str(), \"nametag\": Str()}),\n    )\n    def add_product(self, quantity,\
-      \ name=None, versions=None, options=None):\n        assert type(quantity) is\
-      \ int, \"not an integer\"\n        assert type(versions[0]) is str, \"not a\
-      \ string\"\n        assert type(options['tagline']) is str, \"not a string\"\
-      \n        append(options['nametag'])\n\n    @validate(number_of_items=Int())\n\
+      \ import Seq, Str, Int, Map\nfrom code_that_does_things import append\n  \n\
+      class Engine(BaseEngine):\n    schema = StorySchema(\n        preconditions={'x':\
+      \ Int()},\n    )\n    def set_up(self):\n        pass\n\n    @validate(\n  \
+      \      versions=Seq(Str()),\n        quantity=Int(),\n        options=Map({\n\
+      \            'tagline': Str(), 'nametag': Str()\n        }),\n    )\n    def\
+      \ add_product(\n        self,\n        quantity,\n        name=None,\n     \
+      \   versions=None,\n        options=None\n    ):\n        assert type(quantity)\
+      \ is int\n        assert type(versions[0]) is str\n        assert type(options['tagline'])\
+      \ is str\n        append(options['nametag'])\n\n    @validate(number_of_items=Int())\n\
       \    def put_back_items(self, number_of_items):\n        assert type(number_of_items)\
-      \ is int, \"not an integer\"\n        append(\"Items put back: {}\".format(number_of_items))\n\
-      \n    def tear_down(self):\n        pass\n"
+      \ is int\n        append(\"Items put back: \" + str(number_of_items))\n\n  \
+      \  def tear_down(self):\n        pass"
     setup: |
       from hitchstory import StoryCollection
       from code_that_does_things import *

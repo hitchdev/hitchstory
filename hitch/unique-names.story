@@ -25,6 +25,6 @@ All stories must have a unique name:
   scenario:
   - Raises Exception:
       exception type: hitchstory.exceptions.DuplicateStoryNames
-      message: |-
-        Story 'Create file' in '/home/colm/.hitch/90646u/state/example1.story' and 'create-file' in '/home/colm/.hitch/90646u/state/example2.story' are identical when slugified ('create-file' and 'create-file').
-
+      message: Story 'Create file' in '/home/colm/.hitch/90646u/state/example1.story'
+        and 'create-file' in '/home/colm/.hitch/90646u/state/example2.story' are identical
+        when slugified ('create-file' and 'create-file').

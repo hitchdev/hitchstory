@@ -52,9 +52,9 @@ Multiple stories played:
       scenario:
       - Raises exception: |
           More than one matching story:
-          Create file again (in /home/colm/.hitch/90646u/state/example1.story)
           Create file (in /home/colm/.hitch/90646u/state/example1.story)
           Create files (in /home/colm/.hitch/90646u/state/example2.story)
+          Create file again (in /home/colm/.hitch/90646u/state/example1.story)
 
 
 Fail fast:
