@@ -1,24 +1,18 @@
-* Mapping under scenario (might require change to strictyaml?)
 * Print while running.
-* Don't convert mapping validated step code to string.
-* Run tests with specified params via code.
-* Make everything in preconditions / params schema optional.
+* Mapping under scenario (might require change to strictyaml?)
 * Params should match the schema of the precondition or step?
 * Update steps make save only run if something actually changed so as not to mess up indenting.
 * Rename preconditions -> given
 * Rename scenario - steps
+* Rename expected_exception -> hide_stacktrace
 * Examples -- parameters via a name.
 * Counter examples -- known failures, params with a name.
-* Example generator --
+* Example generator -- build in hypothesis.
 
 given
 steps
 examples:
 
-default params:
-  python version: 3.5.0
-  ruamel version: 
-  
 examples:
   default:
     python version: 3.5.0
