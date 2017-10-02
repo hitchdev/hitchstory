@@ -1,4 +1,5 @@
-* Run tests with specified parameters.
+* Mapping under scenario (might require change to strictyaml?)
+* Print while running.
 * Don't convert mapping validated step code to string.
 * Run tests with specified params via code.
 * Make everything in preconditions / params schema optional.
