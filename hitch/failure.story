@@ -8,15 +8,29 @@ Simple failure report:
           - Passing step
           - Failing step
           - Not executed step
-    engine.py: "from hitchstory import BaseEngine, expected_exception, Failure\nfrom\
-      \ code_that_does_things import *\n\n\nclass Engine(BaseEngine):\n    def passing_step(self):\n\
-      \        pass\n    \n    def failing_step(self):\n        raise_example_exception(\"\
-      Towel not located\")\n    \n    @expected_exception(ExampleException)\n    def\
-      \ failing_step_without_stacktrace(self):\n        raise_example_exception(\"\
-      Expected exception\")\n        \n    def raise_special_failure_exception(self):\n\
-      \        raise Failure(\"Special failure exception - no stacktrace printed!\"\
-      )\n    \n    def on_failure(self, result):\n        output(result.report())\n\
-      \    \n    def not_executed_step(self):\n        pass\n"
+    engine.py: |
+      from hitchstory import BaseEngine, expected_exception, Failure
+      from code_that_does_things import *
+
+      class Engine(BaseEngine):
+          def passing_step(self):
+              pass
+
+          def failing_step(self):
+              raise_example_exception("Towel not located")
+
+          @expected_exception(ExampleException)
+          def failing_step_without_stacktrace(self):
+              raise_example_exception("Expected exception")
+
+          def raise_special_failure_exception(self):
+              raise Failure("Special failure exception - no stacktrace printed!")
+
+          def on_failure(self, result):
+              output(result.report())
+
+          def not_executed_step(self):
+              pass
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
