@@ -16,6 +16,11 @@ Invalid YAML:
         scenario:
           - Do something: |
               text
+    example3.story: |
+      Invalid YAML:
+        scenario:
+          - Do something: text
+          Invalid
     engine.py: |
       from hitchstory import BaseEngine
       from code_that_does_things import *

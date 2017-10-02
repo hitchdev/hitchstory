@@ -76,15 +76,18 @@ class StoryStep(object):
             ))
 
     def expect_exception(self, engine, exception):
+        if isinstance(exception, exceptions.Failure):
+            return True
+
         try:
             step_method = self.step_method(engine)
         except exceptions.HitchStoryException:
-            return []
+            return False
 
         if hasattr(step_method, '_expected_exceptions'):
             return isinstance(exception, tuple(step_method._expected_exceptions))
 
-        return []
+        return False
 
     def run(self, engine):
         step_method = self.step_method(engine)

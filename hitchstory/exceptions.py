@@ -156,3 +156,10 @@ class TearDownException(HitchStorySpecialMethodException):
     Exception occurred in tear_down method.
     """
     pass
+
+
+class Failure(Exception):
+    """
+    Test failed.
+    """
+    pass

@@ -28,6 +28,7 @@ class Engine(BaseEngine):
             Optional("example.story"): Str(),
             Optional("example1.story"): Str(),
             Optional("example2.story"): Str(),
+            Optional("example3.story"): Str(),
             Optional("engine.py"): Str(),
             Optional("setup"): Str(),
             Optional("code"): Str(),
@@ -55,7 +56,9 @@ class Engine(BaseEngine):
         self.path.state.mkdir()
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
         
-        for filename in ["example.story", "example1.story", "example2.story", "engine.py", ]:
+        for filename in [
+            "example.story", "example1.story", "example2.story", "example3.story", "engine.py",
+        ]:
             if filename in self.preconditions:
                 self.path.state.joinpath(filename).write_text(self.preconditions[filename])
         
