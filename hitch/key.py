@@ -1,12 +1,8 @@
-from subprocess import call
-from os import path
 from commandlib import run, Command, CommandError
 import hitchpython
-import hitchserve
 from hitchstory import StoryCollection, StorySchema, BaseEngine, exceptions, validate
 from hitchrun import expected
-import strictyaml
-from strictyaml import MapPattern, Str, Seq, Map, Optional
+from strictyaml import Str, Seq, Map, Optional
 from pathquery import pathq
 import hitchtest
 import hitchdoc
@@ -14,7 +10,7 @@ from simex import DefaultSimex
 from commandlib import python
 from hitchrun import hitch_maintenance
 from hitchrun import DIR
-from hitchrunpy import ExamplePythonCode, ExpectedExceptionMessageWasDifferent, HitchRunPyException
+from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import expected_exception
 
 
@@ -23,7 +19,6 @@ class Engine(BaseEngine):
 
     schema = StorySchema(
         preconditions=Map({
-            Optional("files"): MapPattern(Str(), Str()), # TODO : remove
             Optional("base.story"): Str(),
             Optional("example.story"): Str(),
             Optional("example1.story"): Str(),
@@ -55,19 +50,12 @@ class Engine(BaseEngine):
             self.path.state.rmtree(ignore_errors=True)
         self.path.state.mkdir()
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
-        
+
         for filename in [
             "example.story", "example1.story", "example2.story", "example3.story", "engine.py",
         ]:
             if filename in self.preconditions:
                 self.path.state.joinpath(filename).write_text(self.preconditions[filename])
-        
-
-        for filename, text in self.preconditions.get("files", {}).items():
-            filepath = self.path.state.joinpath(filename)
-            if not filepath.dirname().exists():
-                filepath.dirname().mkdir()
-            filepath.write_text(text)
 
         self.python_package = hitchpython.PythonPackage(
             self.preconditions.get('python_version', '3.5.0')
@@ -89,14 +77,13 @@ class Engine(BaseEngine):
             if changed:
                 self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
                 self.pip("install", ".").in_dir(self.path.project).run()
-    
+
     @expected_exception(HitchRunPyException)
     def run_code(self, expect_output=None):
-        result = example_python_code = ExamplePythonCode(
+        ExamplePythonCode(
             self.preconditions['code']
         ).with_setup_code(self.preconditions.get('setup', ''))\
          .run(self.path.state, self.python)
-        print(result.output)
 
     def long_form_exception_raised(self, artefact=None):
         try:
@@ -114,7 +101,7 @@ class Engine(BaseEngine):
                 self.path.key.joinpath(
                     "artefacts", "{0}.txt".format(artefact.replace(" ", "-").lower())
                 ).write_text(processed_message)
-    
+
     def raises_exception(self, message=None, exception_type=None):
         try:
             self.result = ExamplePythonCode(
@@ -122,7 +109,7 @@ class Engine(BaseEngine):
             ).with_setup_code(self.preconditions.get('setup', ''))\
              .expect_exceptions()\
              .run(self.path.state, self.python)
-           
+
             import re
             self.result.exception_was_raised(exception_type=exception_type)
             processed_message = self.result.exception.message.replace(self.path.state, "/path/to")
@@ -131,27 +118,6 @@ class Engine(BaseEngine):
         except AssertionError:
             if self.settings.get("overwrite artefacts"):
                 self.current_step.update(message=processed_message)
-
-    def code(self, command):
-        self.doc.step("code", command=command)
-
-
-    def returns_true(self, command, why=''):
-        self.ipython_step_library.assert_true(command)
-        self.doc.step("true", command=command, why=why)
-
-    def assert_true(self, command):
-        self.ipython_step_library.assert_true(command)
-        self.doc.step("true", command=command)
-
-    def assert_exception(self, command, exception):
-        assert exception.strip() in error
-        self.doc.step("exception", command=command, exception=exception)
-
-    def on_failure(self, result):
-        if self.settings.get("pause_on_failure", True):
-            if self.preconditions.get("launch_shell", False):
-                self.services.log(message=self.stacktrace.to_template())
 
     def file_contents_will_be(self, filename, contents):
         assert self.path.state.joinpath(filename).bytes().decode('utf8').strip() == contents.strip()
@@ -217,15 +183,12 @@ class Engine(BaseEngine):
         else:
             if self.settings.get('overwrite artefacts'):
                 artefact.write_text(simex_contents)
-                #print(output_contents)
             else:
                 if simex.compile(artefact.bytes().decode('utf8')).match(output_contents) is None:
                     raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
                         artefact.bytes().decode('utf8'),
                         output_contents,
                     ))
-                #else:
-                    #print(output_contents)
 
     def splines_reticulated(self):
         assert self.path.state.joinpath("splines_reticulated.txt").exists()
@@ -241,22 +204,8 @@ class Engine(BaseEngine):
         if self.path.state.joinpath(filename).bytes().decode('utf8') != contents:
             raise RuntimeError("{0} did not contain {0}".format(filename, contents))
 
-    def exception_raised(self, command, reference, changeable=None):
-        result = self.ipython_step_library.run(command, swallow_exception=True).error
-        assert result is not None
-        self.path.state.joinpath("output.txt").write_text(result)
-        self.output_will_be(reference, changeable)
-      
     def on_success(self):
         self.new_story.save()
-
-    def tear_down(self):
-        try:
-            self.shutdown_connection()
-        except:
-            pass
-        if hasattr(self, 'services'):
-            self.services.shutdown()
 
 
 @expected(exceptions.HitchStoryException)
@@ -295,6 +244,7 @@ def regression():
         ).ordered_by_name().play().report()
     )
 
+
 @expected(CommandError)
 def lint():
     """
@@ -305,11 +255,11 @@ def lint():
         "--max-line-length=100",
         "--exclude=__init__.py",
     ).run()
-    #python("-m", "flake8")(
-        #DIR.key.joinpath("key.py"),
-        #"--max-line-length=100",
-        #"--exclude=__init__.py",
-    #).run()
+    python("-m", "flake8")(
+        DIR.key.joinpath("key.py"),
+        "--max-line-length=100",
+        "--exclude=__init__.py",
+    ).run()
     print("Lint success!")
 
 
