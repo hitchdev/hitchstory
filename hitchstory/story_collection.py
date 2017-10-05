@@ -4,7 +4,7 @@ from hitchstory.story import StoryFile
 from hitchstory import exceptions
 from slugify import slugify
 from path import Path
-from copy import copy, deepcopy
+from copy import copy
 
 
 class StoryCollection(object):
@@ -32,24 +32,25 @@ class StoryCollection(object):
         self._named = None
         self._filters = []
         self._params = {}
-
-        self._stories = {}
-        for filename in self._storypaths:
-            if not Path(filename).exists():
-                raise exceptions.InvalidStoryPaths(
-                    "Story file name '{0}' does not exist.".format(filename)
-                )
-            if Path(filename).isdir():
-                raise exceptions.InvalidStoryPaths(
-                    "Story path '{0}' is a directory.".format(filename)
-                )
-            for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
-                if story.slug in self._stories:
-                    raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
-                self._stories[story.slug] = story
+        self._stories = None
 
     @property
     def stories(self):
+        if self._stories is None:
+            self._stories = {}
+            for filename in self._storypaths:
+                if not Path(filename).exists():
+                    raise exceptions.InvalidStoryPaths(
+                        "Story file name '{0}' does not exist.".format(filename)
+                    )
+                if Path(filename).isdir():
+                    raise exceptions.InvalidStoryPaths(
+                        "Story path '{0}' is a directory.".format(filename)
+                    )
+                for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
+                    if story.slug in self._stories:
+                        raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
+                    self._stories[story.slug] = story
         return self._stories
 
     def ordered_arbitrarily(self):
@@ -104,7 +105,7 @@ class StoryCollection(object):
         return new_collection
 
     def with_params(self, **params):
-        new_collection = deepcopy(self)
+        new_collection = copy(self)
         new_collection._params = params
         return new_collection
 
@@ -130,7 +131,8 @@ class StoryCollection(object):
         Return a single story that matches all of the words.
         """
         matching = []
-        for story in self.ordered_arbitrarily():
+        stories = self.ordered_arbitrarily()
+        for story in stories:
             if len([word for word in words if slugify(word) in story.slug]) == len(words):
                 matching.append(story)
         if len(matching) == 0:
