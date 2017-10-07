@@ -1,23 +1,27 @@
 Why not use Cucumber or other Gherkin-derived languages?
 ========================================================
 
-Original : Cucumber
-Python equivalents: lettuce, behave.
+Python equivalents: lettuce, behave
 Java equivalent: JBehave
 
-Gherkin was not a clearly designed language which even the language
-designer admitted to. It was more of an idea about
-development that was put forward and then cobbled together.
+Cucumber was the original 'BDD' frameworks and probably the most popular. It is essentially
+a parser for the Gherkin language, which is a high level "English-like" declarative language
+that can be used to specify user stories which can be executed.
 
-Unfortunately, because of this, the syntax is both ambiguous and verbose, which
-is why gherkin derived languages suffer from the following issues:
+This approach has the following advantages:
 
+* Stories are descriptive and declarative. Turing complete languages (python, Java, Ruby, C, etc.) are more powerful than necessary to describe user stories. Using a separate, less powerful language to describe them aids readability and maintainability.
 
-Regular expressions
--------------------
+* A language barrier can help maintain separation of concerns between story definition code and story execution code.
 
-   [ JAMIE ZAWINKSKI QUOTE ]
+HitchStory aims to maintain these benefits while improving upon the language
 
+Avoiding ambiguous parsing: abandonging English-like sentences
+--------------------------------------------------------------
+
+   Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems. - Jamie Zawinksi
+
+English is an ambiguous language. While this has 
 The use of regular expressions in cucumber was done as a hack to enable the use of
 "English-like" sentences in the construction of user stories.
 
@@ -27,10 +31,10 @@ for users.
 http://coryschires.com/ten-tips-for-writing-better-cucumber-steps/
 
 
-The need to use multiple parsers and have the story writer "choose" which one to use
-------------------------------------------------------------------------------------
+Strong typing
+-------------
 
-This is in evidence in lettuce. [ MORE EXPLANATION ]
+
 
 
 Verbosity
