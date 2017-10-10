@@ -22,23 +22,35 @@ Story with parameters:
           - Click on button
           - Save screenshot:
               browser: (( browser ))
-    engine.py: "from hitchstory import BaseEngine, StorySchema, validate\nfrom strictyaml\
-      \ import Map, Seq, Int, Str, Optional\nfrom code_that_does_things import *\n\
-      \nclass Engine(BaseEngine):\n    schema = StorySchema(\n        preconditions={\n\
-      \            Optional(\"browser\"): Map({\"name\": Str(), \"version\": Int()}),\n\
-      \        },\n    )\n    \n    def set_up(self):\n        append(self.preconditions['browser']['name'])\n\
-      \        append(self.preconditions['browser']['version'])\n\n    def click_on_button(self):\n\
-      \        append(\"clicked!\")\n    \n    @validate(browser=Map({\"name\": Str(),\
-      \ \"version\": Int()}))\n    def save_screenshot(self, browser):\n        append('save\
-      \ screenshot:')\n        append(\"screenshot-{0}-{1}.png\".format(browser['name'],\
-      \ browser['version']))\n"
+    engine.py: |
+      from hitchstory import BaseEngine, StorySchema, validate
+      from strictyaml import Map, Seq, Int, Str, Optional
+      from code_that_does_things import *
+
+      class Engine(BaseEngine):
+          schema = StorySchema(
+              preconditions={
+                  Optional("browser"): Map({"name": Str(), "version": Int()}),
+              },
+          )
+
+          def set_up(self):
+              append(self.preconditions['browser']['name'])
+              append(self.preconditions['browser']['version'])
+
+          def click_on_button(self):
+              append("clicked!")
+
+          @validate(browser=Map({"name": Str(), "version": Int()}))
+          def save_screenshot(self, browser):
+              append('save screenshot:')
+              append("screenshot-{0}-{1}.png".format(browser['name'], browser['version']))
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathq
       from engine import Engine
     code: |
       print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
-
   variations:
     Default:
       scenario:
