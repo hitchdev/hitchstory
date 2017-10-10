@@ -313,6 +313,7 @@ class StoryFile(object):
         variation_schema = {
             Optional("scenario"): Seq(Any()),
             Optional("description"): Str(),
+            Optional("default"): Any(),
             Optional('preconditions'): self._engine.schema.preconditions,
         }
 

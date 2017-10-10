@@ -22,6 +22,13 @@ Story with parameters:
           - Click on button
           - Save screenshot:
               browser: (( browser ))
+
+        variations:
+          with chrome:
+            default:
+              browser:
+                name: chrome
+                version: 153
     engine.py: |
       from hitchstory import BaseEngine, StorySchema, validate
       from strictyaml import Map, Seq, Int, Str, Optional
@@ -50,7 +57,7 @@ Story with parameters:
       from pathquery import pathq
       from engine import Engine
     code: |
-      print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
+      print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button").play().report())
   variations:
     Default:
       scenario:
@@ -61,6 +68,19 @@ Story with parameters:
           clicked!
           save screenshot:
           screenshot-firefox-37.png
+
+    Variation:
+      preconditions:
+        code: |
+          print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button/with chrome").play().report())
+      scenario:
+      - Run code
+      - Output is: |
+          chrome
+          153
+          clicked!
+          save screenshot:
+          screenshot-chrome-153.png
 
     Specify parameters with code:
       preconditions:
