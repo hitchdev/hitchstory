@@ -52,7 +52,8 @@ class Engine(BaseEngine):
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
 
         for filename in [
-            "example.story", "example1.story", "example2.story", "example3.story", "engine.py",
+            "base.story", "example.story", "example1.story",
+            "example2.story", "example3.story", "engine.py",
         ]:
             if filename in self.preconditions:
                 self.path.state.joinpath(filename).write_text(self.preconditions[filename])
