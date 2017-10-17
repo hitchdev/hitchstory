@@ -1,14 +1,21 @@
 Multiple stories played:
   preconditions:
+    base.story: |
+      Base story:
+        preconditions:
+          random variable: some value
     example1.story: |
       Create file:
+        based on: base story
         scenario:
           - Create file
       Create file again:
+        based on: base story
         scenario:
           - Create file
     example2.story: |
       Create files:
+        based on: base story
         scenario:
           - Create file
     setup: |
@@ -29,6 +36,7 @@ Multiple stories played:
       scenario:
       - Run code
       - Output is: |
+          STORY RAN SUCCESSFULLY ((( anything )))/base.story: Base story in 0.1 seconds.
           STORY RAN SUCCESSFULLY ((( anything )))/example1.story: Create file in 0.1 seconds.
           STORY RAN SUCCESSFULLY ((( anything )))/example1.story: Create file again in 0.1 seconds.
           STORY RAN SUCCESSFULLY ((( anything )))/example2.story: Create files in 0.1 seconds.

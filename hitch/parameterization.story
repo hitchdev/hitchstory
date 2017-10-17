@@ -87,7 +87,7 @@ Story with parameters:
         code: |
           storybook = StoryCollection(pathq(".").ext("story"), Engine())
 
-          print(storybook.with_params(browser={"name": "ie", "version": "6"}).one().play().report())
+          print(storybook.with_params(browser={"name": "ie", "version": "6"}).named("Click magic button").play().report())
       scenario:
       - Run code
       - Output is: |

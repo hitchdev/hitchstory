@@ -78,10 +78,10 @@ class StoryCollection(object):
         # Check for non-existent inherited stories
         for story in filtered_stories:
             if "based on" in story._parsed_yaml:
-                inherited_from = story._parsed_yaml['based on']
+                inherited_from = story._parsed_yaml['based on'].text
                 found = False
                 for search_story in all_stories:
-                    if inherited_from == search_story.name:
+                    if slugify(inherited_from) == search_story.slug:
                         found = True
                 if not found:
                     raise exceptions.BasedOnStoryNotFound(
@@ -107,6 +107,16 @@ class StoryCollection(object):
     def with_params(self, **params):
         new_collection = copy(self)
         new_collection._params = params
+        return new_collection
+
+    def without_filters(self):
+        new_collection = copy(self)
+        new_collection._filters = []
+        return new_collection
+
+    def in_any_filename(self):
+        new_collection = copy(self)
+        new_collection._in_filename = None
         return new_collection
 
     def named(self, name):

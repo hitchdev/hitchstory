@@ -174,8 +174,12 @@ class Story(object):
         return slugify(self.name)
 
     @property
+    def based_on_story(self):
+        return self._collection.without_filters().in_any_filename().named(self.based_on)
+
+    @property
     def params(self):
-        param_dict = self._collection.named(self.based_on).params \
+        param_dict = self.based_on_story.params \
             if self.based_on is not None else {}
         for name, param in self._parsed_yaml.get("default", {}).items():
             param_dict[name] = param.data
@@ -184,9 +188,7 @@ class Story(object):
         return param_dict
 
     def unparameterized_preconditions(self):
-        precondition_dict = self._collection.named(
-            self.based_on
-        ).unparameterized_preconditions() \
+        precondition_dict = self.based_on_story.unparameterized_preconditions() \
             if self.based_on is not None else {}
         for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
             precondition_dict[str(name)] = precondition.data
@@ -205,7 +207,7 @@ class Story(object):
 
     @property
     def parent_steps(self):
-        return self._collection.named(self.based_on).steps \
+        return self.based_on_story.steps \
             if self.based_on is not None else []
 
     @property
