@@ -79,9 +79,10 @@ class StoryCollection(object):
         for story in filtered_stories:
             if "based on" in story._parsed_yaml:
                 inherited_from = story._parsed_yaml['based on'].text
+                inherited_from_slug = slugify(inherited_from)
                 found = False
                 for search_story in all_stories:
-                    if slugify(inherited_from) == search_story.slug:
+                    if inherited_from_slug == search_story.slug:
                         found = True
                 if not found:
                     raise exceptions.BasedOnStoryNotFound(
@@ -125,8 +126,10 @@ class StoryCollection(object):
 
         Only slugified names are compared. E.g. "Story NAME" and "story-name" are equivalent.
         """
+        slug = slugify(name)
+
         for story in self.ordered_arbitrarily():
-            if slugify(name) == story.slug:
+            if slug == story.slug:
                 return story
         raise exceptions.StoryNotFound(name)
 
@@ -142,8 +145,12 @@ class StoryCollection(object):
         """
         matching = []
         stories = self.ordered_arbitrarily()
+        slugified_words = [slugify(word) for word in words]
         for story in stories:
-            if len([word for word in words if slugify(word) in story.slug]) == len(words):
+            if len(words) == len([
+                slugified_word for slugified_word in slugified_words
+                if slugified_word in story.slug
+            ]):
                 matching.append(story)
         if len(matching) == 0:
             raise exceptions.StoryNotFound(", ".join(words))

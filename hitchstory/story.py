@@ -129,6 +129,7 @@ class Story(object):
     ):
         self._story_file = story_file
         self._name = name
+        self._slug = None
         self._parsed_yaml = parsed_yaml
         self._engine = engine
         self._steps = []
@@ -171,7 +172,9 @@ class Story(object):
 
     @property
     def slug(self):
-        return slugify(self.name)
+        if self._slug is None:
+            self._slug = slugify(self.name)
+        return self._slug
 
     @property
     def based_on_story(self):
