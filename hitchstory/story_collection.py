@@ -33,6 +33,7 @@ class StoryCollection(object):
         self._filters = []
         self._params = {}
         self._stories = None
+        self._filtered_stories = None
 
     @property
     def stories(self):
@@ -58,39 +59,40 @@ class StoryCollection(object):
         Return a StoryList object containing stories filtered
         from the collection.
         """
-        filtered_stories = []
-        all_stories = []
-        for story in self.stories.values():
-            filtered = True
-            for filter_func in self._filters:
-                if not filter_func(story):
-                    filtered = False
-            if self._named is not None:
-                if story.name != self._named:
-                    filtered = False
-            if self._in_filename is not None:
-                if Path(story.filename).abspath() != Path(self._in_filename).abspath():
-                    filtered = False
-            if filtered:
-                filtered_stories.append(story)
-            all_stories.append(story)
+        if self._filtered_stories is None:
+            self._filtered_stories = []
+            all_stories = []
+            for story in self.stories.values():
+                filtered = True
+                for filter_func in self._filters:
+                    if not filter_func(story):
+                        filtered = False
+                if self._named is not None:
+                    if story.name != self._named:
+                        filtered = False
+                if self._in_filename is not None:
+                    if Path(story.filename).abspath() != Path(self._in_filename).abspath():
+                        filtered = False
+                if filtered:
+                    self._filtered_stories.append(story)
+                all_stories.append(story)
 
-        # Check for non-existent inherited stories
-        for story in filtered_stories:
-            if "based on" in story._parsed_yaml:
-                inherited_from = story._parsed_yaml['based on'].text
-                inherited_from_slug = slugify(inherited_from)
-                found = False
-                for search_story in all_stories:
-                    if inherited_from_slug == search_story.slug:
-                        found = True
-                if not found:
-                    raise exceptions.BasedOnStoryNotFound(
-                        inherited_from,
-                        story.name,
-                        story.filename,
-                    )
-        return filtered_stories
+            # Check for non-existent inherited stories
+            for story in self._filtered_stories:
+                if "based on" in story._parsed_yaml:
+                    inherited_from = story._parsed_yaml['based on'].text
+                    inherited_from_slug = slugify(inherited_from)
+                    found = False
+                    for search_story in all_stories:
+                        if inherited_from_slug == search_story.slug:
+                            found = True
+                    if not found:
+                        raise exceptions.BasedOnStoryNotFound(
+                            inherited_from,
+                            story.name,
+                            story.filename,
+                        )
+        return self._filtered_stories
 
     def filter(self, filter_func):
         assert callable(filter_func)
