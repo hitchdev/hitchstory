@@ -81,10 +81,13 @@ class Engine(BaseEngine):
 
     @expected_exception(HitchRunPyException)
     def run_code(self, expect_output=None):
-        ExamplePythonCode(
+        result = ExamplePythonCode(
             self.preconditions['code']
         ).with_setup_code(self.preconditions.get('setup', ''))\
          .run(self.path.state, self.python)
+        result.output
+        if self.settings.get("print output"):
+            print(result.output)
 
     def long_form_exception_raised(self, artefact=None):
         try:
@@ -216,7 +219,14 @@ def tdd(*words):
     """
     print(
         StoryCollection(
-            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
+            pathq(DIR.key).ext("story"),
+            Engine(
+                DIR,
+                {
+                    "overwrite artefacts": True,
+                    "print output": True,
+                },
+            )
         ).shortcut(*words).play().report()
     )
 

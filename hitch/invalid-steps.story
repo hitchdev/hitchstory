@@ -28,7 +28,7 @@ Invalid story:
                   pass
       scenario:
       - Run code
-      - Output contains: found non-integer
+      - Output contains: found arbitrary text
 
     Invalid validator on step:
       preconditions:

@@ -1,11 +1,8 @@
-setup.cfg
 *.kate-swp
 *.pyc
-setup.cfg
 build/
 dist/
-tests/.hitch
-state/
 hitchstory.egg-info/
 hitch/hitchdir
 hitch/gen
+temp/

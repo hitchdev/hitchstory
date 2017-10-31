@@ -1,5 +1,5 @@
 from hitchstory import utils
-from strictyaml import YAML, Any
+from strictyaml import YAML
 
 
 class Arguments(object):
@@ -39,18 +39,13 @@ class Arguments(object):
             _kwargs = {}
             for key, value in self.original_args.items():
                 if str(key) in validators.keys():
-                    validator = utils.YAML_Param | validators[key]
-                    _kwargs[key] = self.parameterize(validator(value._chunk).data)
-                else:
-                    _kwargs[key] = self.parameterize(Any()(value._chunk).data)
+                    value.revalidate(utils.YAML_Param | validators[key])
+                _kwargs[key] = self.parameterize(value.data)
 
             self.kwargs = _kwargs
         if self.single_argument:
-            if len(validators) == 0:
-                self.argument = Any()(self.argument._chunk)
-            else:
-                validator = utils.YAML_Param | list(validators.values())[0]
-                self.argument = validator(self.argument._chunk)
+            if len(validators) > 0:
+                self.argument.revalidate(utils.YAML_Param | list(validators.values())[0])
             self.argument = self.parameterize(self.argument.data)
 
     def pythonized_kwargs(self):

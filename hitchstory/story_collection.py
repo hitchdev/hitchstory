@@ -96,30 +96,36 @@ class StoryCollection(object):
 
     def filter(self, filter_func):
         assert callable(filter_func)
-        new_collection = copy(self)
+        new_collection = self.copy()
         new_collection._filters.append(filter_func)
         return new_collection
 
     def in_filename(self, filename):
-        new_collection = copy(self)
+        new_collection = self.copy()
         new_collection._in_filename = Path(filename)
         if not new_collection._in_filename.exists():
             raise exceptions.FileNotFound(filename)
         return new_collection
 
     def with_params(self, **params):
-        new_collection = copy(self)
+        new_collection = self.copy()
         new_collection._params = params
         return new_collection
 
     def without_filters(self):
-        new_collection = copy(self)
+        new_collection = self.copy()
         new_collection._filters = []
         return new_collection
 
     def in_any_filename(self):
-        new_collection = copy(self)
+        new_collection = self.copy()
         new_collection._in_filename = None
+        return new_collection
+
+    def copy(self):
+        new_collection = copy(self)
+        new_collection._filtered_stories = None
+        new_collection._stories = None
         return new_collection
 
     def named(self, name):
@@ -129,7 +135,6 @@ class StoryCollection(object):
         Only slugified names are compared. E.g. "Story NAME" and "story-name" are equivalent.
         """
         slug = slugify(name)
-
         for story in self.ordered_arbitrarily():
             if slug == story.slug:
                 return story

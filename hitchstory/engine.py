@@ -2,7 +2,7 @@
 User-exposed engine related code.
 """
 from hitchstory import exceptions
-from strictyaml import MapPattern, Any, Map, Validator, Optional
+from strictyaml import MapPattern, Str, Any, Map, Validator, Optional
 from hitchstory.story import NewStory
 from hitchstory import utils
 
@@ -47,7 +47,7 @@ class StorySchema(object):
     """
     def __init__(self, preconditions=None, params=None, about=None):
         if preconditions is None:
-            self._preconditions = MapPattern(utils.YAML_Param | Any(), utils.YAML_Param | Any())
+            self._preconditions = MapPattern(Str(), utils.YAML_Param | Any())
         else:
             _preconditions = {}
             for name, validator in preconditions.items():

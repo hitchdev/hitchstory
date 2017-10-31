@@ -29,19 +29,45 @@ Strong typing:
                 tagline: Hoopy
                 nametag: Ford Prefect
           - Put back items: 1
-    engine.py: "from hitchstory import BaseEngine, validate, StorySchema\nfrom strictyaml\
-      \ import Seq, Str, Int, Map\nfrom code_that_does_things import append\n  \n\
-      class Engine(BaseEngine):\n    schema = StorySchema(\n        preconditions={'x':\
-      \ Int()},\n    )\n    def set_up(self):\n        pass\n\n    @validate(\n  \
-      \      versions=Seq(Str()),\n        quantity=Int(),\n        options=Map({\n\
-      \            'tagline': Str(), 'nametag': Str()\n        }),\n    )\n    def\
-      \ add_product(\n        self,\n        quantity,\n        name=None,\n     \
-      \   versions=None,\n        options=None\n    ):\n        assert type(quantity)\
-      \ is int\n        assert type(versions[0]) is str\n        assert type(options['tagline'])\
-      \ is str\n        append(options['nametag'])\n\n    @validate(number_of_items=Int())\n\
-      \    def put_back_items(self, number_of_items):\n        assert type(number_of_items)\
-      \ is int\n        append(\"Items put back: \" + str(number_of_items))\n\n  \
-      \  def tear_down(self):\n        pass"
+    engine.py: |
+      from hitchstory import BaseEngine, validate, StorySchema
+      from strictyaml import Seq, Str, Int, Map
+      from code_that_does_things import append
+
+      class Engine(BaseEngine):
+          schema = StorySchema(
+              preconditions={'x': Int()},
+          )
+
+          def set_up(self):
+              pass
+
+          @validate(
+              versions=Seq(Str()),
+              quantity=Int(),
+              options=Map({
+                  'tagline': Str(), 'nametag': Str()
+              }),
+          )
+          def add_product(
+              self,
+              quantity,
+              name=None,
+              versions=None,
+              options=None
+          ):
+              assert type(quantity) is int, "quantity is of type {0}".format(type(quantity))
+              assert type(versions[0]) is str
+              assert type(options['tagline']) is str
+              append(options['nametag'])
+
+          @validate(number_of_items=Int())
+          def put_back_items(self, number_of_items):
+              assert type(number_of_items) is int
+              append("Items put back: " + str(number_of_items))
+
+          def tear_down(self):
+              pass
     setup: |
       from hitchstory import StoryCollection
       from code_that_does_things import *
