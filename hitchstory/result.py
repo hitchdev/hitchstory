@@ -1,10 +1,7 @@
+from hitchstory.utils import TEMPLATE_DIR
 from jinja2.environment import Environment
 from jinja2 import FileSystemLoader
-from os import path
 import colorama
-
-
-TEMPLATE_DIR = path.join(path.dirname(path.realpath(__file__)), "templates")
 
 
 class ResultList(object):
@@ -27,7 +24,7 @@ class Result(object):
         env = Environment()
         env.loader = FileSystemLoader(TEMPLATE_DIR)
         return env.get_template(
-            path.basename(path.join(TEMPLATE_DIR, template_name))
+            str(TEMPLATE_DIR.joinpath(template_name).basename())
         ).render(
             result=self,
             Fore=colorama.Fore,

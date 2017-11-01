@@ -1,21 +1,10 @@
 from hitchstory.result import Success, Failure
 from hitchstory.story_step import StoryStep
+from hitchstory.utils import DEFAULT_STACK_TRACE
 from hitchstory import exceptions
 from hitchstory import utils
 from slugify import slugify
-from path import Path
-import prettystack
 import time
-
-
-THIS_DIRECTORY = Path(__file__).realpath().dirname()
-
-
-DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
-                                 .to_console()\
-                                 .cut_calling_code(
-                                      THIS_DIRECTORY.joinpath("story_step.py")
-                                 )
 
 
 class Story(object):

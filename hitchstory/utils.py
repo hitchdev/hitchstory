@@ -1,5 +1,19 @@
 from strictyaml import Regex
 from re import compile
+from path import Path
+import prettystack
+
+
+SRC_DIR = Path(__file__).realpath().dirname()
+
+TEMPLATE_DIR = SRC_DIR.joinpath("templates")
+
+
+DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
+                                 .to_console()\
+                                 .cut_calling_code(
+                                      SRC_DIR.joinpath("story_step.py")
+                                 )
 
 
 PARAM_REGEX = r"^\(\((.*?)\)\)$"
