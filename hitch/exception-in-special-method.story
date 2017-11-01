@@ -2,7 +2,7 @@ Exception in special methods:
   preconditions:
     example.story: |
       Do thing:
-        scenario:
+        steps:
           - Do thing
     setup: |
       from hitchstory import StoryCollection

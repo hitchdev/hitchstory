@@ -5,13 +5,13 @@ Descriptive parameters attached to story:
         description: A great city. The best.
         jiras: JIRA-123, JIRA-124
         features: files, creating
-        scenario:
+        steps:
           - Reticulate splines
 
       Live in city:
         jiras: JIRA-789
         features: other
-        scenario:
+        steps:
           - Kick llama's ass
     setup: |
       from hitchstory import StoryCollection, BaseEngine, StorySchema

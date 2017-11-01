@@ -45,12 +45,12 @@ class StorySchema(object):
     * parameters - variables which you can feed into a story.
     * about - descriptive properties - e.g. feature names, issue ticket numbers
     """
-    def __init__(self, preconditions=None, params=None, about=None):
-        if preconditions is None:
+    def __init__(self, given=None, params=None, about=None):
+        if given is None:
             self._preconditions = MapPattern(Str(), utils.YAML_Param | Any())
         else:
             _preconditions = {}
-            for name, validator in preconditions.items():
+            for name, validator in given.items():
                 assert isinstance(validator, Validator),\
                     "precondition schema must be strictyaml Validators"
                 _preconditions[name] = utils.YAML_Param | validator
@@ -82,7 +82,7 @@ class BaseEngine(object):
         return NewStory(self)
 
     @property
-    def preconditions(self):
+    def given(self):
         return self._preconditions
 
     def set_up(self):

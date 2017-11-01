@@ -5,7 +5,7 @@ Rewrite story:
   preconditions:
     example.story: |
       Do things:
-        scenario:
+        steps:
           - Do thing: x
           - Do thing: y
           - Do thing: z
@@ -15,7 +15,7 @@ Rewrite story:
 
         variations:
           Do more things:
-            scenario:
+            steps:
               - Do thing: c
     engine.py: |
       from hitchstory import BaseEngine
@@ -50,9 +50,29 @@ Rewrite story:
       STORY RAN SUCCESSFULLY ((( anything )))/example.story: Do things/Do more things in ((( anything ))) seconds.
   - File contents will be:
       filename: example.story
-      contents: "Do things:\n  scenario:\n  - Do thing: |-\n      xxx:\n      yyy\n\
-        \  - Do thing: |-\n      xxx:\n      yyy\n  - Do thing: |-\n      xxx:\n \
-        \     yyy\n  - Do other thing:\n      variable1: a\n      variable2: |-\n\
-        \        complicated:\n        multiline\n        string\n               \
-        \    \n\n  variations:\n    Do more things:\n      scenario:\n      - Do thing:\
-        \ |-\n          xxx:\n          yyy"
+      contents: |
+        Do things:
+          steps:
+          - Do thing: |-
+              xxx:
+              yyy
+          - Do thing: |-
+              xxx:
+              yyy
+          - Do thing: |-
+              xxx:
+              yyy
+          - Do other thing:
+              variable1: a
+              variable2: |-
+                complicated:
+                multiline
+                string
+
+
+          variations:
+            Do more things:
+              steps:
+              - Do thing: |-
+                  xxx:
+                  yyy

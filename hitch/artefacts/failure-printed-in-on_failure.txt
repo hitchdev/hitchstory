@@ -2,7 +2,7 @@
     "Failing story" in 0.1 seconds.
 [22m
 
-      scenario:
+      steps:
       - Passing step
     [1m  - Failing step[22m
       - Not executed step

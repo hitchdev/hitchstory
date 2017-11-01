@@ -8,17 +8,17 @@ Invalid YAML:
   preconditions:
     example1.story: |
       Invalid YAML:
-        scenario
+        steps
           - Do something
               note the ^^^^ invalid YAML
     example2.story: |
       Valid YAML:
-        scenario:
+        steps:
           - Do something: |
               text
     example3.story: |
       Invalid YAML:
-        scenario:
+        steps:
           - Do something: text
           Invalid
     engine.py: |

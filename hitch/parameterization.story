@@ -12,20 +12,20 @@ Story with parameters:
   preconditions:
     example.story: |
       Click magic button:
-        default:
+        with:
           browser:
             name: firefox
             version: 37
-        preconditions:
+        given:
           browser: (( browser ))
-        scenario:
-          - Click on button
-          - Save screenshot:
-              browser: (( browser ))
+        steps:
+        - Click on button
+        - Save screenshot:
+            browser: (( browser ))
 
         variations:
           with chrome:
-            default:
+            with:
               browser:
                 name: chrome
                 version: 153
@@ -35,15 +35,15 @@ Story with parameters:
       from code_that_does_things import *
 
       class Engine(BaseEngine):
-          schema = StorySchema(
-              preconditions={
+          schema=StorySchema(
+              given={
                   Optional("browser"): Map({"name": Str(), "version": Int()}),
               },
           )
 
           def set_up(self):
-              append(self.preconditions['browser']['name'])
-              append(self.preconditions['browser']['version'])
+              append(self.given['browser']['name'])
+              append(self.given['browser']['version'])
 
           def click_on_button(self):
               append("clicked!")

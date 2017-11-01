@@ -2,21 +2,21 @@ Multiple stories played:
   preconditions:
     base.story: |
       Base story:
-        preconditions:
+        given:
           random variable: some value
     example1.story: |
       Create file:
         based on: base story
-        scenario:
+        steps:
           - Create file
       Create file again:
         based on: base story
-        scenario:
+        steps:
           - Create file
     example2.story: |
       Create files:
         based on: base story
-        scenario:
+        steps:
           - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
@@ -67,11 +67,16 @@ Multiple stories played:
 
 Fail fast:
   preconditions:
-    example1.story: "A Create file: \n  scenario:\n    - Create file\nB Create file:\n\
-      \  scenario:\n    - Fail\n"
+    example1.story: |
+      A Create file:
+        steps:
+        - Create file
+      B Create file:
+        steps:
+        - Fail
     example2.story: |
       C Create file a third time:
-        scenario:
+        steps:
           - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine

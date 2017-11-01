@@ -16,11 +16,11 @@ Gradual typing of story steps:
   preconditions:
     example.story: |
       Create files:
-        preconditions:
+        given:
           files created:
             preconditionfile.txt:
               some text
-        scenario:
+        steps:
           - Create file:
               details:
                 file name: step1.txt
@@ -32,7 +32,7 @@ Gradual typing of story steps:
 
       class Engine(BaseEngine):
           def set_up(self):
-              for filename, contents in self.preconditions['files created'].items():
+              for filename, contents in self.given['files created'].items():
                   with open(filename, 'w') as handle:
                       handle.write(contents)
 

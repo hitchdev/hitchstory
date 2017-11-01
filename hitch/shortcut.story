@@ -2,14 +2,14 @@ Shortcut lookup for story names:
   preconditions:
     example1.story: |
       Create file:
-        scenario:
+        steps:
           - Create file
       Create file again:
-        scenario:
+        steps:
           - Create file
     example2.story: |
       Create files:
-        scenario:
+        steps:
           - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine

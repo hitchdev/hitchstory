@@ -6,13 +6,13 @@ Variations:
   preconditions:
     example.story: |
       Create files:
-        preconditions:
+        given:
           content: dog
           hierarchical content:
             x: 1
             y:
               - 42
-        scenario:
+        steps:
           - Do thing with precondition
           - Do other thing: dog
           - Do yet another thing
@@ -21,7 +21,7 @@ Variations:
                 pond animal: frog
         variations:
           cat:
-            preconditions:
+            given:
               content: cat
     setup: |
       from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
@@ -32,7 +32,7 @@ Variations:
 
       class Engine(BaseEngine):
           schema = StorySchema(
-              preconditions={
+              given={
                   "content": Str(),
                   Optional("hierarchical content"): Map({
                       "x": Int(),
@@ -46,12 +46,12 @@ Variations:
               append(parameter)
 
           def do_thing_with_precondition(self):
-              assert type(self.preconditions['content']) is str
-              append(self.preconditions['content'])
+              assert type(self.given['content']) is str
+              append(self.given['content'])
 
           def do_yet_another_thing(self):
-              assert type(self.preconditions['hierarchical content']['y'][0]) is str
-              append(self.preconditions['hierarchical content']['y'][0])
+              assert type(self.given['hierarchical content']['y'][0]) is str
+              append(self.given['hierarchical content']['y'][0])
 
           @validate(animals=Map({"pond animal": Str()}))
           def do_a_fourth_thing(self, animals=None):

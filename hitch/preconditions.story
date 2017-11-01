@@ -2,10 +2,10 @@ Story with preconditions:
   preconditions:
     example.story: |
       Create files:
-        preconditions:
+        given:
           thing:
             content: things
-        scenario:
+        steps:
           - Create file
     engine.py: |
       from hitchstory import BaseEngine, StorySchema
@@ -16,14 +16,14 @@ Story with preconditions:
               handle.write("{0}\n".format(contents))
 
       class Engine(BaseEngine):
-          schema = StorySchema(
-              preconditions={"thing": MapPattern(Str(), Str())},
+          schema=StorySchema(
+              given={"thing": MapPattern(Str(), Str())},
           )
 
           def create_file(self):
-              assert type(self.preconditions['thing']['content']) is str
-              assert type(list(self.preconditions.keys())[0]) is str
-              output(self.preconditions['thing']['content'])
+              assert type(self.given['thing']['content']) is str
+              assert type(list(self.given.keys())[0]) is str
+              output(self.given['thing']['content'])
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathq

@@ -5,11 +5,11 @@ All stories must have a unique name:
   preconditions:
     example1.story: |
       Create file:
-        scenario:
+        steps:
           - Create file
     example2.story: |
       create-file:
-        scenario:
+        steps:
            - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine

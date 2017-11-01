@@ -3,7 +3,7 @@
 [22m
 
     Failing story:
-      scenario:
+      steps:
     [1m  - Raise special failure exception[22m
     
 [39m

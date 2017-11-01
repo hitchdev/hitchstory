@@ -184,7 +184,7 @@ class Story(object):
     def params(self):
         param_dict = self.based_on_story.params \
             if self.based_on is not None else {}
-        for name, param in self._parsed_yaml.get("default", {}).items():
+        for name, param in self._parsed_yaml.get("with", {}).items():
             param_dict[name] = param.data
         for name, param in self._collection._params.items():
             param_dict[name] = param
@@ -193,7 +193,7 @@ class Story(object):
     def unparameterized_preconditions(self):
         precondition_dict = self.based_on_story.unparameterized_preconditions() \
             if self.based_on is not None else {}
-        for name, precondition in self._parsed_yaml.get("preconditions", {}).items():
+        for name, precondition in self._parsed_yaml.get("given", {}).items():
             precondition_dict[str(name)] = precondition.data
         return precondition_dict
 
@@ -216,7 +216,7 @@ class Story(object):
     @property
     def steps(self):
         step_list = self.parent_steps
-        step_list.extend(self._parsed_yaml.get('scenario', []))
+        step_list.extend(self._parsed_yaml.get('steps', []))
         return step_list
 
     @property
@@ -309,24 +309,24 @@ class StoryFile(object):
         self._collection = collection
 
         story_schema = {
-            Optional("scenario"): Seq(Any()),
+            Optional("steps"): Seq(Any()),
             Optional("description"): Str(),
             Optional("based on"): Str(),
-            Optional("default"): Any(),
+            Optional("with"): Any(),
         }
 
         variation_schema = {
-            Optional("scenario"): Seq(Any()),
+            Optional("steps"): Seq(Any()),
             Optional("description"): Str(),
-            Optional("default"): Any(),
-            Optional('preconditions'): self._engine.schema.preconditions,
+            Optional("with"): Any(),
+            Optional('given'): self._engine.schema.preconditions,
         }
 
         if self._engine.schema.about is not None:
             for about_property, property_schema in self._engine.schema.about.items():
                 story_schema[about_property] = property_schema
 
-        story_schema[Optional('preconditions')] = self._engine.schema.preconditions
+        story_schema[Optional('given')] = self._engine.schema.preconditions
         story_schema[Optional('variations')] = MapPattern(Str(), Map(variation_schema))
 
         # Load YAML into memory
@@ -349,28 +349,28 @@ class StoryFile(object):
             if step.child_index >= 0:
                 yaml_story = self._updated_yaml[story.based_on]['variations'][story.child_name]
                 if step.arguments.single_argument:
-                    yaml_story['scenario'][step.child_index][step.name] = \
+                    yaml_story['steps'][step.child_index][step.name] = \
                         list(kwargs.values())[0]
                 else:
                     for key, value in kwargs.items():
-                        yaml_story['scenario'][step.child_index][step.name][key] = \
+                        yaml_story['steps'][step.child_index][step.name][key] = \
                             value
             else:
                 yaml_story = self._updated_yaml[story.based_on]
                 if step.arguments.single_argument:
-                    yaml_story['scenario'][step.index][step.name] = \
+                    yaml_story['steps'][step.index][step.name] = \
                         list(kwargs.values())[0]
                 else:
                     for key, value in kwargs.items():
-                        yaml_story['scenario'][step.index][step.name][key] = \
+                        yaml_story['steps'][step.index][step.name][key] = \
                           value
         else:
             if step.arguments.single_argument:
-                self._updated_yaml[story.name]['scenario'][step.index][step.name] = \
+                self._updated_yaml[story.name]['steps'][step.index][step.name] = \
                     list(kwargs.values())[0]
             else:
                 for key, value in kwargs.items():
-                    self._updated_yaml[story.name]['scenario'][step.index][step.name][key] = \
+                    self._updated_yaml[story.name]['steps'][step.index][step.name][key] = \
                       value
 
     @property

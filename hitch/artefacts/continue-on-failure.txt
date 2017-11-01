@@ -4,7 +4,7 @@ STORY RAN SUCCESSFULLY ((( anything )))/example1.story: A Create file in 0.1 sec
 [22m
 
     B Create file:
-      scenario:
+      steps:
     [1m  - Fail[22m
     
 [39m

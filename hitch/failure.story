@@ -4,7 +4,7 @@ Simple failure report:
   preconditions:
     example.story: |
       Failing story:
-        scenario:
+        steps:
           - Passing step
           - Failing step
           - Not executed step
@@ -72,7 +72,7 @@ Simple failure report:
       preconditions:
         example.story: |
           Failing story:
-            scenario:
+            steps:
               - Failing step without stacktrace
         code: |
           StoryCollection(pathq(".").ext("story"), Engine()).one().play()
@@ -97,7 +97,7 @@ Simple failure report:
       preconditions:
         example.story: |
           Failing story:
-            scenario:
+            steps:
               - Raise special failure exception
         code: |
           StoryCollection(pathq(".").ext("story"), Engine()).one().play()

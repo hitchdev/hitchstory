@@ -5,7 +5,7 @@ Steps with arbitrary numbers of named arguments:
   preconditions:
     example.story: |
       Create files:
-        scenario:
+        steps:
           - Create files:
               Filename1.txt: example
               File name with space.txt: example

@@ -2,7 +2,7 @@ Invalid story:
   preconditions:
     example.story: |
       Create files:
-        scenario:
+        steps:
           - Add product:
               name: Towel
               quantity: Three

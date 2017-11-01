@@ -14,11 +14,9 @@ Strong typing:
   preconditions:
     example.story: |
       Create files:
-        preconditions:
+        given:
           x: 1
-        default:
-          var: 1
-        scenario:
+        steps:
           - Add product:
               name: Towel
               versions:
@@ -36,7 +34,7 @@ Strong typing:
 
       class Engine(BaseEngine):
           schema = StorySchema(
-              preconditions={'x': Int()},
+              given={'x': Int()},
           )
 
           def set_up(self):

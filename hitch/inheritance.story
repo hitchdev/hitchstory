@@ -20,27 +20,27 @@ Inherit one story from another:
   preconditions:
     example.story: |
       Write to file 1:
-        default:
+        with:
           a: 1
           b: 2
           c: 3
-        preconditions:
+        given:
           a: (( a ))
           b: (( b ))
-        scenario:
+        steps:
           - Do thing one
           - Do thing three: (( c ))
 
       Write to file 2:
         based on: Write to file 1
-        preconditions:
+        given:
           b: 3
-        scenario:
+        steps:
           - Do thing two
 
       Write to file 3:
         based on: Write to file 1
-        default:
+        with:
           a: 9
           c: 11
     setup: |
@@ -51,22 +51,22 @@ Inherit one story from another:
 
       class Engine(BaseEngine):
           schema = StorySchema(
-              preconditions={
+              given={
                   Optional("a"): Str(), Optional("b"): Str()
               },
           )
 
           def do_thing_one(self):
-              append("thing one: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
+              append("thing one: {0}, {1}".format(self.given['a'], self.given['b']))
 
           @validate(value=Str())
           def do_thing_three(self, value):
               append("thing three: {0}".format(value))
 
           def do_thing_two(self):
-              assert isinstance(self.preconditions['a'], str)
-              assert isinstance(self.preconditions['b'], str)
-              append("thing two: {0}, {1}".format(self.preconditions['a'], self.preconditions['b']))
+              assert isinstance(self.given['a'], str)
+              assert isinstance(self.given['b'], str)
+              append("thing two: {0}, {1}".format(self.given['a'], self.given['b']))
 
       collection = StoryCollection(pathq(".").ext("story"), Engine())
   variations:
@@ -108,7 +108,7 @@ Attempt inheritance from non-existent story:
     example.story: |
       Write to file:
         based on: Create files
-        scenario:
+        steps:
           - Do thing two
     setup: |
       from hitchstory import StoryCollection, BaseEngine
@@ -128,5 +128,5 @@ Attempt inheritance from non-existent story:
   scenario:
   - Raises exception:
       exception type: hitchstory.exceptions.BasedOnStoryNotFound
-      message: Story 'Create files' which 'Write to file' in '/home/colm/.hitch/90646u/state/example.story'
+      message: Story 'Create files' which 'Write to file' in '/path/to/example.story'
         is based upon not found.

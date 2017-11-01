@@ -12,6 +12,7 @@ from hitchrun import hitch_maintenance
 from hitchrun import DIR
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import expected_exception
+from templex import Templex, NonMatching
 
 
 class Engine(BaseEngine):
@@ -124,8 +125,17 @@ class Engine(BaseEngine):
                 self.current_step.update(message=processed_message)
 
     def file_contents_will_be(self, filename, contents):
-        assert self.path.state.joinpath(filename).bytes().decode('utf8').strip() == contents.strip()
-        self.doc.step("filename contains", filename=filename, contents=contents)
+        file_contents = '\n'.join([
+            line.rstrip() for line in
+            self.path.state.joinpath(filename).bytes().decode('utf8').strip().split('\n')
+        ])
+        try:
+            Templex(file_contents).assert_match(contents.strip())
+        except NonMatching:
+            if self.settings.get("overwrite artefacts"):
+                self.current_step.update(contents=file_contents)
+            else:
+                raise
 
     def pause(self, message="Pause"):
         if hasattr(self, 'services'):
@@ -165,7 +175,11 @@ class Engine(BaseEngine):
 
     @validate(changeable=Seq(Str()))
     def output_will_be(self, reference, changeable=None):
-        output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
+        output_contents = self.path.state.joinpath("output.txt")\
+                                         .bytes()\
+                                         .decode('utf8')\
+                                         .strip()\
+                                         .replace(self.path.state, "/path/to")
 
         artefact = self.path.key.joinpath(
             "artefacts", "{0}.txt".format(reference.replace(" ", "-").lower())

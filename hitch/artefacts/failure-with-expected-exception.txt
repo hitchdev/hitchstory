@@ -3,7 +3,7 @@
 [22m
 
     Failing story:
-      scenario:
+      steps:
     [1m  - Failing step without stacktrace[22m
     
 [39m

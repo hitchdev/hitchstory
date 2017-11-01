@@ -2,7 +2,7 @@ Story success:
   preconditions:
     example.story: |
       Create files:
-        scenario:
+        steps:
           - Create file
           - Create file: step2.txt
           - Create file:

@@ -14,7 +14,7 @@ Abort a story with ctrl-C:
   preconditions:
     example.story: |
       Create files:
-        scenario:
+        steps:
           - Pause forever
     engine.py: |
       from hitchstory import BaseEngine
