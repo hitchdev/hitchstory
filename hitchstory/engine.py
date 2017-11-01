@@ -3,7 +3,6 @@ User-exposed engine related code.
 """
 from hitchstory import exceptions
 from strictyaml import MapPattern, Str, Any, Map, Validator, Optional
-from hitchstory.story import NewStory
 from hitchstory import utils
 
 
@@ -72,6 +71,20 @@ class StorySchema(object):
     @property
     def about(self):
         return self._about
+
+
+class NewStory(object):
+    def __init__(self, engine):
+        self._engine = engine
+
+    def save(self):
+        """
+        Write out the updated story to file.
+        """
+        story_file = self._engine.story.story_file
+        story_file.path.write_text(
+            story_file._updated_yaml.as_yaml()
+        )
 
 
 class BaseEngine(object):

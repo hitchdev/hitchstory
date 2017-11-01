@@ -1,4 +1,4 @@
-from hitchstory.result import ResultList, Success, Failure
+from hitchstory.result import Success, Failure
 from hitchstory.story_step import StoryStep
 from hitchstory import exceptions
 from hitchstory import utils
@@ -6,7 +6,6 @@ from slugify import slugify
 from path import Path
 import prettystack
 import time
-import copy
 
 
 THIS_DIRECTORY = Path(__file__).realpath().dirname()
@@ -199,50 +198,3 @@ class Story(object):
 
         self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
         return result
-
-
-class NewStory(object):
-    def __init__(self, engine):
-        self._engine = engine
-
-    def save(self):
-        """
-        Write out the updated story to file.
-        """
-        story_file = self._engine.story.story_file
-        story_file.path.write_text(
-            story_file._updated_yaml.as_yaml()
-        )
-
-
-class StoryList(object):
-    """
-    A sequence of stories ready to be played in order.
-    """
-
-    def __init__(self, stories):
-        for story in stories:
-            assert type(story) is Story
-        self._stories = stories
-        self._continue_on_failure = False
-
-    def continue_on_failure(self):
-        new_story_list = copy.copy(self)
-        new_story_list._continue_on_failure = True
-        return new_story_list
-
-    def play(self):
-        results = ResultList()
-        for story in self._stories:
-            result = story.play()
-            results.append(result)
-
-            if not result.passed and not self._continue_on_failure:
-                break
-        return results
-
-    def __len__(self):
-        return len(self._stories)
-
-    def __getitem__(self, index):
-        return self._stories[index]
