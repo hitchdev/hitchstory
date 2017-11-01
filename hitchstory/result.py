@@ -10,6 +10,10 @@ class ResultList(object):
 
     def append(self, result):
         self._results.append(result)
+    
+    @property
+    def all_passed(self):
+        return all([result.passed for result in self._results])
 
     def report(self):
         return '\n'.join([result.report() for result in self._results])

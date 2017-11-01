@@ -22,6 +22,7 @@ Multiple stories played:
       from hitchstory import StoryCollection, BaseEngine
       from code_that_does_things import *
       from pathquery import pathq
+      from ensure import Ensure
 
       class Engine(BaseEngine):
           def create_file(self, filename="step1.txt", content="example"):
@@ -32,6 +33,7 @@ Multiple stories played:
       preconditions:
         code: |
           results = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
+          Ensure(results.all_passed).is_true()
           output(results.report())
       scenario:
       - Run code
