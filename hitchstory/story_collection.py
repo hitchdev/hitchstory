@@ -1,6 +1,6 @@
 from hitchstory.engine import BaseEngine
 from hitchstory.story import StoryList
-from hitchstory.story import StoryFile
+from hitchstory.story_file import StoryFile
 from hitchstory import exceptions
 from slugify import slugify
 from path import Path
