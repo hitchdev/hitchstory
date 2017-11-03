@@ -155,40 +155,6 @@ class Engine(BaseEngine):
                 else:
                     raise
 
-    def long_form_exception_raised(self, artefact=None):
-        try:
-            self.result = ExamplePythonCode(
-                self.given['code']
-            ).with_setup_code(self.given.get('setup', ''))\
-             .expect_exceptions()\
-             .run(self.path.state, self.python)
-            processed_message = self.result.exception.message.replace(self.path.state, "/path/to")
-            assert processed_message == self.path.key.joinpath(
-                "artefacts", "{0}.txt".format(artefact.replace(" ", "-").lower())
-            ).bytes().decode('utf8')
-        except AssertionError:
-            if self.settings.get("overwrite artefacts"):
-                self.path.key.joinpath(
-                    "artefacts", "{0}.txt".format(artefact.replace(" ", "-").lower())
-                ).write_text(processed_message)
-
-    def raises_exception(self, message=None, exception_type=None):
-        try:
-            self.result = ExamplePythonCode(
-                self.given['code']
-            ).with_setup_code(self.given.get('setup', ''))\
-             .expect_exceptions()\
-             .run(self.path.state, self.python)
-
-            import re
-            self.result.exception_was_raised(exception_type=exception_type)
-            processed_message = self.result.exception.message.replace(self.path.state, "/path/to")
-            processed_message = re.compile(r'0x[0-9a-f]+').sub("0xffffffff", processed_message)
-            assert message == processed_message
-        except AssertionError:
-            if self.settings.get("overwrite artefacts"):
-                self.current_step.update(message=processed_message)
-
     def file_contents_will_be(self, filename, contents):
         file_contents = '\n'.join([
             line.rstrip() for line in
@@ -224,54 +190,6 @@ class Engine(BaseEngine):
                 output_contents,
             ))
         self.path.state.joinpath("output.txt").remove()
-
-    def output_contains(self, expected_contents):
-        output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
-        regex = DefaultSimex(
-            open_delimeter="(((",
-            close_delimeter=")))",
-        ).compile(expected_contents.strip())
-        if regex.search(output_contents) is None:
-            raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
-                expected_contents,
-                output_contents,
-            ))
-        self.path.state.joinpath("output.txt").remove()
-
-    @validate(changeable=Seq(Str()))
-    def output_will_be(self, reference, changeable=None):
-        output_contents = self.path.state.joinpath("output.txt")\
-                                         .bytes()\
-                                         .decode('utf8')\
-                                         .strip()\
-                                         .replace(self.path.state, "/path/to")
-
-        artefact = self.path.key.joinpath(
-            "artefacts", "{0}.txt".format(reference.replace(" ", "-").lower())
-        )
-
-        simex = DefaultSimex(
-            open_delimeter="(((",
-            close_delimeter=")))",
-        )
-
-        simex_contents = output_contents
-
-        if changeable is not None:
-            for replacement in changeable:
-                simex_contents = simex.compile(replacement).sub(replacement, simex_contents)
-
-        if not artefact.exists():
-            artefact.write_text(simex_contents)
-        else:
-            if self.settings.get('overwrite artefacts'):
-                artefact.write_text(simex_contents)
-            else:
-                if simex.compile(artefact.bytes().decode('utf8')).match(output_contents) is None:
-                    raise RuntimeError("Expected to find:\n{0}\n\nActual output:\n{1}".format(
-                        artefact.bytes().decode('utf8'),
-                        output_contents,
-                    ))
 
     def splines_reticulated(self):
         assert self.path.state.joinpath("splines_reticulated.txt").exists()
