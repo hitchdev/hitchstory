@@ -82,6 +82,30 @@ class Engine(BaseEngine):
                 self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
                 self.pip("install", ".").in_dir(self.path.project).run()
 
+    def _story_friendly_output(self, output):
+        """
+        Takes output from exceptions and to the screen that contains:
+
+        * Environment specific paths.
+        * Terminal color codes.
+        * Random hexadecimal numbers.
+        * Trailing spaces (these look screwy in YAML).
+
+        ...and replaces them with a deterministic, representative or
+        more human readable output.
+        """
+        friendly_output = '\n'.join([
+            line.rstrip() for line in
+            output.replace(colorama.Fore.RED, "[[ RED ]]")
+                  .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")
+                  .replace(colorama.Style.DIM, "[[ DIM ]]")
+                  .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
+                  .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
+                  .replace(self.path.state, "/path/to")
+                  .rstrip().split("\n")
+        ])
+        return re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
+
     @expected_exception(NonMatching)
     @expected_exception(HitchRunPyException)
     @validate(
@@ -105,18 +129,9 @@ class Engine(BaseEngine):
 
         result = to_run.expect_exceptions().run() if raises is not None else to_run.run()
 
-        result_output = result.output\
-                              .replace(self.path.state, "/path/to")\
-                              .replace(colorama.Fore.RED, "[[ RED ]]")\
-                              .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")\
-                              .replace(colorama.Style.DIM, "[[ DIM ]]")\
-                              .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")\
-                              .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")\
-
-        result_output = re.sub(r"0x[0-9a-f]+", "0xfffffffffff", result_output)
+        actual_output = self._story_friendly_output(result.output)
 
         if will_output is not None:
-            actual_output = '\n'.join([line.rstrip() for line in result_output.split("\n")])
             try:
                 Templex(will_output).assert_match(actual_output)
             except NonMatching:
@@ -132,20 +147,7 @@ class Engine(BaseEngine):
             try:
                 result = self.example_py_code.expect_exceptions().run()
                 result.exception_was_raised(exception_type)
-                exception_message = '\n'.join([
-                    line.rstrip() for line in
-                    result.exception
-                          .message
-                          .replace(colorama.Fore.RED, "[[ RED ]]")
-                          .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")
-                          .replace(colorama.Style.DIM, "[[ DIM ]]")
-                          .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
-                          .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
-                          .replace(self.path.state, "/path/to")
-                          .rstrip().split("\n")
-                ])
-
-                exception_message = re.sub(r"0x[0-9a-f]+", "0xfffffffffff", exception_message)
+                exception_message = self._story_friendly_output(result.exception.message)
                 Templex(exception_message).assert_match(message)
             except NonMatching:
                 if self.settings.get("overwrite artefacts"):
