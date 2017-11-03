@@ -1,10 +1,10 @@
-* If on_failure or on_success fails, still run tear_down.
 * Handle single parameters correctly if there is more than one optional parameter.
 * self.current_step.update(will_output=x) will fail if key is actually "will output"
 * Do not rewrite story if nothing has changed.
 * "Start line of YAML with list" -- why does it fail if you have not specified code?
 * Fail with a more sensible error message when validators fail on steps.
 * Print while running.
+* Avoid randomly reflowing long YAML strings (may be strictyaml bug).
 * "Capture" mode and print mode (default)
 * Params should match the schema of the precondition or step.
 * Update steps make save only run if something actually changed so as not to mess up indenting

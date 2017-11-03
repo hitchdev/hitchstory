@@ -16,7 +16,7 @@ Exception in special methods:
       given:
         engine.py: |
           from hitchstory import BaseEngine
-          from code_that_does_things import raise_example_exception
+          from code_that_does_things import *
 
           class Engine(BaseEngine):
               def do_thing(self):
@@ -24,15 +24,25 @@ Exception in special methods:
 
               def on_success(self):
                   raise_example_exception()
+
+              def tear_down(self):
+                  tear_down_was_run()
       steps:
       - Run:
           code: story.play()
           raises:
             type: hitchstory.exceptions.OnSuccessException
-            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
-              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
-              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
-              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
+            message: |-
+              Stacktrace:
+
+              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
+                [[ DIM ]][[ RED ]]
+                  This is a demonstration exception's docstring.
+
+                  It spreads across multiple lines.
+                  [[ RESET ALL ]]
+              [[ RED ]][[ RESET FORE ]]
+      - Tear down was run
 
     in on_failure:
       given:
@@ -46,15 +56,25 @@ Exception in special methods:
 
               def on_failure(self, result):
                   raise_example_exception()
+
+              def tear_down(self):
+                  tear_down_was_run()
       steps:
       - Run:
           code: story.play()
           raises:
             type: hitchstory.exceptions.OnFailureException
-            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
-              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
-              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
-              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
+            message: |-
+              Stacktrace:
+
+              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
+                [[ DIM ]][[ RED ]]
+                  This is a demonstration exception's docstring.
+
+                  It spreads across multiple lines.
+                  [[ RESET ALL ]]
+              [[ RED ]][[ RESET FORE ]]
+      - Tear down was run
 
     in tear_down:
       given:
@@ -73,7 +93,13 @@ Exception in special methods:
           code: story.play()
           raises:
             type: hitchstory.exceptions.TearDownException
-            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
-              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
-              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
-              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
+            message: |-
+              Stacktrace:
+
+              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
+                [[ DIM ]][[ RED ]]
+                  This is a demonstration exception's docstring.
+
+                  It spreads across multiple lines.
+                  [[ RESET ALL ]]
+              [[ RED ]][[ RESET FORE ]]

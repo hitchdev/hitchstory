@@ -131,6 +131,24 @@ class Story(object):
             raise exception_to_raise(
                 stack_trace
             )
+    
+    def run_on_success(self):
+        try:
+            self._engine.on_success()
+        except Exception as exception:
+            self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
+            stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
+
+            raise exceptions.OnSuccessException(stack_trace)
+
+    def run_on_failure(self, result):
+        try:
+            self._engine.on_failure(result)
+        except Exception as exception:
+            self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
+            stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
+
+            raise exceptions.OnFailureException(stack_trace)
 
     def play(self):
         """
@@ -169,7 +187,7 @@ class Story(object):
                 failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
         if passed:
-            self.run_special_method(self._engine.on_success, exceptions.OnSuccessException)
+            self.run_on_success()
             result = Success(self, time.time() - start_time)
         else:
             result = Failure(
@@ -179,11 +197,7 @@ class Story(object):
                 current_step,
                 failure_stack_trace,
             )
-            self.run_special_method(
-                self._engine.on_failure,
-                exceptions.OnFailureException,
-                result=result
-            )
+            self.run_on_failure(result)
 
         self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
         return result

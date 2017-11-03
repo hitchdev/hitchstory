@@ -41,3 +41,8 @@ def reticulate_splines():
 def kick_llamas_ass():
     with open("kicked_llamas_ass.txt", 'w') as handle:
         handle.write("{0}\n".format("kicked_llamas_ass"))
+
+def tear_down_was_run():
+    with open("tear_down_was_run.txt", 'w') as handle:
+        handle.write("{0}\n".format("tear_down_was_run"))
+    

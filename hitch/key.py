@@ -200,6 +200,10 @@ class Engine(BaseEngine):
     def llamas_ass_kicked(self):
         assert self.path.state.joinpath("kicked_llamas_ass.txt").exists()
         self.path.state.joinpath("kicked_llamas_ass.txt").remove()
+    
+    def tear_down_was_run(self):
+        assert self.path.state.joinpath("tear_down_was_run.txt").exists()
+        self.path.state.joinpath("tear_down_was_run.txt").remove()
 
     def file_was_created_with(self, filename="", contents=""):
         if not self.path.state.joinpath(filename).exists():
