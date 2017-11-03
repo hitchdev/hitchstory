@@ -1,5 +1,5 @@
 Shortcut lookup for story names:
-  preconditions:
+  given:
     example1.story: |
       Create file:
         steps:
@@ -13,60 +13,38 @@ Shortcut lookup for story names:
           - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
-      from code_that_does_things import *
       from pathquery import pathq
-
 
       class Engine(BaseEngine):
           def create_file(self, filename="step1.txt", content="example"):
               with open(filename, 'w') as handle:
                   handle.write(content)
+
+      story_collection = StoryCollection(pathq(".").ext("story"), Engine())
   variations:
     Story not found:
-      preconditions:
-        code: |
-          StoryCollection(pathq(".").ext("story"), Engine()).shortcut("toast").play()
-      scenario:
-      - Raises Exception: Story 'toast' not found.
+      steps:
+      - Run:
+          code: story_collection.shortcut("toast").play()
+          raises:
+            type: hitchstory.exceptions.StoryNotFound
+            message: Story 'toast' not found.
 
     More than one story found:
-      preconditions:
-        code: |
-          StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file").play()
-      scenario:
-      - Raises Exception: |
-          More than one matching story:
-          Create files (in /home/colm/.hitch/90646u/state/example2.story)
-          Create file (in /home/colm/.hitch/90646u/state/example1.story)
-          Create file again (in /home/colm/.hitch/90646u/state/example1.story)
+      steps:
+      - Run:
+          code: story_collection.shortcut("file").play()
+          raises:
+            type: hitchstory.exceptions.MoreThanOneStory
+            message: "More than one matching story:\nCreate file (in /path/to/example1.story)\n\
+              Create file again (in /path/to/example1.story)\nCreate files (in /path/to/example2.story)"
 
     Story found and run:
-      preconditions:
-        code: |
-          results = StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file", "again").play()
-          output(results.report())
-      scenario:
-      - Run code
-      - Output will be:
-          reference: successful
-          changeable:
-          - /((( anything )))/example1.story
+      steps:
+      - Run:
+          code: |
+            results = story_collection.shortcut("file", "again").play()
+            print(results.report())
+          will output: 'STORY RAN SUCCESSFULLY /path/to/example1.story: Create file
+            again in 0.1 seconds.'
 
-
-  #scenario:
-    #- Run command: |
-    #- Assert exception:
-        #command: StoryCollection(pathq(".").ext("story"), Engine()).shortcut("toast").play()
-        #exception: StoryNotFound
-
-    #- Assert exception:
-        #command: StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file").play()
-        #exception: MoreThanOneStory
-
-    #- Run command: |
-        #results = StoryCollection(pathq(".").ext("story"), Engine()).shortcut("file", "again").play()
-        #output(results.report())
-    #- Output will be:
-        #reference: successful
-        #changeable:
-          #- /((( anything )))/example1.story

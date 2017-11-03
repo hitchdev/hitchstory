@@ -9,7 +9,7 @@ Story with parameters:
     browsers - the parameter.
 
     Parameters can be used in preconditions and in steps.
-  preconditions:
+  given:
     example.story: |
       Click magic button:
         with:
@@ -56,12 +56,12 @@ Story with parameters:
       from hitchstory import StoryCollection
       from pathquery import pathq
       from engine import Engine
-    code: |
-      print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button").play().report())
   variations:
     Default:
-      scenario:
-      - Run code
+      steps:
+      - Run:
+          code: |
+            print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button").play().report())
       - Output is: |
           firefox
           37
@@ -70,11 +70,10 @@ Story with parameters:
           screenshot-firefox-37.png
 
     Variation:
-      preconditions:
-        code: |
-          print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button/with chrome").play().report())
-      scenario:
-      - Run code
+      steps:
+      - Run:
+          code: |
+            print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button/with chrome").play().report())
       - Output is: |
           chrome
           153
@@ -83,13 +82,12 @@ Story with parameters:
           screenshot-chrome-153.png
 
     Specify parameters with code:
-      preconditions:
-        code: |
-          storybook = StoryCollection(pathq(".").ext("story"), Engine())
+      steps:
+      - Run:
+          code: |
+            storybook = StoryCollection(pathq(".").ext("story"), Engine())
 
-          print(storybook.with_params(browser={"name": "ie", "version": "6"}).named("Click magic button").play().report())
-      scenario:
-      - Run code
+            print(storybook.with_params(browser={"name": "ie", "version": "6"}).named("Click magic button").play().report())
       - Output is: |
           ie
           6

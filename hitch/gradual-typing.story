@@ -13,7 +13,7 @@ Gradual typing of story steps:
     your story files is more locked down, you can
     specify validators that fail fast when YAML
     snippets with an invalid structure are used.
-  preconditions:
+  given:
     example.story: |
       Create files:
         given:
@@ -27,7 +27,6 @@ Gradual typing of story steps:
                 content: some other text
     engine.py: |
       from hitchstory import BaseEngine
-      from code_that_does_things import *
 
 
       class Engine(BaseEngine):
@@ -41,16 +40,15 @@ Gradual typing of story steps:
                   handle.write(details['content'])
     setup: |
       from hitchstory import StoryCollection
-      from code_that_does_things import *
       from pathquery import pathq
       from engine import Engine
-    code: |
-      result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
-      output(result.report())
-  scenario:
-  - Run code
-  - Output is: |
-      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Create files in 0.1 seconds.
+  steps:
+  - Run:
+      code: |
+        result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
+        print(result.report())
+      will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Create files in
+        0.1 seconds.'
   - File was created with:
       filename: preconditionfile.txt
       contents: some text

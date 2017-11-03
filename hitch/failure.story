@@ -1,7 +1,7 @@
 Simple failure report:
   description: |
     Basic failure report.
-  preconditions:
+  given:
     example.story: |
       Failing story:
         steps:
@@ -10,7 +10,7 @@ Simple failure report:
           - Not executed step
     engine.py: |
       from hitchstory import BaseEngine, expected_exception, Failure
-      from code_that_does_things import *
+      from code_that_does_things import raise_example_exception, output, ExampleException
 
       class Engine(BaseEngine):
           def passing_step(self):
@@ -27,7 +27,7 @@ Simple failure report:
               raise Failure("Special failure exception - no stacktrace printed!")
 
           def on_failure(self, result):
-              output(result.report())
+              print(result.report())
 
           def not_executed_step(self):
               pass
@@ -36,55 +36,95 @@ Simple failure report:
       from engine import Engine
       from pathquery import pathq
 
-    code: |
-      StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+      story_collection = StoryCollection(pathq(".").ext("story"), Engine())
   variations:
     Failure printed by on_failure method:
-      scenario:
-      - Run code
-      - Output will be:
-          reference: failure printed in on_failure
-          changeable:
-          - ((( anything )))/code_that_does_things.py
-          - FAILURE IN ((( anything )))/example.story
-          - ((( anything )))/story.py
-          - ((( anything )))/engine.py
+      steps:
+      - Run:
+          code: story_collection.one().play()
+          will output: |-
+            --> 8 :         raise_example_exception("Towel not located")
+                    9 :
 
+
+
+            [3]: function 'raise_example_exception'
+              /path/to/code_that_does_things.py
+
+
+                    20 :
+                    21 : def raise_example_exception(text=""):
+                --> 22 :     raise ExampleException(text)
+                    23 :
+
+
+
+            code_that_does_things.ExampleException
+
+                This is a demonstration exception's docstring.
+
+                It spreads across multiple lines.
+
+            Towel not located
     Failure printed by default:
-      preconditions:
-        code: |
-          StoryCollection(pathq(".").ext("story"), Engine()).one().play()
-      scenario:
-      - Run code
-      - Output will be:
-          reference: failure printed by default
-          changeable:
-          - ((( anything )))/code_that_does_things.py
-          - FAILURE IN ((( anything )))/example.story
-          - ((( anything )))/story.py
-          - ((( anything )))/engine.py
+      steps:
+      - Run:
+          code: story_collection.one().play()
+          will output: |-
+            --> 8 :         raise_example_exception("Towel not located")
+                    9 :
 
+
+
+            [3]: function 'raise_example_exception'
+              /path/to/code_that_does_things.py
+
+
+                    20 :
+                    21 : def raise_example_exception(text=""):
+                --> 22 :     raise ExampleException(text)
+                    23 :
+
+
+
+            code_that_does_things.ExampleException
+
+                This is a demonstration exception's docstring.
+
+                It spreads across multiple lines.
+
+            Towel not located
 
     Expected exception:
       description: |
         For common expected failures where you do not want
         to see the whole stacktrace.
-      preconditions:
+      given:
         example.story: |
           Failing story:
             steps:
               - Failing step without stacktrace
-        code: |
-          StoryCollection(pathq(".").ext("story"), Engine()).one().play()
-      scenario:
-      - Run code
-      - Output will be:
-          reference: failure with expected exception
-          changeable:
-          - ((( anything )))/code_that_does_things.py
-          - FAILURE IN ((( anything )))/example.story
-          - ((( anything )))/story.py
-          - ((( anything )))/engine.py
+      steps:
+      - Run:
+          code: story_collection.one().play()
+          will output: |-
+            FAILURE IN /path/to/example.story:
+                "Failing story" in 0.1 seconds.
+
+
+                Failing story:
+                  steps:
+                  - Failing step without stacktrace
+
+
+
+            code_that_does_things.ExampleException
+
+                This is a demonstration exception's docstring.
+
+                It spreads across multiple lines.
+
+            Expected exception
 
 
     Special exception named failure:
@@ -94,20 +134,27 @@ Simple failure report:
 
         This is by default an expected exception, so no stack trace
         will be printed if it is raised.
-      preconditions:
+      given:
         example.story: |
           Failing story:
             steps:
               - Raise special failure exception
-        code: |
-          StoryCollection(pathq(".").ext("story"), Engine()).one().play()
-      scenario:
-      - Run code
-      - Output will be:
-          reference: special exception failure
-          changeable:
-          - ((( anything )))/code_that_does_things.py
-          - FAILURE IN ((( anything )))/example.story
-          - ((( anything )))/story.py
-          - ((( anything )))/engine.py
+      steps:
+      - Run:
+          code: story_collection.one().play()
+          will output: |-
+            FAILURE IN /path/to/example.story:
+                "Failing story" in 0.1 seconds.
 
+
+                Failing story:
+                  steps:
+                  - Raise special failure exception
+
+
+
+            hitchstory.exceptions.Failure
+
+                Test failed.
+
+            Special failure exception - no stacktrace printed!

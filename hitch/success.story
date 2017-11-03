@@ -1,5 +1,5 @@
 Story success:
-  preconditions:
+  given:
     example.story: |
       Create files:
         steps:
@@ -10,7 +10,7 @@ Story success:
               content: third step
     engine.py: |
       from hitchstory import BaseEngine
-      from code_that_does_things import *
+      from code_that_does_things import reticulate_splines
 
 
       class Engine(BaseEngine):
@@ -24,17 +24,16 @@ Story success:
               with open("ranstory.txt", 'w') as handle:
                   handle.write(self.story.name)
     setup: |
-      from code_that_does_things import *
       from hitchstory import StoryCollection
       from pathquery import pathq
       from engine import Engine
-    code: |
-      result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
-      output(result.report())
-  scenario:
-  - Run code
-  - Output is: |
-      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Create files in 0.1 seconds.
+  steps:
+  - Run:
+      code: |
+        result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
+        print(result.report())
+      will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Create files in
+        0.1 seconds.'
   - File was created with:
       filename: step1.txt
       contents: example

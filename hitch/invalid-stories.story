@@ -1,26 +1,29 @@
 Invalid story collections:
-  preconditions:
+  given:
     setup: |
       from hitchstory import StoryCollection, BaseEngine
   variations:
     Should be a list or iterator:
-      preconditions:
-        code: |
-          StoryCollection("invalid", BaseEngine()).one().play()
-      scenario:
-      - Raises exception: storypaths should be a list or iterator returning a list
-          of story files (e.g. using pathquery). Instead it was string 'invalid'.
+      steps:
+      - Run:
+          code: StoryCollection("invalid", BaseEngine()).one().play()
+          raises:
+            type: hitchstory.exceptions.InvalidStoryPaths
+            message: storypaths should be a list or iterator returning a list of story
+              files (e.g. using pathquery). Instead it was string 'invalid'.
 
     Nonexistent files:
-      preconditions:
-        code: |
-          StoryCollection(["nonexistent", ], BaseEngine()).one().play()
-      scenario:
-      - Raises exception: Story file name 'nonexistent' does not exist.
+      steps:
+      - Run:
+          code: StoryCollection(["nonexistent", ], BaseEngine()).one().play()
+          raises:
+            type: hitchstory.exceptions.InvalidStoryPaths
+            message: Story file name 'nonexistent' does not exist.
 
     Is a directory, not a .story file:
-      preconditions:
-        code: |
-          StoryCollection([".", ], BaseEngine()).one().play()
-      scenario:
-      - Raises exception: Story path '.' is a directory.
+      steps:
+      - Run:
+          code: StoryCollection([".", ], BaseEngine()).one().play()
+          raises:
+            type: hitchstory.exceptions.InvalidStoryPaths
+            message: Story path '.' is a directory.

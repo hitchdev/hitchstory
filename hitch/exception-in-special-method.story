@@ -1,5 +1,5 @@
 Exception in special methods:
-  preconditions:
+  given:
     example.story: |
       Do thing:
         steps:
@@ -8,14 +8,15 @@ Exception in special methods:
       from hitchstory import StoryCollection
       from pathquery import pathq
       from engine import Engine
-    code: |
-      StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+
+
+      story = StoryCollection(pathq(".").ext("story"), Engine()).one()
   variations:
     in on_success:
-      preconditions:
+      given:
         engine.py: |
           from hitchstory import BaseEngine
-          from code_that_does_things import *
+          from code_that_does_things import raise_example_exception
 
           class Engine(BaseEngine):
               def do_thing(self):
@@ -23,13 +24,18 @@ Exception in special methods:
 
               def on_success(self):
                   raise_example_exception()
-      scenario:
-      - Long form exception raised:
-          artefact: exception in on_success
-
+      steps:
+      - Run:
+          code: story.play()
+          raises:
+            type: hitchstory.exceptions.OnSuccessException
+            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
+              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
 
     in on_failure:
-      preconditions:
+      given:
         engine.py: |
           from hitchstory import BaseEngine
           from code_that_does_things import *
@@ -40,13 +46,18 @@ Exception in special methods:
 
               def on_failure(self, result):
                   raise_example_exception()
-      scenario:
-      - Long form exception raised:
-          artefact: exception in on_failure
-
+      steps:
+      - Run:
+          code: story.play()
+          raises:
+            type: hitchstory.exceptions.OnFailureException
+            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
+              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
 
     in tear_down:
-      preconditions:
+      given:
         engine.py: |
           from hitchstory import BaseEngine
           from code_that_does_things import *
@@ -57,6 +68,12 @@ Exception in special methods:
 
               def tear_down(self):
                   raise_example_exception()
-      scenario:
-      - Long form exception raised:
-          artefact: exception in tear_down
+      steps:
+      - Run:
+          code: story.play()
+          raises:
+            type: hitchstory.exceptions.TearDownException
+            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
+              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"

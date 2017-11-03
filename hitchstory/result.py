@@ -10,7 +10,7 @@ class ResultList(object):
 
     def append(self, result):
         self._results.append(result)
-    
+
     @property
     def all_passed(self):
         return all([result.passed for result in self._results])

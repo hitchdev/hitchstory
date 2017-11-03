@@ -2,7 +2,7 @@ All stories must have a unique name:
   description: |
     Note that "Create file" and "create file" are not exactly
     the same name, but their slugified names are identical.
-  preconditions:
+  given:
     example1.story: |
       Create file:
         steps:
@@ -19,12 +19,12 @@ All stories must have a unique name:
           def create_file(self, filename="step1.txt", content="example"):
               with open(filename, 'w') as handle:
                   handle.write(content)
-    code: |
-      StoryCollection(pathq(".").ext("story"), Engine()).ordered_arbitrarily()
-
-  scenario:
-  - Raises Exception:
-      exception type: hitchstory.exceptions.DuplicateStoryNames
-      message: Story 'Create file' in '/home/colm/.hitch/90646u/state/example1.story'
-        and 'create-file' in '/home/colm/.hitch/90646u/state/example2.story' are identical
-        when slugified ('create-file' and 'create-file').
+  steps:
+  - Run:
+      code: |
+        StoryCollection(pathq(".").ext("story"), Engine()).ordered_arbitrarily()
+      raises:
+        type: hitchstory.exceptions.DuplicateStoryNames
+        message: Story 'Create file' in '/path/to/example1.story' and 'create-file'
+          in '/path/to/example2.story' are identical when slugified ('create-file'
+          and 'create-file').

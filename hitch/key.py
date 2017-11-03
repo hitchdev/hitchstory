@@ -13,13 +13,15 @@ from hitchrun import DIR
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import expected_exception
 from templex import Templex, NonMatching
+import colorama
+import re
 
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
 
     schema = StorySchema(
-        preconditions=Map({
+        given={
             Optional("base.story"): Str(),
             Optional("example.story"): Str(),
             Optional("example1.story"): Str(),
@@ -28,7 +30,7 @@ class Engine(BaseEngine):
             Optional("engine.py"): Str(),
             Optional("setup"): Str(),
             Optional("code"): Str(),
-        }),
+        },
         about={
             Optional("tags"): Seq(Str()),
         },
@@ -56,11 +58,11 @@ class Engine(BaseEngine):
             "base.story", "example.story", "example1.story",
             "example2.story", "example3.story", "engine.py",
         ]:
-            if filename in self.preconditions:
-                self.path.state.joinpath(filename).write_text(self.preconditions[filename])
+            if filename in self.given:
+                self.path.state.joinpath(filename).write_text(self.given[filename])
 
         self.python_package = hitchpython.PythonPackage(
-            self.preconditions.get('python_version', '3.5.0')
+            self.given.get('python_version', '3.5.0')
         )
         self.python_package.build()
 
@@ -80,21 +82,84 @@ class Engine(BaseEngine):
                 self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
                 self.pip("install", ".").in_dir(self.path.project).run()
 
+    @expected_exception(NonMatching)
     @expected_exception(HitchRunPyException)
-    def run_code(self, expect_output=None):
-        result = ExamplePythonCode(
-            self.preconditions['code']
-        ).with_setup_code(self.preconditions.get('setup', ''))\
-         .run(self.path.state, self.python)
-        result.output
-        if self.settings.get("print output"):
-            print(result.output)
+    @validate(
+        code=Str(),
+        will_output=Str(),
+        raises=Map({
+            Optional("type"): Str(),
+            Optional("message"): Str(),
+        })
+    )
+    def run(self, code, will_output=None, raises=None):
+        self.example_py_code = ExamplePythonCode(self.python, self.path.state)\
+            .with_terminal_size(160, 24)\
+            .with_setup_code(self.given.get('setup', ''))
+        to_run = self.example_py_code.with_code(code)
+
+        if self.settings.get("cprofile"):
+            to_run = to_run.with_cprofile(
+                self.path.profile.joinpath("{0}.dat".format(self.story.slug))
+            )
+
+        result = to_run.expect_exceptions().run() if raises is not None else to_run.run()
+
+        result_output = result.output\
+                              .replace(self.path.state, "/path/to")\
+                              .replace(colorama.Fore.RED, "[[ RED ]]")\
+                              .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")\
+                              .replace(colorama.Style.DIM, "[[ DIM ]]")\
+                              .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")\
+                              .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")\
+
+        result_output = re.sub(r"0x[0-9a-f]+", "0xfffffffffff", result_output)
+
+        if will_output is not None:
+            actual_output = '\n'.join([line.rstrip() for line in result_output.split("\n")])
+            try:
+                Templex(will_output).assert_match(actual_output)
+            except NonMatching:
+                if self.settings.get("overwrite artefacts"):
+                    self.current_step.update(**{"will output": actual_output})
+                else:
+                    raise
+
+        if raises is not None:
+            exception_type = raises.get('type')
+            message = raises.get('message')
+
+            try:
+                result = self.example_py_code.expect_exceptions().run()
+                result.exception_was_raised(exception_type)
+                exception_message = '\n'.join([
+                    line.rstrip() for line in
+                    result.exception
+                          .message
+                          .replace(colorama.Fore.RED, "[[ RED ]]")
+                          .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")
+                          .replace(colorama.Style.DIM, "[[ DIM ]]")
+                          .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
+                          .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
+                          .replace(self.path.state, "/path/to")
+                          .rstrip().split("\n")
+                ])
+
+                exception_message = re.sub(r"0x[0-9a-f]+", "0xfffffffffff", exception_message)
+                Templex(exception_message).assert_match(message)
+            except NonMatching:
+                if self.settings.get("overwrite artefacts"):
+                    new_raises = raises.copy()
+                    new_raises['message'] = exception_message
+                    self.current_step.update(raises=new_raises)
+                else:
+                    raise
 
     def long_form_exception_raised(self, artefact=None):
         try:
             self.result = ExamplePythonCode(
-                self.preconditions['code']
-            ).with_setup_code(self.preconditions.get('setup', ''))\
+                self.given['code']
+            ).with_setup_code(self.given.get('setup', ''))\
              .expect_exceptions()\
              .run(self.path.state, self.python)
             processed_message = self.result.exception.message.replace(self.path.state, "/path/to")
@@ -110,8 +175,8 @@ class Engine(BaseEngine):
     def raises_exception(self, message=None, exception_type=None):
         try:
             self.result = ExamplePythonCode(
-                self.preconditions['code']
-            ).with_setup_code(self.preconditions.get('setup', ''))\
+                self.given['code']
+            ).with_setup_code(self.given.get('setup', ''))\
              .expect_exceptions()\
              .run(self.path.state, self.python)
 
@@ -252,7 +317,7 @@ def testfile(filename):
     """
     print(
         StoryCollection(
-            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
+            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
         ).in_filename(filename).ordered_by_name().play().report()
     )
 

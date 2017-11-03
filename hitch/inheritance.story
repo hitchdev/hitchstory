@@ -17,7 +17,7 @@ Inherit one story from another:
 
     The base story's scenario will be executed before continuing
     with the child story's scenario.
-  preconditions:
+  given:
     example.story: |
       Write to file 1:
         with:
@@ -47,7 +47,7 @@ Inherit one story from another:
       from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
       from strictyaml import Map, Int, Str, Optional
       from pathquery import pathq
-      from code_that_does_things import *
+      from code_that_does_things import append
 
       class Engine(BaseEngine):
           schema = StorySchema(
@@ -71,32 +71,26 @@ Inherit one story from another:
       collection = StoryCollection(pathq(".").ext("story"), Engine())
   variations:
     Original story:
-      preconditions:
-        code: |
-          collection.named("Write to file 1").play()
-      scenario:
-      - Run code
+      steps:
+      - Run:
+          code: collection.named("Write to file 1").play()
       - Output is: |
           thing one: 1, 2
           thing three: 3
 
     Override preconditions:
-      preconditions:
-        code: |
-          print(collection.named("Write to file 2").play().report())
-      scenario:
-      - Run code
+      steps:
+      - Run:
+          code: print(collection.named("Write to file 2").play().report())
       - Output is: |
           thing one: 1, 3
           thing three: 3
           thing two: 1, 3
 
     Override parameters:
-      preconditions:
-        code: |
-          collection.named("Write to file 3").play()
-      scenario:
-      - Run code
+      steps:
+      - Run:
+          code: collection.named("Write to file 3").play()
       - Output is: |
           thing one: 9, 2
           thing three: 11
@@ -104,7 +98,7 @@ Inherit one story from another:
 
 
 Attempt inheritance from non-existent story:
-  preconditions:
+  given:
     example.story: |
       Write to file:
         based on: Create files
@@ -112,7 +106,7 @@ Attempt inheritance from non-existent story:
           - Do thing two
     setup: |
       from hitchstory import StoryCollection, BaseEngine
-      from code_that_does_things import *
+      from code_that_does_things import output
       from strictyaml import Map, Str
       from pathquery import pathq
 
@@ -123,10 +117,11 @@ Attempt inheritance from non-existent story:
 
           def do_thing_two(self):
               output("thing two")
-    code: |
-      StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file").play()
-  scenario:
-  - Raises exception:
-      exception type: hitchstory.exceptions.BasedOnStoryNotFound
-      message: Story 'Create files' which 'Write to file' in '/path/to/example.story'
-        is based upon not found.
+
+  steps:
+  - Run:
+      code: StoryCollection(pathq(".").ext("story"), Engine()).named("Write to file").play()
+      raises:
+        type: hitchstory.exceptions.BasedOnStoryNotFound
+        message: Story 'Create files' which 'Write to file' in '/path/to/example.story'
+          is based upon not found.

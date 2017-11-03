@@ -1,2 +1,0 @@
-STORY RAN SUCCESSFULLY example1.story: Create file in 0.1 seconds.
-STORY RAN SUCCESSFULLY example1.story: Create file again in 0.1 seconds.

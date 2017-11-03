@@ -2,7 +2,7 @@ Steps with arbitrary numbers of named arguments:
   description: |
     When you need arbitrary numbers of arguments for
     a step, you can use **kwargs to feed them in.
-  preconditions:
+  given:
     example.story: |
       Create files:
         steps:
@@ -18,17 +18,17 @@ Steps with arbitrary numbers of named arguments:
                   with open(filename, 'w') as handle:
                       handle.write(content)
     setup: |
-      from code_that_does_things import *
       from hitchstory import StoryCollection
       from engine import Engine
       from pathquery import pathq
-    code: |
-      result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
-      output(result.report())
-  scenario:
-  - Run code
-  - Output is: |
-      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Create files in 0.1 seconds.
+    code:
+  steps:
+  - Run:
+      code: |
+        result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
+        print(result.report())
+      will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Create files in
+        0.1 seconds.'
   - File was created with:
       filename: Filename1.txt
       contents: example

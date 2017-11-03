@@ -151,7 +151,7 @@ class StoryCollection(object):
         Return a single story that matches all of the words.
         """
         matching = []
-        stories = self.ordered_arbitrarily()
+        stories = self.ordered_by_name()
         slugified_words = [slugify(word) for word in words]
         for story in stories:
             if len(words) == len([
@@ -171,7 +171,7 @@ class StoryCollection(object):
             return matching[0]
 
     def one(self):
-        stories = self.ordered_arbitrarily()
+        stories = self.ordered_by_name()
         if len(stories) > 1:
             raise exceptions.MoreThanOneStory(
                 "\n".join([

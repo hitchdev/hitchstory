@@ -2,7 +2,7 @@ Rewrite story:
   description: |
     Hitch stories can be rewritten in the event that you
     are dealing with generated blocks of text.
-  preconditions:
+  given:
     example.story: |
       Do things:
         steps:
@@ -19,7 +19,6 @@ Rewrite story:
               - Do thing: c
     engine.py: |
       from hitchstory import BaseEngine
-      from code_that_does_things import *
 
       class Engine(BaseEngine):
           def do_thing(self, variable):
@@ -35,19 +34,18 @@ Rewrite story:
           def on_success(self):
               self.new_story.save()
     setup: |
-      from code_that_does_things import *
       from hitchstory import StoryCollection
       from pathquery import pathq
       from engine import Engine
+  steps:
+  - Run:
+      code: |
+        result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
+        print(result.report())
+      will output: |-
+        STORY RAN SUCCESSFULLY /path/to/example.story: Do things in 0.1 seconds.
+        STORY RAN SUCCESSFULLY /path/to/example.story: Do things/Do more things in 0.1 seconds.
 
-    code: |
-      result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
-      output(result.report())
-  scenario:
-  - Run code
-  - Output is: |
-      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Do things in ((( anything ))) seconds.
-      STORY RAN SUCCESSFULLY ((( anything )))/example.story: Do things/Do more things in ((( anything ))) seconds.
   - File contents will be:
       filename: example.story
       contents: |

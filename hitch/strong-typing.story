@@ -11,7 +11,7 @@ Strong typing:
     This feature is optional as all parameters will,
     by default, be parsed as strings, lists and dicts
     instead.
-  preconditions:
+  given:
     example.story: |
       Create files:
         given:
@@ -68,14 +68,13 @@ Strong typing:
               pass
     setup: |
       from hitchstory import StoryCollection
-      from code_that_does_things import *
       from pathquery import pathq
       from engine import Engine
-    code: |
-      result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
-      print(result.report())
-  scenario:
-  - Run code
+  steps:
+  - Run:
+      code: |
+        result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
+        print(result.report())
   - Output is: |
       Ford Prefect
       Items put back: 1

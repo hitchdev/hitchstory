@@ -11,14 +11,14 @@ Abort a story with ctrl-C:
     Then it triggers the "on_abort" method of the
     engine, feeding it the signal number (integer)
     and stack frame.
-  preconditions:
+  given:
     example.story: |
       Create files:
         steps:
           - Pause forever
     engine.py: |
       from hitchstory import BaseEngine
-      from code_that_does_things import *
+      from code_that_does_things import reticulate_splines
       import psutil
 
 
@@ -29,13 +29,10 @@ Abort a story with ctrl-C:
           def on_abort(self, signal_num, stack_frame):
               reticulate_splines()
     setup: |
-      from code_that_does_things import *
       from hitchstory import StoryCollection
       from pathquery import pathq
       from engine import Engine
-    code: |
-      result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
-      output(result.report())
-  scenario:
-  - Run code
+  steps:
+  - Run:
+      code: StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
   - Splines reticulated

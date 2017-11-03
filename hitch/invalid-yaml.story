@@ -5,7 +5,7 @@ Invalid YAML:
 
     Names of stories and their filenames should
     be reported.
-  preconditions:
+  given:
     example1.story: |
       Invalid YAML:
         steps
@@ -23,8 +23,6 @@ Invalid YAML:
           Invalid
     engine.py: |
       from hitchstory import BaseEngine
-      from code_that_does_things import *
-
 
       class Engine(BaseEngine):
           def do_something(self, text):
@@ -33,9 +31,13 @@ Invalid YAML:
       from hitchstory import StoryCollection
       from engine import Engine
       from pathquery import pathq
-    code: |
-      StoryCollection(pathq(".").ext("story"), Engine()).named("Valid YAML").play()
-  scenario:
-  - Raises exception: "YAML Error in file '/home/colm/.hitch/90646u/state/example1.story':\n\
-      when expecting a mapping\nfound non-mapping\n  in \"<unicode string>\", line\
-      \ 1, column 1:\n    Invalid YAML: scenario - Do somet ... \n     ^ (line: 1)"
+  steps:
+  - Run:
+      code: |
+        StoryCollection(pathq(".").ext("story"), Engine()).named("Valid YAML").play()
+      raises:
+        type: hitchstory.exceptions.StoryYAMLError
+        message: "YAML Error in file '/path/to/example3.story':\nwhile scanning a\
+          \ simple key\n  in \"<unicode string>\", line 4, column 5:\n        Invalid\n\
+          \        ^ (line: 4)\ncould not find expected ':'\n  in \"<unicode string>\"\
+          , line 5, column 1:\n\n    ^ (line: 5)"

@@ -1,5 +1,5 @@
 Descriptive parameters attached to story:
-  preconditions:
+  given:
     example.story: |
       Build city:
         description: A great city. The best.
@@ -17,8 +17,7 @@ Descriptive parameters attached to story:
       from hitchstory import StoryCollection, BaseEngine, StorySchema
       from strictyaml import Map, Str, CommaSeparated, Optional
       from pathquery import pathq
-      from code_that_does_things import *
-
+      from code_that_does_things import reticulate_splines, kick_llamas_ass
 
       class Engine(BaseEngine):
           schema = StorySchema(
@@ -34,21 +33,20 @@ Descriptive parameters attached to story:
 
           def kick_llamas_ass(self):
               kick_llamas_ass()
+
+      story_collection = StoryCollection(pathq(".").ext("story"), Engine())
   variations:
     Run all stories:
-      preconditions:
-        code: |
-          StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
-      scenario:
-      - Run code
+      steps:
+      - Run:
+          code: story_collection.ordered_by_name().play()
       - Splines reticulated
       - Llama's ass kicked
 
     Run only filtered stories:
-      preconditions:
-        code: |
-          StoryCollection(pathq(".").ext("story"), Engine()).filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
-      scenario:
-      - Run code
+      steps:
+      - Run:
+          code: |
+            story_collection.filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
       - Splines reticulated
 

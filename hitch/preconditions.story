@@ -1,5 +1,5 @@
 Story with preconditions:
-  preconditions:
+  given:
     example.story: |
       Create files:
         given:
@@ -28,8 +28,12 @@ Story with preconditions:
       from hitchstory import StoryCollection
       from pathquery import pathq
       from engine import Engine
-    code: |
-      print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
-  scenario:
-  - Run code
-  - Output is: things
+  steps:
+  - Run:
+      code: |
+        print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
+      will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Create files in
+        0.1 seconds.'
+  - File contents will be:
+      filename: output.txt
+      contents: things
