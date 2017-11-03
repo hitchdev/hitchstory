@@ -89,6 +89,7 @@ class Engine(BaseEngine):
         * Environment specific paths.
         * Terminal color codes.
         * Random hexadecimal numbers.
+        * Slightly longer lasting tests reporting 0.2 seconds.
         * Trailing spaces (these look screwy in YAML).
 
         ...and replaces them with a deterministic, representative or
@@ -102,6 +103,7 @@ class Engine(BaseEngine):
                   .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
                   .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
                   .replace(self.path.state, "/path/to")
+                  .replace("0.2 seconds", "0.1 seconds")
                   .rstrip().split("\n")
         ])
         return re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
@@ -200,7 +202,7 @@ class Engine(BaseEngine):
     def llamas_ass_kicked(self):
         assert self.path.state.joinpath("kicked_llamas_ass.txt").exists()
         self.path.state.joinpath("kicked_llamas_ass.txt").remove()
-    
+
     def tear_down_was_run(self):
         assert self.path.state.joinpath("tear_down_was_run.txt").exists()
         self.path.state.joinpath("tear_down_was_run.txt").remove()
@@ -210,6 +212,10 @@ class Engine(BaseEngine):
             raise RuntimeError("{0} does not exist".format(filename))
         if self.path.state.joinpath(filename).bytes().decode('utf8') != contents:
             raise RuntimeError("{0} did not contain {0}".format(filename, contents))
+
+    def form_filled(self, **kwargs):
+        for name, value in kwargs.items():
+            assert value == self.path.state.joinpath("{0}.txt".format(name)).bytes().decode('utf8')
 
     def on_success(self):
         self.new_story.save()

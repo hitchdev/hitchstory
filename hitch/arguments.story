@@ -1,37 +1,41 @@
-Steps with arbitrary numbers of named arguments:
+Arguments to steps:
   description: |
-    When you need arbitrary numbers of arguments for
-    a step, you can use **kwargs to feed them in.
+    Arguments are fed to steps in a way that is
+    largely consistent with how python methods work:
+
+    * Named arguments are slugified to underscore_case.
+    * kwargs are fed raw.
   given:
-    example.story: |
-      Create files:
-        steps:
-          - Create files:
-              Filename1.txt: example
-              File name with space.txt: example
     engine.py: |
+      from code_that_does_things import fill_form
       from hitchstory import BaseEngine
 
       class Engine(BaseEngine):
-          def create_files(self, **kwargs):
-              for filename, content in kwargs.items():
-                  with open(filename, 'w') as handle:
-                      handle.write(content)
+          def fill_form(self, **kwargs):
+              for name, content in kwargs.items():
+                  fill_form(name, content)
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
       from pathquery import pathq
-    code:
-  steps:
-  - Run:
-      code: |
-        result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
-        print(result.report())
-      will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Create files in
-        0.1 seconds.'
-  - File was created with:
-      filename: Filename1.txt
-      contents: example
-  - File was created with:
-      filename: File name with space.txt
-      contents: example
+
+  variations:
+    kwargs:
+      given:
+        example.story: |
+          Create files:
+            steps:
+              - Fill form:
+                  login username: john
+                  login password: hunter2
+      steps:
+      - Run:
+          code: |
+            result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
+            print(result.report())
+          will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Create files
+            in 0.1 seconds.'
+
+      - Form filled:
+          login username: john
+          login password: hunter2

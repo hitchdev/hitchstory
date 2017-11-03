@@ -46,3 +46,6 @@ def tear_down_was_run():
     with open("tear_down_was_run.txt", 'w') as handle:
         handle.write("{0}\n".format("tear_down_was_run"))
     
+def fill_form(name, value):
+    with open("{0}.txt".format(name), 'w') as handle:
+        handle.write(value)

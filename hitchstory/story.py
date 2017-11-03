@@ -131,7 +131,7 @@ class Story(object):
             raise exception_to_raise(
                 stack_trace
             )
-    
+
     def run_on_success(self):
         try:
             self._engine.on_success()
