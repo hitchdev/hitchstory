@@ -12,7 +12,7 @@ It is currently in ALPHA. APIs may change without warning until version >= 1.0.
 Example
 -------
 
-login.yaml:
+login.story:
 
 .. code-block:: yaml
 
@@ -26,7 +26,7 @@ login.yaml:
         password: hunter2
     - Click: login
 
-Engine:
+Python engine and story runner code:
 
 .. code-block:: python
 
@@ -51,8 +51,8 @@ Engine:
       .play()
 
 
-Features
---------
+Unique Features
+---------------
 
 * Automated documentation generation
 * Automated story rewriting
@@ -70,8 +70,10 @@ To install::
   $ pip install hitchstory
 
 
-Why not X?
-----------
+Why not X instead?
+------------------
+
+Since hitchstory is a reinvented wheel of sorts, justification is needed:
 
 * Why not use Cucumber / Behat?
 * Why not use py.test?
