@@ -1,11 +1,11 @@
 HitchStory
 ==========
 
-HitchStory is a python libary for validating and executing storyfiles.
+HitchStory is a python library for running executable specifications.
 
 Storyfile is a YAML based DSL for writing BDD-style executable user stories.
-It can be used for writing executable specifications and tests on any
-level of the pyramid.
+It can be used for writing executable specifications and tests at any
+level of the testing pyramid.
 
 It is currently in ALPHA. APIs may change without warning until version >= 1.0.
 
@@ -19,14 +19,14 @@ login.story:
   # All about the character
   Log in as John:
     given:
-      website: www.supersecretsite.com/login
+      website: /login
     steps:
     - Fill form:
         username: john
         password: hunter2
     - Click: login
 
-Python engine and story runner code:
+Corresponding python story engine and runner code:
 
 .. code-block:: python
 
@@ -36,7 +36,9 @@ Python engine and story runner code:
   class Engine(BaseEngine):
       def set_up(self):
           self.driver = CyberDriver()
-          self.driver.visit(self.given['website'])
+          self.driver.visit(
+              "http://localhost:5000{0}".format(self.given['website'])
+          )
 
       def fill_form(self, **textboxes):
           for name, contents in textboxes.items():
@@ -45,20 +47,25 @@ Python engine and story runner code:
       def click(self, name):
           self.driver.click(name)
 
-  StoryCollection(["login.story"], Engine())\
-      .ordered_by_name()
-      .one()
-      .play()
+  StoryCollection(["login.story"], Engine()).one().play()
 
 
-Unique Features
----------------
+StoryFile Features
+------------------
 
-* Automated documentation generation
-* Automated story rewriting
-* Story inheritance
-* Optionally type-safe
-* Parameterization
+* Declarative - why user stories are better when declarative than turing complete?
+* Terse - syntactically designed to minimize specification code with no loss of expressiveness.
+* Type-safe - strongly typed preconditions, metadata and step arguments using StrictYAML (optional).
+* Story inheritance - keep your stories meaningful, specific *and* DRY.
+* Parameterization - for easy property testing.
+
+HitchStory Features
+-------------------
+
+* Automated documentation generation - keep your documentation, specification and testing in sync by deriving them from a single source of truth.
+* Automated story rewriting - include story artefacts (e.g. command line output) as part of your test and rewrite them automatically when changed.
+* Documented extensively with real life examples.
+* Customizable story metadata - for easy addition of tags, JIRAs, etc. to stories.
 * Extensively dogfooded
 
 
@@ -73,8 +80,9 @@ To install::
 Why not X instead?
 ------------------
 
-Since hitchstory is a reinvented wheel of sorts, justification is needed:
+Since hitchstory is a reinvented wheel, justification is needed:
 
-* Why not use Cucumber / Behat?
-* Why not use py.test?
+* Why not just write unit tests (e.g with py.test)?
+* Why not use Cucumber / Behat / Lettuce / pytest-bdd?
+* Why not use mamba / flowp?
 * Why not use robot framework?
