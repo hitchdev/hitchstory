@@ -1,8 +1,83 @@
 from hitchstory.arguments import Arguments
 from hitchstory import exceptions
 from hitchstory import utils
-from strictyaml import YAML
+from strictyaml import Any, Optional
 import inspect
+
+
+class StepMethod(object):
+    def __init__(self, method):
+        self._method = method
+        if self.argspec.varargs is not None:
+            raise Exception("Illegal method")
+        if self._keywords and len(self._args) > 1:
+            raise Exception("Illegal method")
+
+    @property
+    def argspec(self):
+        return inspect.getargspec(self._method)
+
+    @property
+    def _defaults(self):
+        return self.argspec.defaults if self.argspec.defaults is not None else []
+
+    @property
+    def _args(self):
+        return self.argspec.args if self.argspec.args is not None else []
+
+    @property
+    def _specified_validators(self):
+        return self._method._validators if hasattr(self._method, '_validators') else {}
+
+    @property
+    def _keywords(self):
+        return self.argspec.keywords is not None
+
+    def arg_validator(self, name):
+        return utils.YAML_Param | self._specified_validators.get(name, Any())
+
+    @property
+    def optional_args(self):
+        return self.argspec.args[len(self._defaults) - len(self._args):]
+
+    @property
+    def required_args(self):
+        return self.argspec.args[:len(self._defaults) - len(self._args)][1:]
+
+    @property
+    def single_argument_allowed(self):
+        return len(self.required_args) == 0 and len(self.optional_args) > 0 \
+            or len(self.required_args) == 1
+
+    @property
+    def single_argument_name(self):
+        return self.argspec.args[1]
+
+    @property
+    def mapping_validators(self):
+        validators = {}
+        for arg in self.optional_args:
+            validators[Optional(arg)] = self.arg_validator(arg)
+        for arg in self.required_args:
+            validators[arg] = self.arg_validator(arg)
+        return validators
+
+    def run(self, arguments):
+        if arguments.is_none:
+            self._method()
+        elif arguments.single_argument:
+            if self.single_argument_allowed:
+                arguments.validate_single_argument(self.arg_validator(self.single_argument_name))
+                self._method(**{self.single_argument_name: arguments.data})
+            else:
+                raise Exception("More than one argument required")
+        else:
+            if self._keywords:
+                arguments.validate_kwargs(self.arg_validator(self._keywords))
+                self._method(**arguments.data)
+            else:
+                arguments.validate_args(self.mapping_validators)
+                self._method(**arguments.data)
 
 
 class StoryStep(object):
@@ -38,7 +113,9 @@ class StoryStep(object):
     def yaml(self):
         return self._yaml
 
-    def step_method(self, engine):
+    @property
+    def step_method(self):
+        engine = self._story._engine
         if hasattr(engine, self.underscore_case_name()):
             attr = getattr(engine, self.underscore_case_name())
             if hasattr(attr, '__call__'):
@@ -63,7 +140,7 @@ class StoryStep(object):
             return True
 
         try:
-            step_method = self.step_method(engine)
+            step_method = self.step_method
         except exceptions.HitchStoryException:
             return False
 
@@ -72,28 +149,5 @@ class StoryStep(object):
 
         return False
 
-    def run(self, engine):
-        step_method = self.step_method(engine)
-
-        validators = step_method._validators \
-            if hasattr(step_method, '_validators') else {}
-        self.arguments.validate(validators)
-
-        if self.arguments.is_none:
-            step_method()
-        elif self.arguments.single_argument:
-            if isinstance(self.arguments.argument, YAML):
-                step_method(self.arguments.argument.value)
-            else:
-                step_method(self.arguments.argument)
-        else:
-            argspec = inspect.getargspec(step_method)
-
-            if argspec.keywords is not None:
-                kwargs = {
-                    key.data: val for key, val in
-                    self.arguments.kwargs.items()
-                }
-                step_method(**kwargs)
-            else:
-                step_method(**self.arguments.pythonized_kwargs())
+    def run(self):
+        StepMethod(self.step_method).run(self.arguments)

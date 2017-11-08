@@ -174,7 +174,7 @@ class Story(object):
             for step in self.scenario:
                 current_step = step
                 self._engine.current_step = current_step
-                step.run(self._engine)
+                step.run()
             passed = True
         except Exception as exception:
             caught_exception = exception

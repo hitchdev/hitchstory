@@ -48,7 +48,7 @@ Simple failure report:
 
 
 
-            [3]: function 'raise_example_exception'
+            [4]: function 'raise_example_exception'
               /path/to/code_that_does_things.py
 
 
@@ -76,7 +76,7 @@ Simple failure report:
 
 
 
-            [3]: function 'raise_example_exception'
+            [4]: function 'raise_example_exception'
               /path/to/code_that_does_things.py
 
 

@@ -1,5 +1,11 @@
 from hitchstory import utils
-from strictyaml import YAML
+from strictyaml import ScalarValidator, Map
+from slugify import slugify
+
+
+class UnderscoreCase(ScalarValidator):
+    def validate_scalar(self, chunk):
+        return slugify(chunk.contents, separator='_')
 
 
 class Arguments(object):
@@ -15,11 +21,11 @@ class Arguments(object):
         elif yaml_args.is_mapping():
             self.is_none = False
             self.single_argument = False
-            self.original_args = yaml_args
-        else:
+            self.yaml = yaml_args
+        elif yaml_args.is_scalar():
             self.is_none = False
             self.single_argument = True
-            self.argument = yaml_args
+            self.yaml = yaml_args
 
     def parameterize(self, value):
         """
@@ -31,30 +37,20 @@ class Arguments(object):
                     return parameter
         return value
 
-    def validate(self, validators):
+    def validate_args(self, validator):
         """
         Validate step using StrictYAML validators specified in @validate decorators.
         """
-        if not self.is_none and not self.single_argument:
-            _kwargs = {}
-            for key, value in self.original_args.items():
-                if str(key) in validators.keys():
-                    value.revalidate(utils.YAML_Param | validators[key])
-                _kwargs[key] = self.parameterize(value.data)
+        self.yaml.revalidate(Map(validator, key_validator=UnderscoreCase()))
+        self.data = {}
 
-            self.kwargs = _kwargs
-        if self.single_argument:
-            if len(validators) > 0:
-                self.argument.revalidate(utils.YAML_Param | list(validators.values())[0])
-            self.argument = self.parameterize(self.argument.data)
+        for key, value in self.yaml.items():
+            self.data[key.data] = self.parameterize(value.data)
 
-    def pythonized_kwargs(self):
-        """
-        Convert keyword arguments from readable English (e.g. Do a thing)
-        into an underscore style method name (do_a_thing).
-        """
-        pythonized_dict = {}
-        for key, value in self.kwargs.items():
-            pythonized_dict[utils.to_underscore_style(str(key))] = value.data \
-                if isinstance(value, YAML) else value
-        return pythonized_dict
+    def validate_single_argument(self, validator):
+        self.yaml.revalidate(validator)
+        self.data = self.parameterize(self.yaml.data)
+
+    def validate_kwargs(self, validator):
+        self.yaml.revalidate(validator)
+        self.data = self.parameterize(self.yaml.data)

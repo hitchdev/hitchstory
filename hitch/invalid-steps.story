@@ -33,7 +33,7 @@ Invalid story:
 
 
 
-            [7]: function 'expecting_but_found'
+            [10]: function 'expecting_but_found'
               /home/colm/.hitch/90646u/py3.5.0/lib/python3.5/site-packages/strictyaml/yamllocation.py
 
 

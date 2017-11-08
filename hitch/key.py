@@ -215,7 +215,12 @@ class Engine(BaseEngine):
 
     def form_filled(self, **kwargs):
         for name, value in kwargs.items():
-            assert value == self.path.state.joinpath("{0}.txt".format(name)).bytes().decode('utf8')
+            assert value == \
+                self.path.state.joinpath("{0}.txt".format(name)).bytes().decode('utf8')
+
+    def buttons_clicked(self, contents):
+        assert contents.strip() == \
+            self.path.state.joinpath("buttons.txt").bytes().decode('utf8').strip()
 
     def on_success(self):
         self.new_story.save()
@@ -232,7 +237,7 @@ def tdd(*words):
             Engine(
                 DIR,
                 {
-                    "overwrite artefacts": True,
+                    "overwrite artefacts": False,
                     "print output": True,
                 },
             )
@@ -260,7 +265,7 @@ def regression():
     lint()
     print(
         StoryCollection(
-            pathq(DIR.key).ext("story"), Engine(DIR, {})
+            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
         ).ordered_by_name().play().report()
     )
 
