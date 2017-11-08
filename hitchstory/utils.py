@@ -12,7 +12,7 @@ TEMPLATE_DIR = SRC_DIR.joinpath("templates")
 DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
                                  .to_console()\
                                  .cut_calling_code(
-                                      SRC_DIR.joinpath("story_step.py")
+                                      SRC_DIR.joinpath("step_method.py")
                                  )
 
 
