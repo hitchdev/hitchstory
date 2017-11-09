@@ -14,7 +14,7 @@ def read(*parts):
 
 setup(name="hitchstory",
     version=read('VERSION').replace('\n', ''),
-    description="BDD, strongly typed with StrictYAML and Python.",
+    description="Type-safe, YAML-based BDD, TDD & specification by example framework for python.",
     long_description=read('README.rst'),
     classifiers=[
         'Development Status :: 3 - Alpha',
