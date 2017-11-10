@@ -13,6 +13,7 @@ Shortcut lookup for story names:
           - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
+      from ensure import Ensure
       from pathquery import pathq
 
       class Engine(BaseEngine):

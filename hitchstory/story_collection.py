@@ -35,6 +35,7 @@ class StoryCollection(object):
         self._story_files = {}
         self._stories = None
         self._filtered_stories = None
+        self._non_variations = False
 
     @property
     def engine(self):
@@ -83,6 +84,9 @@ class StoryCollection(object):
                 if self._in_filename is not None:
                     if Path(story.filename).abspath() != Path(self._in_filename).abspath():
                         filtered = False
+                if self._non_variations:
+                    if story.variation:
+                        filtered = False
                 if filtered:
                     self._filtered_stories.append(story)
                 all_stories.append(story)
@@ -130,6 +134,11 @@ class StoryCollection(object):
     def in_any_filename(self):
         new_collection = self.copy()
         new_collection._in_filename = None
+        return new_collection
+    
+    def non_variations(self):
+        new_collection = self.copy()
+        new_collection._non_variations = True
         return new_collection
 
     def copy(self):
