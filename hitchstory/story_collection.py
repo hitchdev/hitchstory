@@ -32,8 +32,18 @@ class StoryCollection(object):
         self._named = None
         self._filters = []
         self._params = {}
+        self._story_files = {}
         self._stories = None
         self._filtered_stories = None
+
+    @property
+    def engine(self):
+        return self._engine
+
+    def story_file(self, filename):
+        if filename not in self._story_files:
+            self._story_files[filename] = StoryFile(filename, self)
+        return self._story_files[filename]
 
     @property
     def stories(self):
@@ -48,7 +58,7 @@ class StoryCollection(object):
                     raise exceptions.InvalidStoryPaths(
                         "Story path '{0}' is a directory.".format(filename)
                     )
-                for story in StoryFile(filename, self._engine, self).ordered_arbitrarily():
+                for story in self.story_file(filename).ordered_arbitrarily():
                     if story.slug in self._stories:
                         raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
                     self._stories[story.slug] = story
@@ -126,6 +136,9 @@ class StoryCollection(object):
         new_collection = copy(self)
         new_collection._filtered_stories = None
         new_collection._stories = None
+
+        for story in new_collection._story_files.values():
+            story._collection = self
         return new_collection
 
     def named(self, name):

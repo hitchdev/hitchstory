@@ -9,10 +9,9 @@ class StoryFile(object):
     """
     YAML file containing one or more named stories, part of a collection.
     """
-    def __init__(self, filename, engine, collection):
+    def __init__(self, filename, collection):
         self._filename = filename
         self._yaml = filename.bytes().decode('utf8')
-        self._engine = engine
         self._collection = collection
 
         steps_schema = Seq(Str() | MapPattern(Str(), Any(), maximum_keys=1))
@@ -28,14 +27,14 @@ class StoryFile(object):
             Optional("steps"): steps_schema,
             Optional("description"): Str(),
             Optional("with"): Any(),
-            Optional('given'): self._engine.schema.preconditions,
+            Optional('given'): self.engine.schema.preconditions,
         }
 
-        if self._engine.schema.about is not None:
-            for about_property, property_schema in self._engine.schema.about.items():
+        if self.engine.schema.about is not None:
+            for about_property, property_schema in self.engine.schema.about.items():
                 story_schema[about_property] = property_schema
 
-        story_schema[Optional('given')] = self._engine.schema.preconditions
+        story_schema[Optional('given')] = self.engine.schema.preconditions
         story_schema[Optional('variations')] = MapPattern(Str(), Map(variation_schema))
 
         # Load YAML into memory
@@ -49,6 +48,10 @@ class StoryFile(object):
             raise exceptions.StoryYAMLError(
                 filename, str(error)
             )
+
+    @property
+    def engine(self):
+        return self._collection.engine
 
     def update(self, story, step, kwargs):
         """
@@ -97,7 +100,7 @@ class StoryFile(object):
         stories = []
         for name, parsed_main_story in self._parsed_yaml.items():
             stories.append(Story(
-                self, str(name), parsed_main_story, self._engine, self._collection
+                self, str(name), parsed_main_story, self.engine, self._collection
             ))
 
             variations = self._parsed_yaml[name].get("variations", {}).items()
@@ -108,7 +111,7 @@ class StoryFile(object):
                         self,
                         variation_name,
                         parsed_var_name,
-                        self._engine,
+                        self.engine,
                         self._collection,
                         parent=str(name),
                         variation=True,
