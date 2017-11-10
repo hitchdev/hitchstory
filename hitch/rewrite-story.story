@@ -48,7 +48,7 @@ Rewrite story:
 
   - File contents will be:
       filename: example.story
-      contents: |
+      contents: |-
         Do things:
           steps:
           - Do thing: |-

@@ -15,15 +15,17 @@ class StoryFile(object):
         self._engine = engine
         self._collection = collection
 
+        steps_schema = Seq(Str() | MapPattern(Str(), Any(), maximum_keys=1))
+
         story_schema = {
-            Optional("steps"): Seq(Any()),
+            Optional("steps"): steps_schema,
             Optional("description"): Str(),
             Optional("based on"): Str(),
             Optional("with"): Any(),
         }
 
         variation_schema = {
-            Optional("steps"): Seq(Any()),
+            Optional("steps"): steps_schema,
             Optional("description"): Str(),
             Optional("with"): Any(),
             Optional('given'): self._engine.schema.preconditions,

@@ -1,3 +1,4 @@
+from hitchstory import exceptions
 from strictyaml import Any, Optional
 from hitchstory import utils
 import inspect
@@ -7,9 +8,13 @@ class StepMethod(object):
     def __init__(self, method):
         self._method = method
         if self.argspec.varargs is not None:
-            raise Exception("Illegal method")
+            raise exceptions.CannotUseVarargs(
+                "Cannot use varargs (e.g. *args), can only use keyword args (**kwargs)"
+            )
         if self._keywords and len(self._args) > 1:
-            raise Exception("Illegal method")
+            raise exceptions.CannotMixKeywordArgs(
+                "Cannot mix keyword arguments (e.g. **kwargs) and regular args (e.g. x)"
+            )
 
     @property
     def argspec(self):
@@ -36,11 +41,11 @@ class StepMethod(object):
 
     @property
     def optional_args(self):
-        return self.argspec.args[len(self._defaults) - len(self._args):]
+        return self.argspec.args[-len(self._defaults):]
 
     @property
     def required_args(self):
-        return self.argspec.args[:len(self._defaults) - len(self._args)][1:]
+        return self.argspec.args[:len(self._args) - len(self._defaults)][1:]
 
     @property
     def single_argument_allowed(self):
@@ -68,7 +73,12 @@ class StepMethod(object):
                 arguments.validate_single_argument(self.arg_validator(self.single_argument_name))
                 self._method(**{self.single_argument_name: arguments.data})
             else:
-                raise Exception("More than one argument required")
+                raise exceptions.StepMethodNeedsMoreThanOneArgument(
+                    "Step method {0} requires {1} arguments, got one.".format(
+                        self._method,
+                        len(self.required_args),
+                    )
+                )
         else:
             if self._keywords:
                 arguments.validate_kwargs(self.arg_validator(self._keywords))

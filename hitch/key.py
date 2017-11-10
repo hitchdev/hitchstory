@@ -120,7 +120,7 @@ class Engine(BaseEngine):
     )
     def run(self, code, will_output=None, raises=None):
         self.example_py_code = ExamplePythonCode(self.python, self.path.state)\
-            .with_terminal_size(160, 24)\
+            .with_terminal_size(160, 100)\
             .with_setup_code(self.given.get('setup', ''))
         to_run = self.example_py_code.with_code(code)
 
@@ -265,7 +265,7 @@ def regression():
     lint()
     print(
         StoryCollection(
-            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
+            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
         ).ordered_by_name().play().report()
     )
 

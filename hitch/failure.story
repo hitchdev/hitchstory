@@ -43,7 +43,24 @@ Simple failure report:
       - Run:
           code: story_collection.one().play()
           will output: |-
-            --> 8 :         raise_example_exception("Towel not located")
+            FAILURE IN /path/to/example.story:
+                "Failing story" in 0.1 seconds.
+
+
+                  steps:
+                  - Passing step
+                  - Failing step
+                  - Not executed step
+
+
+
+            [3]: function 'failing_step'
+              /path/to/engine.py
+
+
+                    6 :
+                    7 :     def failing_step(self):
+                --> 8 :         raise_example_exception("Towel not located")
                     9 :
 
 
@@ -71,7 +88,24 @@ Simple failure report:
       - Run:
           code: story_collection.one().play()
           will output: |-
-            --> 8 :         raise_example_exception("Towel not located")
+            FAILURE IN /path/to/example.story:
+                "Failing story" in 0.1 seconds.
+
+
+                  steps:
+                  - Passing step
+                  - Failing step
+                  - Not executed step
+
+
+
+            [3]: function 'failing_step'
+              /path/to/engine.py
+
+
+                    6 :
+                    7 :     def failing_step(self):
+                --> 8 :         raise_example_exception("Towel not located")
                     9 :
 
 

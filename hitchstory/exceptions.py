@@ -5,6 +5,27 @@ class HitchStoryException(Exception):
     pass
 
 
+class CannotMixKeywordArgs(HitchStoryException):
+    """
+    **kwargs and regular args cannot be mixed in story step methods.
+    """
+    pass
+
+
+class CannotUseVarargs(HitchStoryException):
+    """
+    *args is not usable in step method.
+    """
+    pass
+
+
+class StepMethodNeedsMoreThanOneArgument(HitchStoryException):
+    """
+    Method in story engine takes more than one argument.
+    """
+    pass
+
+
 class StepNotFound(HitchStoryException):
     """
     Step in story has no corresponding method in engine.

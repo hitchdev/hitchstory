@@ -98,7 +98,9 @@ Fail fast:
             ).ordered_by_name().play()
             print(results.report())
           will output: |-
-            "B Create file" in 0.1 seconds.
+            STORY RAN SUCCESSFULLY /path/to/example1.story: A Create file in 0.1 seconds.
+            FAILURE IN /path/to/example1.story:
+                "B Create file" in 0.1 seconds.
 
 
                 B Create file:
@@ -132,7 +134,12 @@ Fail fast:
             ).ordered_by_name().continue_on_failure().play()
             print(results.report())
           will output: |-
-            B Create file:
+            STORY RAN SUCCESSFULLY /path/to/example1.story: A Create file in 0.1 seconds.
+            FAILURE IN /path/to/example1.story:
+                "B Create file" in 0.1 seconds.
+
+
+                B Create file:
                   steps:
                   - Fail
 
