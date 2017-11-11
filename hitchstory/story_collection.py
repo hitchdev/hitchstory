@@ -135,7 +135,7 @@ class StoryCollection(object):
         new_collection = self.copy()
         new_collection._in_filename = None
         return new_collection
-    
+
     def non_variations(self):
         new_collection = self.copy()
         new_collection._non_variations = True

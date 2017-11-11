@@ -37,7 +37,7 @@ class StoryStep(object):
 
     @property
     def step_method(self):
-        engine = self._story._engine
+        engine = self._story.engine
         if hasattr(engine, self.underscore_case_name()):
             attr = getattr(engine, self.underscore_case_name())
             if hasattr(attr, '__call__'):

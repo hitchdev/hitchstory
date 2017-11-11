@@ -8,41 +8,38 @@ import time
 
 
 class Story(object):
-    def __init__(
-        self,
-        story_file,
-        name,
-        parsed_yaml,
-        engine,
-        collection,
-        parent=None,
-        variation=False
-    ):
+    def __init__(self, story_file, name, parsed_yaml, parent=None, variation=False):
         self._story_file = story_file
         self._name = name
         self._slug = None
         self._parsed_yaml = parsed_yaml
-        self._engine = engine
         self._steps = []
         self._about = {}
         self._parent = parent
-        if engine.schema.about is not None:
-            for about_property in engine.schema.about.keys():
-                self._about[about_property] = parsed_yaml.get(about_property)
-        self._collection = collection
+        if self.engine.schema.about is not None:
+            for about_property in self.engine.schema.about.keys():
+                self._about[about_property] = self.data.get(about_property)
+        self._collection = self._story_file.collection
         self.variation = variation
 
     def update(self, step, kwargs):
         self._story_file.update(self, step, kwargs)
 
     @property
+    def data(self):
+        return self._parsed_yaml.data
+
+    @property
     def based_on(self):
-        return str(self._parsed_yaml['based on']) \
-            if "based on" in self._parsed_yaml else self._parent
+        return self.data['based on'] if "based on" in self.data else self._parent
 
     @property
     def story_file(self):
         return self._story_file
+
+    @property
+    def engine(self):
+        return self._story_file.engine
 
     @property
     def filename(self):
@@ -134,18 +131,18 @@ class Story(object):
 
     def run_on_success(self):
         try:
-            self._engine.on_success()
+            self.engine.on_success()
         except Exception as exception:
-            self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
+            self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
             raise exceptions.OnSuccessException(stack_trace)
 
     def run_on_failure(self, result):
         try:
-            self._engine.on_failure(result)
+            self.engine.on_failure(result)
         except Exception as exception:
-            self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
+            self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
             raise exceptions.OnFailureException(stack_trace)
@@ -161,26 +158,26 @@ class Story(object):
         try:
             from signal import signal, SIGINT, SIGTERM, SIGHUP, SIGQUIT
 
-            signal(SIGINT, self._engine.on_abort)
-            signal(SIGTERM, self._engine.on_abort)
-            signal(SIGHUP, self._engine.on_abort)
-            signal(SIGQUIT, self._engine.on_abort)
+            signal(SIGINT, self.engine.on_abort)
+            signal(SIGTERM, self.engine.on_abort)
+            signal(SIGHUP, self.engine.on_abort)
+            signal(SIGQUIT, self.engine.on_abort)
 
             current_step = None
-            self._engine._preconditions = self.preconditions
-            self._engine.story = self
-            self._engine.set_up()
+            self.engine._preconditions = self.preconditions
+            self.engine.story = self
+            self.engine.set_up()
 
             for step in self.scenario:
                 current_step = step
-                self._engine.current_step = current_step
+                self.engine.current_step = current_step
                 step.run()
             passed = True
         except Exception as exception:
             caught_exception = exception
 
             if current_step is not None and current_step.expect_exception(
-                self._engine, caught_exception
+                self.engine, caught_exception
             ):
                 failure_stack_trace = DEFAULT_STACK_TRACE.only_the_exception().current_stacktrace()
             else:
@@ -199,5 +196,8 @@ class Story(object):
             )
             self.run_on_failure(result)
 
-        self.run_special_method(self._engine.tear_down, exceptions.TearDownException)
+        self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
         return result
+
+    def __repr__(self):
+        return u"Story('{0}')".format(self._slug)

@@ -90,6 +90,10 @@ class StoryFile(object):
         return self._filename
 
     @property
+    def collection(self):
+        return self._collection
+
+    @property
     def path(self):
         return Path(self._filename)
 
@@ -100,7 +104,7 @@ class StoryFile(object):
         stories = []
         for name, parsed_main_story in self._parsed_yaml.items():
             stories.append(Story(
-                self, str(name), parsed_main_story, self.engine, self._collection
+                self, str(name), parsed_main_story,
             ))
 
             variations = self._parsed_yaml[name].get("variations", {}).items()
@@ -111,8 +115,6 @@ class StoryFile(object):
                         self,
                         variation_name,
                         parsed_var_name,
-                        self.engine,
-                        self._collection,
                         parent=str(name),
                         variation=True,
                     )
