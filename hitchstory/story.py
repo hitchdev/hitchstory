@@ -72,8 +72,8 @@ class Story(object):
     def params(self):
         param_dict = self.based_on_story.params \
             if self.based_on is not None else {}
-        for name, param in self._parsed_yaml.get("with", {}).items():
-            param_dict[name] = param.data
+        for name, param in self.data.get("with", {}).items():
+            param_dict[name] = param
         for name, param in self._collection._params.items():
             param_dict[name] = param
         return param_dict
