@@ -81,8 +81,8 @@ class Story(object):
     def unparameterized_preconditions(self):
         precondition_dict = self.based_on_story.unparameterized_preconditions() \
             if self.based_on is not None else {}
-        for name, precondition in self._parsed_yaml.get("given", {}).items():
-            precondition_dict[str(name)] = precondition.data
+        for name, precondition in self.data.get("given", {}).items():
+            precondition_dict[name] = precondition
         return precondition_dict
 
     @property
