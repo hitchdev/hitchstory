@@ -24,7 +24,7 @@ From the Cucumber website:
 Hitch scenarios, by contrast, emphasizes the following values:
 
 * The screenplay principle.
-* Terse code.
+* Terse, DRY code.
 * The *generation* of documentation for customer collaboration and stakeholders input.
 
 Equivalent scenarios:

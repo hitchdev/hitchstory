@@ -3,28 +3,60 @@ HitchStory
 
 HitchStory is a python library for running executable specifications.
 
-Storyfile is a YAML based DSL for writing BDD-style executable user stories.
-It can be used for writing executable specifications and tests at any
-level of the testing pyramid.
+Storyfile is a YAML based DSL for writing `BDD <https://en.wikipedia.org/wiki/Behavior-driven_development>`_-style executable user stories
+for any kind of software.
+
+The stories are designed to be:
+
+* Readable
+* Declarative
+* DRY as sand
+* Strongly typed and syntactically sound `StrictYAML <https://github.com/crdoconnor/strictyaml>`_
+* Parameterized and useable with `hypothesis <http://www.hypothesis.works>`_ to do property based testing.
+* Self rewriting (without magic)
+* Dogfooded for *years* on high and low level software.
+* Used to generate pretty documentation for users, stakeholders, translators, managers, etc.
+* 100% buzzword compliant.
+
+Hate writing tests? Hate writing documentation? Made to feel guilty about it?
+
+Like writing specifications?
+
+Yeah, me too.
 
 It is currently in ALPHA. APIs may change without warning until version >= 1.0.
 
 Example
 -------
 
-login.story:
+email.story:
 
 .. code-block:: yaml
 
-  # All about the character
-  Log in as John:
+  Log in:
     given:
       website: /login
     steps:
-    - Fill form:
-        username: john
-        password: hunter2
-    - Click: login
+      - Fill form:
+          username: (( name ))
+          password: (( password ))
+      - Click: login
+    with:
+      name: AzureDiamond
+      password: hunter2
+
+  
+  Send email:
+    based on: log in
+    steps:
+      - Click: new email
+      - Fill form:
+          contents: |
+            Hey guys,
+            
+            I think I got hacked!
+      - Click: send email
+      - Email was sent
 
 Corresponding python story engine and runner code:
 
@@ -32,6 +64,7 @@ Corresponding python story engine and runner code:
 
   from hitchstory import BaseEngine, StoryCollection
   from tellurium import CyberDriver
+  from emailchecker import email_was_sent
   
   class Engine(BaseEngine):
       def set_up(self):
@@ -46,27 +79,12 @@ Corresponding python story engine and runner code:
       
       def click(self, name):
           self.driver.click(name)
+      
+      def email_was_sent(self):
+          email_was_sent()
 
-  StoryCollection(["login.story"], Engine()).one().play()
+  StoryCollection(["email.story"], Engine()).named("Send email").play()
 
-
-StoryFile Features
-------------------
-
-* Declarative - why user stories are better when declarative than turing complete?
-* Terse - syntactically designed to minimize specification code with no loss of expressiveness.
-* Type-safe - strongly typed preconditions, metadata and step arguments using StrictYAML (optional).
-* Story inheritance - keep your stories meaningful, specific *and* DRY.
-* Parameterization - for easy property testing.
-
-HitchStory Features
--------------------
-
-* Automated documentation generation - keep your documentation, specification and testing in sync by deriving them from a single source of truth.
-* Automated story rewriting - include story artefacts (e.g. command line output) as part of your test and rewrite them automatically when changed.
-* Documented extensively with real life examples.
-* Customizable story metadata - for easy addition of tags, JIRAs, etc. to stories.
-* Extensively dogfooded
 
 
 Install
@@ -80,7 +98,7 @@ To install::
 Why not X instead?
 ------------------
 
-Since hitchstory is a reinvented wheel, justification is needed:
+Since hitchstory is, in some sense, a reinvented wheel, some justification is needed:
 
 * Why not just write unit tests (e.g with py.test)?
 * Why not use Cucumber / Behat / Lettuce / pytest-bdd?
