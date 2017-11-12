@@ -42,16 +42,10 @@ Exception in special methods:
           code: story.play()
           raises:
             type: hitchstory.exceptions.OnSuccessException
-            message: |-
-              Stacktrace:
-
-              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
-                [[ DIM ]][[ RED ]]
-                  This is a demonstration exception's docstring.
-
-                  It spreads across multiple lines.
-                  [[ RESET ALL ]]
-              [[ RED ]][[ RESET FORE ]]
+            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
+              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
       - Tear down was run
 
     in on_failure:
@@ -74,16 +68,10 @@ Exception in special methods:
           code: story.play()
           raises:
             type: hitchstory.exceptions.OnFailureException
-            message: |-
-              Stacktrace:
-
-              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
-                [[ DIM ]][[ RED ]]
-                  This is a demonstration exception's docstring.
-
-                  It spreads across multiple lines.
-                  [[ RESET ALL ]]
-              [[ RED ]][[ RESET FORE ]]
+            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
+              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
       - Tear down was run
 
     in tear_down:
@@ -103,13 +91,7 @@ Exception in special methods:
           code: story.play()
           raises:
             type: hitchstory.exceptions.TearDownException
-            message: |-
-              Stacktrace:
-
-              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
-                [[ DIM ]][[ RED ]]
-                  This is a demonstration exception's docstring.
-
-                  It spreads across multiple lines.
-                  [[ RESET ALL ]]
-              [[ RED ]][[ RESET FORE ]]
+            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
+              \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"

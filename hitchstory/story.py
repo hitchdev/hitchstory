@@ -97,23 +97,23 @@ class Story(object):
         return precondition_dict
 
     @property
-    def parent_steps(self):
-        return self.based_on_story.steps \
+    def _parent_steps(self):
+        return self.based_on_story._yaml_steps \
             if self.based_on is not None else []
 
     @property
-    def steps(self):
-        step_list = self.parent_steps
+    def _yaml_steps(self):
+        step_list = self._parent_steps
         step_list.extend(self._parsed_yaml.get('steps', []))
         return step_list
 
     @property
-    def scenario(self):
-        number_of_parent_steps = len(self.parent_steps)
+    def steps(self):
+        number_of_parent_steps = len(self._parent_steps)
         return [
             StoryStep(
                 self, parsed_step, index, index - number_of_parent_steps, self.params
-            ) for index, parsed_step in enumerate(self.steps)
+            ) for index, parsed_step in enumerate(self._yaml_steps)
         ]
 
     def run_special_method(self, method, exception_to_raise, result=None):
@@ -168,7 +168,7 @@ class Story(object):
             self.engine.story = self
             self.engine.set_up()
 
-            for step in self.scenario:
+            for step in self.steps:
                 current_step = step
                 self.engine.current_step = current_step
                 step.run()

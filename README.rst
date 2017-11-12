@@ -21,7 +21,7 @@ The stories are designed to be:
 
 Hate writing tests? Hate writing documentation? Made to feel guilty about it?
 
-Like writing specifications?
+Prefer writing specifications?
 
 Yeah, me too.
 

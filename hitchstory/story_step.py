@@ -10,10 +10,10 @@ class StoryStep(object):
         self._story = story
         self._index = index
         self._child_index = child_index
-        if isinstance(yaml_step.value, str):
-            self.name = str(yaml_step)
+        if yaml_step.is_scalar():
+            self.name = yaml_step.data
             self.arguments = Arguments(None, params)
-        elif isinstance(yaml_step.value, dict) and len(yaml_step.keys()) == 1:
+        elif yaml_step.is_mapping() and len(yaml_step.keys()) == 1:
             self.name = str(list(yaml_step.keys())[0])
             self.arguments = Arguments(list(yaml_step.values())[0], params)
 

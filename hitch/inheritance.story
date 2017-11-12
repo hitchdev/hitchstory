@@ -90,7 +90,9 @@ Inherit one story from another:
     Override parameters:
       steps:
       - Run:
-          code: collection.named("Write to file 3").play()
+          code: print(collection.named("Write to file 3").play().report())
+          will output: |-
+            STORY RAN SUCCESSFULLY /path/to/example.story: Write to file 3 in 0.1 seconds.
       - Output is: |
           thing one: 9, 2
           thing three: 11
