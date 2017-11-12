@@ -3,8 +3,10 @@ HitchStory
 
 HitchStory is a python library for running executable specifications.
 
-Storyfile is a YAML based DSL for writing `BDD <https://en.wikipedia.org/wiki/Behavior-driven_development>`_-style executable user stories
-for any kind of software.
+Storyfile is a YAML based DSL for writing `BDD <https://en.wikipedia.org/wiki/Behavior-driven_development>`_-style
+executable user stories for any kind of software.
+
+Dogfooded for *years* on high and low level software.
 
 The stories are designed to be:
 
@@ -12,9 +14,8 @@ The stories are designed to be:
 * Declarative
 * DRY as sand
 * Strongly typed and syntactically sound `StrictYAML <https://github.com/crdoconnor/strictyaml>`_
-* Parameterized and useable with `hypothesis <http://www.hypothesis.works>`_ to do property based testing.
+* Parameterized and useable with `hypothesis <http://hypothesis.works>`_ to do property based testing.
 * Self rewriting (without magic)
-* Dogfooded for *years* on high and low level software.
 * Used to generate pretty documentation for users, stakeholders, translators, managers, etc.
 * 100% buzzword compliant.
 
@@ -24,7 +25,12 @@ Like writing specifications?
 
 Yeah, me too.
 
+Note
+----
+
 It is currently in ALPHA. APIs may change without warning until version >= 1.0.
+
+Only runs in python 3, but still able to test python 2 code.
 
 Example
 -------
@@ -35,23 +41,24 @@ email.story:
 
   Log in:
     given:
-      website: /login
+      website: /login                # preconditions
     steps:
       - Fill form:
-          username: (( name ))
+          username: (( name ))       # parameterized steps
           password: (( password ))
       - Click: login
     with:
-      name: AzureDiamond
+      name: AzureDiamond             # default parameters for story
       password: hunter2
 
   
   Send email:
-    based on: log in
+    based on: log in                 # continues from test above
     steps:
       - Click: new email
-      - Fill form:
-          contents: |
+      - Fill form:                   
+          to: Cthon98@aol.com
+          contents: |                # long form text
             Hey guys,
             
             I think I got hacked!
@@ -98,7 +105,7 @@ To install::
 Why not X instead?
 ------------------
 
-Since hitchstory is, in some sense, a reinvented wheel, some justification is needed:
+Since hitchstory is, in some sense, a reinvented wheel, some justification is needed (TODO):
 
 * Why not just write unit tests (e.g with py.test)?
 * Why not use Cucumber / Behat / Lettuce / pytest-bdd?
