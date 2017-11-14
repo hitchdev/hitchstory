@@ -102,7 +102,7 @@ class BaseEngine(object):
         pass
 
     def on_abort(self, signal_num, stack_frame):
-        self.aborted = True
+        self._aborted = True
 
     def on_failure(self, report):
         pass

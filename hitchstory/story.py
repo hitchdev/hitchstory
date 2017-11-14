@@ -178,7 +178,7 @@ class Story(object):
                 self.engine.current_step = current_step
                 step.run()
 
-                if hasattr(self.engine, 'aborted') and self.engine.aborted:
+                if hasattr(self.engine, '_aborted') and self.engine._aborted:
                     print("Aborted")
             passed = True
         except Exception as exception:
