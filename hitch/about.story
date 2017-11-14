@@ -1,4 +1,4 @@
-Descriptive parameters attached to story:
+Extra story metadata:
   given:
     example.story: |
       Build city:
@@ -17,11 +17,12 @@ Descriptive parameters attached to story:
       from hitchstory import StoryCollection, BaseEngine, StorySchema
       from strictyaml import Map, Str, CommaSeparated, Optional
       from pathquery import pathq
+      from ensure import Ensure
       from code_that_does_things import reticulate_splines, kick_llamas_ass
 
       class Engine(BaseEngine):
           schema = StorySchema(
-              about={
+              info={
                   Optional("description"): Str(),
                   "jiras": CommaSeparated(Str()),
                   "features": CommaSeparated(Str()),
@@ -47,6 +48,13 @@ Descriptive parameters attached to story:
       steps:
       - Run:
           code: |
-            story_collection.filter(lambda story: "JIRA-124" in story.about['jiras']).ordered_by_name().play()
+            story_collection.filter(lambda story: "JIRA-124" in story.info['jiras']).ordered_by_name().play()
       - Splines reticulated
 
+    Info:
+      steps:
+      - Run:
+          code: |
+            Ensure([story.info['jiras'] for story in story_collection.ordered_by_name()]).equals(
+                [["JIRA-123", "JIRA-124"], ["JIRA-789", ], ]
+            )

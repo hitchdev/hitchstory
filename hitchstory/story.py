@@ -3,6 +3,7 @@ from hitchstory.story_step import StoryStep
 from hitchstory.utils import DEFAULT_STACK_TRACE
 from hitchstory import exceptions
 from hitchstory import utils
+from strictyaml import Optional
 from slugify import slugify
 import time
 
@@ -14,12 +15,14 @@ class Story(object):
         self._slug = None
         self._parsed_yaml = parsed_yaml
         self._steps = []
-        self._about = {}
+        self._info = {}
         self._parent = None
         self._variation_of = variation_of
-        if self.engine.schema.about is not None:
-            for about_property in self.engine.schema.about.keys():
-                self._about[about_property] = self.data.get(about_property)
+        if self.engine.schema.info is not None:
+            for info_property in self.engine.schema.info.keys():
+                key = info_property.key if isinstance(info_property, Optional) \
+                    else info_property
+                self._info[key] = self.data.get(key)
         self._collection = self._story_file.collection
         self.children = []
 
@@ -51,8 +54,8 @@ class Story(object):
         return self._story_file.filename
 
     @property
-    def about(self):
-        return self._about
+    def info(self):
+        return self._info
 
     @property
     def child_name(self):

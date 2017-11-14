@@ -31,9 +31,9 @@ class StoryFile(object):
             Optional('given'): self.engine.schema.preconditions,
         }
 
-        if self.engine.schema.about is not None:
-            for about_property, property_schema in self.engine.schema.about.items():
-                story_schema[about_property] = property_schema
+        if self.engine.schema.info is not None:
+            for info_property, info_property_schema in self.engine.schema.info.items():
+                story_schema[info_property] = info_property_schema
 
         story_schema[Optional('given')] = self.engine.schema.preconditions
         story_schema[Optional('variations')] = MapPattern(Str(), Map(variation_schema))
