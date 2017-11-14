@@ -117,8 +117,7 @@ class StoryFile(object):
                         self,
                         variation_name,
                         parsed_var_name,
-                        parent=str(name),
-                        variation=True,
+                        variation_of=str(name),
                     )
                 )
 

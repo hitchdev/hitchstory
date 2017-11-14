@@ -74,6 +74,8 @@ Story with parameters:
       - Run:
           code: |
             print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button/with chrome").play().report())
+          will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Click magic
+            button/with chrome in 0.1 seconds.'
       - Output is: |
           chrome
           153

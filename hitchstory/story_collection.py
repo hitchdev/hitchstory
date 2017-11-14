@@ -65,7 +65,7 @@ class StoryCollection(object):
                         raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
                     self._stories[story.slug] = story
 
-            # Make sure parent stories know who their children are
+            # Make sure parent stories know who their children are and vice versa
             for name, story in self._stories.items():
                 if story.based_on is not None:
                     parent_slug = slugify(story.based_on)
@@ -77,6 +77,7 @@ class StoryCollection(object):
                             story.filename,
                         )
                     self._stories[parent_slug].children.append(story)
+                    story._parent = self._stories[parent_slug]
         return self._stories
 
     def ordered_arbitrarily(self):

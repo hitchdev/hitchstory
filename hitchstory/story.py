@@ -8,23 +8,27 @@ import time
 
 
 class Story(object):
-    def __init__(self, story_file, name, parsed_yaml, parent=None, variation=False):
+    def __init__(self, story_file, name, parsed_yaml, variation_of=None):
         self._story_file = story_file
         self._name = name
         self._slug = None
         self._parsed_yaml = parsed_yaml
         self._steps = []
         self._about = {}
-        self._parent = parent
+        self._parent = None
+        self._variation_of = variation_of
         if self.engine.schema.about is not None:
             for about_property in self.engine.schema.about.keys():
                 self._about[about_property] = self.data.get(about_property)
         self._collection = self._story_file.collection
-        self.variation = variation
         self.children = []
 
     def update(self, step, kwargs):
         self._story_file.update(self, step, kwargs)
+
+    @property
+    def variation(self):
+        return self._variation_of is not None
 
     @property
     def data(self):
@@ -32,7 +36,7 @@ class Story(object):
 
     @property
     def based_on(self):
-        return self.data['based on'] if "based on" in self.data else self._parent
+        return self.data['based on'] if "based on" in self.data else self._variation_of
 
     @property
     def story_file(self):
@@ -57,7 +61,7 @@ class Story(object):
     @property
     def name(self):
         return self._name if not self.variation\
-            else "{0}/{1}".format(self._parent, self._name)
+            else "{0}/{1}".format(self._variation_of, self._name)
 
     @property
     def slug(self):
@@ -67,12 +71,12 @@ class Story(object):
 
     @property
     def parent(self):
-        return self._collection.without_filters().in_any_filename().named(self.based_on)
+        return self._parent
 
     @property
     def params(self):
         param_dict = self.parent.params \
-            if self.based_on is not None else {}
+            if self.parent is not None else {}
         for name, param in self.data.get("with", {}).items():
             param_dict[name] = param
         for name, param in self._collection._params.items():
@@ -81,7 +85,7 @@ class Story(object):
 
     def unparameterized_preconditions(self):
         precondition_dict = self.parent.unparameterized_preconditions() \
-            if self.based_on is not None else {}
+            if self.parent is not None else {}
         for name, precondition in self.data.get("given", {}).items():
             precondition_dict[name] = precondition
         return precondition_dict
@@ -100,7 +104,7 @@ class Story(object):
     @property
     def _parent_steps(self):
         return self.parent._yaml_steps \
-            if self.based_on is not None else []
+            if self.parent is not None else []
 
     @property
     def _yaml_steps(self):
