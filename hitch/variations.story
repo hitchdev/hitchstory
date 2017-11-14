@@ -27,6 +27,7 @@ Variations:
       from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
       from strictyaml import Map, Seq, Int, Str, Optional
       from pathquery import pathq
+      from ensure import Ensure
 
 
       class Engine(BaseEngine):
@@ -56,12 +57,46 @@ Variations:
           def do_a_fourth_thing(self, animals=None):
               assert type(animals['pond animal']) is str
               print(animals['pond animal'])
-  steps:
-  - Run:
-      code: |
-        StoryCollection(pathq(".").ext("story"), Engine()).shortcut("cat").play().report()
-      will output: |-
-        cat
-        dog
-        42
-        frog
+
+      story_collection = StoryCollection(pathq(".").ext("story"), Engine())
+  variations:
+    Play:
+      steps:
+      - Run:
+          code: |
+            story_collection.shortcut("cat").play().report()
+          will output: |-
+            cat
+            dog
+            42
+            frog
+
+    Non-variations:
+      steps:
+      - Run:
+          code: |
+            Ensure([
+                story.name for story in story_collection.non_variations().ordered_by_name()
+            ]).equals(
+                ["Create files", ]
+            )
+
+    Variations on story:
+      steps:
+      - Run:
+          code: |
+            Ensure([
+                story.name for story in story_collection.named("Create files").variations
+            ]).equals(
+                ["Create files/cat"],
+            )
+
+    Only children:
+      steps:
+      - Run:
+          code: |
+            Ensure([
+                story.name for story in story_collection.only_uninherited().ordered_by_name()
+            ]).equals(
+                ["Create files/cat"],
+            )

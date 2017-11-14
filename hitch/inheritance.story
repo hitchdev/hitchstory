@@ -47,6 +47,7 @@ Inherit one story from another:
       from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
       from strictyaml import Map, Int, Str, Optional
       from pathquery import pathq
+      from ensure import Ensure
       from code_that_does_things import append
 
       class Engine(BaseEngine):
@@ -97,6 +98,15 @@ Inherit one story from another:
           thing one: 9, 2
           thing three: 11
 
+    Only children:
+      steps:
+      - Run:
+          code: |
+            Ensure([
+                story.name for story in collection.only_uninherited().ordered_by_name()
+            ]).equals(
+                ["Write to file 2", "Write to file 3"],
+            )
 
 
 Attempt inheritance from non-existent story:

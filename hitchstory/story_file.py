@@ -103,14 +103,16 @@ class StoryFile(object):
         """
         stories = []
         for name, parsed_main_story in self._parsed_yaml.items():
-            stories.append(Story(
+            base_story = Story(
                 self, str(name), parsed_main_story,
-            ))
+            )
+            stories.append(base_story)
+            variations = []
 
-            variations = self._parsed_yaml[name].get("variations", {}).items()
-
-            for variation_name, parsed_var_name in variations:
-                stories.append(
+            for variation_name, parsed_var_name in self._parsed_yaml[name].get(
+                "variations", {}
+            ).items():
+                variations.append(
                     Story(
                         self,
                         variation_name,
@@ -119,4 +121,7 @@ class StoryFile(object):
                         variation=True,
                     )
                 )
+
+            stories.extend(variations)
+            base_story.variations = variations
         return stories

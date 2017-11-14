@@ -36,6 +36,7 @@ class StoryCollection(object):
         self._stories = None
         self._filtered_stories = None
         self._non_variations = False
+        self._only_uninherited = False
 
     @property
     def engine(self):
@@ -63,6 +64,19 @@ class StoryCollection(object):
                     if story.slug in self._stories:
                         raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
                     self._stories[story.slug] = story
+
+            # Make sure parent stories know who their children are
+            for name, story in self._stories.items():
+                if story.based_on is not None:
+                    parent_slug = slugify(story.based_on)
+
+                    if parent_slug not in self._stories:
+                        raise exceptions.BasedOnStoryNotFound(
+                            story.based_on,
+                            story.name,
+                            story.filename,
+                        )
+                    self._stories[parent_slug].children.append(story)
         return self._stories
 
     def ordered_arbitrarily(self):
@@ -87,25 +101,12 @@ class StoryCollection(object):
                 if self._non_variations:
                     if story.variation:
                         filtered = False
+                if self._only_uninherited:
+                    if len(story.children) > 0:
+                        filtered = False
                 if filtered:
                     self._filtered_stories.append(story)
                 all_stories.append(story)
-
-            # Check for non-existent inherited stories
-            for story in self._filtered_stories:
-                if "based on" in story._parsed_yaml:
-                    inherited_from = story._parsed_yaml['based on'].text
-                    inherited_from_slug = slugify(inherited_from)
-                    found = False
-                    for search_story in all_stories:
-                        if inherited_from_slug == search_story.slug:
-                            found = True
-                    if not found:
-                        raise exceptions.BasedOnStoryNotFound(
-                            inherited_from,
-                            story.name,
-                            story.filename,
-                        )
         return self._filtered_stories
 
     def filter(self, filter_func):
@@ -139,6 +140,11 @@ class StoryCollection(object):
     def non_variations(self):
         new_collection = self.copy()
         new_collection._non_variations = True
+        return new_collection
+
+    def only_uninherited(self):
+        new_collection = self.copy()
+        new_collection._only_uninherited = True
         return new_collection
 
     def copy(self):

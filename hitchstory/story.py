@@ -21,6 +21,7 @@ class Story(object):
                 self._about[about_property] = self.data.get(about_property)
         self._collection = self._story_file.collection
         self.variation = variation
+        self.children = []
 
     def update(self, step, kwargs):
         self._story_file.update(self, step, kwargs)
@@ -65,12 +66,12 @@ class Story(object):
         return self._slug
 
     @property
-    def based_on_story(self):
+    def parent(self):
         return self._collection.without_filters().in_any_filename().named(self.based_on)
 
     @property
     def params(self):
-        param_dict = self.based_on_story.params \
+        param_dict = self.parent.params \
             if self.based_on is not None else {}
         for name, param in self.data.get("with", {}).items():
             param_dict[name] = param
@@ -79,7 +80,7 @@ class Story(object):
         return param_dict
 
     def unparameterized_preconditions(self):
-        precondition_dict = self.based_on_story.unparameterized_preconditions() \
+        precondition_dict = self.parent.unparameterized_preconditions() \
             if self.based_on is not None else {}
         for name, precondition in self.data.get("given", {}).items():
             precondition_dict[name] = precondition
@@ -98,7 +99,7 @@ class Story(object):
 
     @property
     def _parent_steps(self):
-        return self.based_on_story._yaml_steps \
+        return self.parent._yaml_steps \
             if self.based_on is not None else []
 
     @property
