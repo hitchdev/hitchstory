@@ -25,6 +25,9 @@ class StoryList(object):
             result = story.play()
             results.append(result)
 
+            if hasattr(story.engine, 'aborted') and story.engine.aborted:
+                break
+
             if not result.passed and not self._continue_on_failure:
                 break
         return results

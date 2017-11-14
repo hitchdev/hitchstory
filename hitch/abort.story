@@ -8,25 +8,30 @@ Abort a story with ctrl-C:
     * SIGQUIT
     * SIGHUP
 
-    Then it triggers the "on_abort" method of the
-    engine, feeding it the signal number (integer)
-    and stack frame.
+    Then it triggers the tear_down method of the
+    engine.
   given:
     example.story: |
       Create files:
         steps:
           - Pause forever
+
+      Should never run:
+        steps:
+          - Should not happen
     engine.py: |
       from hitchstory import BaseEngine
       from code_that_does_things import reticulate_splines
       import psutil
 
-
       class Engine(BaseEngine):
           def pause_forever(self):
               psutil.Process().terminate()
 
-          def on_abort(self, signal_num, stack_frame):
+          def should_not_happen(self):
+              raise Exception("This exception should never be triggered")
+
+          def tear_down(self):
               reticulate_splines()
     setup: |
       from hitchstory import StoryCollection
@@ -34,5 +39,8 @@ Abort a story with ctrl-C:
       from engine import Engine
   steps:
   - Run:
-      code: StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
+      code: print(StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play().report())
+      will output: |-
+        Aborted
+        STORY RAN SUCCESSFULLY /path/to/example.story: Create files in 0.1 seconds.
   - Splines reticulated
