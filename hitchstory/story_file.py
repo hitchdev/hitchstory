@@ -13,6 +13,7 @@ class StoryFile(object):
         self._filename = filename
         self._yaml = filename.bytes().decode('utf8')
         self._collection = collection
+        self._updated_yaml = None
 
         steps_schema = Seq(Str() | MapPattern(Str(), Any(), maximum_keys=1))
 
@@ -43,7 +44,6 @@ class StoryFile(object):
                 self._yaml,
                 MapPattern(Str(), Map(story_schema))
             )
-            self._updated_yaml = copy.copy(self._parsed_yaml)
         except YAMLError as error:
             raise exceptions.StoryYAMLError(
                 filename, str(error)
@@ -57,6 +57,8 @@ class StoryFile(object):
         """
         Update a specific step in a particular story during a test run.
         """
+        if self._updated_yaml is None:
+            self._updated_yaml = copy.copy(self._parsed_yaml)
         if story.variation:
             if step.child_index >= 0:
                 yaml_story = self._updated_yaml[story.based_on]['variations'][story.child_name]
