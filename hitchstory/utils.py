@@ -2,6 +2,8 @@ from strictyaml import Regex
 from re import compile
 from path import Path
 import prettystack
+from jinja2.environment import Environment
+from jinja2 import DictLoader
 
 
 SRC_DIR = Path(__file__).realpath().dirname()
@@ -44,3 +46,12 @@ def to_underscore_style(text):
     """Changes "Something like this" to "something_like_this"."""
     text = text.lower().replace(" ", "_").replace("-", "_")
     return ''.join(x for x in text if x.isalpha() or x.isdigit() or x == "_")
+
+
+def render_template(templates_dict, template_name, parameters):
+    """
+    Render a jinja2 template.
+    """
+    env = Environment()
+    env.loader = DictLoader(templates_dict)
+    return env.get_template(template_name).render(**parameters)

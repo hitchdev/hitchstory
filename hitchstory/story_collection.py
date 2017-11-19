@@ -37,6 +37,7 @@ class StoryCollection(object):
         self._filtered_stories = None
         self._non_variations = False
         self._only_uninherited = False
+        self._templates = {}
 
     @property
     def engine(self):
@@ -78,6 +79,11 @@ class StoryCollection(object):
                         )
                     self._stories[parent_slug].children.append(story)
                     story._parent = self._stories[parent_slug]
+
+            # Revalidate steps and parameterize
+            # These things can only be done after the story hierarchy is set
+            for story in self._stories.values():
+                story._initialize()
         return self._stories
 
     def ordered_arbitrarily(self):
@@ -146,6 +152,11 @@ class StoryCollection(object):
     def only_uninherited(self):
         new_collection = self.copy()
         new_collection._only_uninherited = True
+        return new_collection
+
+    def with_templates(self, templates):
+        new_collection = self.copy()
+        new_collection._templates = templates
         return new_collection
 
     def copy(self):

@@ -9,19 +9,25 @@ class StoryStep(object):
         self._yaml = yaml_step
         self._story = story
         self._index = index
+        self._slug = None
         self._child_index = child_index
         if yaml_step.is_scalar():
             self.name = yaml_step.data
             self.arguments = Arguments(None, params)
-        elif yaml_step.is_mapping() and len(yaml_step.keys()) == 1:
-            self.name = str(list(yaml_step.keys())[0])
+        elif yaml_step.is_mapping():
+            self.name = yaml_step.keys()[0].data
             self.arguments = Arguments(list(yaml_step.values())[0], params)
+            StepMethod(self.step_method).revalidate(self.arguments)
 
     def underscore_case_name(self):
-        return utils.to_underscore_style(str(self.name))
+        return utils.to_underscore_style(self.name)
 
     def update(self, **kwargs):
         self._story.update(self, kwargs)
+
+    @property
+    def slug(self):
+        return self.underscore_case_name()
 
     @property
     def index(self):
@@ -34,6 +40,21 @@ class StoryStep(object):
     @property
     def yaml(self):
         return self._yaml
+
+    def documentation(self, template=None):
+        return utils.render_template(
+            self._story._collection._templates,
+            template if template is not None else self.slug,
+            {"step": self, }
+        )
+
+    def __getitem__(self, name):
+        if self.arguments.single_argument:
+            if name == StepMethod(self.step_method).single_argument_name:
+                return self.arguments.data
+            else:
+                raise KeyError(name)
+        return self.arguments.data[name]
 
     @property
     def step_method(self):
@@ -73,3 +94,6 @@ class StoryStep(object):
 
     def run(self):
         StepMethod(self.step_method).run(self.arguments)
+
+    def __repr__(self):
+        return u"<StoryStep('{0}')>".format(self.slug)

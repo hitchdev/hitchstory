@@ -26,6 +26,40 @@ class Story(object):
         self._collection = self._story_file.collection
         self.children = []
 
+    def _unparameterized_preconditions(self):
+        precondition_dict = self.parent._unparameterized_preconditions() \
+            if self.parent is not None else {}
+        for name, precondition in self.data.get("given", {}).items():
+            precondition_dict[name] = precondition
+        return precondition_dict
+
+    @property
+    def _yaml_steps(self):
+        step_list = self._parent_steps
+        step_list.extend(self._parsed_yaml.get('steps', []))
+        return step_list
+
+    @property
+    def _parent_steps(self):
+        return self.parent._yaml_steps \
+            if self.parent is not None else []
+
+    def _initialize(self):
+        precondition_dict = self._unparameterized_preconditions()
+        for name, precondition in precondition_dict.items():
+            if utils.is_parameter(precondition):
+                precondition_dict[name] = \
+                    self.params[utils.parameter_name(precondition)]
+            else:
+                precondition_dict[name] = precondition
+        self._precondition_dict = precondition_dict
+        number_of_parent_steps = len(self._parent_steps)
+        self._steps = [
+            StoryStep(
+                self, parsed_step, index, index - number_of_parent_steps, self.params
+            ) for index, parsed_step in enumerate(self._yaml_steps)
+        ]
+
     def update(self, step, kwargs):
         self._story_file.update(self, step, kwargs)
 
@@ -86,43 +120,13 @@ class Story(object):
             param_dict[name] = param
         return param_dict
 
-    def unparameterized_preconditions(self):
-        precondition_dict = self.parent.unparameterized_preconditions() \
-            if self.parent is not None else {}
-        for name, precondition in self.data.get("given", {}).items():
-            precondition_dict[name] = precondition
-        return precondition_dict
-
     @property
-    def preconditions(self):
-        precondition_dict = self.unparameterized_preconditions()
-        for name, precondition in precondition_dict.items():
-            if utils.is_parameter(precondition):
-                precondition_dict[name] = \
-                    self.params[utils.parameter_name(precondition)]
-            else:
-                precondition_dict[name] = precondition
-        return precondition_dict
-
-    @property
-    def _parent_steps(self):
-        return self.parent._yaml_steps \
-            if self.parent is not None else []
-
-    @property
-    def _yaml_steps(self):
-        step_list = self._parent_steps
-        step_list.extend(self._parsed_yaml.get('steps', []))
-        return step_list
+    def given(self):
+        return self._precondition_dict
 
     @property
     def steps(self):
-        number_of_parent_steps = len(self._parent_steps)
-        return [
-            StoryStep(
-                self, parsed_step, index, index - number_of_parent_steps, self.params
-            ) for index, parsed_step in enumerate(self._yaml_steps)
-        ]
+        return self._steps
 
     def run_special_method(self, method, exception_to_raise, result=None):
         try:
@@ -155,6 +159,13 @@ class Story(object):
 
             raise exceptions.OnFailureException(stack_trace)
 
+    def documentation(self, template="story"):
+        return utils.render_template(
+            self._collection._templates,
+            template,
+            {"story": self, }
+        )
+
     def play(self):
         """
         Run a story from beginning to end, time it and return
@@ -172,7 +183,7 @@ class Story(object):
             signal(SIGQUIT, self.engine.on_abort)
 
             current_step = None
-            self.engine._preconditions = self.preconditions
+            self.engine._preconditions = self.given
             self.engine.story = self
             self.engine.set_up()
 

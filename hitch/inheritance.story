@@ -30,6 +30,9 @@ Inherit one story from another:
         steps:
           - Do thing one
           - Do thing three: (( c ))
+          - Do thing four:
+              x: 9
+              y: 10
 
       Write to file 2:
         based on: Write to file 1
@@ -43,12 +46,11 @@ Inherit one story from another:
         with:
           a: 9
           c: 11
-    setup: |
-      from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
+    engine.py: |
+      from hitchstory import BaseEngine, StorySchema, validate
       from strictyaml import Map, Int, Str, Optional
-      from pathquery import pathq
-      from ensure import Ensure
       from code_that_does_things import append
+
 
       class Engine(BaseEngine):
           schema = StorySchema(
@@ -64,10 +66,19 @@ Inherit one story from another:
           def do_thing_three(self, value):
               append("thing three: {0}".format(value))
 
+          @validate(x=Int(), y=Int())
+          def do_thing_four(self, x, y):
+              append("thing four: {0}, {1}".format(x, y))
+
           def do_thing_two(self):
               assert isinstance(self.given['a'], str)
               assert isinstance(self.given['b'], str)
               append("thing two: {0}, {1}".format(self.given['a'], self.given['b']))
+    setup: |
+      from engine import Engine
+      from hitchstory import StoryCollection
+      from pathquery import pathq
+      from ensure import Ensure
 
       collection = StoryCollection(pathq(".").ext("story"), Engine())
   variations:
@@ -78,6 +89,7 @@ Inherit one story from another:
       - Output is: |
           thing one: 1, 2
           thing three: 3
+          thing four: 9, 10
 
     Override preconditions:
       steps:
@@ -86,6 +98,7 @@ Inherit one story from another:
       - Output is: |
           thing one: 1, 3
           thing three: 3
+          thing four: 9, 10
           thing two: 1, 3
 
     Override parameters:
@@ -97,6 +110,7 @@ Inherit one story from another:
       - Output is: |
           thing one: 9, 2
           thing three: 11
+          thing four: 9, 10
 
     Only children:
       steps:

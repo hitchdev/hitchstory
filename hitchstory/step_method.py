@@ -65,13 +65,10 @@ class StepMethod(object):
             validators[arg] = self.arg_validator(arg)
         return validators
 
-    def run(self, arguments):
-        if arguments.is_none:
-            self._method()
-        elif arguments.single_argument:
+    def revalidate(self, arguments):
+        if arguments.single_argument:
             if self.single_argument_allowed:
                 arguments.validate_single_argument(self.arg_validator(self.single_argument_name))
-                self._method(**{self.single_argument_name: arguments.data})
             else:
                 raise exceptions.StepMethodNeedsMoreThanOneArgument(
                     "Step method {0} requires {1} arguments, got one.".format(
@@ -82,7 +79,17 @@ class StepMethod(object):
         else:
             if self._keywords:
                 arguments.validate_kwargs(self.arg_validator(self._keywords))
-                self._method(**arguments.data)
             else:
                 arguments.validate_args(self.mapping_validators)
+
+    def run(self, arguments):
+        if arguments.is_none:
+            self._method()
+        elif arguments.single_argument:
+            if self.single_argument_allowed:
+                self._method(**{self.single_argument_name: arguments.data})
+        else:
+            if self._keywords:
+                self._method(**arguments.data)
+            else:
                 self._method(**arguments.data)

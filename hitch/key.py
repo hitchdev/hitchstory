@@ -2,7 +2,7 @@ from commandlib import run, Command, CommandError
 import hitchpython
 from hitchstory import StoryCollection, StorySchema, BaseEngine, exceptions, validate
 from hitchrun import expected
-from strictyaml import Str, Seq, Map, Optional
+from strictyaml import Str, Seq, Map, Optional, Enum
 from pathquery import pathq
 import hitchtest
 import hitchdoc
@@ -27,12 +27,14 @@ class Engine(BaseEngine):
             Optional("example1.story"): Str(),
             Optional("example2.story"): Str(),
             Optional("example3.story"): Str(),
+            Optional("documentation.templates"): Str(),
             Optional("engine.py"): Str(),
             Optional("setup"): Str(),
             Optional("code"): Str(),
         },
         about={
             Optional("tags"): Seq(Str()),
+            Optional("status"): Enum(["experimental", "stable"]),
         },
     )
 
@@ -57,6 +59,7 @@ class Engine(BaseEngine):
         for filename in [
             "base.story", "example.story", "example1.story",
             "example2.story", "example3.story", "engine.py",
+            "documentation.templates",
         ]:
             if filename in self.given:
                 self.path.state.joinpath(filename).write_text(self.given[filename])
@@ -237,7 +240,7 @@ def tdd(*words):
             Engine(
                 DIR,
                 {
-                    "overwrite artefacts": False,
+                    "overwrite artefacts": True,
                     "print output": True,
                 },
             )
