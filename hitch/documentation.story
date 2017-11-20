@@ -36,7 +36,7 @@ Documentation:
       do_thing_three: |
         * Do thing three: {{ step['value'] }}
       do_thing_four: |
-        * Do thing four: {{ step['x'] }}, {{ step['y'] }}
+        * Do thing four: {% if 'x' in step %}{{ step['x'] }}{% endif %}, {{ step['y'] }}
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathq

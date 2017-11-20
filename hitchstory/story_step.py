@@ -48,13 +48,19 @@ class StoryStep(object):
             {"step": self, }
         )
 
-    def __getitem__(self, name):
+    @property
+    def _data(self):
         if self.arguments.single_argument:
-            if name == StepMethod(self.step_method).single_argument_name:
-                return self.arguments.data
-            else:
-                raise KeyError(name)
-        return self.arguments.data[name]
+            return {
+                StepMethod(self.step_method).single_argument_name: self.arguments.data
+            }
+        return self.arguments.data
+
+    def __getitem__(self, name):
+        return self._data[name]
+    
+    def __contains__(self, name):
+        return name in self._data
 
     @property
     def step_method(self):
