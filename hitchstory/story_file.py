@@ -53,6 +53,13 @@ class StoryFile(object):
     def engine(self):
         return self._collection.engine
 
+    def rewrite(self):
+        """
+        Rewrite all changes back to the file.
+        """
+        if self._updated_yaml is not None:
+            self.path.write_text(self._updated_yaml.as_yaml())
+
     def update(self, story, step, kwargs):
         """
         Update a specific step in a particular story during a test run.

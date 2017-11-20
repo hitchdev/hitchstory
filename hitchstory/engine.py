@@ -81,10 +81,7 @@ class NewStory(object):
         """
         Write out the updated story to file.
         """
-        story_file = self._engine.story.story_file
-        story_file.path.write_text(
-            story_file._updated_yaml.as_yaml()
-        )
+        self._engine.story.story_file.rewrite()
 
 
 class BaseEngine(object):

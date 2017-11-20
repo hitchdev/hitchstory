@@ -162,6 +162,10 @@ class Engine(BaseEngine):
                 else:
                     raise
 
+    def file_unchanged(self, filename):
+        assert self.path.state.joinpath(filename).bytes().decode('utf8') == self.given[filename], \
+            "{0} should have been unchanged was changed".format(filename)
+
     def file_contents_will_be(self, filename, contents):
         file_contents = '\n'.join([
             line.rstrip() for line in
