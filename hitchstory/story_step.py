@@ -58,7 +58,7 @@ class StoryStep(object):
 
     def __getitem__(self, name):
         return self._data[name]
-    
+
     def __contains__(self, name):
         return name in self._data
 
@@ -98,8 +98,8 @@ class StoryStep(object):
 
         return False
 
-    def run(self):
-        StepMethod(self.step_method).run(self.arguments)
+    def method(self):
+        return StepMethod(self.step_method).method(self.arguments)
 
     def __repr__(self):
         return u"<StoryStep('{0}')>".format(self.slug)

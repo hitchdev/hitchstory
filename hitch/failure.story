@@ -38,6 +38,54 @@ Simple failure report:
 
       story_collection = StoryCollection(pathq(".").ext("story"), Engine())
   variations:
+    Failure in set_up method:
+      given:
+        engine.py: |
+          from hitchstory import BaseEngine
+          from code_that_does_things import raise_example_exception
+
+          class Engine(BaseEngine):
+              def set_up(self):
+                  raise_example_exception()
+      steps:
+      - Run:
+          code: print(story_collection.one().play().report())
+          will output: |-
+            FAILURE IN /path/to/example.story:
+                "Failing story" in 0.1 seconds.
+
+
+
+
+
+            [1]: function 'set_up'
+              /path/to/engine.py
+
+
+                    3 : class Engine(BaseEngine):
+                    4 :     def set_up(self):
+                --> 5 :         raise_example_exception()
+                    6 :
+
+
+
+            [2]: function 'raise_example_exception'
+              /path/to/code_that_does_things.py
+
+
+                    20 :
+                    21 : def raise_example_exception(text=""):
+                --> 22 :     raise ExampleException(text)
+                    23 :
+
+
+
+            code_that_does_things.ExampleException
+
+                This is a demonstration exception's docstring.
+
+                It spreads across multiple lines.
+
     Failure printed by on_failure method:
       steps:
       - Run:
@@ -54,7 +102,7 @@ Simple failure report:
 
 
 
-            [3]: function 'failing_step'
+            [1]: function 'failing_step'
               /path/to/engine.py
 
 
@@ -65,7 +113,7 @@ Simple failure report:
 
 
 
-            [4]: function 'raise_example_exception'
+            [2]: function 'raise_example_exception'
               /path/to/code_that_does_things.py
 
 
@@ -99,7 +147,7 @@ Simple failure report:
 
 
 
-            [3]: function 'failing_step'
+            [1]: function 'failing_step'
               /path/to/engine.py
 
 
@@ -110,7 +158,7 @@ Simple failure report:
 
 
 
-            [4]: function 'raise_example_exception'
+            [2]: function 'raise_example_exception'
               /path/to/code_that_does_things.py
 
 

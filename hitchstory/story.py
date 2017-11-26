@@ -190,14 +190,14 @@ class Story(object):
             for step in self.steps:
                 current_step = step
                 self.engine.current_step = current_step
-                step.run()
+                run_step_method = step.method()
+                run_step_method()
 
                 if hasattr(self.engine, '_aborted') and self.engine._aborted:
                     print("Aborted")
             passed = True
         except Exception as exception:
             caught_exception = exception
-
             if current_step is not None and current_step.expect_exception(
                 self.engine, caught_exception
             ):

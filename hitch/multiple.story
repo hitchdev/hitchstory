@@ -109,7 +109,7 @@ Fail fast:
 
 
 
-            [3]: function 'fail'
+            [1]: function 'fail'
               examplepythoncode.py
 
 
@@ -145,7 +145,7 @@ Fail fast:
 
 
 
-            [3]: function 'fail'
+            [1]: function 'fail'
               examplepythoncode.py
 
 

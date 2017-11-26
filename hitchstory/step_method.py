@@ -1,6 +1,7 @@
 from hitchstory import exceptions
 from strictyaml import Any, Optional
 from hitchstory import utils
+from functools import partial
 import inspect
 
 
@@ -82,14 +83,11 @@ class StepMethod(object):
             else:
                 arguments.validate_args(self.mapping_validators)
 
-    def run(self, arguments):
+    def method(self, arguments):
         if arguments.is_none:
-            self._method()
+            return self._method
         elif arguments.single_argument:
             if self.single_argument_allowed:
-                self._method(**{self.single_argument_name: arguments.data})
+                return partial(self._method, **{self.single_argument_name: arguments.data})
         else:
-            if self._keywords:
-                self._method(**arguments.data)
-            else:
-                self._method(**arguments.data)
+            return partial(self._method, **arguments.data)

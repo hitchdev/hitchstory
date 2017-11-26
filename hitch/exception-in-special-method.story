@@ -42,7 +42,14 @@ Exception in special methods:
           code: story.play()
           raises:
             type: hitchstory.exceptions.OnSuccessException
-            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+            message: "Stacktrace:\n\n[1]: function '[[ BRIGHT ]]on_success[[ RESET\
+              \ ALL ]]'\n  /path/to/engine.py\n\n\n        6 :\n        7 :     def\
+              \ on_success(self):\n    --> [[ BRIGHT ]]8[[ RESET ALL ]] :        \
+              \ raise_example_exception()\n        9 :\n\n\n\n[2]: function '[[ BRIGHT\
+              \ ]]raise_example_exception[[ RESET ALL ]]'\n  /path/to/code_that_does_things.py\n\
+              \n\n        20 :\n        21 : def raise_example_exception(text=\"\"\
+              ):\n    --> [[ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)\n\
+              \        23 :\n\n\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
               \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
               \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
               \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
@@ -68,7 +75,14 @@ Exception in special methods:
           code: story.play()
           raises:
             type: hitchstory.exceptions.OnFailureException
-            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+            message: "Stacktrace:\n\n[1]: function '[[ BRIGHT ]]on_failure[[ RESET\
+              \ ALL ]]'\n  /path/to/engine.py\n\n\n        6 :\n        7 :     def\
+              \ on_failure(self, result):\n    --> [[ BRIGHT ]]8[[ RESET ALL ]] :\
+              \         raise_example_exception()\n        9 :\n\n\n\n[2]: function\
+              \ '[[ BRIGHT ]]raise_example_exception[[ RESET ALL ]]'\n  /path/to/code_that_does_things.py\n\
+              \n\n        20 :\n        21 : def raise_example_exception(text=\"\"\
+              ):\n    --> [[ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)\n\
+              \        23 :\n\n\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
               \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
               \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
               \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
@@ -91,7 +105,14 @@ Exception in special methods:
           code: story.play()
           raises:
             type: hitchstory.exceptions.TearDownException
-            message: "Stacktrace:\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
+            message: "Stacktrace:\n\n[1]: function '[[ BRIGHT ]]tear_down[[ RESET\
+              \ ALL ]]'\n  /path/to/engine.py\n\n\n        6 :\n        7 :     def\
+              \ tear_down(self):\n    --> [[ BRIGHT ]]8[[ RESET ALL ]] :         raise_example_exception()\n\
+              \        9 :\n\n\n\n[2]: function '[[ BRIGHT ]]raise_example_exception[[\
+              \ RESET ALL ]]'\n  /path/to/code_that_does_things.py\n\n\n        20\
+              \ :\n        21 : def raise_example_exception(text=\"\"):\n    --> [[\
+              \ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)\n  \
+              \      23 :\n\n\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
               \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
               \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
               \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
