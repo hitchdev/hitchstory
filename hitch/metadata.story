@@ -1,4 +1,16 @@
 Extra story metadata:
+  description: |
+    Stories do not exist in a vaccuum. Each and every story is
+    related to other stories, issues on issue trackers,
+    specialist documentation and much more. The best place
+    to document this additional information and relationships is
+    within the story itself.
+
+    What kind of metadata you add to stories is up to you -
+    simply add the names of the properties you want to add
+    in the info parameter of your engine StorySchema and
+    specify the structure of the metadata using StrictYAML
+    validators.
   given:
     example.story: |
       Build city:
@@ -13,6 +25,13 @@ Extra story metadata:
         features: other
         steps:
           - Kick llama's ass
+
+        variations:
+          Build llama zoo:
+            jiras: JIRA-123
+            features: zoo
+            steps:
+            - Kick llama's ass
     setup: |
       from hitchstory import StoryCollection, BaseEngine, StorySchema
       from strictyaml import Map, Str, CommaSeparated, Optional
@@ -56,5 +75,5 @@ Extra story metadata:
       - Run:
           code: |
             Ensure([story.info['jiras'] for story in story_collection.ordered_by_name()]).equals(
-                [["JIRA-123", "JIRA-124"], ["JIRA-789", ], ]
+                [["JIRA-123", "JIRA-124"], ["JIRA-789", ], ["JIRA-123"]]
             )
