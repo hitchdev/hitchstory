@@ -40,6 +40,9 @@ email.story:
 .. code-block:: yaml
 
   Log in:
+    with:
+      name: AzureDiamond             # default parameters for story
+      password: hunter2
     given:
       website: /login                # preconditions
     steps:
@@ -47,9 +50,6 @@ email.story:
           username: (( name ))       # parameterized steps
           password: (( password ))
       - Click: login
-    with:
-      name: AzureDiamond             # default parameters for story
-      password: hunter2
 
   
   Send email:
