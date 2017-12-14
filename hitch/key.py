@@ -244,7 +244,7 @@ def tdd(*words):
             Engine(
                 DIR,
                 {
-                    "overwrite artefacts": True,
+                    "overwrite artefacts": False,
                     "print output": True,
                 },
             )
