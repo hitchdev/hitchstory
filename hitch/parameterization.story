@@ -21,7 +21,7 @@ Story with parameters:
         steps:
         - Click on button
         - Save screenshot:
-            browser: (( browser ))
+            for browser: (( browser ))
 
         variations:
           with chrome:
@@ -48,10 +48,13 @@ Story with parameters:
           def click_on_button(self):
               append("clicked!")
 
-          @validate(browser=Map({"name": Str(), "version": Int()}))
-          def save_screenshot(self, browser):
+          @validate(for_browser=Map({"name": Str(), "version": Int()}))
+          def save_screenshot(self, for_browser):
               append('save screenshot:')
-              append("screenshot-{0}-{1}.png".format(browser['name'], browser['version']))
+              append("screenshot-{0}-{1}.png".format(
+                  for_browser['name'],
+                  for_browser['version']
+              ))
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathq
