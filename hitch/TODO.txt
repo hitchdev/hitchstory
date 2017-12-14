@@ -1,17 +1,29 @@
-* Make stacktrace appear in set_up. 
-* variations should be able to contain any INFO parameter.
+* Fix rewriting when inheriting story.
+* Fix rewriting when a step parameter has a space in it.
+* Write out test successes 
+* Fix inheritance from 3rd story down.
+* Make ordering work inside files.
+* Make exception code yellow not red.
+* Light red for stacktrace -- add "suppress_stacktrace_for" message in template if in a step.
+* Give line numbers to blue YAML snippets indicating failure.
+* Rename expected_exception -> suppress_failure_stacktrace(
+* InfoProperties, GivenProperties, GivenSchema(schema, required is False, default is "(( python version ))", inherit_by is overwrite, default, merge properties, )
+* ParameterProperties -- 
+StoryParameter( a python 2 version, default 2.7.10, strategy)
+StoryParameter(a python 3 version ,3.5.0
+StoryParameter("a valid browser", 
+
+-- Abstract story -- no steps.
+
+* Remove params schema.
 * Make it possible to put in a name of an unimplemented test and blank file.
 * given equals ( "python version": Default(Str(), from_parameter"python version", default 3.5.0) 
 * self.current_step.update(will_output=x) will fail if key is actually "will output"
 * "Start line of YAML with list" -- why does it fail if you have not specified code?
 * Fail with a more sensible error message when validators fail on steps.
 * Print to screen or log to file while running.
-* Make exception code yellow not red. Orange for runpy.
-* Give line numbers to blue YAML snippets indicating failure.
 * "Capture" mode and print mode (default)
 * Params should match the schema of the precondition or step.
-* Update steps make save only run if something actually changed so as not to mess up indenting
-* Rename expected_exception -> suppress_failure_stacktrace(
 * Examples -- parameters via a story name (examples:)
 * Counter examples -- known failures, params with a name.
 * Use non-ascii characters in all tests.
