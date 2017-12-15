@@ -107,9 +107,10 @@ class StoryFile(object):
     def path(self):
         return Path(self._filename)
 
-    def _filtered_stories(self):
+    def ordered_by_file(self):
         """
-        Return all of the stories in the file.
+        Return all of the stories in the file in the order they
+        appear in the file.
         """
         stories = []
         for name, parsed_main_story in self._parsed_yaml.items():

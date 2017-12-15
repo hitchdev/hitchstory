@@ -62,7 +62,7 @@ class StoryCollection(object):
                     raise exceptions.InvalidStoryPaths(
                         "Story path '{0}' is a directory.".format(filename)
                     )
-                for story in self.story_file(filename).ordered_arbitrarily():
+                for story in self.story_file(filename).ordered_by_file():
                     if story.slug in self._stories:
                         raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
                     self._stories[story.slug] = story
@@ -97,7 +97,6 @@ class StoryCollection(object):
         according to the order they appear in those files.
         """
         return StoryList(self.ordered_arbitrarily())
-
 
     def ordered_arbitrarily(self):
         """
