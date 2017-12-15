@@ -2,13 +2,14 @@ Story with parameters:
   description: |
     Parameterized stories are used to describe stories
     which are essentially the same except for one or more
-    things which change.
+    variables which can vary.
 
-    A good example is a story for a user to log in with
+    A common example is a story for a user to log in with
     a browser which may be done with a number of different
-    browsers - the parameter.
+    browsers.
 
-    Parameters can be used in preconditions and in steps.
+    Parameters can be used in preconditions and in steps
+    by surrounding the parameter name with (( brackets )).
   given:
     example.story: |
       Click magic button:
