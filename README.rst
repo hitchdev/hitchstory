@@ -1,36 +1,9 @@
 HitchStory
 ==========
 
-HitchStory is a python library for running executable specifications.
-
-Storyfile is a YAML based DSL for writing `BDD <https://en.wikipedia.org/wiki/Behavior-driven_development>`_-style
-executable user stories for any kind of software.
-
-Dogfooded for *years* on high and low level software.
-
-The stories are designed to be:
-
-* Readable
-* Declarative
-* DRY as sand
-* Strongly typed and syntactically sound `StrictYAML <https://github.com/crdoconnor/strictyaml>`_
-* Parameterized and useable with `hypothesis <http://hypothesis.works>`_ to do property based testing.
-* Self rewriting (without magic)
-* Used to generate pretty documentation for users, stakeholders, translators, managers, etc.
-* 100% buzzword compliant.
-
-Hate writing tests? Hate writing documentation? Made to feel guilty about it?
-
-Prefer writing specifications?
-
-Yeah, me too.
-
-Note
-----
+HitchStory is a python 3 library for building BDD-style executable specifications.
 
 It is currently in ALPHA. APIs may change without warning until version >= 1.0.
-
-Only runs in python 3, but still able to test python 2 code.
 
 Example
 -------
@@ -53,7 +26,7 @@ email.story:
 
   
   Send email:
-    based on: log in                 # continues from test above
+    based on: log in                 # inherits from and continues from test above
     steps:
       - Click: new email
       - Fill form:                   
@@ -65,7 +38,7 @@ email.story:
       - Click: send email
       - Email was sent
 
-Corresponding python story engine and runner code:
+Corresponding python execution engine:
 
 .. code-block:: python
 
@@ -90,9 +63,11 @@ Corresponding python story engine and runner code:
       def email_was_sent(self):
           email_was_sent()
 
-  StoryCollection(["email.story"], Engine()).named("Send email").play()
+This runs the story:
 
+.. code-block:: python
 
+    >>> StoryCollection(["email.story"], Engine()).named("Send email").play()
 
 Install
 -------
@@ -102,12 +77,27 @@ To install::
   $ pip install hitchstory
 
 
+Tell me more
+------------
+
+HitchStory is a YAML based DSL for writing stories that is designed primarily to be ergonomic
+for developers and only *incidentally* "`business readable <https://www.martinfowler.com/bliki/BusinessReadableDSL.html>`_".
+
+By ergonomic for programmers, I mean:
+
+* Stories can *and should* inherit from one another, because *specifications ought to be DRY too*.
+* Stories are defined and validated using strongly typed StrictYAML. Step arguments and preconditions ('given') schemas can be defined by the programmer.
+* The execution engine can be programmed to rewrite the executing story based upon program behavior changes (e.g. screen output changes, labels on a web app change).
+* Running stories is done via a python API so you can easily write customized test workflows to suit your workflows.
+* Story parameterization is built in.
+
+This library was dogfooded for years to BDD, test and autodocument a variety
+of different kinds of software - web apps, python libraries, command line apps.
+  
+  
 Why not X instead?
 ------------------
 
-Since hitchstory is, in some sense, a reinvented wheel, some justification is needed (TODO):
-
 * Why not just write unit tests (e.g with py.test)?
 * Why not use Cucumber / Behat / Lettuce / pytest-bdd?
-* Why not use mamba / flowp?
 * Why not use robot framework?
