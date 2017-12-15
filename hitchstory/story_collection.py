@@ -1,6 +1,7 @@
 from hitchstory.story_list import StoryList
 from hitchstory.story_file import StoryFile
 from hitchstory.engine import BaseEngine
+from collections import OrderedDict
 from hitchstory import exceptions
 from slugify import slugify
 from path import Path
@@ -51,7 +52,7 @@ class StoryCollection(object):
     @property
     def stories(self):
         if self._stories is None:
-            self._stories = {}
+            self._stories = OrderedDict()
             for filename in self._storypaths:
                 if not Path(filename).exists():
                     raise exceptions.InvalidStoryPaths(
@@ -85,6 +86,18 @@ class StoryCollection(object):
             for story in self._stories.values():
                 story._initialize()
         return self._stories
+
+    def ordered_by_file(self):
+        """
+        Return a StoryList containing stories filtered from the
+        collection.
+
+        The stories are primarily ordered according to the file
+        ordering given to the story collection and secondarily
+        according to the order they appear in those files.
+        """
+        return StoryList(self.ordered_arbitrarily())
+
 
     def ordered_arbitrarily(self):
         """

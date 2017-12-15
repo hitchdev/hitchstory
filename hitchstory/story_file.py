@@ -10,8 +10,8 @@ class StoryFile(object):
     YAML file containing one or more named stories, part of a collection.
     """
     def __init__(self, filename, collection):
-        self._filename = filename
-        self._yaml = filename.bytes().decode('utf8')
+        self._filename = Path(filename).abspath()
+        self._yaml = self._filename.bytes().decode('utf8')
         self._collection = collection
         self._updated_yaml = None
 
@@ -107,7 +107,7 @@ class StoryFile(object):
     def path(self):
         return Path(self._filename)
 
-    def ordered_arbitrarily(self):
+    def _filtered_stories(self):
         """
         Return all of the stories in the file.
         """

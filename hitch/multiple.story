@@ -28,11 +28,18 @@ Multiple stories played:
               with open(filename, 'w') as handle:
                   handle.write(content)
   variations:
-    Running all tests in order of name:
+    Running all tests in file order:
       steps:
       - Run:
           code: |
-            results = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
+            results = StoryCollection(
+                [
+                    "base.story",
+                    "example1.story",
+                    "example2.story",
+                ],
+                Engine()
+            ).ordered_by_file().play()
             Ensure(results.all_passed).is_true()
             print(results.report())
           will output: |-
@@ -41,7 +48,7 @@ Multiple stories played:
             STORY RAN SUCCESSFULLY /path/to/example1.story: Create file again in 0.1 seconds.
             STORY RAN SUCCESSFULLY /path/to/example2.story: Create files in 0.1 seconds.
 
-    Running all tests in a single file:
+    Running all tests ordered by name in 'example1.story':
       steps:
       - Run:
           code: |
