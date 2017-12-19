@@ -39,8 +39,7 @@ Abort a story with ctrl-C:
       from engine import Engine
   steps:
   - Run:
-      code: print(StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play().report())
+      code: StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
       will output: |-
-        Aborted
-        STORY RAN SUCCESSFULLY /path/to/example.story: Create files in 0.1 seconds.
+        RUNNING Create files in /path/to/example.story ... Aborted
   - Splines reticulated

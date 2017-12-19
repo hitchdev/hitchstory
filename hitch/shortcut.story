@@ -46,6 +46,7 @@ Shortcut lookup for story names:
           code: |
             results = story_collection.shortcut("file", "again").play()
             print(results.report())
-          will output: 'STORY RAN SUCCESSFULLY /path/to/example1.story: Create file
-            again in 0.1 seconds.'
+          will output: |-
+            RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+            SUCCESS in 0.1 seconds.
 

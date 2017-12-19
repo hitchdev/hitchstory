@@ -12,7 +12,7 @@ from hitchrun import hitch_maintenance
 from hitchrun import DIR
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import expected_exception
-from templex import Templex, NonMatching
+from templex import Templex
 import colorama
 import re
 
@@ -107,11 +107,12 @@ class Engine(BaseEngine):
                   .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
                   .replace(self.path.state, "/path/to")
                   .replace("0.2 seconds", "0.1 seconds")
+                  .replace("0.0 seconds", "0.1 seconds")
                   .rstrip().split("\n")
         ])
         return re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
 
-    @expected_exception(NonMatching)
+    @expected_exception(AssertionError)
     @expected_exception(HitchRunPyException)
     @validate(
         code=Str(),
@@ -139,7 +140,7 @@ class Engine(BaseEngine):
         if will_output is not None:
             try:
                 Templex(will_output).assert_match(actual_output)
-            except NonMatching:
+            except AssertionError:
                 if self.settings.get("overwrite artefacts"):
                     self.current_step.update(**{"will output": actual_output})
                 else:
@@ -154,7 +155,7 @@ class Engine(BaseEngine):
                 result.exception_was_raised(exception_type)
                 exception_message = self._story_friendly_output(result.exception.message)
                 Templex(exception_message).assert_match(message)
-            except NonMatching:
+            except AssertionError:
                 if self.settings.get("overwrite artefacts"):
                     new_raises = raises.copy()
                     new_raises['message'] = exception_message
@@ -173,7 +174,7 @@ class Engine(BaseEngine):
         ])
         try:
             Templex(file_contents).assert_match(contents.strip())
-        except NonMatching:
+        except AssertionError:
             if self.settings.get("overwrite artefacts"):
                 self.current_step.update(contents=file_contents)
             else:
@@ -234,9 +235,9 @@ class Engine(BaseEngine):
 
 
 @expected(exceptions.HitchStoryException)
-def tdd(*words):
+def rtdd(*keywords):
     """
-    Run test with words.
+    Run test with name containing keywords and rewrite.
     """
     print(
         StoryCollection(
@@ -244,11 +245,30 @@ def tdd(*words):
             Engine(
                 DIR,
                 {
-                    "overwrite artefacts": False,
+                    "overwrite artefacts": True,
                     "print output": True,
                 },
             )
-        ).shortcut(*words).play().report()
+        ).shortcut(*keywords).play().report()
+    )
+
+
+@expected(exceptions.HitchStoryException)
+def tdd(*keywords):
+    """
+    Run test with name containing keywords.
+    """
+    print(
+        StoryCollection(
+            pathq(DIR.key).ext("story"),
+            Engine(
+                DIR,
+                {
+                    "overwrite artefacts": True,
+                    "print output": True,
+                },
+            )
+        ).shortcut(*keywords).play().report()
     )
 
 

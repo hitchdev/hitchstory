@@ -66,10 +66,11 @@ Variations:
           code: |
             story_collection.shortcut("cat").play().report()
           will output: |-
-            cat
+            RUNNING Create files/cat in /path/to/example.story ... cat
             dog
             42
             frog
+            SUCCESS in 0.1 seconds.
 
     Non-variations:
       steps:

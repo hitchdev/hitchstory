@@ -6,6 +6,7 @@ from hitchstory import exceptions
 from slugify import slugify
 from path import Path
 from copy import copy
+import sys
 
 
 class StoryCollection(object):
@@ -39,6 +40,7 @@ class StoryCollection(object):
         self._non_variations = False
         self._only_uninherited = False
         self._templates = {}
+        self._output_handle = sys.stdout
 
     @property
     def engine(self):
@@ -221,6 +223,14 @@ class StoryCollection(object):
             )
         else:
             return matching[0]
+
+    def log(self, message, newline=True):
+        """
+        Log message to the output handle (usually stdout).
+        """
+        self._output_handle.write(
+            u"{0}{1}".format(message, u"\n" if newline else u"")
+        )
 
     def one(self):
         stories = self.ordered_by_name()

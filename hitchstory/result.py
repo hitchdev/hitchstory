@@ -113,15 +113,18 @@ class Failure(Result):
         """
         Snippet of YAML highlighting the failing line.
         """
-        snippet = "{before}\n{bright}{lines}{normal}\n{after}".format(
-            before=self._failing_step.yaml.lines_before(2),
-            lines=self._failing_step.yaml.lines(),
-            after=self._failing_step.yaml.lines_after(2),
-            bright=colorama.Style.BRIGHT,
-            normal=colorama.Style.NORMAL,
-        )
-        indented_snippet = "    " + snippet.replace("\n", "\n    ")
-        return indented_snippet
+        if self._failing_step is None:
+            return u""
+        else:
+            snippet = "{before}\n{bright}{lines}{normal}\n{after}".format(
+                before=self._failing_step.yaml.lines_before(2),
+                lines=self._failing_step.yaml.lines(),
+                after=self._failing_step.yaml.lines_after(2),
+                bright=colorama.Style.BRIGHT,
+                normal=colorama.Style.NORMAL,
+            )
+            indented_snippet = "    " + snippet.replace("\n", "\n    ")
+            return indented_snippet
 
     def to_dict(self):
         return {

@@ -32,8 +32,9 @@ Story with preconditions:
   - Run:
       code: |
         print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
-      will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Create files in
-        0.1 seconds.'
+      will output: |-
+        RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
+        SUCCESS in 0.1 seconds.
   - File contents will be:
       filename: output.txt
       contents: things

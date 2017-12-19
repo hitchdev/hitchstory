@@ -41,22 +41,22 @@ Multiple stories played:
                 Engine()
             ).ordered_by_file().play()
             Ensure(results.all_passed).is_true()
-            print(results.report())
           will output: |-
-            STORY RAN SUCCESSFULLY /path/to/base.story: Base story in 0.1 seconds.
-            STORY RAN SUCCESSFULLY /path/to/example1.story: Create file in 0.1 seconds.
-            STORY RAN SUCCESSFULLY /path/to/example1.story: Create file again in 0.1 seconds.
-            STORY RAN SUCCESSFULLY /path/to/example2.story: Create files in 0.1 seconds.
+            RUNNING Base story in /path/to/base.story ... SUCCESS in 0.1 seconds.
+            RUNNING Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+            RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+            RUNNING Create files in /path/to/example2.story ... SUCCESS in 0.1 seconds.
 
     Running all tests ordered by name in 'example1.story':
       steps:
       - Run:
           code: |
-            results = StoryCollection(pathq(".").ext("story"), Engine()).in_filename("example1.story").ordered_by_name().play()
-            print(results.report())
+            StoryCollection(
+                pathq(".").ext("story"), Engine()
+            ).in_filename("example1.story").ordered_by_name().play()
           will output: |-
-            STORY RAN SUCCESSFULLY /path/to/example1.story: Create file in 0.1 seconds.
-            STORY RAN SUCCESSFULLY /path/to/example1.story: Create file again in 0.1 seconds.
+            RUNNING Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+            RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
 
 
     Using .one() on a group of stories will fail:
@@ -105,7 +105,27 @@ Fail fast:
             ).ordered_by_name().play()
             print(results.report())
           will output: |-
-            STORY RAN SUCCESSFULLY /path/to/example1.story: A Create file in 0.1 seconds.
+            RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+            RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
+                B Create file:
+                  steps:
+                  - Fail
+
+            [1]: function 'fail'
+              examplepythoncode.py
+
+
+                    59 :
+                    60 :             def fail(self):
+                --> 61 :                 raise Exception("Error")
+                    62 :
+
+
+
+            builtins.Exception
+              Common base class for all non-exit exceptions.
+            Error
+            SUCCESS in 0.1 seconds.
             FAILURE IN /path/to/example1.story:
                 "B Create file" in 0.1 seconds.
 
@@ -141,7 +161,28 @@ Fail fast:
             ).ordered_by_name().continue_on_failure().play()
             print(results.report())
           will output: |-
-            STORY RAN SUCCESSFULLY /path/to/example1.story: A Create file in 0.1 seconds.
+            RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+            RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
+                B Create file:
+                  steps:
+                  - Fail
+
+            [1]: function 'fail'
+              examplepythoncode.py
+
+
+                    59 :
+                    60 :             def fail(self):
+                --> 61 :                 raise Exception("Error")
+                    62 :
+
+
+
+            builtins.Exception
+              Common base class for all non-exit exceptions.
+            Error
+            RUNNING C Create file a third time in /path/to/example2.story ... SUCCESS in 0.1 seconds.
+            SUCCESS in 0.1 seconds.
             FAILURE IN /path/to/example1.story:
                 "B Create file" in 0.1 seconds.
 
@@ -166,4 +207,4 @@ Fail fast:
             builtins.Exception
               Common base class for all non-exit exceptions.
             Error
-            STORY RAN SUCCESSFULLY /path/to/example2.story: C Create file a third time in 0.1 seconds.
+            SUCCESS in 0.1 seconds.

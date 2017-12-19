@@ -94,7 +94,7 @@ Inherit one story from another:
     Override preconditions:
       steps:
       - Run:
-          code: print(collection.named("Write to file 2").play().report())
+          code: collection.named("Write to file 2").play()
       - Output is: |
           thing one: 1, 3
           thing three: 3
@@ -104,9 +104,9 @@ Inherit one story from another:
     Override parameters:
       steps:
       - Run:
-          code: print(collection.named("Write to file 3").play().report())
+          code: collection.named("Write to file 3").play()
           will output: |-
-            STORY RAN SUCCESSFULLY /path/to/example.story: Write to file 3 in 0.1 seconds.
+            RUNNING Write to file 3 in /path/to/example.story ... SUCCESS in 0.1 seconds.
       - Output is: |
           thing one: 9, 2
           thing three: 11

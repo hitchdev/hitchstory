@@ -30,10 +30,9 @@ Story success:
   steps:
   - Run:
       code: |
-        result = StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
-        print(result.report())
-      will output: 'STORY RAN SUCCESSFULLY /path/to/example.story: Create files in
-        0.1 seconds.'
+        StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
+      will output: RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1
+        seconds.
   - File was created with:
       filename: step1.txt
       contents: example

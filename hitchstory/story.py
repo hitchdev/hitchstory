@@ -5,6 +5,7 @@ from hitchstory import exceptions
 from hitchstory import utils
 from strictyaml import Optional
 from slugify import slugify
+import colorama
 import time
 
 
@@ -172,6 +173,13 @@ class Story(object):
         a Result object.
         """
         start_time = time.time()
+        self._collection.log(
+            "RUNNING {0} in {1} ... ".format(
+                self.name,
+                self._story_file.filename,
+            ),
+            newline=False,
+        )
         passed = False
         caught_exception = None
         try:
@@ -194,7 +202,9 @@ class Story(object):
                 run_step_method()
 
                 if hasattr(self.engine, '_aborted') and self.engine._aborted:
-                    print("Aborted")
+                    self._collection.log("Aborted")
+                    self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
+                    return
             passed = True
         except Exception as exception:
             caught_exception = exception
@@ -208,6 +218,9 @@ class Story(object):
         if passed:
             self.run_on_success()
             result = Success(self, time.time() - start_time)
+            self._collection.log(
+                "SUCCESS in {0:.1f} seconds.".format(result.duration)
+            )
         else:
             result = Failure(
                 self,
@@ -217,6 +230,18 @@ class Story(object):
                 failure_stack_trace,
             )
             self.run_on_failure(result)
+            self._collection.log(
+                "{0}FAILED in {1:.1f} seconds.{2}".format(
+                    colorama.Fore.RED,
+                    result.duration,
+                    colorama.Fore.RESET,
+                )
+            )
+            self._collection.log("{0}{1}{2}".format(
+                result.story_failure_snippet,
+                colorama.Fore.RESET,
+                result.stacktrace,
+            ))
 
         self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
         return result
