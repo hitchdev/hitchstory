@@ -5,7 +5,6 @@ from hitchrun import expected
 from strictyaml import Str, Seq, Map, Optional, Enum
 from pathquery import pathq
 import hitchtest
-import hitchdoc
 from simex import DefaultSimex
 from commandlib import python
 from hitchrun import hitch_maintenance
@@ -32,7 +31,7 @@ class Engine(BaseEngine):
             Optional("setup"): Str(),
             Optional("code"): Str(),
         },
-        about={
+        info={
             Optional("about"): Str(),
             Optional("tags"): Seq(Str()),
             Optional("status"): Enum(["experimental", "stable"]),
@@ -46,11 +45,6 @@ class Engine(BaseEngine):
     def set_up(self):
         """Set up the environment ready to run the stories."""
         self.path.state = self.path.gen.joinpath("state")
-
-        self.doc = hitchdoc.Recorder(
-            hitchdoc.HitchStory(self),
-            self.path.gen.joinpath('storydb.sqlite'),
-        )
 
         if self.path.state.exists():
             self.path.state.rmtree(ignore_errors=True)
@@ -240,18 +234,16 @@ def rtdd(*keywords):
     """
     Run story with name containing keywords and rewrite.
     """
-    print(
-        StoryCollection(
-            pathq(DIR.key).ext("story"),
-            Engine(
-                DIR,
-                {
-                    "overwrite artefacts": True,
-                    "print output": True,
-                },
-            )
-        ).shortcut(*keywords).play().report()
-    )
+    StoryCollection(
+        pathq(DIR.key).ext("story"),
+        Engine(
+            DIR,
+            {
+                "overwrite artefacts": True,
+                "print output": True,
+            },
+        )
+    ).shortcut(*keywords).play()
 
 
 @expected(exceptions.HitchStoryException)
@@ -259,18 +251,16 @@ def tdd(*keywords):
     """
     Run story with name containing keywords.
     """
-    print(
-        StoryCollection(
-            pathq(DIR.key).ext("story"),
-            Engine(
-                DIR,
-                {
-                    "overwrite artefacts": False,
-                    "print output": True,
-                },
-            )
-        ).shortcut(*keywords).play().report()
-    )
+    StoryCollection(
+        pathq(DIR.key).ext("story"),
+        Engine(
+            DIR,
+            {
+                "overwrite artefacts": False,
+                "print output": True,
+            },
+        )
+    ).shortcut(*keywords).play()
 
 
 @expected(exceptions.HitchStoryException)
@@ -278,11 +268,9 @@ def regressfile(filename):
     """
     Run all stories in filename 'filename'.
     """
-    print(
-        StoryCollection(
-            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
-        ).in_filename(filename).ordered_by_name().play().report()
-    )
+    StoryCollection(
+        pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
+    ).in_filename(filename).ordered_by_name().play()
 
 
 @expected(exceptions.HitchStoryException)
@@ -291,11 +279,9 @@ def regression():
     Continuos integration - lint and run all stories.
     """
     lint()
-    print(
-        StoryCollection(
-            pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
-        ).ordered_by_name().play().report()
-    )
+    StoryCollection(
+        pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
+    ).only_uninherited().ordered_by_name().play()
 
 
 @expected(CommandError)
@@ -357,27 +343,6 @@ def deploy(version):
     python(
         "-m", "twine", "upload", "dist/{0}-{1}.tar.gz".format(NAME, version)
     ).in_dir(DIR.project).run()
-
-
-def docgen():
-    """
-    Generate documentation.
-    """
-    docpath = DIR.project.joinpath("docs")
-
-    if not docpath.exists():
-        docpath.mkdir()
-
-    documentation = hitchdoc.Documentation(
-        DIR.gen.joinpath('storydb.sqlite'),
-        'doctemplates.yml'
-    )
-
-    for story in documentation.stories:
-        story.write(
-            "rst",
-            docpath.joinpath("{0}.rst".format(story.slug))
-        )
 
 
 def rerun(version="3.5.0"):
