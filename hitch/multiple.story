@@ -28,7 +28,7 @@ Multiple stories played:
               with open(filename, 'w') as handle:
                   handle.write(content)
   variations:
-    Running all tests in file order:
+    Running all stories in file order:
       steps:
       - Run:
           code: |

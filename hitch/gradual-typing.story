@@ -1,7 +1,7 @@
 Gradual typing of story steps:
   description: |
     In order to speed up prototyping and development
-    of a test suite, the structure of your YAML data
+    of a story suite, the structure of your YAML data
     specified in preconditions, parameters and step
     arguments need not be specified in advance.
 
@@ -9,7 +9,7 @@ Gradual typing of story steps:
     is parsed either as a dict, list or string, as
     per the StrictYAML spec.
 
-    When your test suite matures and the structure of
+    When your story suite matures and the structure of
     your story files is more locked down, you can
     specify validators that fail fast when YAML
     snippets with an invalid structure are used.

@@ -33,6 +33,7 @@ class Engine(BaseEngine):
             Optional("code"): Str(),
         },
         about={
+            Optional("about"): Str(),
             Optional("tags"): Seq(Str()),
             Optional("status"): Enum(["experimental", "stable"]),
         },
@@ -43,7 +44,7 @@ class Engine(BaseEngine):
         self.settings = settings
 
     def set_up(self):
-        """Set up your applications and the test environment."""
+        """Set up the environment ready to run the stories."""
         self.path.state = self.path.gen.joinpath("state")
 
         self.doc = hitchdoc.Recorder(
@@ -92,7 +93,7 @@ class Engine(BaseEngine):
         * Environment specific paths.
         * Terminal color codes.
         * Random hexadecimal numbers.
-        * Slightly longer lasting tests reporting 0.2 seconds.
+        * Slightly longer lasting stories reporting 0.2  or shorted reporting 0.0 seconds.
         * Trailing spaces (these look screwy in YAML).
 
         ...and replaces them with a deterministic, representative or
@@ -237,7 +238,7 @@ class Engine(BaseEngine):
 @expected(exceptions.HitchStoryException)
 def rtdd(*keywords):
     """
-    Run test with name containing keywords and rewrite.
+    Run story with name containing keywords and rewrite.
     """
     print(
         StoryCollection(
@@ -256,7 +257,7 @@ def rtdd(*keywords):
 @expected(exceptions.HitchStoryException)
 def tdd(*keywords):
     """
-    Run test with name containing keywords.
+    Run story with name containing keywords.
     """
     print(
         StoryCollection(
@@ -273,7 +274,7 @@ def tdd(*keywords):
 
 
 @expected(exceptions.HitchStoryException)
-def testfile(filename):
+def regressfile(filename):
     """
     Run all stories in filename 'filename'.
     """
@@ -287,7 +288,7 @@ def testfile(filename):
 @expected(exceptions.HitchStoryException)
 def regression():
     """
-    Continuos integration - run all tests and linter.
+    Continuos integration - lint and run all stories.
     """
     lint()
     print(

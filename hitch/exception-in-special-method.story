@@ -5,7 +5,7 @@ Exception in special methods:
 
     If there is an exception in on_success, on_failure
     or tear_down, a corresponding exception is raised
-    halting *all* tests from that point onward.
+    halting *all* stories from that point onward.
 
     Only exceptions in set_up or steps are considered
     normal.

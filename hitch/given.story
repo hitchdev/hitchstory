@@ -1,4 +1,15 @@
-Story with preconditions:
+Story with given preconditions:
+  about: |
+    All stories start with an opening set of preconditions.
+
+    In hitchstory, you can define this opening by with the
+    'given' properties on a story. These are available
+    at any time during the in the engine by referring to
+    self.given, but are typically used in the set_up method
+    to create the environment that the story is played in.
+
+    The structure of the properties are defined using
+    StorySchema.
   given:
     example.story: |
       Create files:
@@ -31,10 +42,9 @@ Story with preconditions:
   steps:
   - Run:
       code: |
-        print(StoryCollection(pathq(".").ext("story"), Engine()).one().play().report())
+        StoryCollection(pathq(".").ext("story"), Engine()).one().play()
       will output: |-
         RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
-        SUCCESS in 0.1 seconds.
   - File contents will be:
       filename: output.txt
       contents: things
