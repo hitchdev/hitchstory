@@ -1,15 +1,18 @@
-* Fix rewriting when inheriting story.
+* Write out test successes/failures as they happen
+* Fix rewriting on inherited story.
 * Fix rewriting when a step parameter has a space in it.
-* Write out test successes 
 * Fix inheritance from 3rd story down.
-* Make ordering work inside files.
-* Make exception code yellow not red.
-* Light red for stacktrace -- add "suppress_stacktrace_for" message in template if in a step.
-* Give line numbers to blue YAML snippets indicating failure.
-* Rename expected_exception -> suppress_failure_stacktrace(
-* InfoProperties, GivenProperties, GivenSchema(schema, required is False, default is "(( python version ))", inherit_by is overwrite, default, merge properties, )
+- Make exception code yellow not red.
+- Light red for stacktrace -- add "suppress_stacktrace_for" message in template if in a step.
+- Give line numbers to blue YAML snippets indicating failure.
+- Rename expected_exception -> suppress_failure_stacktrace(
+- InfoProperty, GivenProperty
+- GivenProperties(
+    python_version GivenProperty(schema, required is False, default is "(( python version ))", inherit_by is overwrite, default, merge properties, )
+- ParameterProperties(
+    python_version ParamProperty(
 * ParameterProperties -- 
-StoryParameter( a python 2 version, default 2.7.10, strategy)
+StoryParameter( a python 2 version, default 2.7.10, merge)
 StoryParameter(a python 3 version ,3.5.0
 StoryParameter("a valid browser", 
 
