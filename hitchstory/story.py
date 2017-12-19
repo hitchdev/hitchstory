@@ -231,17 +231,17 @@ class Story(object):
             )
             self.run_on_failure(result)
             self._collection.log(
-                "{0}FAILED in {1:.1f} seconds.{2}".format(
-                    colorama.Fore.RED,
-                    result.duration,
-                    colorama.Fore.RESET,
+                (
+                    "{red}FAILED in {duration:.1f} seconds.{reset}"
+                    "\n\n{story_snippet}{reset}{stacktrace}"
+                ).format(
+                    red=colorama.Fore.RED,
+                    duration=result.duration,
+                    reset=colorama.Fore.RESET,
+                    story_snippet=result.story_failure_snippet,
+                    stacktrace=result.stacktrace,
                 )
             )
-            self._collection.log("{0}{1}{2}".format(
-                result.story_failure_snippet,
-                colorama.Fore.RESET,
-                result.stacktrace,
-            ))
 
         self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
         return result

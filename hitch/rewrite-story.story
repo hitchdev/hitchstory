@@ -60,8 +60,8 @@ Rewrite story:
           will output: |-
             RUNNING Do things in /path/to/example.story ... SUCCESS in 0.1 seconds.
             RUNNING Do things/Do more things in /path/to/example.story ... SUCCESS in 0.1 seconds.
-            SUCCESS in 0.1 seconds.
-            SUCCESS in 0.1 seconds.
+            STORY RAN SUCCESSFULLY /path/to/example.story: Do things in 0.1 seconds.
+            STORY RAN SUCCESSFULLY /path/to/example.story: Do things/Do more things in 0.1 seconds.
 
       - File contents will be:
           filename: example.story

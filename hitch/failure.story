@@ -53,6 +53,7 @@ Simple failure report:
           will output: |-
             RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
 
+
             [1]: function 'set_up'
               /path/to/engine.py
 
@@ -81,52 +82,13 @@ Simple failure report:
 
                 It spreads across multiple lines.
 
-    Failure printed by on_failure method:
-      steps:
-      - Run:
-          code: story_collection.one().play()
-          will output: |-
-            RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
-                  steps:
-                  - Passing step
-                  - Failing step
-                  - Not executed step
-
-            [1]: function 'failing_step'
-              /path/to/engine.py
-
-
-                    6 :
-                    7 :     def failing_step(self):
-                --> 8 :         raise_example_exception("Towel not located")
-                    9 :
-
-
-
-            [2]: function 'raise_example_exception'
-              /path/to/code_that_does_things.py
-
-
-                    20 :
-                    21 : def raise_example_exception(text=""):
-                --> 22 :     raise ExampleException(text)
-                    23 :
-
-
-
-            code_that_does_things.ExampleException
-
-                This is a demonstration exception's docstring.
-
-                It spreads across multiple lines.
-
-            Towel not located
     Failure printed by default:
       steps:
       - Run:
           code: story_collection.one().play()
           will output: |-
             RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+
                   steps:
                   - Passing step
                   - Failing step
@@ -176,6 +138,7 @@ Simple failure report:
           code: story_collection.one().play()
           will output: |-
             RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+
                 Failing story:
                   steps:
                   - Failing step without stacktrace
@@ -206,6 +169,7 @@ Simple failure report:
           code: story_collection.one().play()
           will output: |-
             RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+
                 Failing story:
                   steps:
                   - Raise special failure exception

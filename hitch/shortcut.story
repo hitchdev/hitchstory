@@ -48,5 +48,5 @@ Shortcut lookup for story names:
             print(results.report())
           will output: |-
             RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-            SUCCESS in 0.1 seconds.
+            STORY RAN SUCCESSFULLY /path/to/example1.story: Create file again in 0.1 seconds.
 

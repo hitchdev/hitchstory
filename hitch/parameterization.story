@@ -80,7 +80,7 @@ Story with parameters:
             print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button/with chrome").play().report())
           will output: |-
             RUNNING Click magic button/with chrome in /path/to/example.story ... SUCCESS in 0.1 seconds.
-            SUCCESS in 0.1 seconds.
+            STORY RAN SUCCESSFULLY /path/to/example.story: Click magic button/with chrome in 0.1 seconds.
       - Output is: |
           chrome
           153

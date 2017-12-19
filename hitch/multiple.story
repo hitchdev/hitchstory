@@ -106,6 +106,7 @@ Fail fast:
           will output: |-
             RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
             RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
+
                 B Create file:
                   steps:
                   - Fail
@@ -136,6 +137,7 @@ Fail fast:
           will output: |-
             RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
             RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
+
                 B Create file:
                   steps:
                   - Fail
