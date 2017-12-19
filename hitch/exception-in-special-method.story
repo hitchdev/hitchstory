@@ -50,7 +50,7 @@ Exception in special methods:
               \n\n        20 :\n        21 : def raise_example_exception(text=\"\"\
               ):\n    --> [[ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)\n\
               \        23 :\n\n\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
-              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception\
               \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
               \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
       - Tear down was run
@@ -83,7 +83,7 @@ Exception in special methods:
               \n\n        20 :\n        21 : def raise_example_exception(text=\"\"\
               ):\n    --> [[ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)\n\
               \        23 :\n\n\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
-              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception\
               \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
               \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
       - Tear down was run
@@ -113,6 +113,6 @@ Exception in special methods:
               \ :\n        21 : def raise_example_exception(text=\"\"):\n    --> [[\
               \ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)\n  \
               \      23 :\n\n\n\n[[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[\
-              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception's\
+              \ RESET ALL ]]\n  [[ DIM ]][[ RED ]]\n    This is a demonstration exception\
               \ docstring.\n\n    It spreads across multiple lines.\n    [[ RESET\
               \ ALL ]]\n[[ RED ]][[ RESET FORE ]]"
