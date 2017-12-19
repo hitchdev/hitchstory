@@ -162,13 +162,14 @@ class Engine(BaseEngine):
         assert self.path.state.joinpath(filename).bytes().decode('utf8') == self.given[filename], \
             "{0} should have been unchanged was changed".format(filename)
 
+    @expected_exception(AssertionError)
     def file_contents_will_be(self, filename, contents):
         file_contents = '\n'.join([
             line.rstrip() for line in
             self.path.state.joinpath(filename).bytes().decode('utf8').strip().split('\n')
         ])
         try:
-            Templex(file_contents).assert_match(contents.strip())
+            Templex(contents.strip()).assert_match(file_contents)
         except AssertionError:
             if self.settings.get("overwrite artefacts"):
                 self.current_step.update(contents=file_contents)
@@ -280,7 +281,7 @@ def regression():
     """
     lint()
     StoryCollection(
-        pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
+        pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
     ).only_uninherited().ordered_by_name().play()
 
 
