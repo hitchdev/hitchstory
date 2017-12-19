@@ -3,7 +3,7 @@ import sys
 
 class ExampleException(Exception):
     """
-    This is a demonstration exception's docstring.
+    This is a demonstration exception docstring.
 
     It spreads across multiple lines.
     """

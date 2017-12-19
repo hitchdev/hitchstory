@@ -78,7 +78,7 @@ Simple failure report:
 
             code_that_does_things.ExampleException
 
-                This is a demonstration exception's docstring.
+                This is a demonstration exception docstring.
 
                 It spreads across multiple lines.
 
@@ -118,7 +118,7 @@ Simple failure report:
 
             code_that_does_things.ExampleException
 
-                This is a demonstration exception's docstring.
+                This is a demonstration exception docstring.
 
                 It spreads across multiple lines.
 
@@ -145,7 +145,7 @@ Simple failure report:
 
             code_that_does_things.ExampleException
 
-                This is a demonstration exception's docstring.
+                This is a demonstration exception docstring.
 
                 It spreads across multiple lines.
 

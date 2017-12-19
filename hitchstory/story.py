@@ -232,12 +232,15 @@ class Story(object):
             self.run_on_failure(result)
             self._collection.log(
                 (
-                    "{red}FAILED in {duration:.1f} seconds.{reset}"
-                    "\n\n{story_snippet}{reset}{stacktrace}"
+                    "{red}{bright}FAILED in {duration:.1f} seconds.{reset_all}"
+                    "\n\n{blue}{story_snippet}{reset_all}{stacktrace}"
                 ).format(
                     red=colorama.Fore.RED,
+                    bright=colorama.Style.BRIGHT,
                     duration=result.duration,
+                    blue=colorama.Fore.BLUE,
                     reset=colorama.Fore.RESET,
+                    reset_all=colorama.Style.RESET_ALL,
                     story_snippet=result.story_failure_snippet,
                     stacktrace=result.stacktrace,
                 )

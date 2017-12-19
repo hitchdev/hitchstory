@@ -1,4 +1,3 @@
-- Write out test successes/failures as they happen
 - Fix rewriting on inherited story.
 - Fix rewriting when a step parameter has a space in it.
 - Fix inheritance from 3rd story down.

@@ -85,7 +85,7 @@ class FailureException(object):
 
 class Failure(Result):
     def __init__(self, story, duration, exception, failing_step, stacktrace):
-        assert type(exception) is Exception or RuntimeError
+        assert isinstance(exception, (Exception, RuntimeError))
         self._story = story
         self._duration = duration
         self._exception = FailureException(exception)
