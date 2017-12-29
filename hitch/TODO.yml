@@ -1,4 +1,5 @@
-- Fix rewriting on inherited story.
+- Rewriting fails if it is being done on a parent story.
+- Failure output looks wonky both with and without stacktrace.
 - Fix rewriting when a step parameter has a space in it.
 - Fix inheritance from 3rd story down.
 - Make exception code yellow not red.
