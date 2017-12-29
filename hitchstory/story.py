@@ -233,7 +233,7 @@ class Story(object):
             self._collection.log(
                 (
                     "{red}{bright}FAILED in {duration:.1f} seconds.{reset_all}"
-                    "\n\n{blue}{story_snippet}{reset_all}{stacktrace}"
+                    "\n\n{blue}{story_snippet}{reset_all}\n{stacktrace}"
                 ).format(
                     red=colorama.Fore.RED,
                     bright=colorama.Style.BRIGHT,

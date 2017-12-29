@@ -111,6 +111,7 @@ Fail fast:
                   steps:
                   - Fail
 
+
             [1]: function 'fail'
               examplepythoncode.py
 
@@ -141,6 +142,7 @@ Fail fast:
                 B Create file:
                   steps:
                   - Fail
+
 
             [1]: function 'fail'
               examplepythoncode.py

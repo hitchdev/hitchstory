@@ -231,7 +231,7 @@ class Engine(BaseEngine):
 
 
 @expected(exceptions.HitchStoryException)
-def rtdd(*keywords):
+def rbdd(*keywords):
     """
     Run story with name containing keywords and rewrite.
     """
@@ -248,7 +248,7 @@ def rtdd(*keywords):
 
 
 @expected(exceptions.HitchStoryException)
-def tdd(*keywords):
+def bdd(*keywords):
     """
     Run story with name containing keywords.
     """

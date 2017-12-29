@@ -26,6 +26,9 @@ Simple failure report:
           def raise_special_failure_exception(self):
               raise Failure("Special failure exception - no stacktrace printed!")
 
+          def step_that_will_not_run(self):
+              pass
+              
           def on_failure(self, result):
               pass
 
@@ -52,6 +55,7 @@ Simple failure report:
           code: story_collection.one().play()
           will output: |-
             RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+
 
 
             [1]: function 'set_up'
@@ -93,6 +97,7 @@ Simple failure report:
                   - Passing step
                   - Failing step
                   - Not executed step
+
 
             [1]: function 'failing_step'
               /path/to/engine.py
@@ -143,6 +148,7 @@ Simple failure report:
                   steps:
                   - Failing step without stacktrace
 
+
             code_that_does_things.ExampleException
 
                 This is a demonstration exception docstring.
@@ -164,6 +170,8 @@ Simple failure report:
           Failing story:
             steps:
               - Raise special failure exception
+              - Step that will not run
+              - Step that will not run
       steps:
       - Run:
           code: story_collection.one().play()
@@ -173,6 +181,8 @@ Simple failure report:
                 Failing story:
                   steps:
                   - Raise special failure exception
+                  - Step that will not run
+                  - Step that will not run
 
             hitchstory.exceptions.Failure
 
