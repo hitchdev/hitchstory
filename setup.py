@@ -36,7 +36,7 @@ setup(name="hitchstory",
     url='https://hitchtest.readthedocs.org/',
     license='AGPL',
     install_requires=[
-        'strictyaml>=0.10.0',
+        'strictyaml>=0.11.4',
         'path.py',
         'jinja2',
         'colorama',

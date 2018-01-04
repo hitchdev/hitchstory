@@ -10,8 +10,8 @@ Rewrite story:
           - Do thing: y
           - Do thing: z
           - Do other thing:
-              variable1: a
-              variable2: b
+              variable 1: a
+              variable 2: b
 
         variations:
           Do more things:
@@ -30,10 +30,10 @@ Rewrite story:
                       variable="xxx:\nyyy"
                   )
 
-          def do_other_thing(self, variable1=None, variable2=None):
+          def do_other_thing(self, variable_1=None, variable_2=None):
               if self._rewrite:
                   self.current_step.update(
-                      variable2="complicated:\nmultiline\nstring"
+                      variable_2="complicated:\nmultiline\nstring"
                   )
 
           def on_success(self):
@@ -55,13 +55,10 @@ Rewrite story:
       steps:
       - Run:
           code: |
-            result = StoryCollection(pathq(".").ext("story"), Engine(rewrite=True)).ordered_by_name().play()
-            print(result.report())
+            StoryCollection(pathq(".").ext("story"), Engine(rewrite=True)).ordered_by_name().play()
           will output: |-
             RUNNING Do things in /path/to/example.story ... SUCCESS in 0.1 seconds.
             RUNNING Do things/Do more things in /path/to/example.story ... SUCCESS in 0.1 seconds.
-            STORY RAN SUCCESSFULLY /path/to/example.story: Do things in 0.1 seconds.
-            STORY RAN SUCCESSFULLY /path/to/example.story: Do things/Do more things in 0.1 seconds.
 
       - File contents will be:
           filename: example.story
@@ -78,8 +75,8 @@ Rewrite story:
                   xxx:
                   yyy
               - Do other thing:
-                  variable1: a
-                  variable2: |-
+                  variable 1: a
+                  variable 2: |-
                     complicated:
                     multiline
                     string

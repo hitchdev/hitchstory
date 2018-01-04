@@ -1,6 +1,6 @@
 from strictyaml import load, Map, Str, Seq, Optional, MapPattern, Any, YAMLError
-from hitchstory import exceptions
 from hitchstory.story import Story
+from hitchstory import exceptions
 from path import Path
 import copy
 
@@ -39,7 +39,6 @@ class StoryFile(object):
         story_schema[Optional('given')] = self.engine.schema.preconditions
         story_schema[Optional('variations')] = MapPattern(Str(), Map(variation_schema))
 
-        # Load YAML into memory
         try:
             self._parsed_yaml = load(
                 self._yaml,
@@ -87,13 +86,12 @@ class StoryFile(object):
                         yaml_story['steps'][step.index][step.name][key] = \
                           value
         else:
+            step_to_update = self._updated_yaml[story.name]['steps'][step.index]
             if step.arguments.single_argument:
-                self._updated_yaml[story.name]['steps'][step.index][step.name] = \
-                    list(kwargs.values())[0]
+                step_to_update[step.name] = list(kwargs.values())[0]
             else:
-                for key, value in kwargs.items():
-                    self._updated_yaml[story.name]['steps'][step.index][step.name][key] = \
-                      value
+                for key_to_update, value_to_update in kwargs.items():
+                    step_to_update[step.name][key_to_update] = value_to_update
 
     @property
     def filename(self):
