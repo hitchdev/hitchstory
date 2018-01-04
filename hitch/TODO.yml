@@ -1,5 +1,3 @@
-
-- Flush stdout.
 - Rewriting fails if it is being done on a parent story.
 - Failure output looks wonky both with and without stacktrace.
 - Fix rewriting when a step parameter has a space in it.

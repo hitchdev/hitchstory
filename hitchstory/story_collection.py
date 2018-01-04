@@ -231,6 +231,7 @@ class StoryCollection(object):
         self._output_handle.write(
             u"{0}{1}".format(message, u"\n" if newline else u"")
         )
+        self._output_handle.flush()
 
     def one(self):
         stories = self.ordered_by_name()
