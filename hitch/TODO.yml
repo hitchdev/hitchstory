@@ -1,31 +1,30 @@
 - Make exception code yellow not red.
-- Fix inheritance from 3rd story down.- Rewriting fails if it is being done on a parent story.
+- Blank file should be completely valid as should story: without anything in it although that should not create story.
+- Fix inheritance from 3rd story down.- Rewriting fails if it is being done on a parent story?
 - Give line numbers to blue YAML snippets indicating failure.
-- Properties Refactor: |
-    given_definition=GivenProperties(
-      python_version=GivenProperty(
-          schema=Any(),
-          required=False,
-          default=None, # is "(( python version ))",
-          inherit_by=[overwrite, default, merge properties],
-      ),
+- Add defaults argument to GivenProperty and InfoProperty.
+- Add 'required' argument to GivenProperty and InfoProperty.
+- Add inherit_by argument to GivenProperty and InfoProperty.
+- Add ParameterDefinition: |
+    
+    parameter_definition=ParameterDefinition(
+        python_version=ParameterProperty("2.7.10"),
+        python_version=ParameterProperty("(( version between 2.6 and 2.7"),
+        a_valid_browser=ParameterProperty("(( valid browser ))")
     )
     
-    parameter_definition=ParameterProperies(
-        python_version=ParameterProperty("(( a python 2 version ))", default="2.7.10"),
-        a_valid_browser=ParameterProperty("(( a valid browser ))", default="Firefox")
+    kind_of_parameter=KindOfParameterDefinition(
+        valid_browser=KindOfParameter(
+            schema=Enum(list_of_things),
+            default="Firefox",
+            hypothesis_strategy=generate_browser,
+        ),
     )
+            
 
-- Abstract story -- no steps or with a variable that is not tied down.
-- Make it possible to put in a name of an unimplemented test and blank file.
-- self.current_step.update(will_output=x) will fail if key is actually "will output"
-- "Start line of YAML with list" -- why does it fail if you have not specified code?
-- Fail with a more sensible error message when validators fail on steps.
-- Print to screen or log to file while running.
-- "Capture" mode and print mode (default)
-- Params should match the schema of the precondition or step.
+- Abstract story -- no steps - do not play by default.
 - Examples -- parameters via a story name (examples:)
-- Counter examples -- known failures, params with a name.
+- Counter examples -- known failures, params with a name - avoid.
 - Use non-ascii characters in all tests.
 - poststep method - self.poststep(self, previous_step)
 - prestep method - self.prestep(self, following_step)
