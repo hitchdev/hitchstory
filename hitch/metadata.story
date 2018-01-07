@@ -8,9 +8,9 @@ Extra story metadata:
 
     What kind of metadata you add to stories is up to you -
     simply add the names of the properties you want to add
-    in the info parameter of your engine StorySchema and
+    in the info parameter of your engine InfoDefinition and
     specify the structure of the metadata using StrictYAML
-    validators.
+    validators inside the InfoProperty object.
   given:
     example.story: |
       Build city:
@@ -33,19 +33,17 @@ Extra story metadata:
             steps:
             - Kick llama's ass
     setup: |
-      from hitchstory import StoryCollection, BaseEngine, StorySchema
+      from hitchstory import StoryCollection, BaseEngine, InfoDefinition, InfoProperty
       from strictyaml import Map, Str, CommaSeparated, Optional
       from pathquery import pathq
       from ensure import Ensure
       from code_that_does_things import reticulate_splines, kick_llamas_ass
 
       class Engine(BaseEngine):
-          schema = StorySchema(
-              info={
-                  Optional("description"): Str(),
-                  "jiras": CommaSeparated(Str()),
-                  "features": CommaSeparated(Str()),
-              },
+          info_definition=InfoDefinition(
+              description=InfoProperty(schema=Str()),
+              jiras=InfoProperty(schema=CommaSeparated(Str())),
+              features=InfoProperty(schema=CommaSeparated(Str())),
           )
 
           def reticulate_splines(self):
@@ -67,13 +65,13 @@ Extra story metadata:
       steps:
       - Run:
           code: |
-            story_collection.filter(lambda story: "JIRA-124" in story.info['jiras']).ordered_by_name().play()
+            story_collection.filter(lambda story: "JIRA-124" in story.info.jiras).ordered_by_name().play()
       - Splines reticulated
 
     Info:
       steps:
       - Run:
           code: |
-            Ensure([story.info['jiras'] for story in story_collection.ordered_by_name()]).equals(
+            Ensure([story.info.jiras for story in story_collection.ordered_by_name()]).equals(
                 [["JIRA-123", "JIRA-124"], ["JIRA-789", ], ["JIRA-123"]]
             )

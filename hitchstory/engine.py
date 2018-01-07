@@ -52,6 +52,26 @@ class GivenDefinition(object):
         self.preconditions = Map(mapping, key_validator=utils.UnderscoredSlug())
 
 
+class InfoProperty(object):
+    def __init__(self, schema=None):
+        self.schema = Any() if schema is None else schema
+
+
+class InfoDefinition(object):
+    def __init__(self, **info_properties):
+        self._properties = {}
+        for name, info_property in info_properties.items():
+            assert isinstance(info_property, InfoProperty), \
+              "{0} must be InfoProperty.".format(name)
+            self._properties[name] = info_property.schema
+
+    def items(self):
+        return self._properties.items()
+
+    def keys(self):
+        return self._properties.keys()
+
+
 class StorySchema(object):
     """
     Represents user-defineable parts of the hitchstory schema:
@@ -112,8 +132,8 @@ class Given(object):
 
 class BaseEngine(object):
     schema = StorySchema()
-
     given_definition = GivenDefinition()
+    info_definition = InfoDefinition()
 
     @property
     def new_story(self):
