@@ -2,7 +2,7 @@
 User-exposed engine related code.
 """
 from hitchstory import exceptions
-from strictyaml import MapPattern, Str, Any, Map, Validator, Optional
+from strictyaml import Any, Map, Optional
 from hitchstory import utils
 
 
@@ -72,43 +72,6 @@ class InfoDefinition(object):
         return self._properties.keys()
 
 
-class StorySchema(object):
-    """
-    Represents user-defineable parts of the hitchstory schema:
-
-    * preconditions - properties which set up the story.
-    * parameters - variables which you can feed into a story.
-    * info - descriptive properties - e.g. feature names, issue ticket numbers
-    """
-    def __init__(self, given=None, params=None, info=None):
-        if given is None:
-            self._preconditions = MapPattern(Str(), utils.YAML_Param | Any())
-        else:
-            _preconditions = {}
-            for name, validator in given.items():
-                assert isinstance(validator, Validator),\
-                    "precondition schema must be strictyaml Validators"
-                _preconditions[name] = utils.YAML_Param | validator
-            self._preconditions = Map(_preconditions)
-
-        if info is not None:
-            assert isinstance(info, dict), "info must be a dict of named validators"
-            for key, validator in info.items():
-                assert isinstance(key, str) or isinstance(key, Optional), \
-                    "name must be a string or strictyaml Optional."
-                assert isinstance(validator, Validator), "validator must be strictyaml Validator"
-
-        self._info = info
-
-    @property
-    def preconditions(self):
-        return self._preconditions
-
-    @property
-    def info(self):
-        return self._info
-
-
 class NewStory(object):
     def __init__(self, engine):
         self._engine = engine
@@ -131,7 +94,6 @@ class Given(object):
 
 
 class BaseEngine(object):
-    schema = StorySchema()
     given_definition = GivenDefinition()
     info_definition = InfoDefinition()
 

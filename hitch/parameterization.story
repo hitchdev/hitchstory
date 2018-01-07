@@ -31,7 +31,7 @@ Story with parameters:
                 name: chrome
                 version: 153
     engine.py: |
-      from hitchstory import BaseEngine, StorySchema, GivenDefinition, GivenProperty, validate
+      from hitchstory import BaseEngine, GivenDefinition, GivenProperty, validate
       from strictyaml import Map, Seq, Int, Str, Optional
       from code_that_does_things import *
 

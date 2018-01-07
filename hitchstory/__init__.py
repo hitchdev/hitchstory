@@ -6,7 +6,6 @@ from hitchstory.engine import InfoProperty
 from hitchstory.engine import GivenDefinition
 from hitchstory.engine import GivenProperty
 from hitchstory.engine import BaseEngine
-from hitchstory.engine import StorySchema
 from hitchstory.exceptions import HitchStoryException
 from hitchstory.exceptions import Failure
 
