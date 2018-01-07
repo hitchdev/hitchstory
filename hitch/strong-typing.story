@@ -28,13 +28,13 @@ Strong typing:
                 nametag: Ford Prefect
           - Put back items: 1
     engine.py: |
-      from hitchstory import BaseEngine, validate, StorySchema
+      from hitchstory import BaseEngine, validate, GivenDefinition, GivenProperty, StorySchema
       from strictyaml import Seq, Str, Int, Map
       from code_that_does_things import append
 
       class Engine(BaseEngine):
-          schema = StorySchema(
-              given={'x': Int()},
+          given_definition = GivenDefinition(
+              x=GivenProperty(schema=Int()),
           )
 
           def set_up(self):

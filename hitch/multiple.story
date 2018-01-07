@@ -19,11 +19,15 @@ Multiple stories played:
         steps:
           - Create file
     setup: |
-      from hitchstory import StoryCollection, BaseEngine
+      from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty
       from pathquery import pathq
       from ensure import Ensure
 
       class Engine(BaseEngine):
+          given_definition=GivenDefinition(
+              random_variable=GivenProperty()
+          )
+      
           def create_file(self, filename="step1.txt", content="example"):
               with open(filename, 'w') as handle:
                   handle.write(content)

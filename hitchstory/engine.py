@@ -37,6 +37,21 @@ def no_stacktrace_for(exception_type):
     return decorator
 
 
+class GivenProperty(object):
+    def __init__(self, schema=None):
+        self.schema = Any() if schema is None else schema
+
+
+class GivenDefinition(object):
+    def __init__(self, **given_properties):
+        mapping = {}
+        for name, given_property in given_properties.items():
+            assert isinstance(given_property, GivenProperty), \
+              "{0} must be GivenProperty.".format(name)
+            mapping[Optional(name)] = utils.YAML_Param | given_property.schema
+        self.preconditions = Map(mapping, key_validator=utils.UnderscoredSlug())
+
+
 class StorySchema(object):
     """
     Represents user-defineable parts of the hitchstory schema:
@@ -85,8 +100,20 @@ class NewStory(object):
         self._engine.story.story_file.rewrite()
 
 
+class Given(object):
+    def __init__(self, preconditions):
+        self._preconditions = preconditions
+        for name, item in preconditions.items():
+            setattr(self, utils.underscore_slugify(name), item)
+
+    def keys(self):
+        return self._preconditions.keys()
+
+
 class BaseEngine(object):
     schema = StorySchema()
+
+    given_definition = GivenDefinition()
 
     @property
     def new_story(self):
@@ -94,7 +121,7 @@ class BaseEngine(object):
 
     @property
     def given(self):
-        return self._preconditions
+        return Given(self._preconditions)
 
     def set_up(self):
         pass

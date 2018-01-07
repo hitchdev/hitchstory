@@ -1,20 +1,23 @@
-- Light red for stacktrace -- add "no_stacktrace_for" message in template if in a step.
 - Make exception code yellow not red.
 - Fix inheritance from 3rd story down.- Rewriting fails if it is being done on a parent story.
 - Give line numbers to blue YAML snippets indicating failure.
-- Rename expected_exception -> suppress_failure_stacktrace
-- Properties Refactor:
-- GivenProperties(
-    python_version GivenProperty(schema, required is False, default is "(( python version ))", inherit_by is overwrite, default, merge properties, )
-- ParameterProperties(
-    python_version ParamProperty(
-- ParameterProperties:
-    ParameterProperty( a python 2 version, default 2.7.10, merge)
-    StoryParameter(a python 3 version ,3.5.0
-    StoryParameter("a valid browser", 
+- Properties Refactor: |
+    given_definition=GivenProperties(
+      python_version=GivenProperty(
+          schema=Any(),
+          required=False,
+          default=None, # is "(( python version ))",
+          inherit_by=[overwrite, default, merge properties],
+      ),
+    )
+    
+    parameter_definition=ParameterProperies(
+        python_version=ParameterProperty("(( a python 2 version ))", default="2.7.10"),
+        a_valid_browser=ParameterProperty("(( a valid browser ))", default="Firefox")
+    )
+
 - Abstract story -- no steps or with a variable that is not tied down.
 - Make it possible to put in a name of an unimplemented test and blank file.
-- given equals ( "python version": Default(Str(), from_parameter"python version", default 3.5.0) 
 - self.current_step.update(will_output=x) will fail if key is actually "will output"
 - "Start line of YAML with list" -- why does it fail if you have not specified code?
 - Fail with a more sensible error message when validators fail on steps.

@@ -1,13 +1,7 @@
-from strictyaml import ScalarValidator, Map
 from collections import OrderedDict
 from hitchstory import utils
-from slugify import slugify
+from strictyaml import Map
 from copy import copy
-
-
-class UnderscoreCase(ScalarValidator):
-    def validate_scalar(self, chunk):
-        return slugify(chunk.contents, separator='_')
 
 
 class Arguments(object):
@@ -54,7 +48,7 @@ class Arguments(object):
         """
         Validate step using StrictYAML validators specified in @validate decorators.
         """
-        self.yaml.revalidate(Map(validator, key_validator=UnderscoreCase()))
+        self.yaml.revalidate(Map(validator, key_validator=utils.UnderscoredSlug()))
         self.data = {}
 
         for key, value in self.yaml.items():

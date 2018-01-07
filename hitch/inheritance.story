@@ -43,20 +43,18 @@ Inherit one story from another:
           username: DonaldTrump
           password: iamsosmrt
     engine.py: |
-      from hitchstory import BaseEngine, StorySchema, validate
+      from hitchstory import BaseEngine, GivenDefinition, GivenProperty
       from strictyaml import Map, Int, Str, Optional
       from code_that_does_things import append
 
 
       class Engine(BaseEngine):
-          schema = StorySchema(
-              given={
-                  Optional("url"): Str(),
-              },
+          given_definition = GivenDefinition(
+              url=GivenProperty(schema=Str()),
           )
 
           def set_up(self):
-              append("visit {0}".format(self.given['url']))
+              append("visit {0}".format(self.given.url))
 
           def fill_form(self, **textboxes):
               for name, text in sorted(textboxes.items()):

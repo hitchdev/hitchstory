@@ -1,4 +1,4 @@
-from strictyaml import Regex
+from strictyaml import Regex, ScalarValidator
 from re import compile
 from path import Path
 import prettystack
@@ -23,6 +23,11 @@ PARAM_REGEX = r"^\(\((.*?)\)\)$"
 
 
 YAML_Param = Regex(PARAM_REGEX)
+
+
+class UnderscoredSlug(ScalarValidator):
+    def validate_scalar(self, chunk):
+        return slugify(chunk.contents, separator='_')
 
 
 def is_parameter(text):

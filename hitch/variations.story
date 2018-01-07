@@ -24,21 +24,18 @@ Variations:
             given:
               content: cat
     setup: |
-      from hitchstory import StoryCollection, BaseEngine, StorySchema, validate
+      from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty, validate
       from strictyaml import Map, Seq, Int, Str, Optional
       from pathquery import pathq
       from ensure import Ensure
 
 
       class Engine(BaseEngine):
-          schema = StorySchema(
-              given={
-                  "content": Str(),
-                  Optional("hierarchical content"): Map({
-                      "x": Int(),
-                      "y": Seq(Str()),
-                  }),
-              },
+          given_definition=GivenDefinition(
+              content=GivenProperty(schema=Str()),
+              hierarchical_content=GivenProperty(
+                  schema=Map({"x": Int(), "y": Seq(Str())})
+              ),
           )
 
           def do_other_thing(self, parameter):
@@ -46,12 +43,12 @@ Variations:
               print(parameter)
 
           def do_thing_with_precondition(self):
-              assert type(self.given['content']) is str
-              print(self.given['content'])
+              assert type(self.given.content) is str
+              print(self.given.content)
 
           def do_yet_another_thing(self):
-              assert type(self.given['hierarchical content']['y'][0]) is str
-              print(self.given['hierarchical content']['y'][0])
+              assert type(self.given.hierarchical_content['y'][0]) is str
+              print(self.given.hierarchical_content['y'][0])
 
           @validate(animals=Map({"pond animal": Str()}))
           def do_a_fourth_thing(self, animals=None):

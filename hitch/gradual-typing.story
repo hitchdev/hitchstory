@@ -26,12 +26,16 @@ Gradual typing of story steps:
                 file name: step1.txt
                 content: some other text
     engine.py: |
-      from hitchstory import BaseEngine
+      from hitchstory import BaseEngine, GivenDefinition, GivenProperty
 
 
       class Engine(BaseEngine):
+          given_definition = GivenDefinition(
+              files_created=GivenProperty(),
+          )
+      
           def set_up(self):
-              for filename, contents in self.given['files created'].items():
+              for filename, contents in self.given.files_created.items():
                   with open(filename, 'w') as handle:
                       handle.write(contents)
 

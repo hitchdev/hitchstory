@@ -31,20 +31,20 @@ Story with parameters:
                 name: chrome
                 version: 153
     engine.py: |
-      from hitchstory import BaseEngine, StorySchema, validate
+      from hitchstory import BaseEngine, StorySchema, GivenDefinition, GivenProperty, validate
       from strictyaml import Map, Seq, Int, Str, Optional
       from code_that_does_things import *
 
       class Engine(BaseEngine):
-          schema=StorySchema(
-              given={
-                  Optional("browser"): Map({"name": Str(), "version": Int()}),
-              },
+          given_definition=GivenDefinition(
+              browser=GivenProperty(
+                  schema=Map({"name": Str(), "version": Int()}),
+              ),
           )
 
           def set_up(self):
-              append(self.given['browser']['name'])
-              append(self.given['browser']['version'])
+              append(self.given.browser['name'])
+              append(self.given.browser['version'])
 
           def click_on_button(self):
               append("clicked!")

@@ -20,15 +20,15 @@ class StoryFile(object):
         story_schema = {
             Optional("steps"): steps_schema,
             Optional("description"): Str(),
-            Optional("based on"): Str(),
             Optional("with"): Any(),
+            Optional('given'): self.engine.given_definition.preconditions,
         }
 
         variation_schema = {
             Optional("steps"): steps_schema,
             Optional("description"): Str(),
             Optional("with"): Any(),
-            Optional('given'): self.engine.schema.preconditions,
+            Optional('given'): self.engine.given_definition.preconditions,
         }
 
         if self.engine.schema.info is not None:
@@ -36,7 +36,7 @@ class StoryFile(object):
                 story_schema[info_property] = info_property_schema
                 variation_schema[info_property] = info_property_schema
 
-        story_schema[Optional('given')] = self.engine.schema.preconditions
+        story_schema[Optional('based on')] = Str()
         story_schema[Optional('variations')] = MapPattern(Str(), Map(variation_schema))
 
         try:

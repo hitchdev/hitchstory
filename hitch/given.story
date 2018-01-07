@@ -7,9 +7,6 @@ Story with given preconditions:
     at any time during the in the engine by referring to
     self.given, but are typically used in the set_up method
     to create the environment that the story is played in.
-
-    The structure of the properties are defined using
-    StorySchema.
   given:
     example.story: |
       Create files:
@@ -19,7 +16,7 @@ Story with given preconditions:
         steps:
           - Create file
     engine.py: |
-      from hitchstory import BaseEngine, StorySchema
+      from hitchstory import BaseEngine, GivenDefinition, GivenProperty
       from strictyaml import Str, Map, MapPattern
 
       def output(contents):
@@ -27,14 +24,16 @@ Story with given preconditions:
               handle.write("{0}\n".format(contents))
 
       class Engine(BaseEngine):
-          schema=StorySchema(
-              given={"thing": MapPattern(Str(), Str())},
+          given_definition=GivenDefinition(
+              thing=GivenProperty(
+                  schema=MapPattern(Str(), Str()),
+              ),
           )
 
           def create_file(self):
-              assert type(self.given['thing']['content']) is str
+              assert type(self.given.thing['content']) is str
               assert type(list(self.given.keys())[0]) is str
-              output(self.given['thing']['content'])
+              output(self.given.thing['content'])
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathq
