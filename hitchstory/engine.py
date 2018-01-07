@@ -23,9 +23,10 @@ def validate(**kwargs):
     return decorator
 
 
-def expected_exception(exception_type):
+def no_stacktrace_for(exception_type):
     """
-    Tag a method as expecting an exception of exception type.
+    Suppress stack trace for exceptions of exception_type on the
+    method.
     """
     def decorator(step_function):
         if not hasattr(step_function, '_expected_exceptions'):

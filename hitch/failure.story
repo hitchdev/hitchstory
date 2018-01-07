@@ -9,7 +9,7 @@ Simple failure report:
           - Failing step
           - Not executed step
     engine.py: |
-      from hitchstory import BaseEngine, expected_exception, Failure
+      from hitchstory import BaseEngine, no_stacktrace_for, Failure
       from code_that_does_things import raise_example_exception, output, ExampleException
 
       class Engine(BaseEngine):
@@ -19,7 +19,7 @@ Simple failure report:
           def failing_step(self):
               raise_example_exception("Towel not located")
 
-          @expected_exception(ExampleException)
+          @no_stacktrace_for(ExampleException)
           def failing_step_without_stacktrace(self):
               raise_example_exception("Expected exception")
 
@@ -132,7 +132,8 @@ Simple failure report:
     Expected exception:
       description: |
         For common expected failures where you do not want
-        to see the whole stacktrace.
+        to see the whole stacktrace, apply the "@no_stacktrace_for"
+        decorator.
       given:
         example.story: |
           Failing story:
