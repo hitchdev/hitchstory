@@ -1,6 +1,8 @@
-from hitchstory import utils
 from strictyaml import ScalarValidator, Map
+from collections import OrderedDict
+from hitchstory import utils
 from slugify import slugify
+from copy import copy
 
 
 class UnderscoreCase(ScalarValidator):
@@ -31,11 +33,22 @@ class Arguments(object):
         """
         Replace parameters with specified variables.
         """
-        for name, parameter in self._params.items():
-            if utils.is_parameter(value):
-                if name == utils.parameter_name(value):
-                    return parameter
-        return value
+        if isinstance(value, OrderedDict):
+            parameterized_value = copy(value)
+
+            for val_name, val_value in value.items():
+                for param_name, param_value in self._params.items():
+                    if utils.is_parameter(val_value):
+                        if param_name == utils.parameter_name(val_value):
+                            parameterized_value[val_name] = param_value
+
+            return parameterized_value
+        else:
+            for name, parameter in self._params.items():
+                if utils.is_parameter(value):
+                    if name == utils.parameter_name(value):
+                        return parameter
+            return value
 
     def validate_args(self, validator):
         """

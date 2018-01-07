@@ -19,33 +19,29 @@ Inherit one story from another:
     with the child story's scenario.
   given:
     example.story: |
-      Write to file 1:
+      Login:
         with:
-          a: 1
-          b: 2
-          c: 3
+          username: AzureDiamond
+          password: hunter2
         given:
-          a: (( a ))
-          b: (( b ))
+          url: /loginurl
         steps:
-          - Do thing one
-          - Do thing three: (( c ))
-          - Do thing four:
-              x: 9
-              y: 10
-
-      Write to file 2:
-        based on: Write to file 1
+        - Fill form:
+            username: (( username ))
+            password: (( password ))
+        - Click: login
+      
+      
+      Log in on another url:
+        based on: login
         given:
-          b: 3
-        steps:
-          - Do thing two
-
-      Write to file 3:
-        based on: Write to file 1
+          url: /alternativeloginurl
+      
+      Log in with different username and password:
+        based on: login
         with:
-          a: 9
-          c: 11
+          username: DonaldTrump
+          password: iamsosmrt
     engine.py: |
       from hitchstory import BaseEngine, StorySchema, validate
       from strictyaml import Map, Int, Str, Optional
@@ -55,25 +51,20 @@ Inherit one story from another:
       class Engine(BaseEngine):
           schema = StorySchema(
               given={
-                  Optional("a"): Str(), Optional("b"): Str()
+                  Optional("url"): Str(),
               },
           )
 
-          def do_thing_one(self):
-              append("thing one: {0}, {1}".format(self.given['a'], self.given['b']))
+          def set_up(self):
+              append("visit {0}".format(self.given['url']))
 
-          @validate(value=Str())
-          def do_thing_three(self, value):
-              append("thing three: {0}".format(value))
-
-          @validate(x=Int(), y=Int())
-          def do_thing_four(self, x, y):
-              append("thing four: {0}, {1}".format(x, y))
-
-          def do_thing_two(self):
-              assert isinstance(self.given['a'], str)
-              assert isinstance(self.given['b'], str)
-              append("thing two: {0}, {1}".format(self.given['a'], self.given['b']))
+          def fill_form(self, **textboxes):
+              for name, text in sorted(textboxes.items()):
+                  append("with {0}".format(name))
+                  append("enter {0}".format(text))
+          
+          def click(self, item):
+              append("clicked on {0}".format(item))
     setup: |
       from engine import Engine
       from hitchstory import StoryCollection
@@ -85,41 +76,49 @@ Inherit one story from another:
     Original story:
       steps:
       - Run:
-          code: collection.named("Write to file 1").play()
+          code: collection.named("Login").play()
       - Output is: |
-          thing one: 1, 2
-          thing three: 3
-          thing four: 9, 10
+          visit /loginurl
+          with password
+          enter hunter2
+          with username
+          enter AzureDiamond
+          clicked on login
 
-    Override preconditions:
+
+    Override given:
       steps:
       - Run:
-          code: collection.named("Write to file 2").play()
+          code: collection.named("Log in on another url").play()
       - Output is: |
-          thing one: 1, 3
-          thing three: 3
-          thing four: 9, 10
-          thing two: 1, 3
+          visit /alternativeloginurl
+          with password
+          enter hunter2
+          with username
+          enter AzureDiamond
+          clicked on login
 
     Override parameters:
       steps:
       - Run:
-          code: collection.named("Write to file 3").play()
-          will output: |-
-            RUNNING Write to file 3 in /path/to/example.story ... SUCCESS in 0.1 seconds.
+          code: collection.named("Log in with different username and password").play()
       - Output is: |
-          thing one: 9, 2
-          thing three: 11
-          thing four: 9, 10
+          visit /loginurl
+          with password
+          enter iamsosmrt
+          with username
+          enter DonaldTrump
+          clicked on login
+
 
     Only children:
       steps:
       - Run:
           code: |
             Ensure([
-                story.name for story in collection.only_uninherited().ordered_by_name()
+                story.name for story in collection.only_uninherited().ordered_by_file()
             ]).equals(
-                ["Write to file 2", "Write to file 3"],
+                ["Log in on another url", "Log in with different username and password"],
             )
 
 
