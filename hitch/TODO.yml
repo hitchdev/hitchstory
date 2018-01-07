@@ -1,9 +1,6 @@
-- Rewriting fails if it is being done on a parent story.
-- Failure output looks wonky both with and without stacktrace.
-- Fix rewriting when a step parameter has a space in it.
-- Fix inheritance from 3rd story down.
+- Light red for stacktrace -- add "no_stacktrace_for" message in template if in a step.
 - Make exception code yellow not red.
-- Light red for stacktrace -- add "suppress_stacktrace_for" message in template if in a step.
+- Fix inheritance from 3rd story down.- Rewriting fails if it is being done on a parent story.
 - Give line numbers to blue YAML snippets indicating failure.
 - Rename expected_exception -> suppress_failure_stacktrace
 - Properties Refactor:
