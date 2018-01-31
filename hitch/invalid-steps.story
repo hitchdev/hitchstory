@@ -12,6 +12,7 @@ Invalid story:
       from pathquery import pathq
 
       story = StoryCollection(pathq(".").ext("story"), Engine()).one()
+
   variations:
     Invalid type in step:
       given:
@@ -90,6 +91,7 @@ Invalid story:
             type: hitchstory.exceptions.StepNotFound
             message: Step with name 'add_product' not found in <engine.Engine object
               at 0xfffffffffff>.
+
     Mix of kwargs and regular arguments:
       given:
         engine.py: |

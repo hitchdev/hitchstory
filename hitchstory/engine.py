@@ -44,6 +44,7 @@ class GivenProperty(object):
 
 class GivenDefinition(object):
     def __init__(self, **given_properties):
+        self.given_properties = given_properties
         mapping = {}
         for name, given_property in given_properties.items():
             assert isinstance(given_property, GivenProperty), \

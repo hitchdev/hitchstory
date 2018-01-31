@@ -1,34 +1,42 @@
+- Unexpected key not in schema 'code' (on step) // StepNotFound specify story name.
+- Make 'about' a default property on all stories.
 - Make exception code yellow not red.
-- Blank file should be completely valid as should story: without anything in it although that should not create story.
+- Add 'required' and default arguments to GivenProperty and InfoProperty.
+- Rewrite automatically on successful completion of a story with updates.
+- Blank or file with comments should be completely valid as should story without anything in it.
+- Story kind:
+  - regular
+  - stub (no data on story - just a name)
+  - abstract (no steps - but has metadata and/or preconditions)
+  - known failure (story will fail build if it passes and succeed if it fails)
 - Fix inheritance from 3rd story down.- Rewriting fails if it is being done on a parent story?
 - Give line numbers to blue YAML snippets indicating failure.
 - Add defaults argument to GivenProperty and InfoProperty.
-- Add 'required' argument to GivenProperty and InfoProperty.
 - Add inherit_by argument to GivenProperty and InfoProperty.
 - Add ParameterDefinition: |
-    
     parameter_definition=ParameterDefinition(
-        python_version=ParameterProperty("2.7.10"),
-        python_version=ParameterProperty("(( version between 2.6 and 2.7"),
-        a_valid_browser=ParameterProperty("(( valid browser ))")
-    )
-    
-    kind_of_parameter=KindOfParameterDefinition(
-        valid_browser=KindOfParameter(
+        valid_browser=ParameterProperty(
+            schema=Enum(list_of_valid_browser_name_templatess),
+            validate=validate_func,  ????
+            default="Firefox",
+            hypothesis_strategies=generate_browser,
+        ),
+        python_2_version=ParameterProperty(
             schema=Enum(list_of_things),
+            validate=validate_func,
             default="Firefox",
             hypothesis_strategy=generate_browser,
         ),
     )
             
 
-- Abstract story -- no steps - do not play by default.
 - Examples -- parameters via a story name (examples:)
 - Counter examples -- known failures, params with a name - avoid.
 - Use non-ascii characters in all tests.
 - poststep method - self.poststep(self, previous_step)
 - prestep method - self.prestep(self, following_step)
-- group_setup(self, given_list) / group_teardown - run once when any group of stories is run - use for build? Does not work if build preconditions fail.
+- group_setup(self, given_list) / group_teardown - run once when any group of stories is run. For use doing build steps and possibly starting services that take a long time to start up and can have their state reset while running. Should get all preconditions for all stories that you are planning to run.
+- Reserved key words on step names (e.g. preconditions, given, anything that is a property on the story, the word 'in', etc.)
 - kwargs story, demonstrate that conversion to underscore case does not happen in kwargs whereas it does in named args.
 - *args story.
-- hitchstory DEBUG mode.
+- debugging_hitchstory_itself() mode - do not inhibit stack traces from the framework.

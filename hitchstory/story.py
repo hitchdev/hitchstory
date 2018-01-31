@@ -59,6 +59,18 @@ class Story(object):
             else:
                 precondition_dict[name] = precondition
         self._precondition_dict = precondition_dict
+
+        from strictyaml.compound import MapValidator, SeqValidator
+
+        for name, definition in self.engine.given_definition.given_properties.items():
+            if name not in self._precondition_dict.keys():
+                if isinstance(definition.schema, MapValidator):
+                    self._precondition_dict[name] = {}
+                elif isinstance(definition.schema, SeqValidator):
+                    self._precondition_dict[name] = []
+                else:
+                    self._precondition_dict[name] = None
+
         number_of_parent_steps = len(self._parent_steps)
         self._steps = [
             StoryStep(
@@ -109,7 +121,7 @@ class Story(object):
     @property
     def slug(self):
         if self._slug is None:
-            self._slug = slugify(self.name)
+            self._slug = slugify(self.name)  # relatively slow method
         return self._slug
 
     @property
