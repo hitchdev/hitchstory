@@ -19,14 +19,14 @@ class StoryFile(object):
 
         story_schema = {
             Optional("steps"): steps_schema,
-            Optional("description"): Str(),
+            Optional("about"): Str(),
             Optional("with"): Any(),
             Optional('given'): self.engine.given_definition.preconditions,
         }
 
         variation_schema = {
             Optional("steps"): steps_schema,
-            Optional("description"): Str(),
+            Optional("about"): Str(),
             Optional("with"): Any(),
             Optional('given'): self.engine.given_definition.preconditions,
         }

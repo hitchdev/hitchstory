@@ -14,7 +14,7 @@ Extra story metadata:
   given:
     example.story: |
       Build city:
-        description: A great city. The best.
+        about: Build a great city. The best.
         jiras: JIRA-123, JIRA-124
         features: files, creating
         steps:
@@ -41,7 +41,6 @@ Extra story metadata:
 
       class Engine(BaseEngine):
           info_definition=InfoDefinition(
-              description=InfoProperty(schema=Str()),
               jiras=InfoProperty(schema=CommaSeparated(Str())),
               features=InfoProperty(schema=CommaSeparated(Str())),
           )
