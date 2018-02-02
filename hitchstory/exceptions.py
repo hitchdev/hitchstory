@@ -53,6 +53,16 @@ class StoryYAMLError(HitchStoryException):
         ))
 
 
+class InvalidStepYAML(HitchStoryException):
+    """
+    YAML error found parsing a story file.
+    """
+    def __init__(self, filename, story_name, error):
+        super(HitchStoryException, self).__init__((
+            "YAML Error in '{0}' in file '{0}':\n{1}".format(filename, error)
+        ))
+
+
 class StoryNotFound(HitchStoryException):
     """
     Story not found.

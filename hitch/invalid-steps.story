@@ -14,7 +14,7 @@ Invalid story:
       story = StoryCollection(pathq(".").ext("story"), Engine()).one()
 
   variations:
-    Invalid type in step:
+    Invalid YAML in step arguments:
       given:
         engine.py: |
           from hitchstory import BaseEngine, validate
@@ -29,14 +29,10 @@ Invalid story:
           code: |
             story.play()
           raises:
-            type: strictyaml.exceptions.YAMLValidationError
-            message: |-
-              when expecting an integer
-              found arbitrary text
-                in "<unicode string>", line 5, column 1:
-                        quantity: Three
-                  ^ (line: 5)
-
+            type: hitchstory.exceptions.InvalidStepYAML
+            message: "YAML Error in '/path/to/example.story' in file '/path/to/example.story':\n\
+              when expecting an integer\nfound arbitrary text\n  in \"<unicode string>\"\
+              , line 5, column 1:\n          quantity: Three\n    ^ (line: 5)"
     Invalid validator on step:
       given:
         engine.py: |
@@ -56,7 +52,7 @@ Invalid story:
             message: Step <function Engine.add_product at 0xfffffffffff> does not
               contain argument 'not_an_argument' listed as a validator.
 
-    Callable step not found:
+    Step method not callable:
       given:
         engine.py: |
           from hitchstory import BaseEngine
@@ -89,8 +85,8 @@ Invalid story:
           code: story.play()
           raises:
             type: hitchstory.exceptions.StepNotFound
-            message: Step with name 'add_product' not found in <engine.Engine object
-              at 0xfffffffffff>.
+            message: Step 'add_product' used in story 'Create files' in filename '/path/to/example.story'
+              not found in <engine.Engine object at 0xfffffffffff>.
 
     Mix of kwargs and regular arguments:
       given:

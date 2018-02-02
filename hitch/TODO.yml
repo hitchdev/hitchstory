@@ -1,4 +1,3 @@
-- Unexpected key not in schema 'code' (on step) // StepNotFound specify story name.
 - Make exception code yellow not red.
 - Add 'required' and default arguments to GivenProperty and InfoProperty.
 - Rewrite automatically on successful completion of a story with updates.

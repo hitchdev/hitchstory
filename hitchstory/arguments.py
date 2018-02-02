@@ -44,11 +44,14 @@ class Arguments(object):
                         return parameter
             return value
 
+    def _revalidate(self, validator):
+        self.yaml.revalidate(validator)
+
     def validate_args(self, validator):
         """
         Validate step using StrictYAML validators specified in @validate decorators.
         """
-        self.yaml.revalidate(Map(validator, key_validator=utils.UnderscoredSlug()))
+        self._revalidate(Map(validator, key_validator=utils.UnderscoredSlug()))
         self.data = {}
 
         for key, value in self.yaml.items():

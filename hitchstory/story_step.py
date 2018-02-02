@@ -2,6 +2,7 @@ from hitchstory.step_method import StepMethod
 from hitchstory.arguments import Arguments
 from hitchstory import exceptions
 from hitchstory import utils
+from strictyaml import YAMLValidationError
 
 
 class StoryStep(object):
@@ -17,7 +18,14 @@ class StoryStep(object):
         elif yaml_step.is_mapping():
             self.name = yaml_step.keys()[0].data
             self.arguments = Arguments(list(yaml_step.values())[0], params)
-            StepMethod(self.step_method).revalidate(self.arguments)
+            try:
+                StepMethod(self.step_method).revalidate(self.arguments)
+            except YAMLValidationError as yaml_error:
+                raise exceptions.InvalidStepYAML(
+                    self._story.filename,
+                    self._story.name,
+                    yaml_error,
+                )
 
     def underscore_case_name(self):
         return utils.to_underscore_style(self.name)
@@ -79,10 +87,14 @@ class StoryStep(object):
                     )
                 ))
         else:
-            raise exceptions.StepNotFound("Step with name '{}' not found in {}.".format(
-                self.underscore_case_name(),
-                engine.__repr__()
-            ))
+            raise exceptions.StepNotFound(
+                "Step '{}' used in story '{}' in filename '{}' not found in {}.".format(
+                    self.underscore_case_name(),
+                    self._story.name,
+                    self._story.filename,
+                    engine.__repr__()
+                )
+            )
 
     def expect_exception(self, engine, exception):
         if isinstance(exception, exceptions.Failure):
