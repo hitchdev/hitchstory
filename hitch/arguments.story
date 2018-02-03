@@ -1,10 +1,10 @@
 Arguments to steps:
-  description: |
+  about: |
     Arguments are fed to steps in a way that is
     largely consistent with how python methods work:
 
-    * Named arguments are slugified to underscore_case.
-    * kwargs are fed raw.
+    - Named arguments are slugified to underscore_case and fed through.
+    - kwargs are fed raw.
   given:
     engine.py: |
       from code_that_does_things import *

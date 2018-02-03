@@ -1,8 +1,9 @@
 from commandlib import run, Command, CommandError
 import hitchpython
-from hitchstory import StoryCollection, StorySchema, BaseEngine, exceptions, validate
+from hitchstory import StoryCollection, BaseEngine, exceptions, validate
+from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
 from hitchrun import expected
-from strictyaml import Str, Seq, Map, Optional, Enum
+from strictyaml import Str, Map, Optional, Enum
 from pathquery import pathq
 import hitchtest
 from simex import DefaultSimex
@@ -10,7 +11,7 @@ from commandlib import python
 from hitchrun import hitch_maintenance
 from hitchrun import DIR
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
-from hitchstory import expected_exception
+from hitchstory import no_stacktrace_for
 from templex import Templex
 import colorama
 import re
@@ -18,24 +19,20 @@ import re
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
+    given_definition = GivenDefinition(
+        base_story=GivenProperty(Str()),
+        example_story=GivenProperty(Str()),
+        example1_story=GivenProperty(Str()),
+        example2_story=GivenProperty(Str()),
+        example3_story=GivenProperty(Str()),
+        documentation_jinja2=GivenProperty(Str()),
+        python_version=GivenProperty(Str()),
+        engine_py=GivenProperty(Str()),
+        setup=GivenProperty(Str()),
+    )
 
-    schema = StorySchema(
-        given={
-            Optional("base.story"): Str(),
-            Optional("example.story"): Str(),
-            Optional("example1.story"): Str(),
-            Optional("example2.story"): Str(),
-            Optional("example3.story"): Str(),
-            Optional("documentation.templates"): Str(),
-            Optional("engine.py"): Str(),
-            Optional("setup"): Str(),
-            Optional("code"): Str(),
-        },
-        info={
-            Optional("about"): Str(),
-            Optional("tags"): Seq(Str()),
-            Optional("status"): Enum(["experimental", "stable"]),
-        },
+    info_definition = InfoDefinition(
+        status=InfoProperty(schema=Enum(["experimental", "stable"])),
     )
 
     def __init__(self, paths, settings):
@@ -51,17 +48,44 @@ class Engine(BaseEngine):
         self.path.state.mkdir()
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
 
+        # hitchstory needs to be refactored to be able to clean up this repetition
+        if self.given.base_story is not None:
+            self.path.state.joinpath("base.story").write_text(self.given.base_story)
+
+        if self.given.example_story is not None:
+            self.path.state.joinpath("example.story").write_text(self.given.example_story)
+
+        if self.given.example1_story is not None:
+            self.path.state.joinpath("example1.story").write_text(self.given.example1_story)
+
+        if self.given.example2_story is not None:
+            self.path.state.joinpath("example2.story").write_text(self.given.example2_story)
+
+        if self.given.example3_story is not None:
+            self.path.state.joinpath("example3.story").write_text(self.given.example3_story)
+
+        if self.given.engine_py is not None:
+            self.path.state.joinpath("engine.py").write_text(self.given.engine_py)
+
+        if self.given.documentation_jinja2 is not None:
+            self.path.state.joinpath("documentation.jinja2").write_text(
+                self.given.documentation_jinja2
+            )
+
+        """
+        if self.given.documentation_jinja2 is None:
+            self.path.state.joinpath("documentation.jinja2").write_text(self.given.documentation_jinja2)
         for filename in [
             "base.story", "example.story", "example1.story",
             "example2.story", "example3.story", "engine.py",
-            "documentation.templates",
+            "documentation.jinja2",
         ]:
             if filename in self.given:
                 self.path.state.joinpath(filename).write_text(self.given[filename])
+        """
 
-        self.python_package = hitchpython.PythonPackage(
-            self.given.get('python_version', '3.5.0')
-        )
+        py_version = "3.5.0" if self.given.python_version is None else self.given.python_version
+        self.python_package = hitchpython.PythonPackage(py_version)
         self.python_package.build()
 
         self.pip = self.python_package.cmd.pip
@@ -107,8 +131,8 @@ class Engine(BaseEngine):
         ])
         return re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
 
-    @expected_exception(AssertionError)
-    @expected_exception(HitchRunPyException)
+    @no_stacktrace_for(AssertionError)
+    @no_stacktrace_for(HitchRunPyException)
     @validate(
         code=Str(),
         will_output=Str(),
@@ -120,7 +144,7 @@ class Engine(BaseEngine):
     def run(self, code, will_output=None, raises=None):
         self.example_py_code = ExamplePythonCode(self.python, self.path.state)\
             .with_terminal_size(160, 100)\
-            .with_setup_code(self.given.get('setup', ''))
+            .with_setup_code(self.given.setup)
         to_run = self.example_py_code.with_code(code)
 
         if self.settings.get("cprofile"):
@@ -158,11 +182,11 @@ class Engine(BaseEngine):
                 else:
                     raise
 
-    def file_unchanged(self, filename):
-        assert self.path.state.joinpath(filename).bytes().decode('utf8') == self.given[filename], \
-            "{0} should have been unchanged was changed".format(filename)
+    def example_story_unchanged(self):
+        assert self.path.state.joinpath("example.story").text() == self.given.example_story, \
+            "example.story should have been unchanged but was changed"
 
-    @expected_exception(AssertionError)
+    @no_stacktrace_for(AssertionError)
     def file_contents_will_be(self, filename, contents):
         file_contents = '\n'.join([
             line.rstrip() for line in
@@ -184,7 +208,7 @@ class Engine(BaseEngine):
         if hasattr(self, 'services'):
             self.services.stop_interactive_mode()
 
-    @expected_exception(FileNotFoundError)
+    @no_stacktrace_for(FileNotFoundError)
     def output_is(self, expected_contents):
         output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
         regex = DefaultSimex(

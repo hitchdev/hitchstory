@@ -3,6 +3,7 @@ from hitchstory.arguments import Arguments
 from hitchstory import exceptions
 from hitchstory import utils
 from strictyaml import YAMLValidationError
+from slugify import slugify
 
 
 class StoryStep(object):
@@ -37,6 +38,12 @@ class StoryStep(object):
     def slug(self):
         return self.underscore_case_name()
 
+    def is_a(self, kind_of):
+        """
+        Is this a 'kind_of' step?
+        """
+        return slugify(kind_of) == slugify(self.name)
+
     @property
     def index(self):
         return self._index
@@ -48,13 +55,6 @@ class StoryStep(object):
     @property
     def yaml(self):
         return self._yaml
-
-    def documentation(self, template=None):
-        return utils.render_template(
-            self._story._collection._templates,
-            template if template is not None else self.slug,
-            {"step": self, }
-        )
 
     @property
     def _data(self):

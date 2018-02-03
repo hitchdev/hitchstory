@@ -1,6 +1,8 @@
 Simple failure report:
-  description: |
-    Basic failure report.
+  about: |
+    A basic failure report gives an output that includes a snippet
+    of the step YAML story with the failing step highlighted and 
+    a stack trace in the engine where the exception was raised.
   given:
     example.story: |
       Failing story:
@@ -130,7 +132,7 @@ Simple failure report:
             Towel not located
 
     Expected exception:
-      description: |
+      about: |
         For common expected failures where you do not want
         to see the whole stacktrace, apply the "@no_stacktrace_for"
         decorator.
@@ -160,7 +162,7 @@ Simple failure report:
 
 
     Special exception named failure:
-      description: |
+      about: |
         If you want to indicate a test failure, raise the
         "Failure" exception.
 

@@ -1,7 +1,14 @@
 Exception in special methods:
-  description: |
-    HitchStory has 3 special methods - on_success,
-    on_failure, and tear_down.
+  about: |
+    The hitchstory engine has four 'special' methods -
+    set_up, on_success, on_failure, and tear_down all
+    of which can be overridden.
+    
+    set_up always runs at the beginning, tear_down at
+    the end.
+    
+    on_success and on_failure run just before tear_down
+    in the event of a successful or failed story run.
 
     If there is an exception in on_success, on_failure
     or tear_down, a corresponding exception is raised

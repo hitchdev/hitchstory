@@ -1,4 +1,4 @@
-Given:
+Given preconditions:
   about: |
     All stories start with a set of preconditions. Hitchstory
     lets you define these 'given' preconditions using YAML
@@ -13,7 +13,7 @@ Given:
         given:
           thing:
             content: things
-          list of things:
+          List of things:
           - thing one
           - thing two
           scalar thing: 35

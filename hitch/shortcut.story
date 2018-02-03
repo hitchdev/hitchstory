@@ -1,4 +1,13 @@
 Shortcut lookup for story names:
+  about: |
+    Hunting for and specifying particular story to run can be a pain.
+    
+    Using the 'shortcut' function you can select a specific story
+    to run just by specifying one or more key words that appear in
+    the story title. The case is ignored, as are special characters.
+    
+    If you specify key words that match no stories or more than one
+    story, an error is raised.
   given:
     example1.story: |
       Create file:

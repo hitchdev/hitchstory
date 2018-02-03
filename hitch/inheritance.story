@@ -1,22 +1,28 @@
 Inherit one story from another:
-  description: |
-    You cannot break most software down into a series of
-    individual linear behavioral stories. Software
-    stories, however, often branch.
+  about: |
+    You can break most software down into a series of
+    individual linear behavioral stories.
+    
+    However, software stories naturally branch. In order to
+    send an email or delete an email you must first always log
+    in.
 
     While it would be possible to write out each individual
     story for every possible branch, this would result in a
-    story suite that is non-DRY and much more work to maintain.
+    story suite that is WET instead of DRY and that creates
+    a maintenance headache.
 
     Story inheritance allows you to base stories on other stories.
-    The base story's preconditions will all be used while the
-    child story's preconditions (if it has any) will override
+    The base story preconditions will all be used while the
+    child story preconditions (if it has any) will override
     them.
 
     The same is so for story parameters.
 
-    The base story's scenario will be executed before continuing
-    with the child story's scenario.
+    The base story scenario will always be executed before
+    continuing with the child story scenario, however,
+    if you do not want that you do not have to give the base
+    story any steps to execute.
   given:
     example.story: |
       Login:
@@ -37,7 +43,7 @@ Inherit one story from another:
         given:
           url: /alternativeloginurl
       
-      Log in with different username and password:
+      Log in as president:
         based on: login
         with:
           username: DonaldTrump
@@ -99,7 +105,7 @@ Inherit one story from another:
     Override parameters:
       steps:
       - Run:
-          code: collection.named("Log in with different username and password").play()
+          code: collection.named("Log in as president").play()
       - Output is: |
           visit /loginurl
           with password
@@ -116,7 +122,7 @@ Inherit one story from another:
             Ensure([
                 story.name for story in collection.only_uninherited().ordered_by_file()
             ]).equals(
-                ["Log in on another url", "Log in with different username and password"],
+                ["Log in on another url", "Log in as president"],
             )
 
 

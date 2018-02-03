@@ -1,7 +1,24 @@
 Rewrite story:
-  description: |
-    Hitch stories can be rewritten in the event that you
-    are dealing with generated blocks of text.
+  about: |
+    Hitch stories can be partially rewritten when the code
+    is changed when a step involves verifying a block of text.
+    
+    It is a time saver when you only want to make modifications to
+    messages output by a program and ensure that those modifications
+    are verified.
+    
+    Instead of manually constructing the exact output you are expecting
+    you can simply visually inspect the output to verify that it is
+    the desired output.
+    
+    This example shows a story being run in "rewrite" mode - where
+    text strings are rewritten. This mode can be used when doing development
+    when you expect textual changes.
+     
+    If rewrite=False is fed through to the story engine instead, the story
+    will always fail when seeing different text. This mode can be used when,
+    for example, running all the stories on jenkins or when you are refactoring
+    and *not* expecting textual output changes.
   given:
     example.story: |
       Do things:
@@ -49,7 +66,7 @@ Rewrite story:
           code: |
             result = StoryCollection(pathq(".").ext("story"), Engine(rewrite=False)).ordered_by_name().play()
             print(result.report())
-      - File unchanged: example.story
+      - Example story unchanged
 
     Rewritten:
       steps:

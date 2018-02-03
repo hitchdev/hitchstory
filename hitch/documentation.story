@@ -1,73 +1,114 @@
 Documentation:
   based on: inherit one story from another
-  #status: experimental
-  #description: |
-    #While hitchstory YAML stories are designed to be as
-    #readable as possible while still remaining terse and easy to maintain,
-    #they are not a complete replacement for user documentation.
+  status: experimental
+  about: |
+    While hitchstory YAML stories are designed to be as
+    readable as possible while still remaining terse and easy to maintain,
+    it is not readable user documentation and is not intended for use by
+    stakeholders to understand how a system operates.
 
-    #However, using hitchstory you can use them as a template for generating
-    #pretty, readable, flowing documentation for end users of your software,
-    #managers, translators, maintainers and other stakeholders.
+    However, stakeholders do *need* documentation and user stories form an
+    excellent base to build documentation from.
 
-    #Below is an example of documentation generated using a set of jinja2
-    #templates loaded from a dict (loaded from the documentation.templates YAML file).
-  #given:
-    #documentation.templates: |
-      #story: |
-        #{{ story.name }}
-        #{{ "-" * story.name|length }}
+    Using hitchstory story and story list objects you can generate
+    documentation using a simple templating language. This example
+    demonstrates how to generate markdown using jinja2.
+  given:
+    documentation.jinja2: |
+      {% for story in story_list %}
+      {{ story.name }}
+      {{ "-" * story.name|length }}
 
-        #{{ story.info['about'] }}
+      {{ story.info['about'] }}
 
-        #With:
-        #{{ story.given['a'] }}
+      Load: {{ story.given.url }}
 
-        #and
-        #{{ story.given['b'] }}
-
-        #{% for step in story.steps %}
-        #{{ step.documentation() }}
-        #{% endfor %}
-      #do_thing_one: |
-        #* Do thing one
-      #do_thing_two: |
-        #* Do thing two
-      #do_thing_three: |
-        #* Do thing three: {{ step['value'] }}
-      #do_thing_four: |
-        #* Do thing four: {% if 'x' in step %}{{ step['x'] }}{% endif %}, {{ step['y'] }}
-    #setup: |
-      #from hitchstory import StoryCollection
-      #from pathquery import pathq
-      #from engine import Engine
-      #from path import Path
-      #import strictyaml
-
-      #collection = StoryCollection(pathq(".").ext("story"), Engine())\
-          #.with_templates(
-              #strictyaml.load(Path("documentation.templates").bytes().decode('utf8')).data
-          #)
-  #variations:
-    #Generate from story:
-      #steps:
-      #- run:
-          #code: print(collection.named("Write to file 1").documentation("story"))
-          #will output: |-
-            #Write to file 1
-            #---------------
+      {% for step in story.steps %}
+      {% if step.is_a("fill form") %}
+      {% for name, value in step.arguments.yaml.items() %}
+      - Enter text '{{ value }}' in {{ name }}.
+      {% endfor %}
+      {% elif step.is_a("click") %}
+      * Click on {{ step.arguments.yaml.value }}
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+    setup: |
+      from hitchstory import StoryCollection
+      from pathquery import pathq
+      from engine import Engine
+      from path import Path
+      from jinja2 import Template
+  variations:
+    Generate from story:
+      steps:
+      - run:
+          code: |
+            print(
+                Template(Path("documentation.jinja2").text()).render(
+                    story_list=StoryCollection(
+                        pathq(".").ext("story"), Engine()
+                    ).non_variations().ordered_by_file()
+                )
+            )
+          will output: |-
+            Login
+            -----
 
 
 
-            #With:
-            #1
-
-            #and
-            #2
+            Load: /loginurl
 
 
-            #* Do thing one
 
-            #* Do thing three: 3
 
-            #* Do thing four: 9, 10
+            - Enter text '(( username ))' in username.
+
+            - Enter text '(( password ))' in password.
+
+
+
+
+            * Click on login
+
+
+
+            Log in on another url
+            ---------------------
+
+
+
+            Load: /alternativeloginurl
+
+
+
+
+            - Enter text '(( username ))' in username.
+
+            - Enter text '(( password ))' in password.
+
+
+
+
+            * Click on login
+
+
+
+            Log in as president
+            -------------------
+
+
+
+            Load: /loginurl
+
+
+
+
+            - Enter text '(( username ))' in username.
+
+            - Enter text '(( password ))' in password.
+
+
+
+
+            * Click on login

@@ -1,5 +1,5 @@
 Strong typing:
-  description: |
+  about: |
     You can define the structure of the arguments
     fed to your steps using "validate" using StrictYAML
     validators.

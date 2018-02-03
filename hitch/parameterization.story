@@ -1,5 +1,5 @@
 Story with parameters:
-  description: |
+  about: |
     Parameterized stories are used to describe stories
     which are essentially the same except for one or more
     variables which can vary.

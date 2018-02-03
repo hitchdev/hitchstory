@@ -48,7 +48,7 @@ Rewrite story:
       - Run:
           code: |
             StoryCollection(pathq(".").ext("story"), Engine(rewrite=False)).ordered_by_name().play()
-      - File unchanged: example.story
+      - Example story unchanged
 
     Rewritten:
       steps:

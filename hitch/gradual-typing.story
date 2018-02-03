@@ -1,5 +1,5 @@
 Gradual typing of story steps:
-  description: |
+  about: |
     In order to speed up prototyping and development
     of a story suite, the structure of your YAML data
     specified in preconditions, parameters and step

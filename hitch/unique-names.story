@@ -1,5 +1,5 @@
 All stories must have a unique name:
-  description: |
+  about: |
     Note that "Create file" and "create file" are not exactly
     the same name, but their slugified names are identical.
   given:

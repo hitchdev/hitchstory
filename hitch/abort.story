@@ -1,5 +1,5 @@
 Abort a story with ctrl-C:
-  description: |
+  about: |
     When an in-progress story is hit with any of the
     following termination signals:
 
@@ -10,6 +10,10 @@ Abort a story with ctrl-C:
 
     Then it triggers the tear_down method of the
     engine.
+    
+    In practical terms this means that if you are running
+    a series of stories, Ctrl-C should halt current execution,
+    run tear_down and then not run any more stories.
   given:
     example.story: |
       Create files:

@@ -1,4 +1,7 @@
 Story success:
+  about: |
+    How a story runs when it is successful - i.e. when no exception
+    is raised during its run.
   given:
     example.story: |
       Create files:

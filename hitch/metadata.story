@@ -1,9 +1,9 @@
-Extra story metadata:
-  description: |
+Extra story metadata - adding JIRA ticket numbers to stories:
+  about: |
     Stories do not exist in a vaccuum. Each and every story is
     related to other stories, issues on issue trackers,
-    specialist documentation and much more. The best place
-    to document this additional information and relationships is
+    specialist documentation, links and much more. The best place
+    to document this additional metadata and relationships is
     within the story itself.
 
     What kind of metadata you add to stories is up to you -
@@ -11,6 +11,9 @@ Extra story metadata:
     in the info parameter of your engine InfoDefinition and
     specify the structure of the metadata using StrictYAML
     validators inside the InfoProperty object.
+    
+    This example shows how you can add a series of JIRA tickets
+    as metadata on a story.
   given:
     example.story: |
       Build city:

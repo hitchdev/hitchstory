@@ -1,4 +1,11 @@
 Multiple stories played:
+  about: |
+    Running multiple stories in sequence is necessary when
+    you want to do a regression sweep to make sure nothing
+    has broken.
+    
+    By default hitchstory will stop when it sees its first
+    failure. This behavior can be changed though.
   given:
     base.story: |
       Base story:

@@ -1,5 +1,5 @@
 Invalid YAML:
-  description: |
+  about: |
     When a story has invalid YAML it will trigger
     a failure even when *other* stories are run.
 

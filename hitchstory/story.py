@@ -146,7 +146,7 @@ class Story(object):
     def steps(self):
         return self._steps
 
-    def run_special_method(self, method, exception_to_raise, result=None):
+    def _run_special_method(self, method, exception_to_raise, result=None):
         try:
             if result is None:
                 method()
@@ -159,30 +159,23 @@ class Story(object):
                 stack_trace
             )
 
-    def run_on_success(self):
+    def _run_on_success(self):
         try:
             self.engine.on_success()
         except Exception as exception:
-            self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
+            self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
             raise exceptions.OnSuccessException(stack_trace)
 
-    def run_on_failure(self, result):
+    def _run_on_failure(self, result):
         try:
             self.engine.on_failure(result)
         except Exception as exception:
-            self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
+            self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
             raise exceptions.OnFailureException(stack_trace)
-
-    def documentation(self, template="story"):
-        return utils.render_template(
-            self._collection._templates,
-            template,
-            {"story": self, }
-        )
 
     def play(self):
         """
@@ -220,7 +213,7 @@ class Story(object):
 
                 if hasattr(self.engine, '_aborted') and self.engine._aborted:
                     self._collection.log("Aborted")
-                    self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
+                    self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
                     return
             passed = True
         except Exception as exception:
@@ -233,7 +226,7 @@ class Story(object):
                 failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
         if passed:
-            self.run_on_success()
+            self._run_on_success()
             result = Success(self, time.time() - start_time)
             self._collection.log(
                 "SUCCESS in {0:.1f} seconds.".format(result.duration)
@@ -246,7 +239,7 @@ class Story(object):
                 current_step,
                 failure_stack_trace,
             )
-            self.run_on_failure(result)
+            self._run_on_failure(result)
             self._collection.log(
                 (
                     "{red}{bright}FAILED in {duration:.1f} seconds.{reset_all}"
@@ -263,7 +256,7 @@ class Story(object):
                 )
             )
 
-        self.run_special_method(self.engine.tear_down, exceptions.TearDownException)
+        self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
         return result
 
     def __repr__(self):
