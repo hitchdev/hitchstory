@@ -1,3 +1,5 @@
+- When an argument is given to a step that takes no arguments get bad error.
+- Validation errors on revalidation are not caught.
 - Make exception code yellow not red.
 - Add 'required' and default arguments to GivenProperty and InfoProperty.
 - Rewrite automatically on successful completion of a story with updates.
@@ -7,6 +9,7 @@
   - stub (no data on story - just a name)
   - abstract (no steps - but has metadata and/or preconditions)
   - known failure (story will fail build if it passes and succeed if it fails)
+  - example
 - Fix inheritance from 3rd story down.- Rewriting fails if it is being done on a parent story?
 - Give line numbers to blue YAML snippets indicating failure.
 - Add defaults argument to GivenProperty and InfoProperty.
