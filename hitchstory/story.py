@@ -3,6 +3,7 @@ from hitchstory.story_step import StoryStep
 from hitchstory.utils import DEFAULT_STACK_TRACE
 from hitchstory import exceptions
 from hitchstory import utils
+from strictyaml.compound import MapValidator, SeqValidator
 from slugify import slugify
 import colorama
 import time
@@ -60,8 +61,6 @@ class Story(object):
                 precondition_dict[name] = precondition
         self._precondition_dict = precondition_dict
 
-        from strictyaml.compound import MapValidator, SeqValidator
-
         for name, definition in self.engine.given_definition.given_properties.items():
             if name not in self._precondition_dict.keys():
                 if isinstance(definition.schema, MapValidator):
@@ -72,6 +71,7 @@ class Story(object):
                     self._precondition_dict[name] = None
 
         number_of_parent_steps = len(self._parent_steps)
+
         self._steps = [
             StoryStep(
                 self, parsed_step, index, index - number_of_parent_steps, self.params

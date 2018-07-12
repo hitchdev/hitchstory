@@ -33,6 +33,7 @@ Invalid story:
             message: "YAML Error in '/path/to/example.story' in file '/path/to/example.story':\n\
               when expecting an integer\nfound arbitrary text\n  in \"<unicode string>\"\
               , line 5, column 1:\n          quantity: Three\n    ^ (line: 5)"
+
     Invalid validator on step:
       given:
         engine.py: |
@@ -138,3 +139,24 @@ Invalid story:
             type: hitchstory.exceptions.StepMethodNeedsMoreThanOneArgument
             message: Step method <bound method Engine.add_product of <engine.Engine
               object at 0xfffffffffff>> requires 2 arguments, got one.
+
+    Found argument when there should be none:
+      given:
+        example.story: |
+          Create files:
+            steps:
+              - Add product:
+        engine.py: |
+          from hitchstory import BaseEngine
+
+          class Engine(BaseEngine):
+              def add_product(self):
+                  pass
+      steps:
+      - Run:
+          code: story.play()
+          raises:
+            type: hitchstory.exceptions.StepShouldNotHaveArguments
+            message: 'Step method <bound method Engine.add_product of <engine.Engine
+              object at 0xfffffffffff>> cannot have one or more arguments, but it
+              has at least one (maybe because of a : the end of the line).'

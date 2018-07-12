@@ -108,6 +108,13 @@ class StepContainsInvalidValidator(StepException):
     pass
 
 
+class StepShouldNotHaveArguments(StepException):
+    """
+    Step contains argument(s) when it shouldn't.
+    """
+    pass
+
+
 class WrongEngineType(HitchStoryException):
     """
     Engine should inherit from hitchstory.BaseEngine.

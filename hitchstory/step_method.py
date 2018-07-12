@@ -50,8 +50,12 @@ class StepMethod(object):
 
     @property
     def single_argument_allowed(self):
-        return len(self.required_args) == 0 and len(self.optional_args) > 0 \
+        return len(self.required_args) == 0 and len(self.optional_args) > 1 \
             or len(self.required_args) == 1
+
+    @property
+    def no_arguments_allowed(self):
+        return len(self.required_args) == 0 and len(self.optional_args) == 1
 
     @property
     def single_argument_name(self):
@@ -70,6 +74,12 @@ class StepMethod(object):
         if arguments.single_argument:
             if self.single_argument_allowed:
                 arguments.validate_single_argument(self.arg_validator(self.single_argument_name))
+            elif self.no_arguments_allowed:
+                raise exceptions.StepShouldNotHaveArguments((
+                        "Step method {0} cannot have one or more arguments, "
+                        "but it has at least one (maybe because of a : the end of the line)."
+                    ).format(self._method)
+                )
             else:
                 raise exceptions.StepMethodNeedsMoreThanOneArgument(
                     "Step method {0} requires {1} arguments, got one.".format(
