@@ -97,7 +97,6 @@ class StepMethod(object):
         if arguments.is_none:
             return self._method
         elif arguments.single_argument:
-            if self.single_argument_allowed:
-                return partial(self._method, **{self.single_argument_name: arguments.data})
+            return partial(self._method, **{self.single_argument_name: arguments.data})
         else:
             return partial(self._method, **arguments.data)
