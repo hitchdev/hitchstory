@@ -58,8 +58,8 @@ Quickstart:
       will output: |-
         RUNNING Send email in /path/to/example.story ...
         Visiting http://localhost:5000/login
-        Entering text AzureDiamond in username
         Entering text hunter2 in password
+        Entering text AzureDiamond in username
         Clicking on login
         Clicking on new email
         Entering text Cthon98@aol.com in to
