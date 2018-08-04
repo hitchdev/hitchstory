@@ -46,6 +46,10 @@ class Engine(BaseEngine):
         if self.path.state.exists():
             self.path.state.rmtree(ignore_errors=True)
         self.path.state.mkdir()
+
+        for mockfile in self.path.key.joinpath("mockcode").listdir():
+            mockfile.copy(self.path.state)
+
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
 
         # hitchstory needs to be refactored to be able to clean up this repetition
