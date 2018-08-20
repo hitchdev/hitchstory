@@ -43,7 +43,7 @@ Quickstart:
               )
 
           def fill_form(self, **textboxes):
-              for name, contents in textboxes.items():
+              for name, contents in sorted(textboxes.items()):
                   self.driver.fill_form(name, contents)
 
           def click(self, name):
@@ -62,13 +62,13 @@ Quickstart:
         Entering text AzureDiamond in username
         Clicking on login
         Clicking on new email
-        Entering text Cthon98@aol.com in to
         In contents entering text:
         Hey guys,
 
         I think I got hacked!
 
 
+        Entering text Cthon98@aol.com in to
         Clicking on send email
         Email was sent
         SUCCESS in 0.1 seconds.
