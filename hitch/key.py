@@ -4,7 +4,7 @@ from hitchstory import StoryCollection, BaseEngine, exceptions, validate
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
 from hitchrun import expected
 from strictyaml import Str, Map, Optional, Enum
-from pathquery import pathq
+from pathquery import pathquery
 import hitchtest
 from simex import DefaultSimex
 from commandlib import python
@@ -13,6 +13,7 @@ from hitchrun import DIR
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import no_stacktrace_for
 from templex import Templex
+import dirtemplate
 import colorama
 import re
 
@@ -33,6 +34,7 @@ class Engine(BaseEngine):
 
     info_definition = InfoDefinition(
         status=InfoProperty(schema=Enum(["experimental", "stable"])),
+        docs=InfoProperty(schema=Str()),
     )
 
     def __init__(self, paths, settings):
@@ -102,7 +104,7 @@ class Engine(BaseEngine):
 
         # Uninstall and reinstall
         with hitchtest.monitor(
-            pathq(self.path.project.joinpath("hitchstory")).ext("py")
+            pathquery(self.path.project.joinpath("hitchstory")).ext("py")
         ) as changed:
             if changed:
                 self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
@@ -258,21 +260,18 @@ class Engine(BaseEngine):
         self.new_story.save()
 
 
+def _storybook(settings):
+    return StoryCollection(pathquery(DIR.key).ext("story"), Engine(DIR, settings))
+
+
 @expected(exceptions.HitchStoryException)
 def rbdd(*keywords):
     """
     Run story with name containing keywords and rewrite.
     """
-    StoryCollection(
-        pathq(DIR.key).ext("story"),
-        Engine(
-            DIR,
-            {
-                "overwrite artefacts": True,
-                "print output": True,
-            },
-        )
-    ).shortcut(*keywords).play()
+    _storybook({
+        "overwrite artefacts": True, "print output": True,
+    }).shortcut(*keywords).play()
 
 
 @expected(exceptions.HitchStoryException)
@@ -280,16 +279,9 @@ def bdd(*keywords):
     """
     Run story with name containing keywords.
     """
-    StoryCollection(
-        pathq(DIR.key).ext("story"),
-        Engine(
-            DIR,
-            {
-                "overwrite artefacts": False,
-                "print output": True,
-            },
-        )
-    ).shortcut(*keywords).play()
+    _storybook({
+        "overwrite artefacts": False, "print output": True,
+    }).shortcut(*keywords).play()
 
 
 @expected(exceptions.HitchStoryException)
@@ -388,6 +380,8 @@ def docgen():
     """
     Build documentation.
     """
+    from strictyaml import load
+
     def title(dirfile):
         assert len(dirfile.text().split("---")) >= 3, "{} doesn't have ---".format(dirfile)
         return load(dirfile.text().split("---")[1]).data.get("title", "misc")
@@ -404,7 +398,7 @@ def docgen():
         template_story_jinja2={
             "using/alpha/{0}.md".format(story.info['docs']): {"story": story}
             for story in _storybook({}).ordered_by_name()
-            if story.info.get("docs") is not None
+            if False
         },
     ).with_vars(
         readme=False,
