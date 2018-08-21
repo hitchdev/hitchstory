@@ -1,8 +1,9 @@
-I am perfectly happy with py.test (or other unit testing framework). Why should I use hitchstory?
--------------------------------------------------------------------------------------------------
+---
+title: I am perfectly happy with py.test (or other unit testing framework). Why should I use hitchstory?
+---
 
-Ultimately it boils down to two programming principles which hitchstory does not strictly enforce,
-but *does* guide you to follow via its design:
+Ultimately it boils down to two programming principles which hitchstory provides 'rails' to guide
+you:
 
 * The rule of least power
 * Separation of concerns

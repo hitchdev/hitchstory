@@ -1,7 +1,8 @@
-Differences to Gherkin
-======================
+---
+title: Differences to Gherkin
+---
 
-HitchStory and Gherkin are both DSLs for writing user stories that double as
+HitchStory and Gherkin are both DSLs for writing user stories that can double as
 acceptance tests, but they have different philosophies and approach.
 
 Gherkin scenarios emphasize the following values:
@@ -12,7 +13,7 @@ Gherkin scenarios emphasize the following values:
 Here are some examples.
 
 From the Cucumber website:
-        
+
 .. code-block:: gherkin
 
     Scenario: Buy last coffee
@@ -20,12 +21,13 @@ From the Cucumber website:
       And I have deposited 1$
       When I press the coffee button
       Then I should be served a coffee
-    
+
 Hitch scenarios, by contrast, emphasizes the following values:
 
+* Ease of use and maintenance by developers first.
 * The screenplay principle.
 * Terse, DRY code.
-* The *generation* of documentation for customer collaboration and stakeholders input.
+* The generation of documentation for customer collaboration and stakeholders input from specifications.
 
 Equivalent scenarios:
 

@@ -1,5 +1,6 @@
-Why not use the Robot Framework?
---------------------------------
+---
+title: Why not use the Robot Framework?
+---
 
 The pain of dealing with the Robot framework was actually the trigger that
 led me to write hitchstory and its related libraries.

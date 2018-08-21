@@ -1,5 +1,6 @@
-HitchStory Philosophy
-=====================
+---
+title: HitchStory Philosophy
+---
 
 HitchStory is a BDD/ATDD framework for writing executable stories which follows a set of 10 principles.
 

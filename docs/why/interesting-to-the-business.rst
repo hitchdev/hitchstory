@@ -1,5 +1,6 @@
-Where Gherkin went wrong again: What counts as interesting to "the business"?
-=============================================================================
+---
+title: The BDD movement's mistakes: What counts as interesting to "the business"?
+---
 
 When Cucumber first gained some popularity, there was something of a backlash
 from the original developers that the users "weren't using it correctly":
@@ -10,9 +11,9 @@ framework rather than a tool for "communicating with the business".
 
 There are several things wrong with this:
 
-#1 There really isn't any "the business", there are just stakeholders - lots of different people are interested in the behavior of the software.
+#1 There isn't really a clearly defined "the business", there are just stakeholders - lots of different people are interested in the behavior of the software.
 
-#2 Stakeholders rarely have an interest in the implementation details, but they are always concerned with the behavior of software - nonetheless, the level of detail which they are interested in will vary widely.
+#2 Stakeholders rarely have an interest in the implementation details, but they are always concerned with the behavior of software - nonetheless, the level of detail in the behavior of the software which they are interested in will vary widely.
 
 #3 Even individual interest in behavioral details can vary over time - sometimes they will want only vague details, other times they will be interested in obscure business logic, and other times they will be interested in specific user UI actions.
 
@@ -22,5 +23,6 @@ There are several things wrong with this:
 
 #6 A representation that suits one stakeholder will not necessarily suit another.
 
-#7 Representations should be generateable from the code specification language.
 
+Nonetheless, despite this, the Cucumber people were on to something - there is a close relationship
+between documentation and specification.

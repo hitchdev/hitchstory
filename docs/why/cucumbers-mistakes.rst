@@ -1,29 +1,36 @@
-
-
-What Cucumber/Gherkin got right
-===============================
+---
+title: What Cucumber/Gherkin got right
+---
 
 Emphasis on readability of the specs
 ------------------------------------
 
-
+TODO
 
 The idea that specifications should be executable and double as tests
 ---------------------------------------------------------------------
 
+TODO
 
 The deliberate use of a simplified configuration language for specifications
 ----------------------------------------------------------------------------
 
+TODO
+
 Deliberate separation of concerns between specification and story execution
 ---------------------------------------------------------------------------
 
+TODO
 
 Parameterization
 ----------------
 
+TODO
+
 The idea that the notion of specifications, tests and documentation are all intrinsically linked
 ------------------------------------------------------------------------------------------------
+
+TODO
 
 
 What Cucumber/Gherkin got wrong

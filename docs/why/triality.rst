@@ -1,5 +1,6 @@
-Triality
-========
+---
+title: Triality
+---
 
 All great software needs three things:
 

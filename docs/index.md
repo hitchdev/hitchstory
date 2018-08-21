@@ -26,14 +26,15 @@ Example
 {{ story.name }}:
 {% if 'yaml_snippet' in story.data['given'] %}
 ```yaml
-{{ story.given['yaml_snippet'] }}
+{{ story.given.yaml_snippet }}
 ```
 {% endif %}
 {% if 'setup' in story.data['given'] %}
 ```python
-{{ story.given['setup'] }}
+{{ story.given.setup }}
 ```
 {% endif %}
+{% endfor %}
 
 
 Install

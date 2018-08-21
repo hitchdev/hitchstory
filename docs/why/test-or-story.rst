@@ -1,5 +1,6 @@
-What is the difference betweeen a test and a story?
-===================================================
+---
+title: What is the difference betweeen a test and a story?
+---
 
 While a test is turing complete code that tests behavior, a
 story is turing-incomplete code which *defines* behavior.

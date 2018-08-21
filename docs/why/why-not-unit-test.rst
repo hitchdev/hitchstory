@@ -1,5 +1,6 @@
-Why unit testing needs to die
-=============================
+---
+title: Why unit testing needs to die
+---
 
 This is a controversial argument but, one that needs to be made:
 
