@@ -1,8 +1,9 @@
 Inherit one story from another:
+  docs: inheritance
   about: |
     You can break most software down into a series of
     individual linear behavioral stories.
-    
+
     However, software stories naturally branch. In order to
     send an email or delete an email you must first always log
     in.
@@ -37,14 +38,14 @@ Inherit one story from another:
             username: (( username ))
             password: (( password ))
         - Click: login
-      
-      
+
+
       Log in on another url:
         about: Alternate log in URL.
         based on: login
         given:
           url: /alternativeloginurl
-      
+
       Log in as president:
         about: For stories that involve Trump.
         based on: login
@@ -54,7 +55,6 @@ Inherit one story from another:
     engine.py: |
       from hitchstory import BaseEngine, GivenDefinition, GivenProperty
       from strictyaml import Map, Int, Str, Optional
-      from code_that_does_things import append
 
 
       class Engine(BaseEngine):
@@ -63,15 +63,15 @@ Inherit one story from another:
           )
 
           def set_up(self):
-              append("visit {0}".format(self.given['url']))
+              print("visit {0}".format(self.given['url']))
 
           def fill_form(self, **textboxes):
               for name, text in sorted(textboxes.items()):
-                  append("with {0}".format(name))
-                  append("enter {0}".format(text))
-          
+                  print("with {0}".format(name))
+                  print("enter {0}".format(text))
+
           def click(self, item):
-              append("clicked on {0}".format(item))
+              print("clicked on {0}".format(item))
     setup: |
       from engine import Engine
       from hitchstory import StoryCollection
@@ -84,49 +84,54 @@ Inherit one story from another:
       steps:
       - Run:
           code: collection.named("Login").play()
-      - Output is: |
-          visit /loginurl
-          with password
-          enter hunter2
-          with username
-          enter AzureDiamond
-          clicked on login
+          will output: |-
+            RUNNING Login in /path/to/example.story ... visit /loginurl
+            with password
+            enter hunter2
+            with username
+            enter AzureDiamond
+            clicked on login
+            SUCCESS in 0.1 seconds.
 
 
     Override given:
       steps:
       - Run:
           code: collection.named("Log in on another url").play()
-      - Output is: |
-          visit /alternativeloginurl
-          with password
-          enter hunter2
-          with username
-          enter AzureDiamond
-          clicked on login
+          will output: |-
+            RUNNING Log in on another url in /path/to/example.story ... visit /alternativeloginurl
+            with password
+            enter hunter2
+            with username
+            enter AzureDiamond
+            clicked on login
+            SUCCESS in 0.1 seconds.
+
 
     Override parameters:
       steps:
       - Run:
           code: collection.named("Log in as president").play()
-      - Output is: |
-          visit /loginurl
-          with password
-          enter iamsosmrt
-          with username
-          enter DonaldTrump
-          clicked on login
+          will output: |-
+            RUNNING Log in as president in /path/to/example.story ... visit /loginurl
+            with password
+            enter iamsosmrt
+            with username
+            enter DonaldTrump
+            clicked on login
+            SUCCESS in 0.1 seconds.
 
 
     Only children:
       steps:
       - Run:
           code: |
-            Ensure([
+            print('\n'.join([
                 story.name for story in collection.only_uninherited().ordered_by_file()
-            ]).equals(
-                ["Log in on another url", "Log in as president"],
-            )
+            ]))
+          will output: |-
+            Log in on another url
+            Log in as president
 
 
 Attempt inheritance from non-existent story:
@@ -138,21 +143,21 @@ Attempt inheritance from non-existent story:
           - Do thing two
     setup: |
       from hitchstory import StoryCollection, BaseEngine
-      from code_that_does_things import output
       from strictyaml import Map, Str
       from pathquery import pathquery
 
 
       class Engine(BaseEngine):
           def do_thing_one(self):
-              output("thing one")
+              print("thing one")
 
           def do_thing_two(self):
-              output("thing two")
+              print("thing two")
 
   steps:
   - Run:
-      code: StoryCollection(pathquery(".").ext("story"), Engine()).named("Write to file").play()
+      code: StoryCollection(pathquery(".").ext("story"), Engine()).named("Write to
+        file").play()
       raises:
         type: hitchstory.exceptions.BasedOnStoryNotFound
         message: Story 'Create files' which 'Write to file' in '/path/to/example.story'

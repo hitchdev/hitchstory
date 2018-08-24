@@ -1,9 +1,10 @@
-Multiple stories played:
+Play multiple stories in sequence:
+  docs: play-multiple-stories
   about: |
     Running multiple stories in sequence is necessary when
     you want to do a regression sweep to make sure nothing
     has broken.
-    
+
     By default hitchstory will stop when it sees its first
     failure. This behavior can be changed though.
   given:
@@ -80,93 +81,3 @@ Multiple stories played:
             message: "More than one matching story:\nBase story (in /path/to/base.story)\n\
               Create file (in /path/to/example1.story)\nCreate file again (in /path/to/example1.story)\n\
               Create files (in /path/to/example2.story)"
-Fail fast:
-  given:
-    example1.story: |
-      A Create file:
-        steps:
-        - Create file
-      B Create file:
-        steps:
-        - Fail
-    example2.story: |
-      C Create file a third time:
-        steps:
-          - Create file
-    setup: |
-      from hitchstory import StoryCollection, BaseEngine
-      from pathquery import pathquery
-
-
-      class Engine(BaseEngine):
-          def create_file(self, filename="step1.txt", content="example"):
-              with open(filename, 'w') as handle:
-                  handle.write(content)
-
-          def fail(self):
-              raise Exception("Error")
-
-  variations:
-    Stop on failure is default behavior:
-      steps:
-      - Run:
-          code: |
-            StoryCollection(
-                pathquery(".").ext("story"), Engine()
-            ).ordered_by_name().play()
-          will output: |-
-            RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-            RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
-
-                B Create file:
-                  steps:
-                  - Fail
-
-
-            [1]: function 'fail'
-              examplepythoncode.py
-
-
-                    59 :
-                    60 :             def fail(self):
-                --> 61 :                 raise Exception("Error")
-                    62 :
-
-
-
-            builtins.Exception
-              Common base class for all non-exit exceptions.
-            Error
-
-
-    Continue on failure:
-      steps:
-      - Run:
-          code: |
-            StoryCollection(
-                pathquery(".").ext("story"), Engine()
-            ).ordered_by_name().continue_on_failure().play()
-          will output: |-
-            RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-            RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
-
-                B Create file:
-                  steps:
-                  - Fail
-
-
-            [1]: function 'fail'
-              examplepythoncode.py
-
-
-                    59 :
-                    60 :             def fail(self):
-                --> 61 :                 raise Exception("Error")
-                    62 :
-
-
-
-            builtins.Exception
-              Common base class for all non-exit exceptions.
-            Error
-            RUNNING C Create file a third time in /path/to/example2.story ... SUCCESS in 0.1 seconds.
