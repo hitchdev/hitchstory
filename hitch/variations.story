@@ -3,6 +3,8 @@ Variations:
     Some stories are very similar except for a few changed items. You
     can create substories within the same story in order to enumerate
     all of the possible permutations.
+    
+    This works in the same way as inheritance.
   given:
     example.story: |
       Create files:
