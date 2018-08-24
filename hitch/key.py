@@ -55,42 +55,15 @@ class Engine(BaseEngine):
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
 
         # hitchstory needs to be refactored to be able to clean up this repetition
-        if self.given.base_story is not None:
-            self.path.state.joinpath("base.story").write_text(self.given.base_story)
-
-        if self.given.example_story is not None:
-            self.path.state.joinpath("example.story").write_text(self.given.example_story)
-
-        if self.given.example1_story is not None:
-            self.path.state.joinpath("example1.story").write_text(self.given.example1_story)
-
-        if self.given.example2_story is not None:
-            self.path.state.joinpath("example2.story").write_text(self.given.example2_story)
-
-        if self.given.example3_story is not None:
-            self.path.state.joinpath("example3.story").write_text(self.given.example3_story)
-
-        if self.given.engine_py is not None:
-            self.path.state.joinpath("engine.py").write_text(self.given.engine_py)
-
-        if self.given.documentation_jinja2 is not None:
-            self.path.state.joinpath("documentation.jinja2").write_text(
-                self.given.documentation_jinja2
-            )
-
-        """
-        if self.given.documentation_jinja2 is None:
-            self.path.state.joinpath("documentation.jinja2").write_text(self.given.documentation_jinja2)
         for filename in [
-            "base.story", "example.story", "example1.story",
-            "example2.story", "example3.story", "engine.py",
-            "documentation.jinja2",
+            'base.story', 'example.story', 'example1.story',
+            'example2.story', 'example3.story', 'engine.py', 'documentation.jinja2',
         ]:
-            if filename in self.given:
+            if self.given[filename] is not None:
                 self.path.state.joinpath(filename).write_text(self.given[filename])
-        """
 
-        py_version = "3.5.0" if self.given.python_version is None else self.given.python_version
+        py_version = self.given['python_version'] \
+            if self.given['python_version'] is not None else "3.5.0"
         self.python_package = hitchpython.PythonPackage(py_version)
         self.python_package.build()
 
@@ -150,7 +123,7 @@ class Engine(BaseEngine):
     def run(self, code, will_output=None, raises=None):
         self.example_py_code = ExamplePythonCode(self.python, self.path.state)\
             .with_terminal_size(160, 100)\
-            .with_setup_code(self.given.setup)
+            .with_setup_code(self.given['setup'])
         to_run = self.example_py_code.with_code(code)
 
         if self.settings.get("cprofile"):
@@ -189,7 +162,7 @@ class Engine(BaseEngine):
                     raise
 
     def example_story_unchanged(self):
-        assert self.path.state.joinpath("example.story").text() == self.given.example_story, \
+        assert self.path.state.joinpath("example.story").text() == self.given['example_story'], \
             "example.story should have been unchanged but was changed"
 
     @no_stacktrace_for(AssertionError)
@@ -398,7 +371,7 @@ def docgen():
         template_story_jinja2={
             "using/alpha/{0}.md".format(story.info['docs']): {"story": story}
             for story in _storybook({}).ordered_by_name()
-            if False
+            if 'docs' in story.info
         },
     ).with_vars(
         readme=False,
