@@ -19,18 +19,17 @@ Documentation:
       {{ story.name }}
       {{ "-" * story.name|length }}
 
-      {{ story.info['about'] }}
+      {{ story.about }}
 
-      Load: {{ story.given.url }}
-
+      Load: {{ story.given['url'] }}
       {% for step in story.steps %}
-      {% if step.is_a("fill form") %}
+      {%- if step.is_a("fill form") %}
       {% for name, value in step.arguments.yaml.items() %}
       - Enter text '{{ value }}' in {{ name }}.
-      {% endfor %}
+      {%- endfor %}
       {% elif step.is_a("click") %}
       * Click on {{ step.arguments.yaml.value }}
-      {% endif %}
+      {%- endif %}
       {% endfor %}
       {% endfor %}
     setup: |
@@ -60,17 +59,11 @@ Documentation:
             Load: /loginurl
 
 
-
-
             - Enter text '(( username ))' in username.
-
             - Enter text '(( password ))' in password.
 
 
-
-
             * Click on login
-
 
 
             Log in on another url
@@ -81,17 +74,11 @@ Documentation:
             Load: /alternativeloginurl
 
 
-
-
             - Enter text '(( username ))' in username.
-
             - Enter text '(( password ))' in password.
 
 
-
-
             * Click on login
-
 
 
             Log in as president
@@ -102,13 +89,8 @@ Documentation:
             Load: /loginurl
 
 
-
-
             - Enter text '(( username ))' in username.
-
             - Enter text '(( password ))' in password.
-
-
 
 
             * Click on login
