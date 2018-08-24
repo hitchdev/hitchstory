@@ -1,5 +1,5 @@
 ---
-title: The BDD movement's mistakes: What counts as interesting to "the business"?
+title: The BDD movement's mistakes - what counts as interesting to "the business"?
 ---
 
 When Cucumber first gained some popularity, there was something of a backlash

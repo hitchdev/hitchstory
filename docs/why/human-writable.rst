@@ -1,6 +1,6 @@
 ---
 title: Is HitchStory for writing "human writable" stories?
-----
+---
 
 No. Having "analysts" write stories instead of programmers is an explicit
 non-goal, unlike that of Cucumber.
