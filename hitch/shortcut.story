@@ -1,11 +1,12 @@
 Shortcut lookup for story names:
+  docs: shortcut-lookup
   about: |
     Hunting for and specifying particular story to run can be a pain.
-    
+
     Using the 'shortcut' function you can select a specific story
     to run just by specifying one or more key words that appear in
     the story title. The case is ignored, as are special characters.
-    
+
     If you specify key words that match no stories or more than one
     story, an error is raised.
   given:
@@ -32,6 +33,15 @@ Shortcut lookup for story names:
 
       story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
   variations:
+    Story found and run:
+      steps:
+      - Run:
+          code: |
+            story_collection.shortcut("file", "again").play()
+          will output: |-
+            RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+
+
     Story not found:
       steps:
       - Run:
@@ -48,14 +58,3 @@ Shortcut lookup for story names:
             type: hitchstory.exceptions.MoreThanOneStory
             message: "More than one matching story:\nCreate file (in /path/to/example1.story)\n\
               Create file again (in /path/to/example1.story)\nCreate files (in /path/to/example2.story)"
-
-    Story found and run:
-      steps:
-      - Run:
-          code: |
-            results = story_collection.shortcut("file", "again").play()
-            print(results.report())
-          will output: |-
-            RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-            STORY RAN SUCCESSFULLY /path/to/example1.story: Create file again in 0.1 seconds.
-

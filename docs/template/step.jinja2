@@ -35,4 +35,6 @@ File {{ step['filename'] }} should now contain:
 ```
 {{ step['contents'] }}
 ```
+{% elif step.is_a("example story unchanged") %}
+Then the example story will be unchanged.
 {% endif %}

@@ -1,4 +1,5 @@
 Story with parameters:
+  docs: parameterized-stories
   about: |
     Parameterized stories are used to describe stories
     which are essentially the same except for one or more
@@ -43,16 +44,16 @@ Story with parameters:
           )
 
           def set_up(self):
-              append(self.given['browser']['name'])
-              append(self.given['browser']['version'])
+              print(self.given['browser']['name'])
+              print(self.given['browser']['version'])
 
           def click_on_button(self):
-              append("clicked!")
+              print("clicked!")
 
           @validate(for_browser=Map({"name": Str(), "version": Int()}))
           def save_screenshot(self, for_browser):
-              append('save screenshot:')
-              append("screenshot-{0}-{1}.png".format(
+              print('save screenshot:')
+              print("screenshot-{0}-{1}.png".format(
                   for_browser['name'],
                   for_browser['version']
               ))
@@ -60,44 +61,44 @@ Story with parameters:
       from hitchstory import StoryCollection
       from pathquery import pathquery
       from engine import Engine
+
+      story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
   variations:
     Default:
       steps:
       - Run:
           code: |
-            print(StoryCollection(pathquery(".").ext("story"), Engine()).named("Click magic button").play().report())
-      - Output is: |
-          firefox
-          37
-          clicked!
-          save screenshot:
-          screenshot-firefox-37.png
+            story_collection.named("Click magic button").play()
+          will output: |-
+            RUNNING Click magic button in /path/to/example.story ... firefox
+            37
+            clicked!
+            save screenshot:
+            screenshot-firefox-37.png
+            SUCCESS in 0.1 seconds.
 
     Variation:
       steps:
       - Run:
           code: |
-            print(StoryCollection(pathquery(".").ext("story"), Engine()).named("Click magic button/with chrome").play().report())
+            story_collection.named("Click magic button/with chrome").play()
           will output: |-
-            RUNNING Click magic button/with chrome in /path/to/example.story ... SUCCESS in 0.1 seconds.
-            STORY RAN SUCCESSFULLY /path/to/example.story: Click magic button/with chrome in 0.1 seconds.
-      - Output is: |
-          chrome
-          153
-          clicked!
-          save screenshot:
-          screenshot-chrome-153.png
+            RUNNING Click magic button/with chrome in /path/to/example.story ... chrome
+            153
+            clicked!
+            save screenshot:
+            screenshot-chrome-153.png
+            SUCCESS in 0.1 seconds.
 
     Specify parameters with code:
       steps:
       - Run:
           code: |
-            storybook = StoryCollection(pathquery(".").ext("story"), Engine())
-
-            print(storybook.with_params(browser={"name": "ie", "version": "6"}).named("Click magic button").play().report())
-      - Output is: |
-          ie
-          6
-          clicked!
-          save screenshot:
-          screenshot-ie-6.png
+            story_collection.with_params(browser={"name": "ie", "version": "6"}).named("Click magic button").play()
+          will output: |-
+            RUNNING Click magic button in /path/to/example.story ... ie
+            6
+            clicked!
+            save screenshot:
+            screenshot-ie-6.png
+            SUCCESS in 0.1 seconds.
