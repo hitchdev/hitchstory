@@ -43,12 +43,12 @@ Variations:
               print(parameter)
 
           def do_thing_with_precondition(self):
-              assert type(self.given.content) is str
-              print(self.given.content)
+              assert type(self.given['content']) is str
+              print(self.given['content'])
 
           def do_yet_another_thing(self):
-              assert type(self.given.hierarchical_content['y'][0]) is str
-              print(self.given.hierarchical_content['y'][0])
+              assert type(self.given['hierarchical_content']['y'][0]) is str
+              print(self.given['hierarchical_content']['y'][0])
 
           @validate(animals=Map({"pond animal": Str()}))
           def do_a_fourth_thing(self, animals=None):

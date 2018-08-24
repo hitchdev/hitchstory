@@ -43,8 +43,8 @@ Story with parameters:
           )
 
           def set_up(self):
-              append(self.given.browser['name'])
-              append(self.given.browser['version'])
+              append(self.given['browser']['name'])
+              append(self.given['browser']['version'])
 
           def click_on_button(self):
               append("clicked!")

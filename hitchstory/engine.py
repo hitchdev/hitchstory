@@ -87,11 +87,21 @@ class NewStory(object):
 class Given(object):
     def __init__(self, preconditions):
         self._preconditions = preconditions
-        for name, item in preconditions.items():
-            setattr(self, utils.underscore_slugify(name), item)
+
+    def __getitem__(self, key):
+        return self._preconditions[utils.underscore_slugify(key)]
+
+    def __contains__(self, key):
+        return utils.underscore_slugify(key) in self._preconditions.keys()
 
     def keys(self):
         return self._preconditions.keys()
+
+    def items(self):
+        return self._preconditions.items()
+
+    def values(self):
+        return self._preconditions.values()
 
 
 class BaseEngine(object):

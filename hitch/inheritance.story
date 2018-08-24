@@ -60,7 +60,7 @@ Inherit one story from another:
           )
 
           def set_up(self):
-              append("visit {0}".format(self.given.url))
+              append("visit {0}".format(self.given['url']))
 
           def fill_form(self, **textboxes):
               for name, text in sorted(textboxes.items()):

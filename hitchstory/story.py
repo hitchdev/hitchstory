@@ -4,6 +4,7 @@ from hitchstory.utils import DEFAULT_STACK_TRACE
 from hitchstory import exceptions
 from hitchstory import utils
 from strictyaml.compound import MapValidator, SeqValidator
+from collections import OrderedDict
 from slugify import slugify
 import colorama
 import time
@@ -35,8 +36,8 @@ class Story(object):
 
     def _unparameterized_preconditions(self):
         precondition_dict = self.parent._unparameterized_preconditions() \
-            if self.parent is not None else {}
-        for name, precondition in self.data.get("given", {}).items():
+            if self.parent is not None else OrderedDict()
+        for name, precondition in self.data.get("given", OrderedDict()).items():
             precondition_dict[name] = precondition
         return precondition_dict
 
@@ -64,7 +65,7 @@ class Story(object):
         for name, definition in self.engine.given_definition.given_properties.items():
             if name not in self._precondition_dict.keys():
                 if isinstance(definition.schema, MapValidator):
-                    self._precondition_dict[name] = {}
+                    self._precondition_dict[name] = OrderedDict()
                 elif isinstance(definition.schema, SeqValidator):
                     self._precondition_dict[name] = []
                 else:

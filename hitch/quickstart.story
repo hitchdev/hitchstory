@@ -39,7 +39,7 @@ Quickstart:
           def set_up(self):
               self.driver = Webdriver()
               self.driver.visit(
-                  "http://localhost:5000{0}".format(self.given.website)
+                  "http://localhost:5000{0}".format(self.given['website'])
               )
 
           def fill_form(self, **textboxes):

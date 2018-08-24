@@ -35,7 +35,7 @@ Gradual typing of story steps:
           )
       
           def set_up(self):
-              for filename, contents in self.given.files_created.items():
+              for filename, contents in self.given['files_created'].items():
                   with open(filename, 'w') as handle:
                       handle.write(contents)
 
