@@ -1,4 +1,5 @@
-Story success:
+Running a single named story successfully:
+  docs: run-single-named-story
   about: |
     How a story runs when it is successful - i.e. when no exception
     is raised during its run.
@@ -13,7 +14,6 @@ Story success:
               content: third step
     engine.py: |
       from hitchstory import BaseEngine
-      from code_that_does_things import reticulate_splines
 
 
       class Engine(BaseEngine):
@@ -22,7 +22,7 @@ Story success:
                   handle.write(content)
 
           def on_success(self):
-              reticulate_splines()
+              print("splines reticulated")
 
               with open("ranstory.txt", 'w') as handle:
                   handle.write(self.story.name)
@@ -34,8 +34,9 @@ Story success:
   - Run:
       code: |
         StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
-      will output: RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1
-        seconds.
+      will output: |-
+        RUNNING Create files in /path/to/example.story ... splines reticulated
+        SUCCESS in 0.1 seconds.
   - File was created with:
       filename: step1.txt
       contents: example
@@ -48,4 +49,3 @@ Story success:
   - File was created with:
       filename: ranstory.txt
       contents: Create files
-  - Splines reticulated

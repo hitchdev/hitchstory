@@ -1,4 +1,5 @@
 Variations:
+  docs: variations
   about: |
     Some stories are very similar except for a few changed items. You
     can create substories within the same story in order to enumerate

@@ -10,46 +10,46 @@ This feature is in alpha. The API may change on a minor version increment.
 
 {{ story.about }}
 
-{% if 'base.story' in story.given %}Example base.story:
+{% if story.given['base_story'] != None %}Example base.story:
 
 ```yaml
-{{ story.given['base.story'] }}
+{{ story.given['base_story'] }}
 ```
 {% endif %}
 
-{% if 'example.story' in story.given %}example.story:
+{% if story.given['example_story'] != None %}example.story:
 
 ```yaml
-{{ story.given['example.story'] }}
+{{ story.given['example_story'] }}
 ```
 {% endif %}
 
-{% if 'example1.story' in story.given %}example1.story:
+{% if story.given['example1_story'] != None %}example1_story:
 
 ```yaml
-{{ story.given['example1.story'] }}
+{{ story.given['example1_story'] }}
 ```
 {% endif %}
 
-{% if 'example2.story' in story.given %}example2.story:
+{% if story.given['example2_story'] != None %}example2.story:
 
 ```yaml
-{{ story.given['example2.story'] }}
+{{ story.given['example2_story'] }}
 ```
 {% endif %}
 
-{% if 'example3.story' in story.given %}example3.story:
+{% if story.given['example3_story'] != None %}example3.story:
 
 ```yaml
-{{ story.given['example3.story'] }}
+{{ story.given['example3_story'] }}
 ```
 {% endif %}
 
 
-{% if 'engine.py' in story.given %}engine.py:
+{% if story.given['engine_py'] != None %}engine.py:
 
 ```yaml
-{{ story.given['engine.py'] }}
+{{ story.given['engine_py'] }}
 ```
 {% endif %}
 

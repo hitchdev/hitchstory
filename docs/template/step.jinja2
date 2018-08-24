@@ -1,3 +1,4 @@
+{% if step.is_a("run") %}
 {% if step['in_interpreter'] %}
 ```python
 {% for line in step['code'].rstrip('\n').split('\n') %}>>> {{ line }}
@@ -27,4 +28,11 @@ Will output:
 ```
 {% endif %}
 {% endif %}
+{% endif %}
+{% elif step.is_a("file was created with") %}
+File {{ step['filename'] }} should now contain:
+
+```
+{{ step['contents'] }}
+```
 {% endif %}

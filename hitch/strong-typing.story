@@ -1,16 +1,20 @@
 Strong typing:
+  docs: strong-typing
   about: |
-    You can define the structure of the arguments
-    fed to your steps using "validate" using StrictYAML
-    validators.
+    By default all specified given properties and
+    step arguments accept any kind of YAML which
+    will always be parsed to a string or
+    a nested combination of lists, dicts and strings.
 
-    This will not only validate the data fed to your
-    steps, it will convert it to the correct types
-    as well.
+    In order to restrict what kind of YAML is allowed
+    and/or to parse strings as something else (e.g.
+    integers), you can use the **validator** decorator
+    on step methods or the **schema** parameter
+    on the GivenProperty object.
 
-    This feature is optional as all parameters will,
-    by default, be parsed as strings, lists and dicts
-    instead.
+    The 'mini-schemas' you feed these objects should
+    be standard [StrictYAML validator](https://hitchdev.com/strictyaml/using/alpha/scalar)
+    objects.
   given:
     example.story: |
       Create files:
@@ -73,8 +77,9 @@ Strong typing:
   steps:
   - Run:
       code: |
-        result = StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
-        print(result.report())
+        StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
+      will output: |-
+        RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
   - Output is: |
       Ford Prefect
       Items put back: 1
