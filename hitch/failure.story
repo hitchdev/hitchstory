@@ -39,9 +39,9 @@ Simple failure report:
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
-      from pathquery import pathq
+      from pathquery import pathquery
 
-      story_collection = StoryCollection(pathq(".").ext("story"), Engine())
+      story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
   variations:
     Failure in set_up method:
       given:

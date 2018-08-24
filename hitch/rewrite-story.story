@@ -14,7 +14,7 @@ Rewrite story:
     This example shows a story being run in "rewrite" mode - where
     text strings are rewritten. This mode can be used when doing development
     when you expect textual changes.
-     
+    
     If rewrite=False is fed through to the story engine instead, the story
     will always fail when seeing different text. This mode can be used when,
     for example, running all the stories on jenkins or when you are refactoring
@@ -57,14 +57,14 @@ Rewrite story:
               self.new_story.save()
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathq
+      from pathquery import pathquery
       from engine import Engine
   variations:
     No changes:
       steps:
       - Run:
           code: |
-            result = StoryCollection(pathq(".").ext("story"), Engine(rewrite=False)).ordered_by_name().play()
+            result = StoryCollection(pathquery(".").ext("story"), Engine(rewrite=False)).ordered_by_name().play()
             print(result.report())
       - Example story unchanged
 
@@ -72,7 +72,7 @@ Rewrite story:
       steps:
       - Run:
           code: |
-            StoryCollection(pathq(".").ext("story"), Engine(rewrite=True)).ordered_by_name().play()
+            StoryCollection(pathquery(".").ext("story"), Engine(rewrite=True)).ordered_by_name().play()
           will output: |-
             RUNNING Do things in /path/to/example.story ... SUCCESS in 0.1 seconds.
             RUNNING Do things/Do more things in /path/to/example.story ... SUCCESS in 0.1 seconds.

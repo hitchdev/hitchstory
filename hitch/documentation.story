@@ -34,7 +34,7 @@ Documentation:
       {% endfor %}
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathq
+      from pathquery import pathquery
       from engine import Engine
       from path import Path
       from jinja2 import Template
@@ -46,7 +46,7 @@ Documentation:
             print(
                 Template(Path("documentation.jinja2").text()).render(
                     story_list=StoryCollection(
-                        pathq(".").ext("story"), Engine()
+                        pathquery(".").ext("story"), Engine()
                     ).non_variations().ordered_by_file()
                 )
             )

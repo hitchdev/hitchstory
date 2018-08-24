@@ -43,14 +43,14 @@ Given preconditions:
               output(sorted(self.given.items()))
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathq
+      from pathquery import pathquery
       from engine import Engine
   variations:
     Specified:
       steps:
       - Run:
           code: |
-            StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+            StoryCollection(pathquery(".").ext("story"), Engine()).one().play()
           will output: |-
             RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
       - File contents will be:
@@ -71,7 +71,7 @@ Given preconditions:
       steps:
       - Run:
           code: |
-            StoryCollection(pathq(".").ext("story"), Engine()).one().play()
+            StoryCollection(pathquery(".").ext("story"), Engine()).one().play()
           will output: |-
             RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
       - File contents will be:

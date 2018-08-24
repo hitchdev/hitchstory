@@ -29,6 +29,7 @@ Quickstart:
       from hitchstory import BaseEngine, StoryCollection, GivenDefinition, GivenProperty
       from mockemailchecker import email_was_sent
       from mockselenium import Webdriver
+      from pathquery import pathquery
       from strictyaml import Str
 
       class Engine(BaseEngine):
@@ -54,7 +55,7 @@ Quickstart:
 
   steps:
   - Run:
-      code: StoryCollection(["example.story"], Engine()).named("Send email").play()
+      code: StoryCollection(pathquery(".").ext("story"), Engine()).named("Send email").play()
       will output: |-
         RUNNING Send email in /path/to/example.story ...
         Visiting http://localhost:5000/login

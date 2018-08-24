@@ -72,12 +72,12 @@ Strong typing:
               pass
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathq
+      from pathquery import pathquery
       from engine import Engine
   steps:
   - Run:
       code: |
-        StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_name().play()
+        StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
       will output: |-
         RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
   - Output is: |

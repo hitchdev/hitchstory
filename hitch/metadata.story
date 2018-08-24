@@ -44,7 +44,7 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
     setup: |
       from hitchstory import StoryCollection, BaseEngine, InfoDefinition, InfoProperty
       from strictyaml import Map, Str, CommaSeparated, Optional
-      from pathquery import pathq
+      from pathquery import pathquery
       from ensure import Ensure
       from code_that_does_things import reticulate_splines, kick_llamas_ass
 
@@ -60,7 +60,7 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
           def kick_llamas_ass(self):
               print('kick llamas ass')
 
-      story_collection = StoryCollection(pathq(".").ext("story"), Engine())
+      story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
   variations:
     Run all stories:
       steps:

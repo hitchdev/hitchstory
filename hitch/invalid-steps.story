@@ -9,9 +9,9 @@ Invalid story:
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
-      from pathquery import pathq
+      from pathquery import pathquery
 
-      story = StoryCollection(pathq(".").ext("story"), Engine()).one()
+      story = StoryCollection(pathquery(".").ext("story"), Engine()).one()
 
   variations:
     Invalid YAML in step arguments:

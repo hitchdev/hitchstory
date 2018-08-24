@@ -27,7 +27,7 @@ Multiple stories played:
           - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty
-      from pathquery import pathq
+      from pathquery import pathquery
       from ensure import Ensure
 
       class Engine(BaseEngine):
@@ -63,7 +63,7 @@ Multiple stories played:
       - Run:
           code: |
             StoryCollection(
-                pathq(".").ext("story"), Engine()
+                pathquery(".").ext("story"), Engine()
             ).in_filename("example1.story").ordered_by_name().play()
           will output: |-
             RUNNING Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
@@ -74,7 +74,7 @@ Multiple stories played:
       steps:
       - Run:
           code: |
-            StoryCollection(pathq(".").ext("story"), Engine()).one()
+            StoryCollection(pathquery(".").ext("story"), Engine()).one()
           raises:
             type: hitchstory.exceptions.MoreThanOneStory
             message: "More than one matching story:\nBase story (in /path/to/base.story)\n\
@@ -95,7 +95,7 @@ Fail fast:
           - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
-      from pathquery import pathq
+      from pathquery import pathquery
 
 
       class Engine(BaseEngine):
@@ -112,7 +112,7 @@ Fail fast:
       - Run:
           code: |
             StoryCollection(
-                pathq(".").ext("story"), Engine()
+                pathquery(".").ext("story"), Engine()
             ).ordered_by_name().play()
           will output: |-
             RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
@@ -144,7 +144,7 @@ Fail fast:
       - Run:
           code: |
             StoryCollection(
-                pathq(".").ext("story"), Engine()
+                pathquery(".").ext("story"), Engine()
             ).ordered_by_name().continue_on_failure().play()
           will output: |-
             RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.

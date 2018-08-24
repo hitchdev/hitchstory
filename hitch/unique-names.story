@@ -13,7 +13,7 @@ All stories must have a unique name:
            - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
-      from pathquery import pathq
+      from pathquery import pathquery
 
       class Engine(BaseEngine):
           def create_file(self, filename="step1.txt", content="example"):
@@ -22,7 +22,7 @@ All stories must have a unique name:
   steps:
   - Run:
       code: |
-        StoryCollection(pathq(".").ext("story"), Engine()).ordered_by_file().play()
+        StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_file().play()
       raises:
         type: hitchstory.exceptions.DuplicateStoryNames
         message: Story 'Create file' in '/path/to/example1.story' and 'create-file'

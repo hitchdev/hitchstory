@@ -30,11 +30,11 @@ Invalid YAML:
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
-      from pathquery import pathq
+      from pathquery import pathquery
   steps:
   - Run:
       code: |
-        StoryCollection(pathq(".").ext("story"), Engine()).named("Valid YAML").play()
+        StoryCollection(pathquery(".").ext("story"), Engine()).named("Valid YAML").play()
       raises:
         type: hitchstory.exceptions.StoryYAMLError
         message: "YAML Error in file '/path/to/example3.story':\nwhile scanning a\

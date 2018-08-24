@@ -58,14 +58,14 @@ Story with parameters:
               ))
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathq
+      from pathquery import pathquery
       from engine import Engine
   variations:
     Default:
       steps:
       - Run:
           code: |
-            print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button").play().report())
+            print(StoryCollection(pathquery(".").ext("story"), Engine()).named("Click magic button").play().report())
       - Output is: |
           firefox
           37
@@ -77,7 +77,7 @@ Story with parameters:
       steps:
       - Run:
           code: |
-            print(StoryCollection(pathq(".").ext("story"), Engine()).named("Click magic button/with chrome").play().report())
+            print(StoryCollection(pathquery(".").ext("story"), Engine()).named("Click magic button/with chrome").play().report())
           will output: |-
             RUNNING Click magic button/with chrome in /path/to/example.story ... SUCCESS in 0.1 seconds.
             STORY RAN SUCCESSFULLY /path/to/example.story: Click magic button/with chrome in 0.1 seconds.
@@ -92,7 +92,7 @@ Story with parameters:
       steps:
       - Run:
           code: |
-            storybook = StoryCollection(pathq(".").ext("story"), Engine())
+            storybook = StoryCollection(pathquery(".").ext("story"), Engine())
 
             print(storybook.with_params(browser={"name": "ie", "version": "6"}).named("Click magic button").play().report())
       - Output is: |

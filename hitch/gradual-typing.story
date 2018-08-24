@@ -44,12 +44,12 @@ Gradual typing of story steps:
                   handle.write(details['content'])
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathq
+      from pathquery import pathquery
       from engine import Engine
   steps:
   - Run:
       code: |
-        StoryCollection(pathq(".").ext("story"), Engine()).named("Create files").play()
+        StoryCollection(pathquery(".").ext("story"), Engine()).named("Create files").play()
       will output: RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1
         seconds.
   - File was created with:
