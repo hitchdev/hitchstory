@@ -1,4 +1,5 @@
 Extra story metadata - e.g. adding JIRA ticket numbers to stories:
+  docs: metadata
   about: |
     Stories do not exist in a vaccuum. Each and every story is
     related to issues on issue trackers, specialist documentation,
