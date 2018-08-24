@@ -1,25 +1,15 @@
 base templates: template
 templated:
-#- template/story.jinja2:
-    #content: yes
-    #filename: yes
-#- why/index.md:
-    #content: yes
-#- why-not/index.md:
-    #content: yes
-#- using/alpha/compound/index.md:
-    #content: yes
-#- using/alpha/howto/index.md:
-    #content: yes
-#- using/alpha/restrictions/index.md:
-    #content: yes
-#- using/alpha/scalar/index.md:
-    #content: yes
-#- using/index.md:
-    #content: yes
-#- using/alpha/index.md:
-    #content: yes
-#- using/alpha/index.md:
-    #content: yes
+- template/story.jinja2:
+    content: yes
+    filename: yes
+- why/index.md:
+    content: yes
+- why-not/index.md:
+    content: yes
+- using/index.md:
+    content: yes
+- using/alpha/index.md:
+    content: yes
 - index.md:
     content: yes

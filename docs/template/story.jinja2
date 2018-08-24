@@ -8,12 +8,48 @@ This feature is in alpha. The API may change on a minor version increment.
 {{< /warning >}}
 {% endraw %}{% endif %}
 
-{{ story.info['about'] }}
+{{ story.about }}
 
-{% if 'yaml_snippet' in story.given %}Example yaml_snippet:
+{% if 'base.story' in story.given %}Example base.story:
 
 ```yaml
-{{ story.given['yaml_snippet'] }}
+{{ story.given['base.story'] }}
+```
+{% endif %}
+
+{% if 'example.story' in story.given %}example.story:
+
+```yaml
+{{ story.given['example.story'] }}
+```
+{% endif %}
+
+{% if 'example1.story' in story.given %}example1.story:
+
+```yaml
+{{ story.given['example1.story'] }}
+```
+{% endif %}
+
+{% if 'example2.story' in story.given %}example2.story:
+
+```yaml
+{{ story.given['example2.story'] }}
+```
+{% endif %}
+
+{% if 'example3.story' in story.given %}example3.story:
+
+```yaml
+{{ story.given['example3.story'] }}
+```
+{% endif %}
+
+
+{% if 'engine.py' in story.given %}engine.py:
+
+```yaml
+{{ story.given['engine.py'] }}
 ```
 {% endif %}
 
@@ -24,19 +60,23 @@ This feature is in alpha. The API may change on a minor version increment.
 {%- endif %}
 
 {% if story.variations %}
+
 {% for variation in story.variations %}
 {{ variation.child_name }}:
-{% if'yaml_snippet' in variation.data.get('given', {}).keys() %}
-```yaml
-{{ variation.given['yaml_snippet'] }}
-```
-{% endif %}
-{% with step = variation.steps[0] %}{% include "step.jinja2" %}{% endwith %}
+
+{% for step in variation.steps %}
+{% with step = step %}{% include "step.jinja2" %}{% endwith %}
 {% endfor %}
+{% endfor %}
+
 {% else %}
-{% with step = story.steps[0] %}{% include "step.jinja2" %}{% endwith %}
+
+{% for step in story.steps %}
+{% with step = step %}{% include "step.jinja2" %}{% endwith %}
+{% endfor %}
+
 {% endif %}
 
 {% raw %}{{< note title="Executable specification" >}}{% endraw %}
-Page automatically generated from <a href="https://github.com/crdoconnor/strictyaml/blob/master/hitch/{{ story.filename.basename() }}">{{ story.filename.basename() }}</a>.
+Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/{{ story.filename.basename() }}">{{ story.filename.basename() }}</a>.
 {% raw %}{{< /note >}}{% endraw %}
