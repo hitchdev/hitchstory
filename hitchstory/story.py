@@ -1,9 +1,9 @@
+from hitchstory.utils import DEFAULT_STACK_TRACE, underscore_slugify
+from strictyaml.compound import MapValidator, SeqValidator
 from hitchstory.result import Success, Failure
 from hitchstory.story_step import StoryStep
-from hitchstory.utils import DEFAULT_STACK_TRACE
 from hitchstory import exceptions
 from hitchstory import utils
-from strictyaml.compound import MapValidator, SeqValidator
 from collections import OrderedDict
 from slugify import slugify
 import colorama
@@ -11,7 +11,18 @@ import time
 
 
 class StoryInfo():
-    pass
+    def __init__(self, info_definition, data):
+        self._info = OrderedDict()
+        for info_property in info_definition.keys():
+            if info_property in data.keys():
+                self._info[underscore_slugify(info_property)] = \
+                    data.get(underscore_slugify(info_property))
+
+    def __getitem__(self, key):
+        return self._info[underscore_slugify(key)]
+
+    def __contains__(self, key):
+        return underscore_slugify(key) in self._info.keys()
 
 
 class Story(object):
@@ -21,16 +32,9 @@ class Story(object):
         self._slug = None
         self._parsed_yaml = parsed_yaml
         self._steps = []
-        self._info = StoryInfo()
         self._parent = None
         self._variation_of = variation_of
-        for info_property in self.engine.info_definition.keys():
-            if info_property in self.data.keys():
-                setattr(
-                    self._info,
-                    utils.underscore_slugify(info_property),
-                    self.data.get(info_property),
-                )
+        self._info = StoryInfo(self.engine.info_definition, self.data)
         self._collection = self._story_file.collection
         self.children = []
 
