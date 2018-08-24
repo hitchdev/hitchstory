@@ -290,7 +290,7 @@ def regressfile(filename):
     Run all stories in filename 'filename'.
     """
     StoryCollection(
-        pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
+        pathquery(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
     ).in_filename(filename).ordered_by_name().play()
 
 
@@ -301,7 +301,7 @@ def regression():
     """
     lint()
     StoryCollection(
-        pathq(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
+        pathquery(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
     ).only_uninherited().ordered_by_name().play()
 
 
