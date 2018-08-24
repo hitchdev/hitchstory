@@ -26,6 +26,7 @@ Inherit one story from another:
   given:
     example.story: |
       Login:
+        about: Simple log in.
         with:
           username: AzureDiamond
           password: hunter2
@@ -39,11 +40,13 @@ Inherit one story from another:
       
       
       Log in on another url:
+        about: Alternate log in URL.
         based on: login
         given:
           url: /alternativeloginurl
       
       Log in as president:
+        about: For stories that involve Trump.
         based on: login
         with:
           username: DonaldTrump

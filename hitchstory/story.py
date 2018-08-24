@@ -37,6 +37,7 @@ class Story(object):
         self._info = StoryInfo(self.engine.info_definition, self.data)
         self._collection = self._story_file.collection
         self.children = []
+        self.about = self.data.get('about', '')
 
     def _unparameterized_preconditions(self):
         precondition_dict = self.parent._unparameterized_preconditions() \

@@ -54,7 +54,7 @@ Documentation:
             Login
             -----
 
-
+            Simple log in.
 
             Load: /loginurl
 
@@ -69,7 +69,7 @@ Documentation:
             Log in on another url
             ---------------------
 
-
+            Alternate log in URL.
 
             Load: /alternativeloginurl
 
@@ -84,7 +84,7 @@ Documentation:
             Log in as president
             -------------------
 
-
+            For stories that involve Trump.
 
             Load: /loginurl
 
