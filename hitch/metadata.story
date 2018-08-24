@@ -15,8 +15,10 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
     validators inside the InfoProperty object.
     
     This example shows how you can add a series of JIRA tickets
-    as metadata on a story and code that will play stories
-    associated with JIRA tickets.
+    and feature names as metadata on a story.
+    
+    It also demonstrates code that will filter stories to play
+    by jira ticket.
   given:
     example.story: |
       Build city:
