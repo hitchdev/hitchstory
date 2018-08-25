@@ -40,9 +40,17 @@ Example
 Install
 -------
 
-To install::
+To install:
 
   $ pip install hitchstory
+
+
+Using HitchStory
+----------------
+
+{% for dirfile in subdir("using/alpha/").is_not_dir() - subdir("using/alpha/").named("index.md") -%}
+- [{{ title(dirfile) }}](using/alpha/{{ dirfile.namebase }})
+{% endfor %}
 
 
 Tell me more
@@ -59,8 +67,8 @@ By ergonomic for programmers, I mean:
 * Running stories is done via a python API so you can easily write customized test workflows to suit your workflows.
 * Story parameterization is built in.
 
-  
-  
+
+
 Why not X instead?
 ------------------
 

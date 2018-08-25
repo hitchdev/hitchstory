@@ -40,7 +40,6 @@ Given preconditions:
               output(", ".join(self.given['List of things']))
               output(self.given['scalar thing'])
               output(sorted(self.given.keys()))
-              #output(self.given.values())
               output(sorted(self.given.items()))
     setup: |
       from hitchstory import StoryCollection
