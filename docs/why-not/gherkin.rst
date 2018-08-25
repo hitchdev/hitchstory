@@ -14,13 +14,13 @@ Here are some examples.
 
 From the Cucumber website:
 
-.. code-block:: gherkin
-
-    Scenario: Buy last coffee
-      Given there are 1 coffees left in the machine
-      And I have deposited 1$
-      When I press the coffee button
-      Then I should be served a coffee
+```gherkin
+Scenario: Buy last coffee
+  Given there are 1 coffees left in the machine
+  And I have deposited 1$
+  When I press the coffee button
+  Then I should be served a coffee
+```
 
 Hitch scenarios, by contrast, emphasizes the following values:
 
@@ -31,13 +31,13 @@ Hitch scenarios, by contrast, emphasizes the following values:
 
 Equivalent scenarios:
 
-.. code-block:: yaml
-
-    Buy last coffee:
-      given:
-        machine contains:
-          coffees: 1
-      steps:
-      - Deposit: $1
-      - Press button: coffee
-      - Served up: coffee
+```yaml
+Buy last coffee:
+  given:
+    machine contains:
+      coffees: 1
+  steps:
+  - Deposit: $1
+  - Press button: coffee
+  - Served up: coffee
+```

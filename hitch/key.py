@@ -375,6 +375,7 @@ def docgen():
         },
     ).with_vars(
         readme=False,
+        include_title=True,
         quickstart=_storybook({})
         .in_filename(DIR.key/"quickstart.story")
         .non_variations()

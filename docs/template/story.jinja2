@@ -1,3 +1,4 @@
+{% if include_title %}
 ---
 title: {{ story.name }}
 type: using
@@ -7,6 +8,7 @@ type: using
 This feature is in alpha. The API may change on a minor version increment.
 {{< /warning >}}
 {% endraw %}{% endif %}
+{% endif %}
 
 {{ story.about }}
 
@@ -77,6 +79,8 @@ This feature is in alpha. The API may change on a minor version increment.
 
 {% endif %}
 
+{% if include_title %}
 {% raw %}{{< note title="Executable specification" >}}{% endraw %}
 Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/{{ story.filename.basename() }}">{{ story.filename.basename() }}</a>.
 {% raw %}{{< /note >}}{% endraw %}
+{% endif %}

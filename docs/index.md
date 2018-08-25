@@ -23,17 +23,7 @@ Example
 -------
 
 {% for story in quickstart %}
-{{ story.name }}:
-{% if 'yaml_snippet' in story.data['given'] %}
-```yaml
-{{ story.given.yaml_snippet }}
-```
-{% endif %}
-{% if 'setup' in story.data['given'] %}
-```python
-{{ story.given.setup }}
-```
-{% endif %}
+{% with include_title=False %}{% include 'story.jinja2' %}{% endwith %}
 {% endfor %}
 
 
@@ -42,8 +32,9 @@ Install
 
 To install:
 
-  $ pip install hitchstory
-
+```bash
+$ pip install hitchstory
+```
 
 Using HitchStory
 ----------------
@@ -57,7 +48,7 @@ Tell me more
 ------------
 
 HitchStory is a YAML based DSL for writing stories that is designed primarily to be ergonomic
-for developers and only *incidentally* "`business readable <https://www.martinfowler.com/bliki/BusinessReadableDSL.html>`_".
+for developers and only *incidentally* "[business readable](https://www.martinfowler.com/bliki/BusinessReadableDSL.html)".
 
 By ergonomic for programmers, I mean:
 
@@ -72,9 +63,7 @@ By ergonomic for programmers, I mean:
 Why not X instead?
 ------------------
 
-* Why not just write unit tests (e.g with py.test)?
-* Why not use Cucumber / Behat / Lettuce / pytest-bdd?
-* Why not use robot framework?
+TODO : Section needs fleshing out more.
 
 {% for dirfile in subdir("why-not").is_not_dir() - subdir("why-not").named("index.md") -%} 
 - [{{ title(dirfile) }}](why-not/{{ dirfile.namebase }})
