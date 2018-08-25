@@ -1,10 +1,11 @@
 Arguments to steps:
+  docs: steps-and-step-arguments
   about: |
     Arguments are fed to steps in a way that is
     largely consistent with how python methods work:
 
-    - Named arguments are slugified to underscore_case and fed through.
-    - kwargs are fed raw.
+    - Named arguments (e.g. "How many times") are put in equivalent named variables (e.g. "how_many_times").
+    - If the method has **kwargs then the key names of kwargs will match the named arguments exactly (i.e. no underscores).
   given:
     engine.py: |
       from code_that_does_things import *

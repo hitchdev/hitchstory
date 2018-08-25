@@ -1,4 +1,5 @@
-Documentation:
+Generate documentation from stories:
+  docs: generate-documentation
   based on: inherit one story from another
   status: experimental
   about: |

@@ -48,12 +48,12 @@ This feature is in alpha. The API may change on a minor version increment.
 
 {% if story.given['engine_py'] != None %}engine.py:
 
-```yaml
+```python
 {{ story.given['engine_py'] }}
 ```
 {% endif %}
 
-{% if 'setup' in story.given -%}
+{% if story.given['setup'] != None %}
 ```python
 {{ story.given['setup'] }}
 ```

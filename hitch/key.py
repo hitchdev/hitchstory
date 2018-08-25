@@ -123,7 +123,7 @@ class Engine(BaseEngine):
     def run(self, code, will_output=None, raises=None):
         self.example_py_code = ExamplePythonCode(self.python, self.path.state)\
             .with_terminal_size(160, 100)\
-            .with_setup_code(self.given['setup'])
+            .with_setup_code(self.given['setup'] if self.given['setup'] is not None else '')
         to_run = self.example_py_code.with_code(code)
 
         if self.settings.get("cprofile"):

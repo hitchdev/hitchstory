@@ -1,4 +1,5 @@
 Gradual typing of story steps:
+  docs: gradual-typing
   about: |
     In order to speed up prototyping and development
     of a story suite, the structure of your YAML data
@@ -10,7 +11,7 @@ Gradual typing of story steps:
     per the StrictYAML spec.
 
     When your story suite matures and the structure of
-    your story files is more locked down, you can
+    your story files has solidified, you can
     specify validators that fail fast when YAML
     snippets with an invalid structure are used.
   given:

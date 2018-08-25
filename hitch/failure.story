@@ -1,8 +1,10 @@
-Simple failure report:
+Handling failing tests:
+  docs: failing-tests
   about: |
-    A basic failure report gives an output that includes a snippet
-    of the step YAML story with the failing step highlighted and 
-    a stack trace in the engine where the exception was raised.
+    By default, a failing story will show:
+    
+    * A snippet of the YAML where the story failed with the failing step highlighted.
+    * A stack trace from engine.py where the exception was raised.
   given:
     example.story: |
       Failing story:
@@ -130,65 +132,3 @@ Simple failure report:
                 It spreads across multiple lines.
 
             Towel not located
-
-    Expected exception:
-      about: |
-        For common expected failures where you do not want
-        to see the whole stacktrace, apply the "@no_stacktrace_for"
-        decorator.
-      given:
-        example.story: |
-          Failing story:
-            steps:
-              - Failing step without stacktrace
-      steps:
-      - Run:
-          code: story_collection.one().play()
-          will output: |-
-            RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
-
-                Failing story:
-                  steps:
-                  - Failing step without stacktrace
-
-
-            code_that_does_things.ExampleException
-
-                This is a demonstration exception docstring.
-
-                It spreads across multiple lines.
-
-            Expected exception
-
-
-    Special exception named failure:
-      about: |
-        If you want to indicate a test failure, raise the
-        "Failure" exception.
-
-        This is by default an expected exception, so no stack trace
-        will be printed if it is raised.
-      given:
-        example.story: |
-          Failing story:
-            steps:
-              - Raise special failure exception
-              - Step that will not run
-              - Step that will not run
-      steps:
-      - Run:
-          code: story_collection.one().play()
-          will output: |-
-            RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
-
-                Failing story:
-                  steps:
-                  - Raise special failure exception
-                  - Step that will not run
-                  - Step that will not run
-
-            hitchstory.exceptions.Failure
-
-                Test failed.
-
-            Special failure exception - no stacktrace printed!

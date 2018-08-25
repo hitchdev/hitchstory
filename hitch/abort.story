@@ -1,4 +1,5 @@
 Abort a story with ctrl-C:
+  docs: aborting
   about: |
     When an in-progress story is hit with any of the
     following termination signals:
@@ -10,7 +11,7 @@ Abort a story with ctrl-C:
 
     Then it triggers the tear_down method of the
     engine.
-    
+
     In practical terms this means that if you are running
     a series of stories, Ctrl-C should halt current execution,
     run tear_down and then not run any more stories.
@@ -36,7 +37,7 @@ Abort a story with ctrl-C:
               raise Exception("This exception should never be triggered")
 
           def tear_down(self):
-              reticulate_splines()
+              print("Reticulate splines")
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
@@ -46,4 +47,4 @@ Abort a story with ctrl-C:
       code: StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
       will output: |-
         RUNNING Create files in /path/to/example.story ... Aborted
-  - Splines reticulated
+        Reticulate splines

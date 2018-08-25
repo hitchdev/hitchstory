@@ -1,12 +1,13 @@
 Given preconditions:
+  docs: given
   about: |
     All stories start with a set of preconditions. Hitchstory
     lets you define these 'given' preconditions using YAML
-    and access them in the story using 'self.given['property name'].
+    and access them in the story using 'self.given['property name']
+    in the engine.
 
-    The underscoreified_names and precise StrictYAML schema
-    must be defined using GivenDefinition and GivenProperty
-    objects as shown below.
+    The given property names should be specified in the engine
+    using GivenDefinition and GivenPropery as demonstrated below.
   given:
     example.story: |
       Create files:
@@ -62,7 +63,7 @@ Given preconditions:
             ['list_of_things', 'scalar_thing', 'thing']
             [('list_of_things', ['thing one', 'thing two']), ('scalar_thing', 35), ('thing', OrderedDict([('content', 'things')]))]
 
-    Defaults:
+    Defaults to empty list, None or empty dict if nothing specified:
       given:
         example.story: |
           Create files:
