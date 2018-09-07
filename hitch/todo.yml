@@ -1,7 +1,6 @@
 - Validation errors on revalidation are not caught.
 - Make exception code yellow not red.
 - Add 'required' and default arguments to GivenProperty and InfoProperty.
-- Rewrite automatically on successful completion of a story with updates.
 - Blank or file with comments should be completely valid as should story without anything in it.
 - Story kind:
   - regular

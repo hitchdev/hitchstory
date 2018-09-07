@@ -53,9 +53,6 @@ Story that rewrites itself:
                   self.current_step.update(
                       variable_2="complicated:\nmultiline\nstring"
                   )
-
-          def on_success(self):
-              self.new_story.save()
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery

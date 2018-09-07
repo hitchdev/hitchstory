@@ -234,6 +234,7 @@ class Story(object):
         if passed:
             self._run_on_success()
             result = Success(self, time.time() - start_time)
+            self.story_file.rewrite()
             self._collection.log(
                 "SUCCESS in {0:.1f} seconds.".format(result.duration)
             )
