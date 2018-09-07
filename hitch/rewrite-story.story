@@ -16,6 +16,10 @@ Story that rewrites itself:
     text strings are rewritten. This mode can be used when doing development
     when you expect textual changes.
 
+    If the story passes then the file will be rewritten with the updated
+    contents. If the story fails for any reason then the file will not
+    be touched.
+
     If rewrite=False is fed through to the story engine instead, the story
     will always fail when seeing different text. This mode can be used when,
     for example, running all the stories on jenkins or when you are refactoring
