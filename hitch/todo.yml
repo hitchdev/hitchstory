@@ -1,4 +1,3 @@
-- Validation errors on revalidation are not caught.
 - Make exception code yellow not red.
 - postcheck -- method which checks postconditions -- if you want a test failure, make it happen here, not in tear down.
 - print out a 'full' story -- with all inheritance baked in.

@@ -26,8 +26,7 @@ Invalid story:
                   pass
       steps:
       - Run:
-          code: |
-            story.play()
+          code: story.play()
           raises:
             type: hitchstory.exceptions.InvalidStepYAML
             message: "YAML Error in '/path/to/example.story' in file '/path/to/example.story':\n\
@@ -46,8 +45,7 @@ Invalid story:
                   pass
       steps:
       - Run:
-          code: |
-            print(story.play().report())
+          code: story.play()
           raises:
             type: hitchstory.exceptions.StepContainsInvalidValidator
             message: Step <function Engine.add_product at 0xfffffffffff> does not
@@ -63,8 +61,7 @@ Invalid story:
                 self.add_product = 1
       steps:
       - Run:
-          code: |
-            print(story.play().report())
+          code: story.play()
           raises:
             type: hitchstory.exceptions.StepNotCallable
             message: |-
@@ -99,7 +96,7 @@ Invalid story:
                   print('x')
       steps:
       - Run:
-          code: story.play().report()
+          code: story.play()
           raises:
             type: hitchstory.exceptions.CannotMixKeywordArgs
             message: Cannot mix keyword arguments (e.g. **kwargs) and regular args
@@ -115,7 +112,7 @@ Invalid story:
                   pass
       steps:
       - Run:
-          code: print(story.play().report())
+          code: story.play()
           raises:
             type: hitchstory.exceptions.CannotUseVarargs
             message: Cannot use varargs (e.g. *args), can only use keyword args (**kwargs)
