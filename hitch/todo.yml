@@ -1,7 +1,8 @@
 - Validation errors on revalidation are not caught.
 - Make exception code yellow not red.
+- postcheck -- method which checks postconditions -- if you want a test failure, make it happen here, not in tear down.
+- print out a 'full' story -- with all inheritance baked in.
 - Add 'required' and default arguments to GivenProperty and InfoProperty.
-- Blank or file with comments should be completely valid as should story without anything in it.
 - Story kind:
   - regular
   - stub (no data on story - just a name)

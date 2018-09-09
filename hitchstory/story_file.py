@@ -41,7 +41,7 @@ class StoryFile(object):
         try:
             self._parsed_yaml = load(
                 self._yaml,
-                MapPattern(Str(), Map(story_schema))
+                Str() | MapPattern(Str(), Map(story_schema))
             )
         except YAMLError as error:
             raise exceptions.StoryYAMLError(
@@ -110,25 +110,26 @@ class StoryFile(object):
         appear in the file.
         """
         stories = []
-        for name, parsed_main_story in self._parsed_yaml.items():
-            base_story = Story(
-                self, str(name), parsed_main_story,
-            )
-            stories.append(base_story)
-            variations = []
-
-            for variation_name, parsed_var_name in self._parsed_yaml[name].get(
-                "variations", {}
-            ).items():
-                variations.append(
-                    Story(
-                        self,
-                        variation_name,
-                        parsed_var_name,
-                        variation_of=str(name),
-                    )
+        if self._parsed_yaml.is_mapping():
+            for name, parsed_main_story in self._parsed_yaml.items():
+                base_story = Story(
+                    self, str(name), parsed_main_story,
                 )
+                stories.append(base_story)
+                variations = []
 
-            stories.extend(variations)
-            base_story.variations = variations
+                for variation_name, parsed_var_name in self._parsed_yaml[name].get(
+                    "variations", {}
+                ).items():
+                    variations.append(
+                        Story(
+                            self,
+                            variation_name,
+                            parsed_var_name,
+                            variation_of=str(name),
+                        )
+                    )
+
+                stories.extend(variations)
+                base_story.variations = variations
         return stories

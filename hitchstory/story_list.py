@@ -21,15 +21,18 @@ class StoryList(object):
 
     def play(self):
         results = ResultList()
-        for story in self._stories:
-            result = story.play()
-            results.append(result)
+        if len(self._stories) > 0:
+            for story in self._stories:
+                result = story.play()
+                results.append(result)
 
-            if hasattr(story.engine, '_aborted') and story.engine._aborted:
-                break
+                if hasattr(story.engine, '_aborted') and story.engine._aborted:
+                    break
 
-            if not result.passed and not self._continue_on_failure:
-                break
+                if not result.passed and not self._continue_on_failure:
+                    break
+        else:
+            print("No stories found")
         return results
 
     def __len__(self):
