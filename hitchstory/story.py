@@ -1,6 +1,6 @@
 from hitchstory.utils import DEFAULT_STACK_TRACE, underscore_slugify
 from strictyaml.compound import MapValidator, SeqValidator
-from hitchstory.result import Success, Failure
+from hitchstory.result import Success, Failure, FlakeResult
 from hitchstory.story_step import StoryStep
 from hitchstory import exceptions
 from hitchstory import utils
@@ -183,11 +183,7 @@ class Story(object):
 
             raise exceptions.OnFailureException(stack_trace)
 
-    def play(self):
-        """
-        Run a story from beginning to end, time it and return
-        a Result object.
-        """
+    def _play_single_story(self):
         start_time = time.time()
         self._collection.log(
             "RUNNING {0} in {1} ... ".format(
@@ -265,6 +261,41 @@ class Story(object):
 
         self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
         return result
+
+    def play(self):
+        """
+        Run a story from beginning to end, time it and return
+        a Result object.
+        """
+        if self._collection._flakecheck_times is None:
+            return self._play_single_story()
+        else:
+            start_time = time.time()
+            result = FlakeResult()
+
+            for i in range(self._collection._flakecheck_times):
+                result.append(self._play_single_story())
+
+            if result.is_flaky:
+                self._collection.log(
+                    "\nFLAKINESS DETECTED in {0:.1f} seconds, {1:.0f}% of stories failed.".format(
+                        time.time() - start_time,
+                        result.percentage_failures,
+                    )
+                )
+                return result
+            else:
+                self._collection.log(
+                    (
+                        "\nNO FLAKINESS DETECTED in {duration:.1f} seconds "
+                        "after running '{name}' story {count} times."
+                    ).format(
+                        duration=time.time() - start_time,
+                        name=self.name,
+                        count=result.total_results,
+                    )
+                )
+                return result
 
     def __repr__(self):
         return u"Story('{0}')".format(self._slug)

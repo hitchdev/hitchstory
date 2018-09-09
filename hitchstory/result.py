@@ -4,6 +4,30 @@ from jinja2 import FileSystemLoader
 import colorama
 
 
+class FlakeResult(object):
+    def __init__(self):
+        self._results = []
+
+    def append(self, result):
+        self._results.append(result)
+
+    @property
+    def is_flaky(self):
+        return self.failure_count > 0 and self.failure_count < self.total_results
+
+    @property
+    def failure_count(self):
+        return len([result for result in self._results if not result.passed])
+
+    @property
+    def total_results(self):
+        return len(self._results)
+
+    @property
+    def percentage_failures(self):
+        return 100.0 * (float(self.failure_count) / float(self.total_results))
+
+
 class ResultList(object):
     def __init__(self):
         self._results = []

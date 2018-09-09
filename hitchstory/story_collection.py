@@ -41,6 +41,7 @@ class StoryCollection(object):
         self._only_uninherited = False
         self._templates = {}
         self._output_handle = sys.stdout
+        self._flakecheck_times = None
 
     @property
     def engine(self):
@@ -166,6 +167,11 @@ class StoryCollection(object):
     def only_uninherited(self):
         new_collection = self.copy()
         new_collection._only_uninherited = True
+        return new_collection
+
+    def with_flake_detection(self, times=5):
+        new_collection = self.copy()
+        new_collection._flakecheck_times = times
         return new_collection
 
     def with_templates(self, templates):
