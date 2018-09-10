@@ -1,5 +1,4 @@
 from hitchstory.utils import DEFAULT_STACK_TRACE, underscore_slugify
-from strictyaml.compound import MapValidator, SeqValidator
 from hitchstory.result import Success, Failure, FlakeResult
 from hitchstory.story_step import StoryStep
 from hitchstory import exceptions
@@ -66,16 +65,6 @@ class Story(object):
             else:
                 precondition_dict[name] = precondition
         self._precondition_dict = precondition_dict
-
-        for name, definition in self.engine.given_definition.given_properties.items():
-            if name not in self._precondition_dict.keys():
-                if isinstance(definition.schema, MapValidator):
-                    self._precondition_dict[name] = OrderedDict()
-                elif isinstance(definition.schema, SeqValidator):
-                    self._precondition_dict[name] = []
-                else:
-                    self._precondition_dict[name] = None
-
         number_of_parent_steps = len(self._parent_steps)
 
         self._steps = [

@@ -88,6 +88,9 @@ class Given(object):
     def __init__(self, preconditions):
         self._preconditions = preconditions
 
+    def get(self, key, default=None):
+        return self._preconditions.get(utils.underscore_slugify(key), default)
+
     def __getitem__(self, key):
         return self._preconditions[utils.underscore_slugify(key)]
 

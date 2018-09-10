@@ -1,13 +1,15 @@
 Given preconditions:
   docs: given
   about: |
-    All stories start with a set of preconditions. Hitchstory
-    lets you define these 'given' preconditions using YAML
-    and access them in the story using 'self.given['property name']
-    in the engine.
+    Stories optionally start with a set of preconditions.
 
-    The given property names should be specified in the engine
-    using GivenDefinition and GivenPropery as demonstrated below.
+    Hitchstory lets you define these 'given' preconditions using YAML
+    mapping and access them in the story by using self.given as you
+    would a dict - e.g. self.given['property name'].
+
+    The given property names need to first be specified in the engine
+    using GivenDefinition and GivenPropery - optionally
+    with a [StrictYAML schema](https://hitchdev.com/strictyaml).
   given:
     example.story: |
       Create files:
@@ -36,9 +38,10 @@ Given preconditions:
           )
 
           def create_file(self):
-              output(self.given['thing'].get('content'))
-              output(", ".join(self.given['List of things']))
-              output(self.given['scalar thing'])
+              output(self.given['thing'].get('content') if 'thing' in self.given else None)
+              output(", ".join(self.given.get('List of things', [])))
+              output(self.given['scalar thing'] if 'scalar thing' in self.given else None)
+              output(self.given.get('scalar thing', 'default'))
               output(sorted(self.given.keys()))
               output(sorted(self.given.items()))
     setup: |
@@ -59,10 +62,11 @@ Given preconditions:
             things
             thing one, thing two
             35
+            35
             ['list_of_things', 'scalar_thing', 'thing']
             [('list_of_things', ['thing one', 'thing two']), ('scalar_thing', 35), ('thing', OrderedDict([('content', 'things')]))]
 
-    Defaults to empty list, None or empty dict if nothing specified:
+    Defaulting to empty list, None or empty dict:
       given:
         example.story: |
           Create files:
@@ -80,5 +84,6 @@ Given preconditions:
             None
 
             None
-            ['list_of_things', 'scalar_thing', 'thing']
-            [('list_of_things', []), ('scalar_thing', None), ('thing', OrderedDict())]
+            default
+            []
+            []
