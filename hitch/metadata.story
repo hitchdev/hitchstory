@@ -1,13 +1,11 @@
 Extra story metadata - e.g. adding JIRA ticket numbers to stories:
   docs: metadata
   about: |
-    Stories do not exist in a vaccuum. Each and every story is
-    related to issues on issue trackers, specialist documentation,
-    people, external resources and much more.
+    Each and every story is related to issues on issue trackers,
+    specialist documentation, people, external resources and much more.
 
-    The best place to document this additional metadata is within
-    the story itself. You can thus define additional YAML metadata
-    to be included alongside the story.
+    The best place to document this additional metadata is not buried in
+    word documents on company wikis but within the story itself.
 
     What kind of metadata you add to stories is up to you -
     simply add the names of the properties you want to add
@@ -16,10 +14,8 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
     validators inside the InfoProperty object.
 
     This example shows how you can add a series of JIRA tickets
-    and feature names as metadata on a story.
-
-    It also demonstrates code that will filter stories to play
-    by jira ticket.
+    and feature names as metadata on a story and filter stories
+    to play by JIRA ticket number.
   given:
     example.story: |
       Build city:
@@ -80,7 +76,7 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
       steps:
       - Run:
           code: |
-            story_collection.filter(lambda story: "JIRA-124" in story.info['jiras']).ordered_by_name().play()
+            story_collection.filter(lambda story: "JIRA-124" in story.info.get('jiras')).ordered_by_name().play()
           will output: |-
             RUNNING Build city in /path/to/example.story ... reticulate splines
             SUCCESS in 0.1 seconds.

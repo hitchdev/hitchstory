@@ -17,6 +17,9 @@ class StoryInfo():
                 self._info[underscore_slugify(info_property)] = \
                     data.get(underscore_slugify(info_property))
 
+    def get(self, key, default=None):
+        return self._info.get(underscore_slugify(key), default)
+
     def __getitem__(self, key):
         return self._info[underscore_slugify(key)]
 
