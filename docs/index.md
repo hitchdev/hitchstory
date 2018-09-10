@@ -3,23 +3,9 @@ HitchStory
 
 HitchStory is a python 3 library for building and running BDD-style executable specifications.
 
-Unlike most other BDD tools which use Gherkin or SpecFlow the specification is written
-with a dialect of [StrictYAML](https://hitchdev.com/strictyaml).
+Unlike most other BDD tools which use, e.g. Gherkin the specification is written
+with a [StrictYAML](https://hitchdev.com/strictyaml) dialect.
 
-The specifications are designed to be simple to write, easy to read, to integrate seamlessly with the
-code that executes them.
-
-Hitchstory also lets you:
-
-* Write parameterized stories and do property based testing.
-* Generate documentation from your stories.
-* Easily write code that rewrites stories (e.g. expected output) when code changes.
-* Write stories that inherit from one another (for DRY stories).
-* Test for story flakiness.
-
-This library was dogfooded for years to TDD / BDD, test and autodocument a variety
-of different kinds of software - web apps, python libraries, command line apps,
-replacing other forms of unit, integration and end to end tests.
 
 Example
 -------
@@ -48,6 +34,33 @@ Using HitchStory
 {% endfor %}
 
 
+Tell me more
+------------
+
+
+HitchStory is a YAML based DSL for writing story 'specificatoins', designed to be simple to write, easy to read, to integrate seamlessly with the
+code that executes them.
+
+This library was dogfooded for years to TDD / BDD, test and autodocument a variety
+of different kinds of software - web apps, python libraries, command line apps,
+replacing other forms of unit, integration and end to end tests.
+
+Unlike traditional "BDD" frameworks like Cucumber, hitchstory is not primarily designed for
+"[business readability](https://www.martinfowler.com/bliki/BusinessReadableDSL.html)",
+but rather for simplicity ease of maintenance by developers.
+
+This means:
+
+* Stories can *and should* inherit from one another, because *specifications ought to be DRY too*.
+* Stories are defined and validated using strongly typed StrictYAML. Step arguments and precondition ('given') schemas can be strictly defined by the programmer.
+* The execution engine can be programmed to rewrite the executing story based upon certain kinds of behavior changes (e.g. output strings, screen output changes, messages in a web app).
+* Running stories is done via a python API rather than a so you can easily program customized test workflows.
+* Built in story parameterization for property based testing.
+* Stories can be easily tested for flakiness.
+* While the stories themselves are not designed primarily for readability, they are designed to be easily used to build readable documentation.
+
+
+
 Recommended Complementary Tools
 -------------------------------
 
@@ -55,7 +68,7 @@ This library was also designed alongside a number of other recommended tools whi
 integrate with hitchstory, providing functionality to easily build and to test various different
 kinds of software.
 
-* [hitchkey](https://github.com/hitchdev/hitchkey) - create a project "key.py" of simple methods that can be used to run project-specific commands written in python directly from the command line (e.g. "hk bdd my test name" or "hk regression", "hk lint" or "hk deploy").
+* [hitchkey](https://github.com/hitchdev/hitchkey) - create a project "key.py" of simple methods that can be used to run project-specific commands written in python 3 in an isolated virtualenv and easily run them directly from the command line (e.g. "hk bdd my test name" or "hk regression", "hk lint" or "hk deploy").
 * [seleniumdirector](https://github.com/hitchdev/seleniumdirector) -- tool that wraps selenium, making it easy to write simple, readable stories that interact with websites.
 * [hitchbuildpy](https://github.com/hitchdev/hitchbuildpy) - tool that bundles pyenv and builds virtualenvs from it which can be used to install, run and test python code in one or many different versions.
 * [hitchrunpy](https://github.com/hitchdev/hitchrunpy) - tool that can be used to run and monitor snippets of python code (can be used with hitchstory to write 'better unit tests' - for projects which provide a python API).
@@ -71,21 +84,6 @@ Coming soon:
 * hitchbuildredis -- build isolated redis server.
 * hitchbuildnode -- build node environment.
 * Suggestions welcome
-
-Tell me more
-------------
-
-HitchStory is a YAML based DSL for writing stories that is designed primarily to be ergonomic
-for developers and only *incidentally* "[business readable](https://www.martinfowler.com/bliki/BusinessReadableDSL.html)".
-
-By ergonomic for programmers, I mean:
-
-* Stories can *and should* inherit from one another, because *specifications ought to be DRY too*.
-* Stories are defined and validated using strongly typed StrictYAML. Step arguments and preconditions ('given') schemas can be defined by the programmer.
-* The execution engine can be programmed to rewrite the executing story based upon program behavior changes (e.g. screen output changes, labels on a web app change).
-* Running stories is done via a python API so you can easily write customized test workflows.
-* Story parameterization is built in.
-
 
 
 Why not X instead?
