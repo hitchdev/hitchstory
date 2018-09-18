@@ -1,5 +1,15 @@
+{% if readme -%}
 HitchStory
 ==========
+{%- else -%}
+
+---
+title: HitchStory
+---
+
+{% raw %}{{< github-stars user="hitchdev" project="hitchstory" >}}{% endraw %}
+{% endif %}
+
 
 HitchStory is a python 3 library for building and running BDD-style executable specifications.
 
@@ -85,6 +95,14 @@ Coming soon:
 * hitchbuildnode -- build node environment.
 * Suggestions welcome
 
+
+Design decisions
+----------------
+
+TODO : Needs fleshing out.
+
+* Why YAML
+* Why inheritance
 
 Why not X instead?
 ------------------
