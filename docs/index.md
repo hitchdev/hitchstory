@@ -7,14 +7,18 @@ HitchStory
 title: HitchStory
 ---
 
+![You know why](sliced-cucumber.jpg)
+
 {% raw %}{{< github-stars user="hitchdev" project="hitchstory" >}}{% endraw %}
 {% endif %}
 
 
-HitchStory is a python 3 library for building and running BDD-style executable specifications.
+HitchStory is a python 3 library for creating readable "specifications by example" and executing
+them. It is an ambitious project intended supplant both traditional BDD tools and unit tests.
 
-Unlike most other BDD tools which use, e.g. Gherkin the specification is written
-with a [StrictYAML](https://hitchdev.com/strictyaml) dialect.
+Unlike many other BDD tools the specification is [written using StrictYAML](why/strictyaml) which
+means that stories will be terse, strongly typed and expressive enough to describe business
+rules and behavior in precise detail.
 
 
 Example
@@ -28,12 +32,14 @@ Example
 Install
 -------
 
-It's recommended to install and [set up hitchstory with hitchkey](setup-with-hitchkey), which can take care of auto-setting
-up a python 3 virtualenv, installing other packages and providing an isolated directory which can be used to build code
-and artefacts in.
+It's recommended to install and [set up hitchstory with hitchkey](setup-with-hitchkey), which can take care of automatically
+setting up a up the [recommended hitchstory environment](recommended-hitchstory-environment).
 
-Nonetheless, it is also possible to set up and use your own python 3 virtualenv and simply pip install hitchstory
-from pypi.
+You can also install it traditionally through pypi:
+
+```bash
+$ pip install hitchstory
+```
 
 
 Using HitchStory
@@ -47,13 +53,12 @@ Using HitchStory
 Tell me more
 ------------
 
-
-HitchStory is a YAML based DSL for writing story 'specificatoins', designed to be simple to write, easy to read, to integrate seamlessly with the
+HitchStory is a YAML based DSL for writing story 'specifications', designed to be simple to write, easy to read, to integrate seamlessly with the
 code that executes them.
 
 This library was dogfooded for years to TDD / BDD, test and autodocument a variety
 of different kinds of software - web apps, python libraries, command line apps,
-replacing other forms of unit, integration and end to end tests.
+replacing all other forms of unit, integration and end to end tests.
 
 Unlike traditional "BDD" frameworks like Cucumber, hitchstory is not primarily designed for
 "[business readability](https://www.martinfowler.com/bliki/BusinessReadableDSL.html)",
@@ -64,10 +69,10 @@ This means:
 * Stories can *and should* inherit from one another, because *specifications ought to be DRY too*.
 * Stories are defined and validated using strongly typed StrictYAML. Step arguments and precondition ('given') schemas can be strictly defined by the programmer.
 * The execution engine can be programmed to rewrite the executing story based upon certain kinds of behavior changes (e.g. output strings, screen output changes, messages in a web app).
-* Running stories is done via a python API rather than a so you can easily program customized test workflows.
-* Built in story parameterization for property based testing.
+* Running stories is done via a python API rather than the command line so you can easily program customized test workflows.
+* There is built  in story parameterization so you can do property based testing.
 * Stories can be easily tested for flakiness.
-* While the stories themselves are not designed primarily for readability, they are designed to be easily used to build readable documentation.
+* The stories are designed to be easily used to build readable documentation.
 
 
 
