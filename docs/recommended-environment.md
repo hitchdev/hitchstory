@@ -1,5 +1,5 @@
 ---
-title: Recommended HitchStory Environment
+title: Recommended Environment
 ---
 
 HitchStory was designed and built on the presumption that it would always be run in a *different* environment
