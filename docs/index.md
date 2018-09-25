@@ -106,7 +106,6 @@ Design decisions
 
 TODO : Needs fleshing out.
 
-* Why YAML
 * Why inheritance
 
 Why not X instead?

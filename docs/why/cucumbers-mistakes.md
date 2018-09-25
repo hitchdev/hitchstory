@@ -1,68 +1,81 @@
 ---
-title: What Cucumber/Gherkin got right
+title: Why not use Behave, Lettuce or Cucumber (Gherkin)?
 ---
 
-Emphasis on readability of the specs
-------------------------------------
+HitchStory and Gherkin are both DSLs for writing user stories that can double as
+acceptance tests, but they have different philosophies and approach.
 
-TODO
+Gherkin scenarios emphasize the following values:
 
-The idea that specifications should be executable and double as tests
----------------------------------------------------------------------
+* The use of English to facilitate customer collaboration.
+* Showing information that is "interesting to the business".
 
-TODO
+Here are some examples.
 
-The deliberate use of a simplified configuration language for specifications
-----------------------------------------------------------------------------
+From the Cucumber website:
 
-TODO
+```gherkin
+Scenario: Buy last coffee
+  Given there are 1 coffees left in the machine
+  And I have deposited 1$
+  When I press the coffee button
+  Then I should be served a coffee
+```
 
-Deliberate separation of concerns between specification and story execution
----------------------------------------------------------------------------
+Hitch scenarios, by contrast, emphasizes the following values:
 
-TODO
+* Ease of use and maintenance by developers first.
+* The screenplay principle.
+* Terse, DRY code.
+* The generation of documentation for customer collaboration and stakeholders input from specifications.
 
-Parameterization
-----------------
+Equivalent scenarios:
 
-TODO
+```yaml
+Buy last coffee:
+  given:
+    machine contains:
+      coffees: 1
+  steps:
+  - Deposit: $1
+  - Press button: coffee
+  - Served up: coffee
+```
 
-The idea that the notion of specifications, tests and documentation are all intrinsically linked
-------------------------------------------------------------------------------------------------
+# What Cucumber/Gherkin got wrong
 
-TODO
+## Being an English-like language
+
+English is vague. English is verbose. English is messy. English is imprecise. These are ideal qualities for some purposes but they are not ideal for writing specifications.
+
+Like actual code, to be effective, specifications must be exact, precise and DRY - whether executable or not.
+
+The imprecision of English is drawn out in Gherkin specifications - they usually lack precision and critical details and end up serving as a sort of high level description of what the program it's describing does.
 
 
-What Cucumber/Gherkin got wrong
-===============================
+## Parser hell
 
-Syntax Design
--------------
+   Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems. - Jamie Zawinksi
 
-English is vague. English is verbose. English is messy. English is not strongly typed.
+Because of the Englishy nature of the language, parsing is also difficult. Gherkin requires very 
 
-Like actual code, specifications need to be precise. Specifications need to be DRY. Specifications need to be exact. Whether executable or not.
+There are a multiplicity of examples around the web where it went wrong causing many headaches for users of Cucumber
+and often leading to hours of unnecessary debugging and [workarounds](http://coryschires.com/ten-tips-for-writing-better-cucumber-steps/).
 
-Making English the basis of an executable specification language was only going to bring out the worst o
+One of the facets of the syntactic ambiguity is that some parsers require you to write regular expressions to parse segments
+of the Gherkin.
 
-The first attempt at making a programming language that looked like English - COBOL - ended up being one of the hardest programming languages to learn.
 
-Gherkin is not as bad as COBOL - it is a configuration language that tried to look like English - not a programming language.
-
-Because of the ambiguous syntax design, there is no clear mapping between step definitions and 
-
-The use of Given/When/Then/And as BDD training wheels that never come off
--------------------------------------------------------------------------
+## Given/When/Then/And are BDD training wheels that don't come off
 
 BDD emphasizes the notion of using Given, When and Then as a way of structuring example based test cases.
 
-And, to be fair, almost every test case should follow this pattern.
+And, to be fair, almost every test case *should* follow this pattern. However, these keywords do not hold
+any meaning for the parser and are ignored.
 
-However, making these keywords which are used to emphasize the structure every test case should follow
-part of the language itself simply adds unnecessary syntactic noise.
-
-For this reason, hitchstory doesn't use this syntax. You're encouraged to follow the structure of
-*thinking* about "given, when, then", but to codify it as:
+For this reason, hitchstory advocates the Given/When/Then *pattern* but, apart from 'given' does not use these
+keywords. "Given" is a user defined mapping of arbitrary YAML that can be used to configure how set_up behaves,
+while the meat of the stories is in the steps.
 
   given:
     something: something else
@@ -72,31 +85,27 @@ For this reason, hitchstory doesn't use this syntax. You're encouraged to follow
   - step 3 # and
   - step 4 # but
 
-The keyword 'given' is still used to distinguish parameters used to set up the environment from steps.
-
-Why does this matter? It results in shorter test cases which means less code to manage.
-
-This does not seem as important looking at one user story - multiply that by a thousand and you have
-a lot more code.
+Why does this matter? It results in executable specifications which are naturally terser and which have more
+room for your business logic.
 
 
+## Verbosity
 
+## Weakly typed
 
-No inheritance
---------------
+## No inheritance
 
   https://stackoverflow.com/questions/41872376/can-a-cucumber-feature-file-inherit-from-a-parent-feature-file
   
   "The short answer, no. Feature files can't inherit from another feature file."
 
-
-Inheritance is about keeping code DRY. Specifications are configuration and just like
-programming code, configuration is best kept DRY.
+Inheritance is, and always has been about keeping code DRY. It is a thorny tool because, while it can reduce
+repetition it can sacrifice readability. For this reason, Gherkin left it out.
 
 From the Stack overflow question:
 
   "A common background is to login in a system. Login is important but it can often be hidden in the steps."
-  
+
 It *can* be.
 
 It *shouldn't* be.
@@ -106,16 +115,15 @@ The steps that lead to login are part of the specification of the system, so *wh
 This conflict between the desire to keep steps DRY and not hide meaningful details in steps
 puts users of Cucumber in a horrible and unnecessary position.
 
-In this article: https://makandracards.com/makandra/18905-how-to-not-repeat-yourself-in-cucumber-scenarios
-
+In the article [how not to repeat yourself in cucumber scenarios](https://makandracards.com/makandra/18905-how-to-not-repeat-yourself-in-cucumber-scenarios)
 I see somebody valiantly *struggling* to find a solution to "how can we achieve the same thing as
 inheritance?" and finding 4 mediocre equivalents.
 
+## The idea that executable specifications should necessarily be non technical
 
-The idea that test cases should necessarily be non-technical
-------------------------------------------------------------
+  Talking about music is like dancing about architecture -- Marvin Mull
 
-Most software doesn't actually interact with humans it interacts with other software.
+Most software packages under test don't actually interact with humans they interacts with other software.
 
 This interaction can be via code - in which case the specification ought to be defined
 with snippets of code.
@@ -130,8 +138,7 @@ To be fair, this isn't a problem with the syntax of Gherkin or design of Cucumbe
 - it is mostly a cultural affectation.
 
 
-Programmers need to want to use it even if the business isn't interested
-------------------------------------------------------------------------
+## Programmers need to want to use the executable specification tool even if the business isn't interested
 
 Due to all of the above problems, Gherkin does not have a wide adoption among developers.
 
@@ -141,3 +148,21 @@ other forms of configuration.
 If programmers don't like using a tool or technology that interfaces to their code,
 forget about getting the business to use it.
 
+
+
+## What Gherkin got right
+
+Cucumber and their related tools became popular for good reasons, even though they made
+many mistakes. They also got a lot of (non-obvious) stuff right:
+
+* Emphasis on readability of the specs
+
+* The idea that specifications should be executable and double as tests
+
+* The deliberate use of a simplified configuration language for specifications
+
+* Deliberate separation of concerns between specification and story execution
+
+* Built in Parameterization
+
+* The idea that the notion of specifications, tests and documentation are all intrinsically linked

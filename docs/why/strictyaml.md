@@ -19,7 +19,7 @@ and there is a lot of existing tooling which can be used (e.g. syntax highlighte
 
 YAML unfortunately contains additional quirks which cause havoc in other applications.
 
-[StrictYAML](../../strictyaml) is a YAML parser with that parses a restricted subset of YAML. The
+[StrictYAML](../../../strictyaml) is a YAML parser with that parses a restricted subset of YAML. The
 subset rejects most of YAML's horrible quirks like that horrible Norway thing.
 
 The parser also contains a means for creating schemas which can be used to validate YAML 
