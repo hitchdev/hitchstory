@@ -1,18 +1,21 @@
 ---
-title: Is hitchstory a BDD language?
+title: Can I do BDD with hitchstory?
 ---
 
-Yes and no.
+The time when it was most useful as a "BDD tool" was when I was working with an extremely technical product manager who was proposing behavior in a command line tool he wanted.
 
-Primarily, BDD is about customer collaboration on writing stories. It does not have
-any technical requirements - simply jotting down an expected behavior on the back of a
-napkin with a customer is technically considered BDD, no matter what tools are used after
-that.
+Initially I received a word document describing the complex logic flows and behavior which he wanted. Gradually I turned those descriptions in to HitchStory
+specifications that described how the command line tool was supposed to behave. This was a process fraught with difficulty because the descriptions
+were often vague, complicated, overloaded and missing data. Worse, I actually didn't really understand what I was building.
 
-However, HitchStory can be used to make BDD easier for a number of reasons:
+I built executable hitchstory specs that I thought were 95% what the product manager wanted.
 
-* The executable stories will be easier for non-programmers subject matter experts to read
-than turing complete code (e.g. unit tests).
+I then showed the HitchStory specs to the product manager and explained what they meant. Because he could understand the specs he could *correct* the mistakes I'd made interpreting the original requirements just by looking over my shoulder and also explain *why* the command line tool was supposed to behave in those ways.
 
-* The executable stories can also be used as a basis to generate documentation which customers
-can use as a quick and preliminary means of acceptance testing.
+At the same time as correcting my mistakes I noted down [alongside the stories](../../using/alpha/metadata) why each behavior was necessary.
+
+I did all of this before writing a single line of code and once I he told me that I'd interpreted him correctly by reading my specs I could start writing the code.
+
+QA picked up bugs afterwards but they were all either (quickly rectified) mistakes he'd made himself in the spec or environment issues. Surprisingly, I had zero spec<->programmer communication issues even though the domain was very complex and I didn't understand it.
+
+Gherkin could have been used to do this in theory, but in practice the spec is not sufficiently expressive and the stories would have ended up being unusably vague. Unit tests could also do this in theory I guess, but good luck getting a stakeholder to read them.
