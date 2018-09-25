@@ -1,49 +1,69 @@
 Given preconditions:
   docs: given
   about: |
-    Stories optionally start with a set of preconditions.
+    Stories are comprised of preconditions followed by steps.
 
-    Hitchstory lets you define these 'given' preconditions using YAML
-    mapping and access them in the story by using self.given as you
-    would a dict - e.g. self.given['property name'].
+    Hitchstory lets you define preconditions using the 'given' keyword
+    in YAML and then use them using self.given['property name'].
 
     The given property names need to first be specified in the engine
-    using GivenDefinition and GivenPropery - optionally
-    with a [StrictYAML schema](https://hitchdev.com/strictyaml).
+    using GivenDefinition and GivenProperty.
+
+    By default, given properties will parse
+    [without a StrictYAML schema](/strictyaml/using/alpha/howto/without-a-schema/),
+    but you can also specify your own [StrictYAML schema](https://hitchdev.com/strictyaml).
+
+    The following example shows a browser precondition being used to set up
+    a mock selenium object.
   given:
     example.story: |
-      Create files:
+      Load with chrome:
         given:
-          thing:
-            content: things
-          List of things:
-          - thing one
-          - thing two
-          scalar thing: 35
+          browser configuration:
+            name: chrome
+            version: 22.0
+            platform: linux
         steps:
-          - Create file
+        - Load website
+
+      Load with small firefox window:
+        given:
+          browser configuration:
+            name: firefox
+            platform: linux
+            dimensions:
+              height: 200
+              width: 200
+        steps:
+        - Load website
     engine.py: |
       from hitchstory import BaseEngine, GivenDefinition, GivenProperty
-      from strictyaml import Str, Map, Seq, Int, MapPattern
-
-      def output(contents):
-          with open("output.txt", 'a') as handle:
-              handle.write("{0}\n".format(contents))
+      from strictyaml import Optional, Str, Map, Enum, Seq, Int, MapPattern
+      from mockselenium import Webdriver
 
       class Engine(BaseEngine):
           given_definition=GivenDefinition(
-              thing=GivenProperty(schema=MapPattern(Str(), Str())),
-              list_of_things=GivenProperty(schema=Seq(Str())),
-              scalar_thing=GivenProperty(Int())
+              browser_configuration=GivenProperty(
+                  schema=Map({
+                      "name": Str(),
+                      "platform": Enum(["linux", "osx", "windows"]),
+                      Optional("version"): Str(),
+                      Optional("dimensions"): Map({"height": Int(), "width": Int()}),
+                  })
+              ),
           )
 
-          def create_file(self):
-              output(self.given['thing'].get('content') if 'thing' in self.given else None)
-              output(", ".join(self.given.get('List of things', [])))
-              output(self.given['scalar thing'] if 'scalar thing' in self.given else None)
-              output(self.given.get('scalar thing', 'default'))
-              output(sorted(self.given.keys()))
-              output(sorted(self.given.items()))
+          def set_up(self):
+              browser = self.given["browser configuration"]
+              self.driver = Webdriver(
+                  name=browser['name'],
+                  platform=browser['platform'],
+                  version=browser.get('version'),
+                  dimensions=browser.get('dimensions', {"height": 1000, "width": 1000}),
+              )
+
+          def load_website(self):
+              self.driver.visit("http://www.google.com")
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
@@ -53,37 +73,20 @@ Given preconditions:
       steps:
       - Run:
           code: |
-            StoryCollection(pathquery(".").ext("story"), Engine()).one().play()
+            StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
           will output: |-
-            RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
-      - File contents will be:
-          filename: output.txt
-          contents: |-
-            things
-            thing one, thing two
-            35
-            35
-            ['list_of_things', 'scalar_thing', 'thing']
-            [('list_of_things', ['thing one', 'thing two']), ('scalar_thing', 35), ('thing', OrderedDict([('content', 'things')]))]
+            RUNNING Load with chrome in /path/to/example.story ...
+            Browser name: chrome
+            Platform: linux
+            Version: 22.0
+            Dimensions: 1000 x 1000
 
-    Defaulting to empty list, None or empty dict:
-      given:
-        example.story: |
-          Create files:
-            steps:
-              - Create file
-      steps:
-      - Run:
-          code: |
-            StoryCollection(pathquery(".").ext("story"), Engine()).one().play()
-          will output: |-
-            RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
-      - File contents will be:
-          filename: output.txt
-          contents: |-
-            None
+            Visiting http://www.google.com
+            SUCCESS in 0.1 seconds.
+            RUNNING Load with small firefox window in /path/to/example.story ...
+            Browser name: firefox
+            Platform: linux
+            Dimensions: 200 x 200
 
-            None
-            default
-            []
-            []
+            Visiting http://www.google.com
+            SUCCESS in 0.1 seconds.
