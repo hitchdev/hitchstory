@@ -33,7 +33,7 @@ Install
 -------
 
 It's recommended to install and [set up hitchstory with hitchkey](setup-with-hitchkey), which can take care of automatically
-setting up a up the [recommended hitchstory environment](recommended-environment).
+setting up a up the [recommended hitchstory environment](approach/recommended-environment).
 
 You can also install it traditionally through pypi:
 
