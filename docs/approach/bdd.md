@@ -1,6 +1,8 @@
 ---
-title: Can I do BDD with hitchstory?
+title: Can I do BDD with hitchstory? How do I do BDD with hitchstory?
 ---
+
+Short answer: yes, but you can also do BDD with a pencil and a napkin.
 
 The time when it was most useful as a "BDD tool" was when I was working with an extremely technical product manager who was proposing behavior in a command line tool he wanted.
 
@@ -14,8 +16,8 @@ I then showed the HitchStory specs to the product manager and explained what the
 
 At the same time as correcting my mistakes I noted down [alongside the stories](../../using/alpha/metadata) why each behavior was necessary.
 
-I did all of this before writing a single line of code and once I he told me that I'd interpreted him correctly by reading my specs I could start writing the code.
+Once I he told me that I'd interpreted him correctly by reading my specs I could start writing the code.
 
-QA picked up bugs afterwards but they were all either (quickly rectified) mistakes he'd made himself in the spec or environment issues. Surprisingly, I had zero spec<->programmer communication issues even though the domain was very complex and I didn't understand it.
+QA picked up bugs afterwards but they were all either (quickly rectified) mistakes he'd made himself in the spec or environment issues. Surprisingly, I had zero spec<->programmer communication issues even though the domain was very complex and I still didn't understand it.
 
 Gherkin could have been used to do this in theory, but in practice the spec is not sufficiently expressive and the stories would have ended up being unusably vague. Unit tests could also do this in theory I guess, but good luck getting a stakeholder to read them.

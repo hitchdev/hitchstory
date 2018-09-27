@@ -9,46 +9,37 @@ this tends to be only because high level tests are testing more code.
 
 The probability of flakiness increases with the amount of code being tested.
 
-How to deal with flakiness?
----------------------------
-
-Flakiness in any test should be considered a *bug to be fixed*.
-
-It should not ever, *ever* just be considered "just a fact of life". That's bad
-engineering.
-
-It should not be considered a reason to choose lower level testing over
-higher level testing either.s
+## How to deal with flakiness?
 
 Extreme flakiness can lead to test failure habituation and, in extreme
 cases, test abandonment.
 
-Causes
-------
+Flakiness in any test should mainly be considered an undesirable property
+to test for and, when detected, a bug to be fixed.
+
+## Causes
 
 There are a number of common causes of flaky tests:
 
 * Timing issues
 ** The selenium sleep
-* Dependencies and environment behaving in unexpected ways:
-** Odd time
+* Dependencies behaving in unexpected ways:
 ** Upgraded packages
 ** New data from a downloaded database.
-* Bugs in testing code
+* Environment behaving in unexpected ways:
+** Odd time
+* Bugs and indeterminism in testing code
 * Code that behaves non-deterministically
 
-Flaky tests can be solved with an approach known as radical isolation.
+Flaky tests can almost always be solved through more:
 
-Useful flakiness
-----------------
+* Increasing isolation
+* Changing code to be deterministic
+* Accomodating indeterminism
+
+## Useful flakiness
 
 Mostly test flakiness is just an irritation.
 
 However, sometimes, flakiness is actually useful in that it highlights a
 bug that would previously have remained uncovered.
-
-Regression flakiness
---------------------
-
-TODO : implement feature that runs regression tests that only test
-that for flakiness.

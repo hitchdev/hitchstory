@@ -10,6 +10,10 @@ An iron rule of screenplay writing is that you do not write what a character thi
 
 This parallels a similar problem with software specification:
 
-* Overspecification - where a specification defines *how* a problem is to be achieved, rather than what problem is to be achieved.
+* Overspecification - where a spec defines *how* a problem is to be achieved, rather than what problem is to be achieved.
 
-* Underspecification - where a specification does not nail down a specification, leaving the desired behavior vague.
+* Underspecification - where a spec does not nail down a specification, leaving the desired behavior vague.
+
+HitchStory is built on the presumption that its job is to expose virtually all behavioral details of a program or module
+in a precise and meaningful way and that, as a side effect, this should make it easy to execute them as a test or
+turn them in to documentation.
