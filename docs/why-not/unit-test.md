@@ -1,21 +1,20 @@
 ---
-title: Why use hitchstory instead of an xUnit framework? (e.g. 
+title: Why use hitchstory instead of a unit testing framework?
 ---
 
-First note that this is *not* an argument against the following:
+This is *not* an argument against the following:
 
 * Testing in general
 * Test driven development
 * Low level testing (of classes and methods or otherwise)
 * Property based testing (e.g. hypothesis).
 * Mocking
+* Doctests
 
-All of those things are great. Please do not mistake this as an argument against
-any of them in principle. None of them actually require the use of unit tests.
+All have their place.
 
-There are, broadly speaking, two applications of unit testing - one which works
-okay and one of which works poorly enough that advocates for it are actually doing
-great harm.
+This simply about the use of unit testing frameworks - py.test, nose, unittest2, jUnit, etc.
+for low level testing, integration testing *and* end to end testing.
 
 There are, broadly speaking, two types of code - algorithmic code and integration
 code. Here are several examples of the former:
@@ -32,13 +31,15 @@ Here are several examples of the latter:
 
 ## Low level testing of algorithmic code
 
-Low level testing of algorithmic code looks a little like this::
+Low level testing of algorithmic code looks a little like this example testing an 'incrementor' from the py.test home page:
 
-  def test_sort_five_items():
-      assert sorted([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+```python
+def test_answer():
+    assert inc(3) == 4
+```
 
 This is actually a good example of a clear test. The intent is obvious, the
-label is descriptive. This is more or less how all tests should be.
+label is descriptive.
 
 This works because the code is, despite being turing complete,
 declarative and simple.
