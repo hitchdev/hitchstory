@@ -1,18 +1,13 @@
 ---
-title: Why unit testing needs to die
+title: Why use hitchstory instead of an xUnit framework? (e.g. 
 ---
 
-This is a controversial argument but, one that needs to be made:
-
-  The world needs to move on from unit testing.
-
-It ought to be noted that this is *not* an argument against any of the following,
-which are often conflated with unit testing:
+First note that this is *not* an argument against the following:
 
 * Testing in general
-* Property based testing (e.g. hypothesis).
 * Test driven development
-* The testing pyramid
+* Low level testing (of classes and methods or otherwise)
+* Property based testing (e.g. hypothesis).
 * Mocking
 
 All of those things are great. Please do not mistake this as an argument against
@@ -35,8 +30,7 @@ Here are several examples of the latter:
 * A device driver
 * A simple javascript widget
 
-Low level testing of algorithmic code
--------------------------------------
+## Low level testing of algorithmic code
 
 Low level testing of algorithmic code looks a little like this::
 
@@ -50,15 +44,38 @@ This works because the code is, despite being turing complete,
 declarative and simple.
 
 
-High level testing of integration code
---------------------------------------
+## High level testing of integration code
+
+Ultimately it boils down to two programming principles which hitchstory provides 'rails' to guide
+you:
+
+* The rule of least power
+* Separation of concerns
+
+Hitchstory stories describe a sequence of events which describe either a user or a user-system
+interacting with your code. This can be used to describe the functioning of any software system.
+It is not necessary** to use turing complete code to describe a sequence of events, therefore,
+according to the rule of least power, you shouldn't use turing complete code to do it.
+
+However, turing complete code *is* required to set up and mimic this set of events. This is
+what the hitchstory engine is used for, which must be written in turing complete python.
+
+This divide between story definition and story execution also creates a natural barrier for the
+separation of concerns. Story definition goes in the stories while execution goes in the engine.
+Unit testing frameworks do not have any such natural barrier for separation of concerns.
+
+Web developers may be familiar with this principle as it is expressed in web development
+frameworks where (intentionally less powerful) templating languages are used to render HTML,
+separated by a divide from more powerful 'controller' (or, in Django, 'view') code.
+
+Other features which are not (and cannot) be duplicated in unit testing frameworks:
+
+## Automated story modification
+
+The hitchdev framework does come with a lot of useful testing tools which could just as
+easily be used with py.test if you so wish.
 
 
 
-Rebuttals
----------
+## Rebuttals
 
-In the interests of openness and clarity and in recognition of 
-
-Theoretically I'm interested in openness and clarity, so all of you who wish to offer
-a rebuttal can open a pull request and link (rel="nofollow") to it here or raise a ticket.
