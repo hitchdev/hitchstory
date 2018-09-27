@@ -2,13 +2,13 @@
 title: Set up with HitchKey
 ---
 
-You can quickstart hitchstory with hitchkey by installing the hitchkey bootstrapper with pipsi:
+You can quickstart hitchstory with hitchkey by installing the hitchkey bootstrapper with [pipsi](https://github.com/mitsuhiko/pipsi):
 
 ```bash
 pipsi install hitchkey
 ```
 
-Or, if you prefer to not use pipsi, this is also safe and won't mess with any system dependencies:
+Or, if you don't want to install pipsi, this is also safe and won't affect any system dependencies:
 
 ```bash
 sudo pip install hitchkey
@@ -16,7 +16,7 @@ sudo pip install hitchkey
 
 In your project, create a "hitch" directory and drop the following files in it:
 
-mystory.story, containing:
+mystory.story, containing a story with one step:
 
 ```yaml
 My first story:
@@ -24,7 +24,7 @@ My first story:
   - Do something
 ```
 
-engine.py, containing:
+engine.py, containing code that executes stories but doesn't do anything:
 
 ```
 from hitchstory import BaseEngine
@@ -40,7 +40,7 @@ class Engine(BaseEngine):
         pass
 ```
 
-key.py, containing:
+key.py, containing code to run stories:
 
 ```
 from hitchstory import exceptions, StoryCollection
@@ -64,7 +64,7 @@ def regression():
     StoryCollection(pathquery(DIR.key).ext("story"), Engine(DIR)).ordered_by_name().play()
 ```
 
-hitchreqs.in, containing all the python dependencies you want from pypi:
+hitchreqs.in, containing all the python packages you want installed in the virtualenv used by key.py and engine.py:
 
 ```
 hitchstory
@@ -72,7 +72,7 @@ pathquery
 hitchrun
 ```
 
-Then, you can enter any directory in your project and run:
+Then, you can enter *any* directory in your project and run:
 
 ```bash
 hk bdd my
