@@ -84,7 +84,10 @@ And you should get a lot of virtualenv set up followed by:
 RUNNING My first story in /path/to/mystory.story ... SUCCESS in 0.0 seconds.
 ```
 
-Then, if you run it again with a ready virtualenv it should be quicker:
+A hitchreqs.txt file will also appear containing fixed dependencies of all of the packages
+you specified and their dependent packages.
+
+Then, if you run it again with a ready virtualenv and an unchanged hitchreqs.in / hitchreqs.txt it will run immediately:
 
 ```
 RUNNING My first story in /path/to/mystory.story ... SUCCESS in 0.0 seconds.

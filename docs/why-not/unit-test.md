@@ -2,6 +2,8 @@
 title: Why use hitchstory instead of a unit testing framework?
 ---
 
+NOTE: This argument is a work in progress and there are still several things that need amending / adding.
+
 This is *not* an argument against the following:
 
 * Testing in general
@@ -75,8 +77,4 @@ Other features which are not (and cannot) be duplicated in unit testing framewor
 
 The hitchdev framework does come with a lot of useful testing tools which could just as
 easily be used with py.test if you so wish.
-
-
-
-## Rebuttals
 

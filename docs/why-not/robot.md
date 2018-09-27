@@ -2,6 +2,8 @@
 title: Why not use the Robot Framework?
 ---
 
+NOTE: This argument is a work in progress and there are still several things that need amending / adding.
+
 HitchDev was, in a sense, inspired by the robot framework. I used it many years ago and became incredibly frustrated using it for debugging.
 
 The last straw was trying to debug a robot test failure and discovering that the step that the test failed on was not displayed to the end user. It turned out that the maintainers had reasons for doing this, but they were bad reasons.
@@ -12,19 +14,18 @@ Robot did, I think, get one thing right - a feature it shares in common with cuc
 
 However, it also made several mistakes:
 
-#1 The language was too complicated
+# 1 The language is too complicated
 
-The robot language was supposed to be a readable equivalent to python. Unfortunately, like many other languages that get on the [DSL treadmill] there were features added until it became Turing complete.
+The robot language was supposed to be a readable equivalent to python. Unfortunately, like many other languages that get on the DSL treadmill there were features added until it became Turing complete.
 
 The language has conditionals, loops and variables - it essentially is a programming language, except not a very good one.
 
 
-#2 The debugging tooling is poor and the framework is not really designed to be ergonomic when debugging
+# 2 The debugging tooling is poor and the framework is not really designed to be ergonomic when debugging
 
+TODO
 
-
-
-#2 RobotSelenium is tightly coupled to Robot
+# 3 RobotSelenium is tightly coupled to Robot
 
 I made this mistake too initially when designing hitchstory. The temptation to have prewritten steps that could be plugged in (e.g. click) was pretty strong. It wasn't a good approach however - flexibility is too valuable.
 
