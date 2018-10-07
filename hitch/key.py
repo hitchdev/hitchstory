@@ -1,11 +1,9 @@
-from commandlib import Command, CommandError
+from commandlib import Command
 from hitchstory import StoryCollection, BaseEngine, exceptions, validate
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
 from hitchrun import expected
 from strictyaml import Str, Map, Optional, Enum
 from pathquery import pathquery
-from commandlib import python
-from hitchrun import hitch_maintenance
 from hitchrun import DIR
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import no_stacktrace_for
@@ -18,6 +16,7 @@ import re
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
+
     given_definition = GivenDefinition(
         base_story=GivenProperty(Str()),
         example_story=GivenProperty(Str()),
@@ -54,16 +53,19 @@ class Engine(BaseEngine):
 
         # hitchstory needs to be refactored to be able to clean up this repetition
         for filename in [
-            'base.story', 'example.story', 'example1.story',
-            'example2.story', 'example3.story', 'engine.py', 'documentation.jinja2',
+            "base.story",
+            "example.story",
+            "example1.story",
+            "example2.story",
+            "example3.story",
+            "engine.py",
+            "documentation.jinja2",
         ]:
             if filename in self.given:
                 self.path.state.joinpath(filename).write_text(self.given[filename])
 
         self.python = hitchpylibrarytoolkit.project_build(
-            "hitchstory",
-            self.path,
-            self.given.get("python_version", "3.7.0")
+            "hitchstory", self.path, self.given.get("python_version", "3.7.0")
         ).bin.python
 
     def _story_friendly_output(self, output):
@@ -79,18 +81,21 @@ class Engine(BaseEngine):
         ...and replaces them with a deterministic, representative or
         more human readable output.
         """
-        friendly_output = '\n'.join([
-            line.rstrip() for line in
-            output.replace(colorama.Fore.RED, "[[ RED ]]")
-                  .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")
-                  .replace(colorama.Style.DIM, "[[ DIM ]]")
-                  .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
-                  .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
-                  .replace(self.path.state, "/path/to")
-                  .replace("0.2 seconds", "0.1 seconds")
-                  .replace("0.0 seconds", "0.1 seconds")
-                  .rstrip().split("\n")
-        ])
+        friendly_output = "\n".join(
+            [
+                line.rstrip()
+                for line in output.replace(colorama.Fore.RED, "[[ RED ]]")
+                .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")
+                .replace(colorama.Style.DIM, "[[ DIM ]]")
+                .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
+                .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
+                .replace(self.path.state, "/path/to")
+                .replace("0.2 seconds", "0.1 seconds")
+                .replace("0.0 seconds", "0.1 seconds")
+                .rstrip()
+                .split("\n")
+            ]
+        )
         return re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
 
     @no_stacktrace_for(AssertionError)
@@ -98,15 +103,14 @@ class Engine(BaseEngine):
     @validate(
         code=Str(),
         will_output=Str(),
-        raises=Map({
-            Optional("type"): Str(),
-            Optional("message"): Str(),
-        })
+        raises=Map({Optional("type"): Str(), Optional("message"): Str()}),
     )
     def run(self, code, will_output=None, raises=None):
-        self.example_py_code = ExamplePythonCode(self.python, self.path.state)\
-            .with_terminal_size(160, 100)\
-            .with_setup_code(self.given.get('setup', ''))
+        self.example_py_code = (
+            ExamplePythonCode(self.python, self.path.state)
+            .with_terminal_size(160, 100)
+            .with_setup_code(self.given.get("setup", ""))
+        )
         to_run = self.example_py_code.with_code(code)
 
         if self.settings.get("cprofile"):
@@ -114,7 +118,9 @@ class Engine(BaseEngine):
                 self.path.profile.joinpath("{0}.dat".format(self.story.slug))
             )
 
-        result = to_run.expect_exceptions().run() if raises is not None else to_run.run()
+        result = (
+            to_run.expect_exceptions().run() if raises is not None else to_run.run()
+        )
 
         actual_output = self._story_friendly_output(result.output)
 
@@ -128,32 +134,42 @@ class Engine(BaseEngine):
                     raise
 
         if raises is not None:
-            exception_type = raises.get('type')
-            message = raises.get('message')
+            exception_type = raises.get("type")
+            message = raises.get("message")
 
             try:
                 result = self.example_py_code.expect_exceptions().run()
                 result.exception_was_raised(exception_type)
-                exception_message = self._story_friendly_output(result.exception.message)
+                exception_message = self._story_friendly_output(
+                    result.exception.message
+                )
                 Templex(exception_message).assert_match(message)
             except AssertionError:
                 if self.settings.get("overwrite artefacts"):
                     new_raises = raises.copy()
-                    new_raises['message'] = exception_message
+                    new_raises["message"] = exception_message
                     self.current_step.update(raises=new_raises)
                 else:
                     raise
 
     def example_story_unchanged(self):
-        assert self.path.state.joinpath("example.story").text() == self.given['example_story'], \
-            "example.story should have been unchanged but was changed"
+        assert (
+            self.path.state.joinpath("example.story").text()
+            == self.given["example_story"]
+        ), "example.story should have been unchanged but was changed"
 
     @no_stacktrace_for(AssertionError)
     def file_contents_will_be(self, filename, contents):
-        file_contents = '\n'.join([
-            line.rstrip() for line in
-            self.path.state.joinpath(filename).bytes().decode('utf8').strip().split('\n')
-        ])
+        file_contents = "\n".join(
+            [
+                line.rstrip()
+                for line in self.path.state.joinpath(filename)
+                .bytes()
+                .decode("utf8")
+                .strip()
+                .split("\n")
+            ]
+        )
         try:
             Templex(contents.strip()).assert_match(file_contents)
         except AssertionError:
@@ -163,18 +179,19 @@ class Engine(BaseEngine):
                 raise
 
     def pause(self, message="Pause"):
-        if hasattr(self, 'services'):
+        if hasattr(self, "services"):
             self.services.start_interactive_mode()
         import IPython
+
         IPython.embed()
-        if hasattr(self, 'services'):
+        if hasattr(self, "services"):
             self.services.stop_interactive_mode()
 
     @no_stacktrace_for(FileNotFoundError)
     def output_is(self, expected_contents):
-        Templex(
-            self.path.state.joinpath("output.txt").text()
-        ).assert_match(expected_contents)
+        Templex(self.path.state.joinpath("output.txt").text()).assert_match(
+            expected_contents
+        )
         self.path.state.joinpath("output.txt").remove()
 
     def splines_reticulated(self):
@@ -192,20 +209,20 @@ class Engine(BaseEngine):
     def file_was_created_with(self, filename="", contents=""):
         if not self.path.state.joinpath(filename).exists():
             raise RuntimeError("{0} does not exist".format(filename))
-        if self.path.state.joinpath(filename).bytes().decode('utf8') != contents:
+        if self.path.state.joinpath(filename).bytes().decode("utf8") != contents:
             raise RuntimeError("{0} did not contain {0}".format(filename, contents))
 
     def form_filled(self, **kwargs):
         for name, value in kwargs.items():
-            assert value == \
-                self.path.state.joinpath("{0}.txt".format(name)).bytes().decode('utf8')
+            assert value == self.path.state.joinpath(
+                "{0}.txt".format(name)
+            ).bytes().decode("utf8")
 
     def buttons_clicked(self, contents):
-        assert contents.strip() == \
-            self.path.state.joinpath("buttons.txt").bytes().decode('utf8').strip()
-
-    def on_success(self):
-        self.new_story.save()
+        assert (
+            contents.strip()
+            == self.path.state.joinpath("buttons.txt").bytes().decode("utf8").strip()
+        )
 
 
 def _storybook(settings):
@@ -217,9 +234,9 @@ def rbdd(*keywords):
     """
     Run story with name containing keywords and rewrite.
     """
-    _storybook({
-        "overwrite artefacts": True, "print output": True,
-    }).shortcut(*keywords).play()
+    _storybook({"overwrite artefacts": True, "print output": True}).shortcut(
+        *keywords
+    ).play()
 
 
 @expected(exceptions.HitchStoryException)
@@ -227,9 +244,9 @@ def bdd(*keywords):
     """
     Run story with name containing keywords.
     """
-    _storybook({
-        "overwrite artefacts": False, "print output": True,
-    }).shortcut(*keywords).play()
+    _storybook({"overwrite artefacts": False, "print output": True}).shortcut(
+        *keywords
+    ).play()
 
 
 @expected(exceptions.HitchStoryException)
@@ -253,65 +270,43 @@ def regression():
     ).only_uninherited().ordered_by_name().play()
 
 
-@expected(CommandError)
+def reformat():
+    """
+    Reformat using black and then relint.
+    """
+    hitchpylibrarytoolkit.reformat(DIR.project, "hitchstory")
+
+
 def lint():
     """
-    Lint all code.
+    Lint project code and hitch code.
     """
-    python("-m", "flake8")(
-        DIR.project.joinpath("hitchstory"),
-        "--max-line-length=100",
-        "--exclude=__init__.py",
-    ).run()
-    python("-m", "flake8")(
-        DIR.key.joinpath("key.py"),
-        "--max-line-length=100",
-        "--exclude=__init__.py",
-    ).run()
-    print("Lint success!")
-
-
-def hitch(*args):
-    """
-    Use 'h hitch --help' to get help on these commands.
-    """
-    hitch_maintenance(*args)
+    hitchpylibrarytoolkit.lint(DIR.project, "hitchstory")
 
 
 def deploy(version):
     """
     Deploy to pypi as specified version.
     """
-    NAME = "hitchstory"
-    git = Command("git").in_dir(DIR.project)
-    version_file = DIR.project.joinpath("VERSION")
-    old_version = version_file.bytes().decode('utf8')
-    if version_file.bytes().decode("utf8") != version:
-        DIR.project.joinpath("VERSION").write_text(version)
-        git("add", "VERSION").run()
-        git("commit", "-m", "RELEASE: Version {0} -> {1}".format(
-            old_version,
-            version
-        )).run()
-        git("push").run()
-        git("tag", "-a", version, "-m", "Version {0}".format(version)).run()
-        git("push", "origin", version).run()
-    else:
-        git("push").run()
+    hitchpylibrarytoolkit.deploy(DIR.project, "hitchstory", version)
 
-    # Set __version__ variable in __init__.py, build sdist and put it back
-    initpy = DIR.project.joinpath(NAME, "__init__.py")
-    original_initpy_contents = initpy.bytes().decode('utf8')
-    initpy.write_text(
-        original_initpy_contents.replace("DEVELOPMENT_VERSION", version)
+
+@expected(dirtemplate.exceptions.DirTemplateException)
+def docgen():
+    """
+    Build documentation.
+    """
+    hitchpylibrarytoolkit.docgen(_storybook({}), DIR.project, DIR.key, DIR.gen)
+
+
+@expected(dirtemplate.exceptions.DirTemplateException)
+def readmegen():
+    """
+    Build documentation.
+    """
+    hitchpylibrarytoolkit.readmegen(
+        _storybook({}), DIR.project, DIR.key, DIR.gen, "hitchstory"
     )
-    python("setup.py", "sdist").in_dir(DIR.project).run()
-    initpy.write_text(original_initpy_contents)
-
-    # Upload to pypi
-    python(
-        "-m", "twine", "upload", "dist/{0}-{1}.tar.gz".format(NAME, version)
-    ).in_dir(DIR.project).run()
 
 
 def rerun(version="3.5.0"):
@@ -321,42 +316,3 @@ def rerun(version="3.5.0"):
     Command(DIR.gen.joinpath("py{0}".format(version), "bin", "python"))(
         DIR.gen.joinpath("state", "examplepythoncode.py")
     ).in_dir(DIR.gen.joinpath("state")).run()
-
-
-@expected(dirtemplate.exceptions.DirTemplateException)
-def docgen():
-    """
-    Build documentation.
-    """
-    from strictyaml import load
-
-    def title(dirfile):
-        assert len(dirfile.text().split("---")) >= 3, "{} doesn't have ---".format(dirfile)
-        return load(dirfile.text().split("---")[1]).data.get("title", "misc")
-
-    docfolder = DIR.gen/"docs"
-
-    if docfolder.exists():
-        docfolder.rmtree(ignore_errors=True)
-    docfolder.mkdir()
-
-    template = dirtemplate.DirTemplate(
-        "docs", DIR.project/"docs", DIR.gen,
-    ).with_files(
-        template_story_jinja2={
-            "using/alpha/{0}.md".format(story.info['docs']): {"story": story}
-            for story in _storybook({}).ordered_by_name()
-            if 'docs' in story.info
-        },
-    ).with_vars(
-        readme=False,
-        include_title=True,
-        quickstart=_storybook({})
-        .in_filename(DIR.key/"quickstart.story")
-        .non_variations()
-        .ordered_by_file(),
-    ).with_functions(
-        title=title
-    )
-    template.ensure_built()
-    print("Docs generated")

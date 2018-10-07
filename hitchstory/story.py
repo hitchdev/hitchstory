@@ -9,13 +9,14 @@ import colorama
 import time
 
 
-class StoryInfo():
+class StoryInfo:
     def __init__(self, info_definition, data):
         self._info = OrderedDict()
         for info_property in info_definition.keys():
             if info_property in data.keys():
-                self._info[underscore_slugify(info_property)] = \
-                    data.get(underscore_slugify(info_property))
+                self._info[underscore_slugify(info_property)] = data.get(
+                    underscore_slugify(info_property)
+                )
 
     def get(self, key, default=None):
         return self._info.get(underscore_slugify(key), default)
@@ -39,11 +40,14 @@ class Story(object):
         self._info = StoryInfo(self.engine.info_definition, self.data)
         self._collection = self._story_file.collection
         self.children = []
-        self.about = self.data.get('about', '')
+        self.about = self.data.get("about", "")
 
     def _unparameterized_preconditions(self):
-        precondition_dict = self.parent._unparameterized_preconditions() \
-            if self.parent is not None else OrderedDict()
+        precondition_dict = (
+            self.parent._unparameterized_preconditions()
+            if self.parent is not None
+            else OrderedDict()
+        )
         for name, precondition in self.data.get("given", OrderedDict()).items():
             precondition_dict[name] = precondition
         return precondition_dict
@@ -51,20 +55,20 @@ class Story(object):
     @property
     def _yaml_steps(self):
         step_list = self._parent_steps
-        step_list.extend(self._parsed_yaml.get('steps', []))
+        step_list.extend(self._parsed_yaml.get("steps", []))
         return step_list
 
     @property
     def _parent_steps(self):
-        return self.parent._yaml_steps \
-            if self.parent is not None else []
+        return self.parent._yaml_steps if self.parent is not None else []
 
     def _initialize(self):
         precondition_dict = self._unparameterized_preconditions()
         for name, precondition in precondition_dict.items():
             if utils.is_parameter(precondition):
-                precondition_dict[name] = \
-                    self.params[utils.parameter_name(precondition)]
+                precondition_dict[name] = self.params[
+                    utils.parameter_name(precondition)
+                ]
             else:
                 precondition_dict[name] = precondition
         self._precondition_dict = precondition_dict
@@ -73,7 +77,8 @@ class Story(object):
         self._steps = [
             StoryStep(
                 self, parsed_step, index, index - number_of_parent_steps, self.params
-            ) for index, parsed_step in enumerate(self._yaml_steps)
+            )
+            for index, parsed_step in enumerate(self._yaml_steps)
         ]
 
     def update(self, step, kwargs):
@@ -89,7 +94,7 @@ class Story(object):
 
     @property
     def based_on(self):
-        return self.data['based on'] if "based on" in self.data else self._variation_of
+        return self.data["based on"] if "based on" in self.data else self._variation_of
 
     @property
     def story_file(self):
@@ -113,8 +118,11 @@ class Story(object):
 
     @property
     def name(self):
-        return self._name if not self.variation\
+        return (
+            self._name
+            if not self.variation
             else "{0}/{1}".format(self._variation_of, self._name)
+        )
 
     @property
     def slug(self):
@@ -128,8 +136,7 @@ class Story(object):
 
     @property
     def params(self):
-        param_dict = self.parent.params \
-            if self.parent is not None else {}
+        param_dict = self.parent.params if self.parent is not None else {}
         for name, param in self.data.get("with", {}).items():
             param_dict[name] = param
         for name, param in self._collection._params.items():
@@ -153,15 +160,15 @@ class Story(object):
         except Exception as exception:
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
-            raise exception_to_raise(
-                stack_trace
-            )
+            raise exception_to_raise(stack_trace)
 
     def _run_on_success(self):
         try:
             self.engine.on_success()
         except Exception as exception:
-            self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
+            self._run_special_method(
+                self.engine.tear_down, exceptions.TearDownException
+            )
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
             raise exceptions.OnSuccessException(stack_trace)
@@ -170,7 +177,9 @@ class Story(object):
         try:
             self.engine.on_failure(result)
         except Exception as exception:
-            self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
+            self._run_special_method(
+                self.engine.tear_down, exceptions.TearDownException
+            )
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
             raise exceptions.OnFailureException(stack_trace)
@@ -178,10 +187,7 @@ class Story(object):
     def _play_single_story(self):
         start_time = time.time()
         self._collection.log(
-            "RUNNING {0} in {1} ... ".format(
-                self.name,
-                self._story_file.filename,
-            ),
+            "RUNNING {0} in {1} ... ".format(self.name, self._story_file.filename),
             newline=False,
         )
         passed = False
@@ -205,9 +211,11 @@ class Story(object):
                 run_step_method = step.method()
                 run_step_method()
 
-                if hasattr(self.engine, '_aborted') and self.engine._aborted:
+                if hasattr(self.engine, "_aborted") and self.engine._aborted:
                     self._collection.log("Aborted")
-                    self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
+                    self._run_special_method(
+                        self.engine.tear_down, exceptions.TearDownException
+                    )
                     return
             passed = True
         except Exception as exception:
@@ -215,7 +223,9 @@ class Story(object):
             if current_step is not None and current_step.expect_exception(
                 self.engine, caught_exception
             ):
-                failure_stack_trace = DEFAULT_STACK_TRACE.only_the_exception().current_stacktrace()
+                failure_stack_trace = (
+                    DEFAULT_STACK_TRACE.only_the_exception().current_stacktrace()
+                )
             else:
                 failure_stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
@@ -223,9 +233,7 @@ class Story(object):
             self._run_on_success()
             result = Success(self, time.time() - start_time)
             self.story_file.rewrite()
-            self._collection.log(
-                "SUCCESS in {0:.1f} seconds.".format(result.duration)
-            )
+            self._collection.log("SUCCESS in {0:.1f} seconds.".format(result.duration))
         else:
             result = Failure(
                 self,
@@ -271,8 +279,7 @@ class Story(object):
             if result.is_flaky:
                 self._collection.log(
                     "\nFLAKINESS DETECTED in {0:.1f} seconds, {1:.0f}% of stories failed.".format(
-                        time.time() - start_time,
-                        result.percentage_failures,
+                        time.time() - start_time, result.percentage_failures
                     )
                 )
                 return result

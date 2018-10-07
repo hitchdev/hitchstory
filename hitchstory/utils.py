@@ -12,11 +12,11 @@ SRC_DIR = Path(__file__).realpath().dirname()
 TEMPLATE_DIR = SRC_DIR.joinpath("templates")
 
 
-DEFAULT_STACK_TRACE = prettystack.PrettyStackTemplate()\
-                                 .to_console()\
-                                 .cut_calling_code(
-                                      SRC_DIR.joinpath("story.py")
-                                 )
+DEFAULT_STACK_TRACE = (
+    prettystack.PrettyStackTemplate()
+    .to_console()
+    .cut_calling_code(SRC_DIR.joinpath("story.py"))
+)
 
 
 PARAM_REGEX = r"^\(\((.*?)\)\)$"
@@ -27,7 +27,7 @@ YAML_Param = Regex(PARAM_REGEX)
 
 class UnderscoredSlug(ScalarValidator):
     def validate_scalar(self, chunk):
-        return slugify(chunk.contents, separator='_')
+        return slugify(chunk.contents, separator="_")
 
 
 def is_parameter(text):
@@ -51,12 +51,12 @@ def parameter_name(text):
 def to_underscore_style(text):
     """Changes "Something like this" to "something_like_this"."""
     text = text.lower().replace(" ", "_").replace("-", "_")
-    return ''.join(x for x in text if x.isalpha() or x.isdigit() or x == "_")
+    return "".join(x for x in text if x.isalpha() or x.isdigit() or x == "_")
 
 
 def underscore_slugify(text):
     """Changes "Something like this" to "something_like_this"."""
-    return slugify(text, separator=u'_')
+    return slugify(text, separator=u"_")
 
 
 def render_template(templates_dict, template_name, parameters):

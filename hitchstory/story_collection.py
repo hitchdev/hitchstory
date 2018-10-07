@@ -24,10 +24,12 @@ class StoryCollection(object):
                 "Engine should inherit from hitchstory.BaseEngine."
             )
         if isinstance(storypaths, str):
-            raise exceptions.InvalidStoryPaths((
-                "storypaths should be a list or iterator returning a list of story files"
-                " (e.g. using pathquery). Instead it was string '{0}'."
-            ).format(storypaths))
+            raise exceptions.InvalidStoryPaths(
+                (
+                    "storypaths should be a list or iterator returning a list of story files"
+                    " (e.g. using pathquery). Instead it was string '{0}'."
+                ).format(storypaths)
+            )
         self._storypaths = storypaths
         self._engine = engine
         self._in_filename = None
@@ -67,7 +69,9 @@ class StoryCollection(object):
                     )
                 for story in self.story_file(filename).ordered_by_file():
                     if story.slug in self._stories:
-                        raise exceptions.DuplicateStoryNames(story, self._stories[story.slug])
+                        raise exceptions.DuplicateStoryNames(
+                            story, self._stories[story.slug]
+                        )
                     self._stories[story.slug] = story
 
             # Make sure parent stories know who their children are and vice versa
@@ -77,9 +81,7 @@ class StoryCollection(object):
 
                     if parent_slug not in self._stories:
                         raise exceptions.BasedOnStoryNotFound(
-                            story.based_on,
-                            story.name,
-                            story.filename,
+                            story.based_on, story.name, story.filename
                         )
                     self._stories[parent_slug].children.append(story)
                     story._parent = self._stories[parent_slug]
@@ -118,7 +120,10 @@ class StoryCollection(object):
                     if story.name != self._named:
                         filtered = False
                 if self._in_filename is not None:
-                    if Path(story.filename).abspath() != Path(self._in_filename).abspath():
+                    if (
+                        Path(story.filename).abspath()
+                        != Path(self._in_filename).abspath()
+                    ):
                         filtered = False
                 if self._non_variations:
                     if story.variation:
@@ -204,7 +209,9 @@ class StoryCollection(object):
         """
         Return a list of stories ordered by name.
         """
-        return StoryList(sorted(self.ordered_arbitrarily(), key=lambda story: story.name))
+        return StoryList(
+            sorted(self.ordered_arbitrarily(), key=lambda story: story.name)
+        )
 
     def shortcut(self, *words):
         """
@@ -214,18 +221,24 @@ class StoryCollection(object):
         stories = self.ordered_by_name()
         slugified_words = [slugify(word) for word in words]
         for story in stories:
-            if len(words) == len([
-                slugified_word for slugified_word in slugified_words
-                if slugified_word in story.slug
-            ]):
+            if len(words) == len(
+                [
+                    slugified_word
+                    for slugified_word in slugified_words
+                    if slugified_word in story.slug
+                ]
+            ):
                 matching.append(story)
         if len(matching) == 0:
             raise exceptions.StoryNotFound(", ".join(words))
         elif len(matching) > 1:
             raise exceptions.MoreThanOneStory(
-                "\n".join([
-                    "{0} (in {1})".format(story.name, story.filename) for story in matching
-                ])
+                "\n".join(
+                    [
+                        "{0} (in {1})".format(story.name, story.filename)
+                        for story in matching
+                    ]
+                )
             )
         else:
             return matching[0]
@@ -234,18 +247,19 @@ class StoryCollection(object):
         """
         Log message to the output handle (usually stdout).
         """
-        self._output_handle.write(
-            u"{0}{1}".format(message, u"\n" if newline else u"")
-        )
+        self._output_handle.write(u"{0}{1}".format(message, u"\n" if newline else u""))
         self._output_handle.flush()
 
     def one(self):
         stories = self.ordered_by_name()
         if len(stories) > 1:
             raise exceptions.MoreThanOneStory(
-                "\n".join([
-                    "{0} (in {1})".format(story.name, story.filename) for story in stories
-                ])
+                "\n".join(
+                    [
+                        "{0} (in {1})".format(story.name, story.filename)
+                        for story in stories
+                    ]
+                )
             )
         elif len(stories) == 0:
             raise exceptions.NoStories()

@@ -10,6 +10,7 @@ def validate(**kwargs):
     """
     Decorator for validating arguments in a HitchStory step.
     """
+
     def decorator(step_function):
         for arg in kwargs:
             if arg not in step_function.__code__.co_varnames:
@@ -20,6 +21,7 @@ def validate(**kwargs):
                 )
         step_function._validators = kwargs
         return step_function
+
     return decorator
 
 
@@ -28,12 +30,14 @@ def no_stacktrace_for(exception_type):
     Suppress stack trace for exceptions of exception_type on the
     method.
     """
+
     def decorator(step_function):
-        if not hasattr(step_function, '_expected_exceptions'):
-            step_function._expected_exceptions = [exception_type, ]
+        if not hasattr(step_function, "_expected_exceptions"):
+            step_function._expected_exceptions = [exception_type]
         else:
             step_function._expected_exceptions.append(exception_type)
         return step_function
+
     return decorator
 
 
@@ -47,8 +51,9 @@ class GivenDefinition(object):
         self.given_properties = given_properties
         mapping = {}
         for name, given_property in given_properties.items():
-            assert isinstance(given_property, GivenProperty), \
-              "{0} must be GivenProperty.".format(name)
+            assert isinstance(
+                given_property, GivenProperty
+            ), "{0} must be GivenProperty.".format(name)
             mapping[Optional(name)] = utils.YAML_Param | given_property.schema
         self.preconditions = Map(mapping, key_validator=utils.UnderscoredSlug())
 
@@ -62,8 +67,9 @@ class InfoDefinition(object):
     def __init__(self, **info_properties):
         self._properties = {}
         for name, info_property in info_properties.items():
-            assert isinstance(info_property, InfoProperty), \
-              "{0} must be InfoProperty.".format(name)
+            assert isinstance(
+                info_property, InfoProperty
+            ), "{0} must be InfoProperty.".format(name)
             self._properties[name] = info_property.schema
 
     def items(self):

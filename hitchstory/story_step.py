@@ -23,9 +23,7 @@ class StoryStep(object):
                 StepMethod(self.step_method).revalidate(self.arguments)
             except YAMLValidationError as yaml_error:
                 raise exceptions.InvalidStepYAML(
-                    self._story.filename,
-                    self._story.name,
-                    yaml_error,
+                    self._story.filename, self._story.name, yaml_error
                 )
 
     def underscore_case_name(self):
@@ -75,24 +73,24 @@ class StoryStep(object):
         engine = self._story.engine
         if hasattr(engine, self.underscore_case_name()):
             attr = getattr(engine, self.underscore_case_name())
-            if hasattr(attr, '__call__'):
+            if hasattr(attr, "__call__"):
                 return attr
             else:
-                raise exceptions.StepNotCallable((
-                    "Step with name '{}' in {} is not a function "
-                    "or a callable object, it is a {}".format(
-                        self.underscore_case_name(),
-                        engine.__repr__(),
-                        type(attr)
+                raise exceptions.StepNotCallable(
+                    (
+                        "Step with name '{}' in {} is not a function "
+                        "or a callable object, it is a {}".format(
+                            self.underscore_case_name(), engine.__repr__(), type(attr)
+                        )
                     )
-                ))
+                )
         else:
             raise exceptions.StepNotFound(
                 "Step '{}' used in story '{}' in filename '{}' not found in {}.".format(
                     self.underscore_case_name(),
                     self._story.name,
                     self._story.filename,
-                    engine.__repr__()
+                    engine.__repr__(),
                 )
             )
 
@@ -105,7 +103,7 @@ class StoryStep(object):
         except exceptions.HitchStoryException:
             return False
 
-        if hasattr(step_method, '_expected_exceptions'):
+        if hasattr(step_method, "_expected_exceptions"):
             return isinstance(exception, tuple(step_method._expected_exceptions))
 
         return False

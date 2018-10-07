@@ -31,7 +31,7 @@ class StepMethod(object):
 
     @property
     def _specified_validators(self):
-        return self._method._validators if hasattr(self._method, '_validators') else {}
+        return self._method._validators if hasattr(self._method, "_validators") else {}
 
     @property
     def _keywords(self):
@@ -42,16 +42,19 @@ class StepMethod(object):
 
     @property
     def optional_args(self):
-        return self.argspec.args[-len(self._defaults):]
+        return self.argspec.args[-len(self._defaults) :]
 
     @property
     def required_args(self):
-        return self.argspec.args[:len(self._args) - len(self._defaults)][1:]
+        return self.argspec.args[: len(self._args) - len(self._defaults)][1:]
 
     @property
     def single_argument_allowed(self):
-        return len(self.required_args) == 0 and len(self.optional_args) > 1 \
+        return (
+            len(self.required_args) == 0
+            and len(self.optional_args) > 1
             or len(self.required_args) == 1
+        )
 
     @property
     def no_arguments_allowed(self):
@@ -73,9 +76,12 @@ class StepMethod(object):
     def revalidate(self, arguments):
         if arguments.single_argument:
             if self.single_argument_allowed:
-                arguments.validate_single_argument(self.arg_validator(self.single_argument_name))
+                arguments.validate_single_argument(
+                    self.arg_validator(self.single_argument_name)
+                )
             elif self.no_arguments_allowed:
-                raise exceptions.StepShouldNotHaveArguments((
+                raise exceptions.StepShouldNotHaveArguments(
+                    (
                         "Step method {0} cannot have one or more arguments, "
                         "but it has at least one (maybe because of a : the end of the line)."
                     ).format(self._method)
@@ -83,8 +89,7 @@ class StepMethod(object):
             else:
                 raise exceptions.StepMethodNeedsMoreThanOneArgument(
                     "Step method {0} requires {1} arguments, got one.".format(
-                        self._method,
-                        len(self.required_args),
+                        self._method, len(self.required_args)
                     )
                 )
         else:

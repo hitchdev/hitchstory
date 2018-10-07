@@ -40,7 +40,7 @@ class ResultList(object):
         return all([result.passed for result in self._results])
 
     def report(self):
-        return '\n'.join([result.report() for result in self._results])
+        return "\n".join([result.report() for result in self._results])
 
 
 class Report(object):
@@ -54,10 +54,7 @@ class Result(object):
         return env.get_template(
             str(TEMPLATE_DIR.joinpath(template_name).basename())
         ).render(
-            result=self,
-            Fore=colorama.Fore,
-            Back=colorama.Back,
-            Style=colorama.Style,
+            result=self, Fore=colorama.Fore, Back=colorama.Back, Style=colorama.Style
         )
 
     @property
@@ -152,10 +149,10 @@ class Failure(Result):
 
     def to_dict(self):
         return {
-            'story': self.story.to_dict(),
-            'step': self.step.to_dict() if self.step else None,
-            'exception': str(self.exception),
-            'exception_type': "{}.{}".format(
+            "story": self.story.to_dict(),
+            "step": self.step.to_dict() if self.step else None,
+            "exception": str(self.exception),
+            "exception_type": "{}.{}".format(
                 type(self.exception).__module__, type(self.exception).__name__
             ),
         }
