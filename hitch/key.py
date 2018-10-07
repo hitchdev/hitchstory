@@ -1,18 +1,16 @@
-from commandlib import run, Command, CommandError
-import hitchpython
+from commandlib import Command, CommandError
 from hitchstory import StoryCollection, BaseEngine, exceptions, validate
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
 from hitchrun import expected
 from strictyaml import Str, Map, Optional, Enum
 from pathquery import pathquery
-import hitchtest
-from simex import DefaultSimex
 from commandlib import python
 from hitchrun import hitch_maintenance
 from hitchrun import DIR
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import no_stacktrace_for
 from templex import Templex
+import hitchpylibrarytoolkit
 import dirtemplate
 import colorama
 import re
@@ -59,29 +57,14 @@ class Engine(BaseEngine):
             'base.story', 'example.story', 'example1.story',
             'example2.story', 'example3.story', 'engine.py', 'documentation.jinja2',
         ]:
-            if self.given[filename] is not None:
+            if filename in self.given:
                 self.path.state.joinpath(filename).write_text(self.given[filename])
 
-        py_version = self.given['python_version'] \
-            if self.given['python_version'] is not None else "3.5.0"
-        self.python_package = hitchpython.PythonPackage(py_version)
-        self.python_package.build()
-
-        self.pip = self.python_package.cmd.pip
-        self.python = self.python_package.cmd.python
-
-        # Install debugging packages
-        with hitchtest.monitor([self.path.key.joinpath("debugrequirements.txt")]) as changed:
-            if changed:
-                run(self.pip("install", "-r", "debugrequirements.txt").in_dir(self.path.key))
-
-        # Uninstall and reinstall
-        with hitchtest.monitor(
-            pathquery(self.path.project.joinpath("hitchstory")).ext("py")
-        ) as changed:
-            if changed:
-                self.pip("uninstall", "hitchstory", "-y").ignore_errors().run()
-                self.pip("install", ".").in_dir(self.path.project).run()
+        self.python = hitchpylibrarytoolkit.project_build(
+            "hitchstory",
+            self.path,
+            self.given.get("python_version", "3.7.0")
+        ).bin.python
 
     def _story_friendly_output(self, output):
         """
@@ -123,7 +106,7 @@ class Engine(BaseEngine):
     def run(self, code, will_output=None, raises=None):
         self.example_py_code = ExamplePythonCode(self.python, self.path.state)\
             .with_terminal_size(160, 100)\
-            .with_setup_code(self.given['setup'] if self.given['setup'] is not None else '')
+            .with_setup_code(self.given.get('setup', ''))
         to_run = self.example_py_code.with_code(code)
 
         if self.settings.get("cprofile"):
@@ -189,17 +172,9 @@ class Engine(BaseEngine):
 
     @no_stacktrace_for(FileNotFoundError)
     def output_is(self, expected_contents):
-        output_contents = self.path.state.joinpath("output.txt").bytes().decode('utf8').strip()
-        regex = DefaultSimex(
-            open_delimeter="(((",
-            close_delimeter=")))",
-            exact=True,
-        ).compile(expected_contents.strip())
-        if regex.match(output_contents) is None:
-            raise RuntimeError("Expected output:\n{0}\n\nActual output:\n{1}".format(
-                expected_contents,
-                output_contents,
-            ))
+        Templex(
+            self.path.state.joinpath("output.txt").text()
+        ).assert_match(expected_contents)
         self.path.state.joinpath("output.txt").remove()
 
     def splines_reticulated(self):
