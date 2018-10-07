@@ -12,35 +12,35 @@ This feature is in alpha. The API may change on a minor version increment.
 
 {{ story.about }}
 
-{% if story.given['base_story'] != None %}Example base.story:
+{% if 'base_story' in story.given %}Example base.story:
 
 ```yaml
 {{ story.given['base_story'] }}
 ```
 {% endif %}
 
-{% if story.given['example_story'] != None %}example.story:
+{% if 'example_story' in story.given %}example.story:
 
 ```yaml
 {{ story.given['example_story'] }}
 ```
 {% endif %}
 
-{% if story.given['example1_story'] != None %}example1.story:
+{% if 'example1_story' in story.given %}example1.story:
 
 ```yaml
 {{ story.given['example1_story'] }}
 ```
 {% endif %}
 
-{% if story.given['example2_story'] != None %}example2.story:
+{% if 'example2_story' in story.given %}example2.story:
 
 ```yaml
 {{ story.given['example2_story'] }}
 ```
 {% endif %}
 
-{% if story.given['example3_story'] != None %}example3.story:
+{% if 'example3_story' in story.given %}example3.story:
 
 ```yaml
 {{ story.given['example3_story'] }}
@@ -48,14 +48,14 @@ This feature is in alpha. The API may change on a minor version increment.
 {% endif %}
 
 
-{% if story.given['engine_py'] != None %}engine.py:
+{% if 'engine_py' in story.given %}engine.py:
 
 ```python
 {{ story.given['engine_py'] }}
 ```
 {% endif %}
 
-{% if story.given['setup'] != None %}
+{% if 'setup' in story.given %}
 ```python
 {{ story.given['setup'] }}
 ```

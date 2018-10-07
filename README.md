@@ -16,11 +16,6 @@ rules and behavior in precise detail.
 
 
 
-Example base.story:
-
-```yaml
-
-```
 
 
 example.story:
@@ -53,25 +48,10 @@ Send email:
 ```
 
 
-example1.story:
-
-```yaml
-
-```
 
 
-example2.story:
-
-```yaml
-
-```
 
 
-example3.story:
-
-```yaml
-
-```
 
 
 
@@ -108,9 +88,6 @@ class Engine(BaseEngine):
 
 
 
-```python
-
-```
 
 
 
