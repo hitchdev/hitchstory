@@ -1,3 +1,4 @@
+- info definition allow spaces not underscores
 - Make exception code yellow not red.
 - Raise a clear KeyError on StoryInfo and Given.
 - postcheck -- method which checks postconditions -- if you want a test failure, make it happen here, not in tear down.
