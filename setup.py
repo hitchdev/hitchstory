@@ -16,6 +16,7 @@ setup(name="hitchstory",
     version=read('VERSION').replace('\n', ''),
     description="Type-safe, YAML-based BDD, TDD & specification by example framework for python.",
     long_description=read('README.md'),
+    long_description_content_type="text/markdown",
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
