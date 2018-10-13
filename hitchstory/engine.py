@@ -70,6 +70,15 @@ class InfoDefinition(object):
             assert isinstance(
                 info_property, InfoProperty
             ), "{0} must be InfoProperty.".format(name)
+            assert name not in [
+                "based_on",
+                "steps",
+                "about",
+                "with",
+                "given",
+                "variations",
+                "examples",
+            ], "{0} is not a valid name for an InfoProperty."
             self._properties[name] = info_property.schema
 
     def items(self):
