@@ -20,20 +20,20 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
     example.story: |
       Build city:
         about: Build a great city. The best.
-        jiras: JIRA-123, JIRA-124
+        project jiras: JIRA-123, JIRA-124
         features: files, creating
         steps:
         - Reticulate splines
 
       Live in city:
-        jiras: JIRA-789
+        project jiras: JIRA-789
         features: other
         steps:
         - Kick llama's ass
 
         variations:
           Build llama zoo:
-            jiras: JIRA-123
+            project jiras: JIRA-123
             features: zoo
             steps:
             - Kick llama's ass
@@ -46,7 +46,7 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
 
       class Engine(BaseEngine):
           info_definition=InfoDefinition(
-              jiras=InfoProperty(schema=CommaSeparated(Str())),
+              project_jiras=InfoProperty(schema=CommaSeparated(Str())),
               features=InfoProperty(schema=CommaSeparated(Str())),
           )
 
@@ -76,7 +76,7 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
       steps:
       - Run:
           code: |
-            story_collection.filter(lambda story: "JIRA-124" in story.info.get('jiras')).ordered_by_name().play()
+            story_collection.filter(lambda story: "JIRA-124" in story.info.get('project_jiras')).ordered_by_name().play()
           will output: |-
             RUNNING Build city in /path/to/example.story ... reticulate splines
             SUCCESS in 0.1 seconds.
@@ -85,6 +85,6 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
     Info:
       steps:
       - Run: |
-          Ensure([story.info['jiras'] for story in story_collection.ordered_by_name()]).equals(
+          Ensure([story.info['project_jiras'] for story in story_collection.ordered_by_name()]).equals(
               [["JIRA-123", "JIRA-124"], ["JIRA-789", ], ["JIRA-123"]]
           )

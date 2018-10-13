@@ -94,7 +94,7 @@ class Story(object):
 
     @property
     def based_on(self):
-        return self.data["based on"] if "based on" in self.data else self._variation_of
+        return self.data["based_on"] if "based_on" in self.data else self._variation_of
 
     @property
     def story_file(self):

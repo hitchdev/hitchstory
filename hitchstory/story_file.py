@@ -1,6 +1,6 @@
 from strictyaml import load, Map, Str, Seq, Optional, MapPattern, Any, YAMLError
+from hitchstory import exceptions, utils
 from hitchstory.story import Story
-from hitchstory import exceptions
 from path import Path
 import copy
 
@@ -36,12 +36,18 @@ class StoryFile(object):
             story_schema[Optional(info_property)] = info_property_schema
             variation_schema[Optional(info_property)] = info_property_schema
 
-        story_schema[Optional("based on")] = Str()
-        story_schema[Optional("variations")] = MapPattern(Str(), Map(variation_schema))
+        story_schema[Optional("based_on")] = Str()
+        story_schema[Optional("variations")] = MapPattern(
+            Str(), Map(variation_schema, key_validator=utils.UnderscoredSlug())
+        )
 
         try:
             self._parsed_yaml = load(
-                self._yaml, Str() | MapPattern(Str(), Map(story_schema))
+                self._yaml,
+                Str()
+                | MapPattern(
+                    Str(), Map(story_schema, key_validator=utils.UnderscoredSlug())
+                ),
             )
         except YAMLError as error:
             raise exceptions.StoryYAMLError(filename, str(error))
