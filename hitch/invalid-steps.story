@@ -157,3 +157,52 @@ Invalid story:
             message: 'Step method <bound method Engine.add_product of <engine.Engine
               object at 0xfffffffffff>> cannot have one or more arguments, but it
               has at least one (maybe because of a : the end of the line).'
+
+    Access key on self.given that does not exist:
+      given:
+        example.story: |
+          Create files:
+            steps:
+              - Add product
+        engine.py: |
+          from hitchstory import BaseEngine
+
+          class Engine(BaseEngine):
+              def set_up(self):
+                  print(self.given['nonexistent key'])
+
+              def add_product(self):
+                  pass
+      steps:
+      - Run:
+          code: story.play()
+          will output: |-
+            RUNNING Create files in /path/to/example.story ... FAILED in 0.1 seconds.
+
+
+
+            [1]: function 'set_up'
+              /path/to/engine.py
+
+
+                    2 : class Engine(BaseEngine):
+                    3 :     def set_up(self):
+                --> 4 :         print(self.given['nonexistent key'])
+                    5 :
+
+
+
+            [2]: function '__getitem__'
+              /home/colm/.hitch/vz58po/py3.7.0/lib/python3.7/site-packages/hitchstory/engine.py
+
+
+                    118 :                 slug,
+                    119 :                 ', '.join(self._preconditions.keys()) if len(self._preconditions.keys()) > 0 else
+                --> 120 :                 'None'
+                    121 :             ))
+
+
+
+            builtins.KeyError
+              Mapping key not found.
+            "'nonexistent key' / 'nonexistent_key' not found from given. Preconditions available: None"

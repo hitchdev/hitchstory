@@ -107,7 +107,19 @@ class Given(object):
         return self._preconditions.get(utils.underscore_slugify(key), default)
 
     def __getitem__(self, key):
-        return self._preconditions[utils.underscore_slugify(key)]
+        slug = utils.underscore_slugify(key)
+
+        if slug in self._preconditions:
+            return self._preconditions[slug]
+        else:
+            raise KeyError((
+                "'{}' / '{}' not found from given. Preconditions available: {}"
+            ).format(
+                key,
+                slug,
+                ', '.join(self._preconditions.keys()) if len(self._preconditions.keys()) > 0 else
+                'None'
+            ))
 
     def __contains__(self, key):
         return utils.underscore_slugify(key) in self._preconditions.keys()
