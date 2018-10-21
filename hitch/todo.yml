@@ -1,17 +1,17 @@
-- info definition allow spaces not underscores
+- default to only allow one test run to execute at the same time unless switched off.
 - Make exception code yellow not red.
-- Raise a clear KeyError on StoryInfo and Given.
 - postcheck -- method which checks postconditions -- if you want a test failure, make it happen here, not in tear down.
-- print out a 'full' story -- with all inheritance baked in.
+- print out a 'full' story -- with all inheritance baked in - on failures.
 - Add 'required' and default arguments to GivenProperty and InfoProperty.
+- Examples -- parameters via a story name (examples:)
 - Story kind:
   - regular
-  - stub (no data on story - just a name)
+  - stub (no given, steps or based on on story)
   - abstract (no steps - but has metadata and/or preconditions)
   - known failure (story will fail build if it passes and succeed if it fails)
   - example
 - Fix inheritance from 3rd story down.- Rewriting fails if it is being done on a parent story?
-- Give line numbers to blue YAML snippets indicating failure.
+- Give file and line numbers to blue YAML snippets indicating failure.
 - Add defaults argument to GivenProperty and InfoProperty.
 - Add inherit_by argument to GivenProperty and InfoProperty.
 - Add ParameterDefinition: |
@@ -20,18 +20,15 @@
             schema=Enum(list_of_valid_browser_name_templatess),
             validate=validate_func,  ????
             default="Firefox",
-            hypothesis_strategies=generate_browser,
         ),
         python_2_version=ParameterProperty(
             schema=Enum(list_of_things),
             validate=validate_func,
             default="Firefox",
-            hypothesis_strategy=generate_browser,
         ),
     )
-            
 
-- Examples -- parameters via a story name (examples:)
+- Strategy class / TestRunner class / Hypothesis class / TestRun class
 - Counter examples -- known failures, params with a name - avoid.
 - Use non-ascii characters in all tests.
 - poststep method - self.poststep(self, previous_step)
