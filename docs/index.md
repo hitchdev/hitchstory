@@ -12,12 +12,21 @@ title: HitchStory
 {% endif %}
 
 
-HitchStory is a python 3 library for creating readable "specifications by example" and executing
-them. It is an ambitious project intended supplant both traditional BDD tools and unit tests.
+HitchStory is a python 3
+[testing and living documentation framework](approach/testing-and-living-documentation) for building easily
+maintained example driven [executable specifications](why/executable-specifications) (sometimes dubbed
+acceptance tests).
 
-Unlike many other BDD tools the specification is [written using StrictYAML](why/strictyaml) which
-means that stories will be terse, strongly typed and expressive enough to describe business
-rules and behavior in precise detail.
+It was designed initially to make [realistic testing](approach/test-realism) of code less
+of a goddamn chore so the tests would actually get written and run.
+
+The executable specifications can be written to specify and test applications at
+any level and have been used successfully to replace traditional
+[low level unit tests](), [integration tests]() and [end to end tests]()
+with easier to maintain tests.
+
+The specifications are [written using StrictYAML](why/strictyaml) and the
+code to execute them is written by you, in python.
 
 
 ## Example
