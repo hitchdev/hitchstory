@@ -1,29 +1,31 @@
 Quickstart:
   given:
     example.story: |
-      Log in:
+      Logged in:
         given:
-          website: /login                  # preconditions
+          website: /login  # preconditions
         steps:
-          - Fill form:
-              username: AzureDiamond       # parameterized steps
-              password: hunter2
-          - Click: login
+        - Form filled:
+            username: AzureDiamond
+            password: hunter2
+        - Clicked: login
 
 
-      Send email:
-        about: Core functionality of app.
-        based on: log in                 # inherits from and continues from test above
+      Email sent:
+        about: |
+          The most basic email with no subject, cc or bcc
+          set.
+        based on: logged in             # inherits from and continues from test above
         steps:
-          - Click: new email
-          - Fill form:
-              to: Cthon98@aol.com
-              contents: |                # long form text
-                Hey guys,
+        - Clicked: new email
+        - Form filled:
+            to: Cthon98@aol.com
+            contents: |                # long form text
+              Hey guys,
 
-                I think I got hacked!
-          - Click: send email
-          - Email was sent
+              I think I got hacked!
+        - Clicked: send email
+        - Email was sent
 
     engine.py: |
       from hitchstory import BaseEngine, GivenDefinition, GivenProperty
@@ -42,11 +44,11 @@ Quickstart:
                   "http://localhost:5000{0}".format(self.given['website'])
               )
 
-          def fill_form(self, **textboxes):
+          def form_filled(self, **textboxes):
               for name, contents in sorted(textboxes.items()):
                   self.driver.fill_form(name, contents)
 
-          def click(self, name):
+          def clicked(self, name):
               self.driver.click(name)
 
           def email_was_sent(self):
@@ -59,9 +61,9 @@ Quickstart:
         from pathquery import pathquery
         from engine import Engine
 
-        StoryCollection(pathquery(".").ext("story"), Engine()).named("Send email").play()
+        StoryCollection(pathquery(".").ext("story"), Engine()).named("Email sent").play()
       will output: |-
-        RUNNING Send email in /path/to/example.story ...
+        RUNNING Email sent in /path/to/example.story ...
         Visiting http://localhost:5000/login
         Entering text hunter2 in password
         Entering text AzureDiamond in username

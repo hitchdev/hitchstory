@@ -1,12 +1,21 @@
 # HitchStory
 
 
-HitchStory is a python 3 library for creating readable "specifications by example" and executing
-them. It is an ambitious project intended supplant both traditional BDD tools and unit tests.
+HitchStory is a python 3
+[testing and living documentation framework](https://hitchdev.com/hitchstory/approach/testing-and-living-documentation) for building easily
+maintained example driven [executable specifications](https://hitchdev.com/hitchstory/why/executable-specifications) (sometimes dubbed
+acceptance tests).
 
-Unlike many other BDD tools the specification is [written using StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) which
-means that stories will be terse, strongly typed and expressive enough to describe business
-rules and behavior in precise detail.
+It was designed initially to make [realistic testing](https://hitchdev.com/hitchstory/approach/realistic-testing) of code less
+of a goddamn chore so the tests would actually get written and run.
+
+The executable specifications can be written to specify and test applications at
+any level and have been used successfully to replace traditional
+[low level unit tests](https://hitchdev.com/hitchstory/), [integration tests](https://hitchdev.com/hitchstory/) and [end to end tests](https://hitchdev.com/hitchstory/)
+with easier to maintain tests.
+
+The specifications are [written using StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) and the
+code to execute them is written by you, in python.
 
 
 ## Example
@@ -21,29 +30,31 @@ rules and behavior in precise detail.
 example.story:
 
 ```yaml
-Log in:
+Logged in:
   given:
-    website: /login                  # preconditions
+    website: /login  # preconditions
   steps:
-    - Fill form:
-        username: AzureDiamond       # parameterized steps
-        password: hunter2
-    - Click: login
+  - Form filled:
+      username: AzureDiamond
+      password: hunter2
+  - Clicked: login
 
 
-Send email:
-  about: Core functionality of app.
-  based on: log in                 # inherits from and continues from test above
+Email sent:
+  about: |
+    The most basic email with no subject, cc or bcc
+    set.
+  based on: logged in             # inherits from and continues from test above
   steps:
-    - Click: new email
-    - Fill form:
-        to: Cthon98@aol.com
-        contents: |                # long form text
-          Hey guys,
+  - Clicked: new email
+  - Form filled:
+      to: Cthon98@aol.com
+      contents: |                # long form text
+        Hey guys,
 
-          I think I got hacked!
-    - Click: send email
-    - Email was sent
+        I think I got hacked!
+  - Clicked: send email
+  - Email was sent
 
 ```
 
@@ -74,11 +85,11 @@ class Engine(BaseEngine):
             "http://localhost:5000{0}".format(self.given['website'])
         )
 
-    def fill_form(self, **textboxes):
+    def form_filled(self, **textboxes):
         for name, contents in sorted(textboxes.items()):
             self.driver.fill_form(name, contents)
 
-    def click(self, name):
+    def clicked(self, name):
         self.driver.click(name)
 
     def email_was_sent(self):
@@ -99,13 +110,13 @@ from hitchstory import StoryCollection
 from pathquery import pathquery
 from engine import Engine
 
-StoryCollection(pathquery(".").ext("story"), Engine()).named("Send email").play()
+StoryCollection(pathquery(".").ext("story"), Engine()).named("Email sent").play()
 
 ```
 
 Will output:
 ```
-RUNNING Send email in /path/to/example.story ...
+RUNNING Email sent in /path/to/example.story ...
 Visiting http://localhost:5000/login
 Entering text hunter2 in password
 Entering text AzureDiamond in username
@@ -176,10 +187,11 @@ Best practices, how the tool was meant to be used, etc.
 
 - [Recommended complementary tools](https://hitchdev.com/hitchstory/approach/complementary-tools)
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)
+- [What is a testing and living documentation framework?](https://hitchdev.com/hitchstory/approach/testing-and-living-documentation)
 - [Screenplay Principle](https://hitchdev.com/hitchstory/approach/screenplay-principle)
-- [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](https://hitchdev.com/hitchstory/approach/bdd)
 - [Recommended Environment](https://hitchdev.com/hitchstory/approach/recommended-environment)
 - [What is the difference betweeen a test and a story?](https://hitchdev.com/hitchstory/approach/test-or-story)
+- [How can executable specifications and living documentation be used for stakeholder collaboration?](https://hitchdev.com/hitchstory/approach/stakeholder-collaboration)
 - [Triality](https://hitchdev.com/hitchstory/approach/triality)
 - [Flaky Tests](https://hitchdev.com/hitchstory/approach/flaky-tests)
 

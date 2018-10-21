@@ -1,8 +1,9 @@
-- default to only allow one test run to execute at the same time unless switched off.
+- default to only allow one test run to execute at the same time on a single computer unless switched off.
 - Make exception code yellow not red.
 - postcheck -- method which checks postconditions -- if you want a test failure, make it happen here, not in tear down.
 - print out a 'full' story -- with all inheritance baked in - on failures.
 - Add 'required' and default arguments to GivenProperty and InfoProperty.
+- when using only_uninherited, raise clearer exception when an inherited story matches but no uninherited story matches.
 - Examples -- parameters via a story name (examples:)
 - Story kind:
   - regular
