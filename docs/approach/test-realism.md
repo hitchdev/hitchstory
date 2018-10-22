@@ -5,13 +5,17 @@ title: The importance of test realism
 Test realism is the strangely controversial principle that automated tests
 should test code in as realistic a manner as possible.
 
-This means, among other things:
+This means, among other things, *where it is realistically feasible*, the tester should aim for:
 
-- Running the code in an environment or environments that match where it will be run for real as closely as possible.
-- Using and creating realistic mocks for the code to interact with that mimic the real thing as closely as possible.
+- Running the code in environments which match where it will be run for real.
+- Testing against real code rather than mock code where possible.
+- Where mocks are used, realistic mocks are chosen or built.
 - Prioritizing writing test scenarios that mimic the real life usage of the software.
+- Where possible, using actual data from the production database to write tests with instead of synthesized data.
 
-While "test realistically" might *appear* to be incredibly obvious, it does, unfortunately,
+## Isn't this obvious?
+
+While "test realistically" might *appear* to be very obvious, it does, unfortunately,
 conflict with certain more fashionable principles, chiefly
 "[FIRST](https://pragprog.com/magazines/2012-01/unit-tests-are-first)".
 
@@ -36,7 +40,7 @@ doubt they consider it laudible - they apparently just don't consider it
 While it's trite to say that a test that is fast and catches no bugs is pointless,
 there's a little more to it than that.
 
-Unrealistic unit tests *do* usefully catch bugs, which is partly why doing TDD
+Fast, unrealistic unit tests *do* usefully catch bugs, which is partly why doing TDD
 with them can be such a powerful approach. An unrealistic, quick test that
 provides feedback on *some* bugs is still useful.
 

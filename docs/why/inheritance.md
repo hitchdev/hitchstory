@@ -1,6 +1,11 @@
 ---
-title: Discussion of requested feature inheritance in Cucumber
+title: Why is inheritance a feature of hitchstory stories?
 ---
+
+Hitchstory stories allow inheritance to allow stories that branch
+from other stories.
+
+## Dissenting views
 
 Inheritance is a feature which was deliberately left out of Cucumber:
 
