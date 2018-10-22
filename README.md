@@ -6,7 +6,7 @@ HitchStory is a python 3
 maintained example driven [executable specifications](https://hitchdev.com/hitchstory/why/executable-specifications) (sometimes dubbed
 acceptance tests).
 
-It was designed initially to make [realistic testing](https://hitchdev.com/hitchstory/approach/realistic-testing) of code less
+It was designed initially to make [realistic testing](https://hitchdev.com/hitchstory/approach/test-realism) of code less
 of a goddamn chore so the tests would actually get written and run.
 
 The executable specifications can be written to specify and test applications at
@@ -187,8 +187,10 @@ Best practices, how the tool was meant to be used, etc.
 
 - [Recommended complementary tools](https://hitchdev.com/hitchstory/approach/complementary-tools)
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)
+- [The importance of test realism](https://hitchdev.com/hitchstory/approach/test-realism)
 - [What is a testing and living documentation framework?](https://hitchdev.com/hitchstory/approach/testing-and-living-documentation)
 - [Screenplay Principle](https://hitchdev.com/hitchstory/approach/screenplay-principle)
+- [Executable specifications](https://hitchdev.com/hitchstory/approach/executable-specifications)
 - [Recommended Environment](https://hitchdev.com/hitchstory/approach/recommended-environment)
 - [What is the difference betweeen a test and a story?](https://hitchdev.com/hitchstory/approach/test-or-story)
 - [How can executable specifications and living documentation be used for stakeholder collaboration?](https://hitchdev.com/hitchstory/approach/stakeholder-collaboration)
@@ -204,7 +206,7 @@ Somewhat controversial design decisions are justified here.
 - [I see given but where is when and then?](https://hitchdev.com/hitchstory/why/given-when-then)
 - [Why does HitchStory use StrictYAML?](https://hitchdev.com/hitchstory/why/strictyaml)
 - [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](https://hitchdev.com/hitchstory/why/interesting-to-the-business)
-- [Discussion of requested feature inheritance in Cucumber](https://hitchdev.com/hitchstory/why/inheritance)
+- [Why is inheritance a feature of hitchstory stories?](https://hitchdev.com/hitchstory/why/inheritance)
 - [Declarative User Stories](https://hitchdev.com/hitchstory/why/declarative)
 - [Two Unit Tests, Zero Integration Tests](https://hitchdev.com/hitchstory/why/2-unit-tests-0-integration-tests)
 
