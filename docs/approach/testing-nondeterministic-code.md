@@ -5,53 +5,58 @@ title: Testing non-deterministic code
 Non-deterministic code is an inevitable fact of life, but it's a monumental pain
 to test.
 
-By non-deterministic code, I mean code which can produce different output even
+Non-deterministic code is code which can produce different outputs even
 when it is given the same inputs. For example: a program that is asked to output
-the three most popular fruits might list "apple, banana and orange" but it could
-give any arbitrary order for those fruits - for example "orange, banana and apple".
+the three most popular fruits might list *"apple, banana and orange"* but it could
+give *any* arbitrary order for those fruits - for example *"orange, banana and apple"*.
 
-Usually the end user or customer won't actually care about non-determinism - i.e.
-the fruits could be listed in any order.
+Often the end user or customer won't actually care about non-determinism - the ordering
+of the fruit might not matter.
 
 However, your automated tests *will* care - if you write a test that expects
 "apple, banana and orange" then you will get a [flaky test](../flaky-tests) that
-will pass and fail seemingly randomly.
+will pass and fail arbitrarily.
 
 There are five approaches I usually take to dealing with testing non-deterministic
-code with [hitchstory](https://github.com/hitchdev/hitchstory), listed in preference order.
+code with [hitchstory](https://github.com/hitchdev/hitchstory) which I listed
+here in preference order.
 
-If you're currently facing a non-determinism problem, you can follow this as a kind of
-guideline or tutorial:
+If you're currently facing a non-determinism problem, you can treat this as a kind
+of guideline or tutorial when facing a non-determinism issue:
 
 ## 1. Make the code deterministic
 
-With the exception of random number generators (where great lengths are gone to
-inject entropy), more deterministic code is *better* code.
+With the sole exception of code where randomness is a desired property, more deterministic
+code is *better* code. It's a code quality like DRY or loose coupling, which is a
+laudable goal.
 
-More deterministic *does not just mean* easier to test, it means a restricted execution
-space. A restricted execution space means fewer potential avenues for surprise bugs to
-crop up - this isn't just something to do to make testing easier, it's something to
-do to cut down on those 4am calls with a furious customer who is experiencing a problem
-you simply can't reproduce.
+More deterministic does not just mean easier to test, it means a restricted execution
+space. In practical terms, a restricted execution space means fewer potential avenues
+for surprise bugs to crop up - the kind of bugs which yield a 4am phone call from a
+customer and when you try it yourself on your laptop *you don't get the bug*.
 
 While a small amount of determinism isn't necessarily a problem for the customers,
-it can quickly spiral out of control when non-deterministic behavior is piled on
-non-deterministic behavior, *multiplying* the level of non-determinism in your
-application and the potential number of obscure edge cases which could harbor bugs.
+it can quickly spiral out of control when non-deterministic behavior is compounded
+with other non-deterministic behavior. If non-deterministic behavior is *multiplied*
+and when that happens the number of potential edge cases where bugs can be harbored
+can spiral out of control.
 
-Indeterminism crops up in all sorts of places naturally in code which are fairly
-easy to eliminate:
+However, indeterminism crops up in all sorts of places naturally in code,
+which are not that hard to eliminate. Here are two common ones, which I would
+usually treat as bugs *even if* the customer has told you they don't care:
 
-### SQL select statements without order by
+### SQL SELECT statements without an ORDER BY
 
 Select statements without an order by usually output in the same order each time but
 they won't always. You could write a perfectly good functioning test on your laptop
 that expects a certain order from the select statement (e.g. it checks the first
 product on the page) and then that test can fail randomly the next day or on the
-continuous integreation machine.
+continuous integration machine because it has moved.
 
-This has happened to me many times - so many, in fact, that I *always* habitually
-add an order by to select statements.
+This one has happened to me *a lot*. It's happened so many times that if I see
+a pull request with a SELECT (or ORM equivalent) without an order by I will
+always treat it as an issue that needs to be fixed even if it is unlikely to
+cause an issue.
 
 Where not having an order by is the cause of a flaky test, this is generally the
 best fix.
@@ -70,23 +75,26 @@ my_dictionary = {
 ```
 
 If all the code does is look up one from the other then there will never be a problem.
-However, if the code tries to cycle through all of these things *then* there is a
+However, if the code tries to *cycle* through all of these things *then* there is a
 problem. For example:
 
 
 ```python
 for kind_of_thing, thing in my_dictionary.items():
+    print(kind_of_thing)
 ```
 
 The problem here is that there is often no guaranteed order to the things in the dict.
-It's given as "fruit", "car", "coffee" but you might get "coffee", "car", "fruit".
+It's given as "fruit", "car", "coffee" but you might get "coffee", "car", "fruit" -
+and you probably *will*, eventually.
 
 You can guarantee the ordering in python by using "OrderedDict" (which will always
 remember the ordering) or by using any version of python above 3.6.
 
-While this is a notable problem in python, other languages suffer from the same issue.
+While this is a notable problem in python, many other languages suffer from the same
+issue. It can (and frequently) does crop up in *libraries* that you rely upon.
 
-## Sometimes you can't do this
+### Sometimes you can't fix this though
 
 While these fixes are likely quick and easy for some code, especially if you work
 with helpful developers (or you *are* the developer), it's not always so easy to fix.
@@ -98,7 +106,7 @@ For example:
 * It might be possible to fix but simply an *enormous* amount of work that you don't have time for.
 * Random numbers might be a critical feature of the application.
 
-If this becomes unfixable, then move on to...
+If the indeterminism is unfixable, then move on to...
 
 ## 2. Isolate the non-determinism and test the code that relies upon it separately
 
