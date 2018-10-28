@@ -3,12 +3,12 @@ title: The importance of test realism
 ---
 
 Test realism is the strangely controversial principle that automated tests
-should test code in as realistic a manner as possible.
+should test realistically.
 
-This means, among other things, *where it is realistically feasible*, the tester should aim for:
+This means, among other things, *where it is feasible*, automated test builders should aim for:
 
-- Running the code in environments which match where it will be run for real.
-- Testing against real code rather than mock code where possible.
+- Running the code in environments which closely mimic where it will be run for real.
+- Testing against real code rather than mock code.
 - Where mocks are used, realistic mocks are chosen or built.
 - Prioritizing writing test scenarios that mimic the real life usage of the software.
 - Where possible, using actual data from the production database to write tests with instead of synthesized data.
@@ -22,16 +22,17 @@ conflict with certain more fashionable principles, chiefly
 Taken to extremes this means you get some people saying "[TDD test suites should run in
 10 seconds or less](http://blog.ploeh.dk/2012/05/24/TDDtestsuitesshouldrunin10secondsorless/)"
 which would mean, except for certain very specific kinds of software means you are
-*guaranteed* to be writing and running *very* unrealistic tests.
+guaranteed to be writing and running *very* unrealistic tests.
 
 FIRST stands for fast, isolated, repeatable, self validating and timely. It
 was a set of principles developed by Tim Ottinger and Brett Schuchert for describing
 ideal qualities of "unit tests" - the idea being that these would form the mainstay
-of your automated test suite.
+of your automated test suite. These are all good qualities tests, but they are
+usually of secondary importance to realism.
 
 It does *not* stand for realistic. That quality - the quality which determines
 how many bugs your tests actually catch is isn't even mentioned. I've no
-doubt they consider it laudible - they apparently just don't consider it
+doubt they consider it laudable - they apparently just don't consider it
 *necessary*.
 
 
@@ -104,3 +105,9 @@ The *ideal* times to move testing to a lower level are when:
 
 - There is a single module that has a clean abstraction and is loosely coupled to the module (or modules) around it.
 - A different team is responsible for each module (this is where [executable specifications](../executable-specifications) also come in handy).
+
+
+## How do I know if my tests are realistic enough?
+
+Absolute realism is, of course, impossible and the law of diminishing returns
+applies to test realism just as it applies to speed.
