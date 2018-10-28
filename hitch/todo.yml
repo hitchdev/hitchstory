@@ -1,16 +1,21 @@
-- default to only allow one test run to execute at the same time on a single computer unless switched off.
+- cannot use varargs exception give more details! Which method has *args?
+- default to only allow one test run to execute at the same time on a single computer unless switched off. Is there a place to put the pid file for this?
+- SUCCESS should be printed in green.
 - Make exception code yellow not red.
-- postcheck -- method which checks postconditions -- if you want a test failure, make it happen here, not in tear down.
-- print out a 'full' story -- with all inheritance baked in - on failures.
+- HTML reports with logo file.
+- postcheck -- method which checks postconditions -- if you want a test failure because some invariant went wrong, make it happen here, not in tear down.
+- print out a 'full' story -- with all inheritance baked in - on failures and also display line number and filename.
 - Add 'required' and default arguments to GivenProperty and InfoProperty.
 - when using only_uninherited, raise clearer exception when an inherited story matches but no uninherited story matches.
 - Examples -- parameters via a story name (examples:)
 - Story kind:
   - regular
-  - stub (no given, steps or based on on story)
-  - abstract (no steps - but has metadata and/or preconditions)
+  - stub (no given, steps but has metadata)
+  - abstract (no steps - but has givem)
+  - parameterized -- can run normally itself with a default variable, but also runs with multiple variables.
   - known failure (story will fail build if it passes and succeed if it fails)
-  - example
+  - example - stories which consisten just of
+  - unimplemented - fails if it doesn't fail, doesn't fail if it does.
 - Fix inheritance from 3rd story down.- Rewriting fails if it is being done on a parent story?
 - Give file and line numbers to blue YAML snippets indicating failure.
 - Add defaults argument to GivenProperty and InfoProperty.
