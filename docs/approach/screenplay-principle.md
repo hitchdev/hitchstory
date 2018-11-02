@@ -12,43 +12,45 @@ title: Screenplay Principle
 
 >-- [Lauren McGrail, Lights Film School](https://www.lightsfilmschool.com/blog/what-visual-storytelling-looks-like-in-a-screenplay-aes)
 
-The screenplay principle in software mirrors the #1 rule of visual writing - describe and test behavior,
-*not* implementation.
+The screenplay principle in software mirrors the #1 rule of visual writing - describe *behavior*,
+step by step, in detail.
 
-Before declaring how the screenplay principle *should* be followed, I will first describe a few
-common anti-patterns where it isn't:
+There are two main ways to violate this principle
 
-## Describing implementation details
+## Skimping on user focused details
 
-The most common and egregious way this principle is violated is with low level unit tests exhibiting a high level of mocking. Unit tests can only describe the behavior of classes and methods - something that is generally only of interest when your users are other developers (i.e. you're writing a library).
-
-## Describing in too little detail how a program behaves
-
-Another common violation of this principle is to write tests or specs that are
-too vague. This is argued as a good practice in the blog post
-[the training wheels come off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
-by Aslak Hellesøy, the creator of Cucumber, wherein he declares "screenplay scenarios"
-like the following to be brittle:
+In [the training wheels come off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
+by Aslak Hellesøy, he argues, I think wrongly, for writing specifications that look like this:
 
 ```gherkin
-Scenario: Successful login
-  Given a user "Aslak" with password "xyz"
-  And I am on the login page
-  And I fill in "User name" with "Aslak"
-  And I fill in "Password" with "xyz"
-  When I press "Log in"
-  Then I should see "Welcome, Aslak"
+Scenario: User is greeted upon login
+  Given the user "Aslak" has an account
+  When he logs in
+  Then he should see "Welcome, Aslak"
 ```
 
->The idea with Cucumber (and BDD in general) is that stakeholders assist in writing scenarios - or executable specifications. This solves the where do we start problem with TDD. The scenarios express what a user should be able to do, and not how. When a scenario is defined, programmers implement the required functionality.
->
->This kind of workflow is much harder to follow when scenarios are written in a low-level, imperative style. Very few stakeholders or business analysts are going to agree to defining functionality in terms of mouse clicks and key presses. They think and talk at a higher abstraction level, and scenarios should capture that.
+This narrative leaves out a lot of potentially relevant details. It is unclear what "Aslak" is - is it
+a username? is it a user's name? It's also unclear *how* the user logged in - did it happen via SSO?
+Perhaps it happened with a web page?
 
-This isn't completely wrong. It *is* typical that stakeholders and business analysts will
-define functionality in terms of mouse clicks and key presses. However:
+Missing out these details hurts from many different angles:
 
-- Just because a business analyst won't typically be the one defining functionality and behavior in terms of mouse clicks and key presses it doesn't mean that they never care about that level of detail.
-- A business analyst won't define in that level of detail, but a UX/UI analyst working in concert with them may well define in this level of detail.
-- "What a business analyst defines" is generally *not* a good basis for an executable specification, although it might make a good basis for a user story title.
+* The stakeholder defining behavior might forget potentially important edge cases when going through the scenarios because they don't see the subtle, relevant trigger ("maybe if SSO happens because the user is already "logged in" then welcoming them makes no sense...?"). 
 
-Cucumber stories still aren't a good vehicle for the screenplay pattern since they do not allow inheritance, [unlike hitchstory](../../why/inheritance).
+* Stakeholders who are interested in the finer details of the software's behavior (e.g. security analysts), it's not useful as a means of communication.
+
+* It will likely lead to the implementer forgetting to document, implement and test important edge cases.
+
+* It will frequently not be detailed enough to describe the steps needed to reproduce a bug in precise enough detail.
+
+## Testing implementation rather than behavior
+
+The other common antipattern which is not adhering to the screenplay pattern is to test implementation
+rather than behavior, analagous to the screenplay writer who describes what the character thinks
+rather than what the character does.
+
+This is an instance of deliberately non-realistic testing. It can and does catch
+bugs, but:
+
+* It often triggers false positives (failures that aren't bugs) and doesn't catch actual bugs.
+* It loses the ability to describe behavior in a way that is useful to stakeholders.

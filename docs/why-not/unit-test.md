@@ -13,10 +13,9 @@ This is *not* an argument against the following:
 * Mocking
 * Doctests
 
-All have their place.
-
-This simply about the use of unit testing frameworks - py.test, nose, unittest2, jUnit, etc.
-for low level testing, integration testing *and* end to end testing.
+These are all good things in the right context. This is purely about the xUnit framework
+approach to testing - py.test, nose, unittest2, jUnit, etc. whether they are used to
+write traditional "unit tests", integration tests or end to end tests.
 
 There are, broadly speaking, two types of code - algorithmic code and integration
 code. Here are several examples of the former:
@@ -31,9 +30,10 @@ Here are several examples of the latter:
 * A device driver
 * A simple javascript widget
 
-## Low level testing of algorithmic code
+## The unsuitability of low level testing of algorithmic code
 
-Low level testing of algorithmic code looks a little like this example testing an 'incrementor' from the py.test home page:
+Low level testing of algorithmic code looks a little like this example testing
+an 'incrementor' from the py.test home page:
 
 ```python
 def test_answer():
@@ -44,7 +44,13 @@ This is actually a good example of a clear test. The intent is obvious, the
 label is descriptive.
 
 This works because the code is, despite being turing complete,
-declarative and simple.
+declarative and simple. The problems grow, however, 
+
+There is no issue with separation of concerns and
+despite using a turing complete language, the code is not "too powerful"
+to inhibit understanding.
+
+However, 
 
 
 ## High level testing of integration code
@@ -73,7 +79,7 @@ separated by a divide from more powerful 'controller' (or, in Django, 'view') co
 
 Other features which are not (and cannot) be duplicated in unit testing frameworks:
 
-## Automated story modification
+## What does hitchstory do that unit tests can't?
 
 The hitchdev framework does come with a lot of useful testing tools which could just as
 easily be used with py.test if you so wish.

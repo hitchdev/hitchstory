@@ -3,43 +3,77 @@ title: Why not use Behave, Lettuce or Cucumber (Gherkin)?
 ---
 
 HitchStory and Gherkin are both DSLs for writing user stories that can double as
-acceptance tests, but they have different philosophies and approach.
+acceptance tests, but they have slightly different philosophies and approach.
 
-Gherkin scenarios emphasize the following values:
+Gherkin's philosophy emphasize the following values:
 
 * The use of English to facilitate customer collaboration.
 * Showing information that is "interesting to the business".
 
-Here are some examples.
+Whereas hitchstory's philosophy emphasizes very *similar* values, with some important differences:
 
-From the Cucumber website:
+* The use of [typed YAML](../../why/strictyaml) to define specs for readability, precision, clarity, terseness and ease of maintenance.
+
+* Specifying all behavior precisely as per the [screenplay principle](../../approach/screenplay-principle).
+
+* Templated documentation generation from specs and/or code artefacts to communicate information that is interesting to stakeholders.
+
+
+## What Gherkin got right
+
+Cucumber and their related tools became popular for good reasons, even though they made
+many mistakes. They also got a lot of non-obvious stuff right:
+
+* Emphasis on readability of the specs - something that unit tests typically fail at.
+
+* The idea that specifications should double as tests.
+
+* The deliberate use of a simpler non-turing complete language for specifications.
+
+* The separation of concerns between specification and story execution.
+
+* Built in parameterization.
+
+* The idea that the notion of specifications, tests and documentation are all intrinsically linked.
+
+
+## Example gherkin code vs hitchstory
+
+From [the training wheels come off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off),
+Aslak Hellesøy described how Cucumber was used to write tests (in his view, poorly):
 
 ```gherkin
-Scenario: Buy last coffee
-  Given there are 1 coffees left in the machine
-  And I have deposited 1$
-  When I press the coffee button
-  Then I should be served a coffee
+Scenario: Successful login
+  Given a user "Aslak" with password "xyz"
+  And I am on the login page
+  And I fill in "User name" with "Aslak"
+  And I fill in "Password" with "xyz"
+  When I press "Log in"
+  Then I should see "Welcome, Aslak"
 ```
 
-Hitch scenarios, by contrast, emphasizes the following values:
+And how he thinks it should be used:
 
-* Ease of use and maintenance by developers first.
-* The screenplay principle.
-* Terse, DRY code.
-* The generation of documentation for customer collaboration and stakeholders input from specifications.
+```gherkin
+Scenario: User is greeted upon login
+  Given the user "Aslak" has an account
+  When he logs in
+  Then he should see "Welcome, Aslak"
+```
 
-Equivalent scenarios:
+Equivalent scenario in hitchstory:
 
 ```yaml
-Buy last coffee:
-  given:
-    machine contains:
-      coffees: 1
+Aslak sees welcome message on login:
   steps:
-  - Deposit: $1
-  - Press button: coffee
-  - Served up: coffee
+  - visit: /login
+  - fill form:
+      username: Aslak
+      password: xyz
+  - click: log in button
+  - should contain:
+      item: welcome banner
+      message: Welcome, Aslak
 ```
 
 # What Cucumber/Gherkin got wrong
@@ -48,9 +82,13 @@ Buy last coffee:
 
 English is vague. English is verbose. English is messy. English is imprecise. These are ideal qualities for some purposes but they are not ideal for writing specifications.
 
-Like actual code, to be effective, specifications must be exact, precise and DRY - whether executable or not.
+Like actual code, to be effective, specifications are exact, precise and DRY. Even non-executable specifications
+benefit from these qualities.
 
-The imprecision of English is drawn out in Gherkin specifications - they usually lack precision and critical details and end up serving as a sort of high level description of what the program it's describing does.
+The imprecision of English is drawn out in Gherkin specifications partly due to its lack of inheritance. This
+encourages vague 
+
+- they usually lack precision and critical details and end up serving as a sort of high level description of what the program it's describing does.
 
 
 ## Parser hell
@@ -149,20 +187,3 @@ If programmers don't like using a tool or technology that interfaces to their co
 forget about getting the business to use it.
 
 
-
-## What Gherkin got right
-
-Cucumber and their related tools became popular for good reasons, even though they made
-many mistakes. They also got a lot of (non-obvious) stuff right:
-
-* Emphasis on readability of the specs
-
-* The idea that specifications should be executable and double as tests
-
-* The deliberate use of a simplified configuration language for specifications
-
-* Deliberate separation of concerns between specification and story execution
-
-* Built in Parameterization
-
-* The idea that the notion of specifications, tests and documentation are all intrinsically linked
