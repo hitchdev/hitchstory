@@ -99,9 +99,9 @@ Invalid story:
           code: story.play()
           raises:
             type: hitchstory.exceptions.CannotMixKeywordArgs
-            message: Cannot mix keyword arguments (e.g. **kwargs) and regular args
-              (e.g. x)
-
+            message: Method '<bound method Engine.add_product of <engine.Engine object
+              at 0xfffffffffff>>' mixes keyword (e.g. *kwargs), and regular args (e.g.
+              arg1, arg2, arg3). Mixing is not allowed
     Cannot use *args:
       given:
         engine.py: |
@@ -115,7 +115,9 @@ Invalid story:
           code: story.play()
           raises:
             type: hitchstory.exceptions.CannotUseVarargs
-            message: Cannot use varargs (e.g. *args), can only use keyword args (**kwargs)
+            message: Method '<bound method Engine.add_product of <engine.Engine object
+              at 0xfffffffffff>>' uses varargs (e.g. *args), only keyword args (e.g.
+              **kwargs) are valid
 
     Cannot use single argument:
       given:
