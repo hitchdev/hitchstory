@@ -17,7 +17,7 @@ troll shows no interest at all that's okay.
 
 Well maintained stories will typically be readable and comprehensible by non-programmers
 with a good knowledge of the domain (unlike code), but they will likely not be very
-good at writing or maintaining [high quality stories](../good-stories) - at least,
+good at writing or maintaining high quality stories - at least,
 not without training.
 
 That said, *pairing* with business analysts while writing and maintaining stories,
