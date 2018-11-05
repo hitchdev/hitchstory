@@ -14,7 +14,7 @@ title: HitchStory
 
 HitchStory is a python 3
 [testing and living documentation framework](approach/testing-and-living-documentation) for building easily
-maintained example driven [executable specifications](why/executable-specifications) (sometimes dubbed
+maintained example driven [executable specifications](approach/executable-specifications) (sometimes dubbed
 acceptance tests).
 
 It was designed initially to make [realistic testing](approach/test-realism) of code less
