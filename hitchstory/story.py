@@ -233,7 +233,13 @@ class Story(object):
             self._run_on_success()
             result = Success(self, time.time() - start_time)
             self.story_file.rewrite()
-            self._collection.log("SUCCESS in {0:.1f} seconds.".format(result.duration))
+            self._collection.log(
+                "{green}SUCCESS{reset_all} in {duration:.1f} seconds.".format(
+                    green=colorama.Fore.GREEN,
+                    reset_all=colorama.Style.RESET_ALL,
+                    duration=result.duration,
+                )
+            )
         else:
             result = Failure(
                 self,
