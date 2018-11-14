@@ -37,7 +37,7 @@ setup(name="hitchstory",
     url='https://hitchdev.com/hitchstory/',
     license='MIT',
     install_requires=[
-        'strictyaml>=0.11.4',
+        'strictyaml>=0.15.3',
         'path.py',
         'jinja2',
         'colorama',
