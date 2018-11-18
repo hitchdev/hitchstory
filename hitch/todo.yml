@@ -1,3 +1,4 @@
+- rewriting stories fails if the story is inherited using based on.
 - default to only allow one test run to execute at the same time on a single computer unless switched off. Is there a place to put the pid file for this?
 - Make exception code yellow not red.
 - HTML reports with logo file.
