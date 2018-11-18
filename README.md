@@ -3,7 +3,7 @@
 
 HitchStory is a python 3
 [testing and living documentation framework](https://hitchdev.com/hitchstory/approach/testing-and-living-documentation) for building easily
-maintained example driven [executable specifications](https://hitchdev.com/hitchstory/why/executable-specifications) (sometimes dubbed
+maintained example driven [executable specifications](https://hitchdev.com/hitchstory/approach/executable-specifications) (sometimes dubbed
 acceptance tests).
 
 It was designed initially to make [realistic testing](https://hitchdev.com/hitchstory/approach/test-realism) of code less
@@ -145,15 +145,40 @@ SUCCESS in 0.1 seconds.
 
 
 
-## Installing
+## Installation and set up
 
-It's recommended to install and [set up hitchstory with hitchkey](https://hitchdev.com/hitchstory/setup-with-hitchkey), which can take care of automatically
-setting up a up the [recommended hitchstory environment](https://hitchdev.com/hitchstory/approach/recommended-environment).
-
-You can also install it traditionally through pypi:
+You *can* install hitchstory through pypi in any python 3 virtualenv:
 
 ```bash
 $ pip install hitchstory
+```
+
+However, it's recommended to install and set up hitchstory with [hitchkey](https://github.com/hitchdev/hitchkey),
+which will take care of automatically setting up a up the [recommended hitchstory environment](https://hitchdev.com/hitchstory/approach/recommended-environment).
+
+Either install hitchkey with [pipsi](https://github.com/mitsuhiko/pipsi):
+
+```bash
+pipsi install hitchkey
+```
+
+Or, if you'd prefer, you can safely install with "sudo pip":
+
+```bash
+sudo pip install hitchkey
+```
+
+Once hitchkey is installed:
+
+```bash
+cd /your/project/directory
+hk --quickstart hitchstory
+```
+
+This will create a directory called "hitch" and put three files in it, including one story, which you can play by running:
+
+```bash
+hk bdd my first
 ```
 
 
@@ -188,8 +213,10 @@ Best practices, how the tool was meant to be used, etc.
 - [Recommended complementary tools](https://hitchdev.com/hitchstory/approach/complementary-tools)
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)
 - [The importance of test realism](https://hitchdev.com/hitchstory/approach/test-realism)
+- [Testing non-deterministic code](https://hitchdev.com/hitchstory/approach/testing-nondeterministic-code)
 - [What is a testing and living documentation framework?](https://hitchdev.com/hitchstory/approach/testing-and-living-documentation)
 - [Screenplay Principle](https://hitchdev.com/hitchstory/approach/screenplay-principle)
+- [Tests are an investment](https://hitchdev.com/hitchstory/approach/test-investment)
 - [Executable specifications](https://hitchdev.com/hitchstory/approach/executable-specifications)
 - [Recommended Environment](https://hitchdev.com/hitchstory/approach/recommended-environment)
 - [What is the difference betweeen a test and a story?](https://hitchdev.com/hitchstory/approach/test-or-story)
@@ -202,8 +229,10 @@ Best practices, how the tool was meant to be used, etc.
 
 Somewhat controversial design decisions are justified here.
 
+- [Why programatically rewrite stories?](https://hitchdev.com/hitchstory/why/rewrite)
+- [Why does hitchstory not have a command line interface?](https://hitchdev.com/hitchstory/why/no-cli)
 - [Principles](https://hitchdev.com/hitchstory/why/principles)
-- [I see given but where is when and then?](https://hitchdev.com/hitchstory/why/given-when-then)
+- [Why does hitchstory mandate the use of given but not when and then?](https://hitchdev.com/hitchstory/why/given-when-then)
 - [Why does HitchStory use StrictYAML?](https://hitchdev.com/hitchstory/why/strictyaml)
 - [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](https://hitchdev.com/hitchstory/why/interesting-to-the-business)
 - [Why is inheritance a feature of hitchstory stories?](https://hitchdev.com/hitchstory/why/inheritance)
