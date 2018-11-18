@@ -36,15 +36,40 @@ code to execute them is written by you, in python.
 {% endfor %}
 
 
-## Installing
+## Installation and set up
 
-It's recommended to install and [set up hitchstory with hitchkey](setup-with-hitchkey), which can take care of automatically
-setting up a up the [recommended hitchstory environment](approach/recommended-environment).
-
-You can also install it traditionally through pypi:
+You *can* install hitchstory through pypi in any python 3 virtualenv:
 
 ```bash
 $ pip install hitchstory
+```
+
+However, it's recommended to install and set up hitchstory with [hitchkey](https://github.com/hitchdev/hitchkey),
+which will take care of automatically setting up a up the [recommended hitchstory environment](approach/recommended-environment).
+
+Either install hitchkey with [pipsi](https://github.com/mitsuhiko/pipsi):
+
+```bash
+pipsi install hitchkey
+```
+
+Or, if you'd prefer, you can safely install with "sudo pip":
+
+```bash
+sudo pip install hitchkey
+```
+
+Once hitchkey is installed:
+
+```bash
+cd /your/project/directory
+hk --quickstart hitchstory
+```
+
+This will create a directory called "hitch" and put three files in it, including one story, which you can play by running:
+
+```bash
+hk bdd my first
 ```
 
 
