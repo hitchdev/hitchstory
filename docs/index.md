@@ -63,7 +63,7 @@ Once hitchkey is installed:
 
 ```bash
 cd /your/project/directory
-hk --quickstart hitchstory
+hk --tutorial hitchstory
 ```
 
 This will create a directory called "hitch" and put three files in it, including one story, which you can play by running:
