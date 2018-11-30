@@ -55,7 +55,6 @@ def about(template):
     return decorator
 
 
-
 class GivenProperty(object):
     def __init__(self, schema=None, document=None):
         self.schema = Any() if schema is None else schema

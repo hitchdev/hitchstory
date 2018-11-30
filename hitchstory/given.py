@@ -34,7 +34,6 @@ class GivenProperties(object):
         return self._properties.items()
 
 
-
 class Given(object):
     def __init__(self, preconditions, document_templates=None):
         self._preconditions = preconditions
