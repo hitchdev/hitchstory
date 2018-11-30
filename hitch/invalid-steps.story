@@ -195,13 +195,13 @@ Invalid story:
 
 
             [2]: function '__getitem__'
-              /home/colm/.hitch/vz58po/py3.7.0/lib/python3.7/site-packages/hitchstory/engine.py
+              /home/colm/.hitch/vz58po/py3.7.0/lib/python3.7/site-packages/hitchstory/given.py
 
 
-                    118 :                 slug,
-                    119 :                 ', '.join(self._preconditions.keys()) if len(self._preconditions.keys()) > 0 else
-                --> 120 :                 'None'
-                    121 :             ))
+                    54 :                 slug,
+                    55 :                 ', '.join(self._preconditions.keys()) if len(self._preconditions.keys()) > 0 else
+                --> 56 :                 'None'
+                    57 :             ))
 
 
 

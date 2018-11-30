@@ -202,7 +202,7 @@ class Story(object):
             signal(SIGQUIT, self.engine.on_abort)
 
             current_step = None
-            self.engine._preconditions = self.given
+            self.engine._given = self.given
             self.engine.story = self
             self.engine.set_up()
 

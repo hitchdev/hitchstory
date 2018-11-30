@@ -4,7 +4,6 @@ User-exposed engine related code.
 from hitchstory import exceptions
 from strictyaml import Any, Map, Optional
 from hitchstory import utils
-from hitchstory.given import Given
 
 
 def validate(**kwargs):
@@ -128,7 +127,7 @@ class BaseEngine(object):
 
     @property
     def given(self):
-        return Given(self._preconditions_dict)
+        return self._given
 
     def set_up(self):
         pass
