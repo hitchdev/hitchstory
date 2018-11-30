@@ -53,12 +53,13 @@ Generate documentation from stories:
 
             Simple log in.
 
+
             Load: /loginurl
 
 
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
 
+            - Enter text 'AzureDiamond' in username.
+            - Enter text 'hunter2' in password.
 
             * Click on login
 
@@ -68,12 +69,13 @@ Generate documentation from stories:
 
             Alternate log in URL.
 
+
             Load: /alternativeloginurl
 
 
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
 
+            - Enter text 'AzureDiamond' in username.
+            - Enter text 'hunter2' in password.
 
             * Click on login
 
@@ -83,11 +85,12 @@ Generate documentation from stories:
 
             For stories that involve Trump.
 
+
             Load: /loginurl
 
 
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
 
+            - Enter text 'DonaldTrump' in username.
+            - Enter text 'iamsosmrt' in password.
 
             * Click on login
