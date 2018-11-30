@@ -1,6 +1,7 @@
 from hitchstory.utils import DEFAULT_STACK_TRACE, underscore_slugify
 from hitchstory.result import Success, Failure, FlakeResult
 from hitchstory.story_step import StoryStep
+from hitchstory.given import Given
 from hitchstory import exceptions
 from hitchstory import utils
 from collections import OrderedDict
@@ -145,7 +146,7 @@ class Story(object):
 
     @property
     def given(self):
-        return self._precondition_dict
+        return Given(self._precondition_dict, self.engine.given_definition.document_templates)
 
     @property
     def steps(self):

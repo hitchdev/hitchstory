@@ -22,15 +22,11 @@ Generate documentation from stories:
 
       {{ story.about }}
 
-      Load: {{ story.given['url'] }}
+      {% for name, property in story.given.properties.items()  %}
+      {{ property.documentation }}
+      {% endfor %}
       {% for step in story.steps %}
-      {%- if step.is_a("fill form") %}
-      {% for name, value in step.arguments.yaml.items() %}
-      - Enter text '{{ value }}' in {{ name }}.
-      {%- endfor %}
-      {% elif step.is_a("click") %}
-      * Click on {{ step.arguments.yaml.value }}
-      {%- endif %}
+      {{ step.documentation }}
       {% endfor %}
       {% endfor %}
     setup: |

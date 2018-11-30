@@ -4,6 +4,7 @@ from hitchstory import exceptions
 from hitchstory import utils
 from strictyaml import YAMLValidationError
 from slugify import slugify
+import jinja2
 
 
 class StoryStep(object):
@@ -110,6 +111,21 @@ class StoryStep(object):
 
     def method(self):
         return StepMethod(self.step_method).method(self.arguments)
+
+    @property
+    def documentation(self):
+        if not hasattr(self.step_method, '_about_template'):
+            raise exceptions.AboutTemplateNotAvailable(
+                "@about decorator needed on step '{}'".format(self)
+            )
+        # TODO: Move out StepMethod and _keywords
+        if StepMethod(self.step_method)._keywords:
+            arguments = {
+                StepMethod(self.step_method).argspec.keywords: self._data
+            }
+        else:
+            arguments = self._data
+        return jinja2.Template(self.step_method._about_template).render(**arguments)
 
     def __repr__(self):
         return u"<StoryStep('{0}')>".format(self.slug)

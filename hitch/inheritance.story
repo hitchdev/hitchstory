@@ -53,23 +53,29 @@ Inherit one story from another:
           username: DonaldTrump
           password: iamsosmrt
     engine.py: |
-      from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+      from hitchstory import BaseEngine, GivenDefinition, GivenProperty, about
       from strictyaml import Map, Int, Str, Optional
 
 
       class Engine(BaseEngine):
           given_definition = GivenDefinition(
-              url=GivenProperty(schema=Str()),
+              url=GivenProperty(schema=Str(), document="Load: {{ url }}"),
           )
 
           def set_up(self):
               print("visit {0}".format(self.given['url']))
 
+          @about((
+              "{% for name, value in textboxes.items() %}\n"
+              "- Enter text '{{ value }}' in {{ name }}.\n"
+              "{%- endfor %}\n"
+          ))
           def fill_form(self, **textboxes):
               for name, text in sorted(textboxes.items()):
                   print("with {0}".format(name))
                   print("enter {0}".format(text))
 
+          @about("* Click on {{ item }}")
           def click(self, item):
               print("clicked on {0}".format(item))
     setup: |

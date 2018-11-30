@@ -1,6 +1,7 @@
 from hitchstory.story_collection import StoryCollection
 from hitchstory.engine import validate
 from hitchstory.engine import no_stacktrace_for
+from hitchstory.engine import about
 from hitchstory.engine import InfoDefinition
 from hitchstory.engine import InfoProperty
 from hitchstory.engine import GivenDefinition

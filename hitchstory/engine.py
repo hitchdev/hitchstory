@@ -4,6 +4,7 @@ User-exposed engine related code.
 from hitchstory import exceptions
 from strictyaml import Any, Map, Optional
 from hitchstory import utils
+from hitchstory.given import Given
 
 
 def validate(**kwargs):
@@ -41,9 +42,24 @@ def no_stacktrace_for(exception_type):
     return decorator
 
 
+def about(template):
+    """
+    Attach a template to a step which can be used to generate
+    documentation about the step.
+    """
+
+    def decorator(step_function):
+        step_function._about_template = template
+        return step_function
+
+    return decorator
+
+
+
 class GivenProperty(object):
-    def __init__(self, schema=None):
+    def __init__(self, schema=None, document=None):
         self.schema = Any() if schema is None else schema
+        self.document = document
 
 
 class GivenDefinition(object):
@@ -56,6 +72,10 @@ class GivenDefinition(object):
             ), "{0} must be GivenProperty.".format(name)
             mapping[Optional(name)] = utils.YAML_Param | given_property.schema
         self.preconditions = Map(mapping, key_validator=utils.UnderscoredSlug())
+
+    @property
+    def document_templates(self):
+        return {name: prop.document for name, prop in self.given_properties.items()}
 
 
 class InfoProperty(object):
@@ -99,41 +119,6 @@ class NewStory(object):
         self._engine.story.story_file.rewrite()
 
 
-class Given(object):
-    def __init__(self, preconditions):
-        self._preconditions = preconditions
-
-    def get(self, key, default=None):
-        return self._preconditions.get(utils.underscore_slugify(key), default)
-
-    def __getitem__(self, key):
-        slug = utils.underscore_slugify(key)
-
-        if slug in self._preconditions:
-            return self._preconditions[slug]
-        else:
-            raise KeyError((
-                "'{}' / '{}' not found from given. Preconditions available: {}"
-            ).format(
-                key,
-                slug,
-                ', '.join(self._preconditions.keys()) if len(self._preconditions.keys()) > 0 else
-                'None'
-            ))
-
-    def __contains__(self, key):
-        return utils.underscore_slugify(key) in self._preconditions.keys()
-
-    def keys(self):
-        return self._preconditions.keys()
-
-    def items(self):
-        return self._preconditions.items()
-
-    def values(self):
-        return self._preconditions.values()
-
-
 class BaseEngine(object):
     given_definition = GivenDefinition()
     info_definition = InfoDefinition()
@@ -144,7 +129,7 @@ class BaseEngine(object):
 
     @property
     def given(self):
-        return Given(self._preconditions)
+        return Given(self._preconditions_dict)
 
     def set_up(self):
         pass
