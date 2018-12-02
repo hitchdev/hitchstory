@@ -3,17 +3,19 @@ Generate documentation from stories:
   based on: inherit one story from another
   status: experimental
   about: |
-    While hitchstory YAML stories are designed to be as
-    readable as possible while still remaining terse and easy to maintain,
-    it is not readable user documentation and is not intended for use by
-    stakeholders to understand how a system operates.
+    hitchstory YAML stories *are* designed to be readable, but also terse
+    and easy to maintain.
 
-    However, stakeholders do *need* documentation and user stories form an
-    excellent base to build documentation from.
+    Where terseness and ease of maintenance trumps readability, the former
+    take precedence. YAML stories are *not* intended to be a replacement for
+    stakeholder documentation in and of themselves.
 
-    Using hitchstory story and story list objects you can generate
-    documentation using a simple templating language. This example
-    demonstrates how to generate markdown using jinja2.
+    YAML stories *are* designed, however, to be used to generate documentation
+    for use by stakeholders.
+
+    The example shown below demonstrates how a story can be transformed into
+    markdown via jinja2. This markdown can then be used to generate HTML
+    with a static site generator.
   given:
     documentation.jinja2: |
       {% for story in story_list %}

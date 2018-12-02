@@ -14,16 +14,13 @@ Inherit one story from another:
     a maintenance headache.
 
     Story inheritance allows you to base stories on other stories.
-    The base story preconditions will all be used while the
-    child story preconditions (if it has any) will override
+
+    The base story given preconditions and parameters will be
+    used while the child story given preconditions will override
     them.
 
-    The same is so for story parameters.
-
-    The base story scenario will always be executed before
-    continuing with the child story scenario, however,
-    if you do not want that you do not have to give the base
-    story any steps to execute.
+    The steps of the parent stories, if they have any steps,
+    will be executed before the child story steps.
   given:
     example.story: |
       Login:
