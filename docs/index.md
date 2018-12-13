@@ -61,15 +61,18 @@ sudo pip install hitchkey
 
 Once hitchkey is installed:
 
+Example demo of hitchstory basics:
+
 ```bash
-cd /your/project/directory
-hk --tutorial hitchstory
+cd temp
+hk --demo hitchstory ; hk bdd email
 ```
 
-This will create a directory called "hitch" and put three files in it, including one story, which you can play by running:
+Example python API test demo (uses game of life):
 
 ```bash
-hk bdd my first
+cd temp
+hk --demo pythonapi ; cd pythonapi ; hk bdd
 ```
 
 
