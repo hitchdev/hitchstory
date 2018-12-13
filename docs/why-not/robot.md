@@ -10,7 +10,7 @@ and became *incredibly* frustrated using when debugging test failures.
 
 Below I list the reasons that made me dislike this framework:
 
-# 1. The debugging tooling is terrible
+## 1. The debugging tooling is terrible
 
 The last straw in 2014 was when I was trying to debug a test failure and 
 discovered that the step that the line number and step the test failed on was not
@@ -30,16 +30,27 @@ of fresh air compared to robot.
 Hitchstory, of course, tells you exactly which line the code failed on and even gives
 a stacktrace of the failed python code. I was very careful not to screw that up.
 
-## The DSL is turing complete
+## 2. It doesn't fail fast
+
+[Fail fast](../../../code-quality/fail-fast-fail-clearly) is a general principle of software development
+whereby a system immediately reports at its interface any condition that is likely to indicate a failure.
+
+Robot does not adhere to this principle.
+
+One example of how it breaks this principle is what happens if you put in an unknown keyword. It will
+run the 
+
+## 2. The DSL is turing complete
 
 There is a common pattern among DSLs that I call the "DSL treadmill". Somebody identifies a problem
-and thinks "I know, I'll create a DSL to solve this problem!". That DSL works fine until the creator
-sees some use cases which they think it would be good to accomodate. Then they add some features.
+and thinks "I know, I'll create a DSL to solve this problem". That DSL works for a while and the creator
+soon some use cases which they think it would be good to accomodate. Then they add some features.
 Then they see some other use cases. Then they add some more features.
 
-And at some point *whoops* they've created a turing complete programming language... by *accident*.
+Then, at some point, *whoops* they've created a turing complete programming language... by *accident*.
 This has happened to, among other DSLs [C++ templates, server side includes, mediawiki templates and
-sendmail configuration files](http://beza1e1.tuxen.de/articles/accidentally_turing_complete.html).
+sendmail configuration files](http://beza1e1.tuxen.de/articles/accidentally_turing_complete.html) all
+of which are notoriously hellish to use.
 
 While more features sounds like a good thing at first glance, with turing completeness being a
 quirky side effect of interest only to the academically inclined, it's actually a horrible, *horrible*
