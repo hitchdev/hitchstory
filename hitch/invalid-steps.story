@@ -195,7 +195,7 @@ Invalid story:
 
 
             [2]: function '__getitem__'
-              /home/colm/.hitch/vz58po/py3.7.0/lib/python3.7/site-packages/hitchstory/given.py
+              /path/to/virtualenv/py3.7.0/lib/python3.7/site-packages/hitchstory/given.py
 
 
                     54 :                 slug,

@@ -90,6 +90,7 @@ class Engine(BaseEngine):
                 .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
                 .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
                 .replace(self.path.state, "/path/to")
+                .replace(self.path.gen, "/path/to/virtualenv")
                 .replace("0.2 seconds", "0.1 seconds")
                 .replace("0.0 seconds", "0.1 seconds")
                 .rstrip()
