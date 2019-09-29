@@ -101,7 +101,10 @@ class StepMethod(object):
                 )
         else:
             if self._keywords:
-                arguments.validate_kwargs(self.arg_validator(self._keywords))
+                if self.argspec.keywords in self._specified_validators:
+                    arguments.validate_kwargs(self._specified_validators[self.argspec.keywords])
+                else:
+                    arguments.validate_kwargs(Any())
             else:
                 arguments.validate_args(self.mapping_validators)
 

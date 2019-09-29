@@ -31,6 +31,15 @@ Strong typing:
                 tagline: Hoopy
                 nametag: Ford Prefect
           - Put back items: 1
+          - Add generic product:
+              name: Towel
+              versions:
+                - 2.6
+                - 2.3.4
+              quantity: 2
+              options:
+                tagline: Hoopy
+                nametag: Ford Prefect
     engine.py: |
       from hitchstory import BaseEngine, validate, GivenDefinition, GivenProperty
       from strictyaml import Seq, Str, Int, Map
@@ -67,6 +76,20 @@ Strong typing:
           def put_back_items(self, number_of_items):
               assert type(number_of_items) is int
               append("Items put back: " + str(number_of_items))
+            
+        
+          @validate(kwargs=Map({
+              "name": Str(),
+              "quantity": Int(),
+              "versions": Seq(Str()),
+              "options": Map({
+                  'tagline': Str(), 'nametag': Str()
+              })
+          }))
+          def add_generic_product(self, **kwargs):
+              assert type(kwargs['quantity']) is int, "quantity is of type {0}".format(type(kwargs['quantity']))
+              assert type(kwargs['versions'][0]) is str
+              assert type(kwargs['options']['tagline']) is str
 
           def tear_down(self):
               pass
