@@ -5,7 +5,7 @@ backcall==0.1.0           # via ipython
 black==18.9b0             # via hitchpylibrarytoolkit
 bleach==3.0.0             # via readme-renderer
 certifi==2018.8.24        # via requests
-cffi==1.11.5              # via cmarkgfm
+cffi==1.15.0              # via cmarkgfm
 chardet==3.0.4            # via requests
 click==7.0                # via black, hitchrun, pip-tools
 cmarkgfm==0.4.2           # via readme-renderer
@@ -38,7 +38,7 @@ pathquery==0.3.0          # via dirtemplate, hitchbuild, hitchbuildpy, hitchstor
 peewee==3.7.1             # via hitchbuild
 pexpect==4.6.0            # via ipython
 pickleshare==0.7.5        # via ipython
-pip-tools==3.1.0          # via hitchrun
+pip-tools==6.4.0          # via hitchrun
 pkginfo==1.4.2            # via twine
 prettystack==0.3.0        # via hitchrun, hitchrunpy, hitchstory
 prompt-toolkit==2.0.5     # via ipython
@@ -56,10 +56,9 @@ q==2.6                    # via hitchpylibrarytoolkit
 readme-renderer==22.0     # via twine
 requests-toolbelt==0.8.0  # via twine
 requests==2.19.1          # via requests-toolbelt, twine
-ruamel.yaml==0.15.72      # via strictyaml
 simplegeneric==0.8.1      # via ipython
 six==1.11.0               # via bleach, pip-tools, prompt-toolkit, python-dateutil, readme-renderer, traitlets
-strictyaml==0.13.0        # via dirtemplate, hitchstory
+strictyaml==1.5.0         # via dirtemplate, hitchstory
 templex==0.2.0            # via hitchpylibrarytoolkit
 toml==0.10.0              # via black
 tqdm==4.26.0              # via twine
@@ -67,6 +66,6 @@ traitlets==4.3.2          # via ipython
 twine==1.12.1             # via hitchpylibrarytoolkit
 unidecode==1.0.22         # via python-slugify
 urllib3==1.23             # via requests
-uvloop==0.11.2            # via icommandlib
+uvloop==0.16.0            # via icommandlib
 wcwidth==0.1.7            # via prompt-toolkit, pyte
 webencodings==0.5.1       # via bleach
