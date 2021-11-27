@@ -146,7 +146,9 @@ class Story(object):
 
     @property
     def given(self):
-        return Given(self._precondition_dict, self.engine.given_definition.document_templates)
+        return Given(
+            self._precondition_dict, self.engine.given_definition.document_templates
+        )
 
     @property
     def steps(self):
@@ -158,7 +160,7 @@ class Story(object):
                 method()
             else:
                 method(result)
-        except Exception as exception:
+        except Exception:
             stack_trace = DEFAULT_STACK_TRACE.current_stacktrace()
 
             raise exception_to_raise(stack_trace)
@@ -166,7 +168,7 @@ class Story(object):
     def _run_on_success(self):
         try:
             self.engine.on_success()
-        except Exception as exception:
+        except Exception:
             self._run_special_method(
                 self.engine.tear_down, exceptions.TearDownException
             )
@@ -177,7 +179,7 @@ class Story(object):
     def _run_on_failure(self, result):
         try:
             self.engine.on_failure(result)
-        except Exception as exception:
+        except Exception:
             self._run_special_method(
                 self.engine.tear_down, exceptions.TearDownException
             )
@@ -259,7 +261,6 @@ class Story(object):
                     bright=colorama.Style.BRIGHT,
                     duration=result.duration,
                     blue=colorama.Fore.BLUE,
-                    reset=colorama.Fore.RESET,
                     reset_all=colorama.Style.RESET_ALL,
                     story_snippet=result.story_failure_snippet,
                     stacktrace=result.stacktrace,

@@ -27,7 +27,7 @@ class GivenProperties(object):
                 precondition,
                 jinja2.Template(self._given._document_templates[name]).render(
                     **{name: precondition}
-                )
+                ),
             )
 
     def items(self):
@@ -48,14 +48,17 @@ class Given(object):
         if slug in self._preconditions:
             return self._preconditions[slug]
         else:
-            raise KeyError((
-                "'{}' / '{}' not found from given. Preconditions available: {}"
-            ).format(
-                key,
-                slug,
-                ', '.join(self._preconditions.keys()) if len(self._preconditions.keys()) > 0 else
-                'None'
-            ))
+            raise KeyError(
+                (
+                    "'{}' / '{}' not found from given. Preconditions available: {}"
+                ).format(
+                    key,
+                    slug,
+                    ", ".join(self._preconditions.keys())
+                    if len(self._preconditions.keys()) > 0
+                    else "None",
+                )
+            )
 
     def __contains__(self, key):
         return utils.underscore_slugify(key) in self._preconditions.keys()

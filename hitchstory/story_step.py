@@ -114,15 +114,13 @@ class StoryStep(object):
 
     @property
     def documentation(self):
-        if not hasattr(self.step_method, '_about_template'):
+        if not hasattr(self.step_method, "_about_template"):
             raise exceptions.AboutTemplateNotAvailable(
                 "@about decorator needed on step '{}'".format(self)
             )
         # TODO: Move out StepMethod and _keywords
         if StepMethod(self.step_method)._keywords:
-            arguments = {
-                StepMethod(self.step_method).argspec.keywords: self._data
-            }
+            arguments = {StepMethod(self.step_method).argspec.keywords: self._data}
         else:
             arguments = self._data
         return jinja2.Template(self.step_method._about_template).render(**arguments)

@@ -13,6 +13,11 @@ import dirtemplate
 import colorama
 import re
 
+toolkit = hitchpylibrarytoolkit.ProjectToolkit(
+    "hitchstory",
+    DIR,
+)
+
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
@@ -211,7 +216,7 @@ class Engine(BaseEngine):
         if not self.path.state.joinpath(filename).exists():
             raise RuntimeError("{0} does not exist".format(filename))
         if self.path.state.joinpath(filename).bytes().decode("utf8") != contents:
-            raise RuntimeError("{0} did not contain {0}".format(filename, contents))
+            raise RuntimeError("{0} did not contain {1}".format(filename, contents))
 
     def form_filled(self, **kwargs):
         for name, value in kwargs.items():
@@ -275,21 +280,21 @@ def reformat():
     """
     Reformat using black and then relint.
     """
-    hitchpylibrarytoolkit.reformat(DIR.project, "hitchstory")
+    toolkit.reformat()
 
 
 def lint():
     """
     Lint project code and hitch code.
     """
-    hitchpylibrarytoolkit.lint(DIR.project, "hitchstory")
+    toolkit.lint(exclude=["__init__.py"])
 
 
 def deploy(version):
     """
     Deploy to pypi as specified version.
     """
-    hitchpylibrarytoolkit.deploy(DIR.project, "hitchstory", version)
+    toolkit.deploy(version)
 
 
 @expected(dirtemplate.exceptions.DirTemplateException)
@@ -297,7 +302,7 @@ def docgen():
     """
     Build documentation.
     """
-    hitchpylibrarytoolkit.docgen(_storybook({}), DIR.project, DIR.key, DIR.gen)
+    toolkit.docgen(Engine(DIR, {}))
 
 
 @expected(dirtemplate.exceptions.DirTemplateException)
@@ -305,9 +310,7 @@ def readmegen():
     """
     Build documentation.
     """
-    hitchpylibrarytoolkit.readmegen(
-        _storybook({}), DIR.project, DIR.key, DIR.gen, "hitchstory"
-    )
+    toolkit.readmegen(Engine(DIR, {}))
 
 
 def rerun(version="3.7.0"):

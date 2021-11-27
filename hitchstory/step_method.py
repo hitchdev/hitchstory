@@ -9,20 +9,20 @@ class StepMethod(object):
     def __init__(self, method):
         self._method = method
         if self.argspec.varargs is not None:
-            raise exceptions.CannotUseVarargs((
-                "Method '{}' uses varargs (e.g. *args), "
-                "only keyword args (e.g. **kwargs) are valid".format(
-                    self._method
+            raise exceptions.CannotUseVarargs(
+                (
+                    "Method '{}' uses varargs (e.g. *args), "
+                    "only keyword args (e.g. **kwargs) are valid".format(self._method)
                 )
-            ))
+            )
         if self._keywords and len(self._args) > 1:
-            raise exceptions.CannotMixKeywordArgs((
-                "Method '{}' mixes keyword (e.g. *kwargs), "
-                "and regular args (e.g. arg1, arg2, arg3). "
-                "Mixing is not allowed".format(
-                    self._method
+            raise exceptions.CannotMixKeywordArgs(
+                (
+                    "Method '{}' mixes keyword (e.g. *kwargs), "
+                    "and regular args (e.g. arg1, arg2, arg3). "
+                    "Mixing is not allowed".format(self._method)
                 )
-            ))
+            )
 
     @property
     def argspec(self):
@@ -102,7 +102,9 @@ class StepMethod(object):
         else:
             if self._keywords:
                 if self.argspec.keywords in self._specified_validators:
-                    arguments.validate_kwargs(self._specified_validators[self.argspec.keywords])
+                    arguments.validate_kwargs(
+                        self._specified_validators[self.argspec.keywords]
+                    )
                 else:
                     arguments.validate_kwargs(Any())
             else:
