@@ -24,7 +24,7 @@ for doing this, but they were terrible.
 
 I subsequently dumped it and used python's built in unit testing framework, which worked better
 because it actually *told* me where it failed. It's still not a great framework
-for many [other reasons](unit-testing-framework) but at least in that respect it was a breath
+for many [other reasons](../unit-test) but at least in that respect it was a breath
 of fresh air compared to robot.
 
 Hitchstory, of course, tells you exactly which line the code failed on and even gives

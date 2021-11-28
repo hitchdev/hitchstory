@@ -21,8 +21,7 @@ and the benefit was minimal in the end.
 I am not anti-TDD. In fact, part of the reason for me writing this
 [testing and living documentation framework](../testing-and-living-documentation)
 was because I wanted to bring down the overall cost of writing and maintaining tests
-as well as [raise their value](../turning-tests-into-specs-into-documentation)
-so that the investment is more likely to pay off.
+as well as raise their value so that the investment is more likely to pay off.
 
 ## The cost of building mocks
 

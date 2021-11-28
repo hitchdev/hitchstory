@@ -62,7 +62,7 @@ first *always* and then wrote the code that made it pass.
 
 Instead, I opted for a looser approach. I wrote the basic outline of the
 test first, *then* I wrote the code and *then* I ran the test in [rewrite
-mode](../using/alpha/rewrite-story) so that whatever the command line output
+mode](../../using/alpha/rewrite-story) so that whatever the command line output
 was, that was written directly in to the story automatically if the rest of
 the scenario didn't fail.
 
