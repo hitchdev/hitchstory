@@ -1,7 +1,6 @@
 
 ---
 title: Play multiple stories in sequence
-type: using
 ---
 
 
@@ -160,6 +159,10 @@ Create files (in /path/to/example2.story)
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/multiple.story">multiple.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/multiple.story">multiple.story
+    storytests.</a>
+

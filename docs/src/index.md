@@ -6,9 +6,12 @@
 title: HitchStory
 ---
 
-![You know why](sliced-cucumber.jpg)
+!(sliced-cucumber.jpg)
 
-{% raw %}{{< github-stars user="hitchdev" project="hitchstory" >}}{% endraw %}
+{% raw %}
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"> 
+<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
+{% endraw %}
 {% endif %}
 
 
@@ -78,9 +81,10 @@ hk --demo pythonapi ; cd pythonapi ; hk bdd
 
 ## Using HitchStory
 
-{% for dirfile in subdir("using/alpha/").is_not_dir() - subdir("using/alpha/").named("index.md") -%}
-- [{{ title(dirfile) }}](using/alpha/{{ dirfile.namebase }})
+{% for dirfile in (subdir("using/alpha/").ext("md") - subdir("using/alpha/").named("index.md"))|sort() -%}
+- [{{ title(dirfile) }}](using/alpha/{{ dirfile.name.splitext()[0] }})
 {% endfor %}
+
 
 
 ## Approach to using HitchStory

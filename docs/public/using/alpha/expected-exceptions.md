@@ -1,7 +1,6 @@
 
 ---
 title: Hiding stacktraces for expected exceptions
-type: using
 ---
 
 
@@ -107,6 +106,10 @@ Expected exception
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/expected-exceptions.story">expected-exceptions.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/expected-exceptions.story">expected-exceptions.story
+    storytests.</a>
+

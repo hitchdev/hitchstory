@@ -1,7 +1,6 @@
 
 ---
 title: Strong typing
-type: using
 ---
 
 
@@ -153,6 +152,10 @@ RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/strong-typing.story">strong-typing.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/strong-typing.story">strong-typing.story
+    storytests.</a>
+

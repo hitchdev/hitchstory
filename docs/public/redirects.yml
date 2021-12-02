@@ -1,0 +1,12 @@
+/why/flaky-tests: /approach/flaky-tests
+/why/cucumber: /why-not/gherkin
+/why/why-not-unit-test: /why-not/unit-test
+/why/unit-tests: /why-not/unit-test
+/why/screenplay-principle: /approach/screenplay-principle
+/why/human-writable: /approach/human-writable
+/setup-with-hitchkey:  /
+/why/bdd: /approach/bdd
+/why/test-or-story: /approach/test-or-story
+/why/standard-yaml: /why/strictyaml
+/why/triality: /approach/triality
+/why/cucumbers-mistakes: /why-not/gherkin

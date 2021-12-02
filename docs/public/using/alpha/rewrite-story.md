@@ -1,7 +1,6 @@
 
 ---
 title: Story that rewrites itself
-type: using
 ---
 
 
@@ -147,6 +146,10 @@ Then the example story will be unchanged.
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/rewrite-story.story">rewrite-story.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/rewrite-story.story">rewrite-story.story
+    storytests.</a>
+

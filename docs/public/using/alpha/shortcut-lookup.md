@@ -1,7 +1,6 @@
 
 ---
 title: Shortcut lookup for story names
-type: using
 ---
 
 
@@ -133,6 +132,10 @@ Create files (in /path/to/example2.story)
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/shortcut.story">shortcut.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/shortcut.story">shortcut.story
+    storytests.</a>
+

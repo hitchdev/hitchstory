@@ -1,7 +1,6 @@
 
 ---
 title: Continue on failure when playing multiple stories
-type: using
 ---
 
 
@@ -155,6 +154,10 @@ RUNNING C Create file a third time in /path/to/example2.story ... SUCCESS in 0.1
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/fail-fast.story">fail-fast.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/fail-fast.story">fail-fast.story
+    storytests.</a>
+

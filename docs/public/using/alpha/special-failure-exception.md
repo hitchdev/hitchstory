@@ -1,7 +1,6 @@
 
 ---
 title: Special exception named failure
-type: using
 ---
 
 
@@ -110,6 +109,10 @@ Special failure exception - no stacktrace printed!
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/special-failure-exception.story">special-failure-exception.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/special-failure-exception.story">special-failure-exception.story
+    storytests.</a>
+

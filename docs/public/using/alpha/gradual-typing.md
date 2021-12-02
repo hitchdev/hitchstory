@@ -1,7 +1,6 @@
 
 ---
 title: Gradual typing of story steps
-type: using
 ---
 
 
@@ -117,6 +116,10 @@ some other text
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/gradual-typing.story">gradual-typing.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/gradual-typing.story">gradual-typing.story
+    storytests.</a>
+

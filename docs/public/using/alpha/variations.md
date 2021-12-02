@@ -1,7 +1,6 @@
 
 ---
 title: Variations
-type: using
 ---
 
 
@@ -174,6 +173,10 @@ Ensure([
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/variations.story">variations.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/variations.story">variations.story
+    storytests.</a>
+

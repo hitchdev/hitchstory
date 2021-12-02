@@ -1,7 +1,6 @@
 
 ---
 title: Handling failing tests
-type: using
 ---
 
 
@@ -186,6 +185,10 @@ Towel not located
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/failure.story">failure.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/failure.story">failure.story
+    storytests.</a>
+

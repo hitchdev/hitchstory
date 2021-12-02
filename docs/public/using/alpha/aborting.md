@@ -1,7 +1,6 @@
 
 ---
 title: Abort a story with ctrl-C
-type: using
 ---
 
 
@@ -96,6 +95,10 @@ Reticulate splines
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/abort.story">abort.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/abort.story">abort.story
+    storytests.</a>
+

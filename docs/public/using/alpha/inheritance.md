@@ -1,7 +1,6 @@
 
 ---
 title: Inherit one story from another
-type: using
 ---
 
 
@@ -218,6 +217,10 @@ Log in as president
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/inheritance.story">inheritance.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/inheritance.story">inheritance.story
+    storytests.</a>
+

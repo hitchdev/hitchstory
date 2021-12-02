@@ -1,7 +1,6 @@
 
 ---
 title: Given preconditions
-type: using
 ---
 
 
@@ -140,6 +139,10 @@ SUCCESS in 0.1 seconds.
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/given.story">given.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/given.story">given.story
+    storytests.</a>
+

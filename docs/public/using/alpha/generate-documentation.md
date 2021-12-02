@@ -1,7 +1,6 @@
 
 ---
 title: Generate documentation from stories
-type: using
 ---
 
 
@@ -183,6 +182,10 @@ Load: /loginurl
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/documentation.story">documentation.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/documentation.story">documentation.story
+    storytests.</a>
+

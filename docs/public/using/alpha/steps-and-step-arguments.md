@@ -1,7 +1,6 @@
 
 ---
 title: Arguments to steps
-type: using
 ---
 
 
@@ -121,6 +120,10 @@ RUNNING Click button in /path/to/example.story ... SUCCESS in 0.1 seconds.
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/arguments.story">arguments.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/arguments.story">arguments.story
+    storytests.</a>
+

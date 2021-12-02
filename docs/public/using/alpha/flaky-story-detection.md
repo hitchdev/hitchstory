@@ -1,7 +1,6 @@
 
 ---
 title: Flaky story detection
-type: using
 ---
 
 
@@ -202,6 +201,10 @@ NO FLAKINESS DETECTED in 0.1 seconds after running 'Consistent failure' story 5 
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/flaky.story">flaky.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/flaky.story">flaky.story
+    storytests.</a>
+

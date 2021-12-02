@@ -2,9 +2,12 @@
 title: HitchStory
 ---
 
-![You know why](sliced-cucumber.jpg)
+!(sliced-cucumber.jpg)
 
-{{< github-stars user="hitchdev" project="hitchstory" >}}
+
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"> 
+<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
+
 
 
 

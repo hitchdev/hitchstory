@@ -1,7 +1,6 @@
 
 ---
 title: Running a single named story successfully
-type: using
 ---
 
 
@@ -117,6 +116,10 @@ Create files
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/success.story">success.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/success.story">success.story
+    storytests.</a>
+

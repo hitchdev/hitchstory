@@ -1,7 +1,6 @@
 
 ---
 title: Extra story metadata - e.g. adding JIRA ticket numbers to stories
-type: using
 ---
 
 
@@ -154,6 +153,10 @@ Ensure([story.info['project_jiras'] for story in story_collection.ordered_by_nam
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/metadata.story">metadata.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/metadata.story">metadata.story
+    storytests.</a>
+

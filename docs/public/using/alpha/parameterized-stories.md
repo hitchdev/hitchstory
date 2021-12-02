@@ -1,7 +1,6 @@
 
 ---
 title: Story with parameters
-type: using
 ---
 
 
@@ -176,6 +175,10 @@ SUCCESS in 0.1 seconds.
 
 
 
-{{< note title="Executable specification" >}}
-Page automatically generated from <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/parameterization.story">parameterization.story</a>.
-{{< /note >}}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/parameterization.story">parameterization.story
+    storytests.</a>
+
