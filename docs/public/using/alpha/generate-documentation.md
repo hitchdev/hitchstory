@@ -1,4 +1,3 @@
-
 ---
 title: Generate documentation from stories
 ---

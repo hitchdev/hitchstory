@@ -1,4 +1,3 @@
-
 ---
 title: Given preconditions
 ---

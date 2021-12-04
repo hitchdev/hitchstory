@@ -1,4 +1,3 @@
-
 ---
 title: Gradual typing of story steps
 ---

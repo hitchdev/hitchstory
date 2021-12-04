@@ -1,4 +1,3 @@
-
 ---
 title: Shortcut lookup for story names
 ---

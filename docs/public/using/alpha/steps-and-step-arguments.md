@@ -1,4 +1,3 @@
-
 ---
 title: Arguments to steps
 ---

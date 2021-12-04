@@ -1,4 +1,3 @@
-
 ---
 title: Special exception named failure
 ---

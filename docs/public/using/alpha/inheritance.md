@@ -1,4 +1,3 @@
-
 ---
 title: Inherit one story from another
 ---

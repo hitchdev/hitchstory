@@ -1,4 +1,3 @@
-
 ---
 title: Story that rewrites itself
 ---

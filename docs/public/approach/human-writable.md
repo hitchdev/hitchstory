@@ -26,7 +26,7 @@ especially on an ad hoc basis can be a supremely effective workflow for doing
 [stakeholder collaboration](../stakeholder-collaboration).
 
 
-## What about QA?
+## Should testers write stories?
 
 While developers need to be involved in writing the stories, the developers
 primarily writing the stories need not necessarily be the developers writing

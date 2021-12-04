@@ -1,4 +1,3 @@
-
 ---
 title: Play multiple stories in sequence
 ---

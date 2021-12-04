@@ -1,4 +1,3 @@
-
 ---
 title: Hiding stacktraces for expected exceptions
 ---

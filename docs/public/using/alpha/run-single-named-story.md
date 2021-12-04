@@ -1,4 +1,3 @@
-
 ---
 title: Running a single named story successfully
 ---

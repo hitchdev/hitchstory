@@ -1,4 +1,3 @@
-
 ---
 title: Flaky story detection
 ---

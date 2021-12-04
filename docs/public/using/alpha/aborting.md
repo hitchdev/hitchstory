@@ -1,4 +1,3 @@
-
 ---
 title: Abort a story with ctrl-C
 ---

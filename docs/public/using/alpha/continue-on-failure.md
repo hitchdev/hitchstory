@@ -1,4 +1,3 @@
-
 ---
 title: Continue on failure when playing multiple stories
 ---

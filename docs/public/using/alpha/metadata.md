@@ -1,4 +1,3 @@
-
 ---
 title: Extra story metadata - e.g. adding JIRA ticket numbers to stories
 ---
