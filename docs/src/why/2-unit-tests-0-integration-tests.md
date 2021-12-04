@@ -6,7 +6,7 @@ title: Two Unit Tests, Zero Integration Tests
 
 ![I bet the contractor still got paid](https://web.archive.org/web/20180926154744if_/https://i.redd.it/wxfszl51fdzz.gif)
 
-![](https://pbs.twimg.com/media/DA4F9zgVwAA8iC4.jpg:small)
+![](https://pbs.twimg.com/media/DA4F9zgVwAA8iC4.jpg)
 
 ![I hope the movie is worth it](https://web.archive.org/web/20180926154857if_/https://img.devrant.com/devrant/rant/r_285844_9XFTK.jpg)
 
@@ -14,7 +14,7 @@ title: Two Unit Tests, Zero Integration Tests
 
 ![](https://web.archive.org/web/20180201035312im_/https://i.imgur.com/Ruy7zy4.gifv)
 
-![Honey can you get the bottle opener?](https://pbs.twimg.com/media/C2oAur4UcAE-QaF.jpg:large)
+![Honey can you get the bottle opener?](https://pbs.twimg.com/media/C2oAur4UcAE-QaF.jpg)
 
 ![](https://web.archive.org/web/20180926161507if_/https://media.tenor.com/images/69fc9e113eddffa41ab688a04ced0063/tenor.gif)
 

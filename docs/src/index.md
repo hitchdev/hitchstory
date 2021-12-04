@@ -6,7 +6,7 @@
 title: HitchStory
 ---
 
-!(sliced-cucumber.jpg)
+![](sliced-cucumber.jpg)
 
 {% raw %}
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"> 
@@ -14,18 +14,17 @@ title: HitchStory
 {% endraw %}
 {% endif %}
 
-
 HitchStory is a python 3
 [testing and living documentation framework](approach/testing-and-living-documentation) for building easily
 maintained example driven [executable specifications](approach/executable-specifications) (sometimes dubbed
 acceptance tests).
 
 It was designed initially to make [realistic testing](approach/test-realism) of code less
-of a goddamn chore so the tests would actually get written and run.
+of a chore so the tests would actually get written and run.
 
 The executable specifications can be written to specify and test applications at
 any level and have been used successfully to replace traditional
-[low level unit tests](), [integration tests]() and [end to end tests]()
+low level unit tests, integration tests and end to end tests
 with easier to maintain tests.
 
 The specifications are [written using StrictYAML](why/strictyaml) and the
@@ -50,16 +49,10 @@ $ pip install hitchstory
 However, it's recommended to install and set up hitchstory with [hitchkey](https://github.com/hitchdev/hitchkey),
 which will take care of automatically setting up a up the [recommended hitchstory environment](approach/recommended-environment).
 
-Either install hitchkey with [pipsi](https://github.com/mitsuhiko/pipsi):
+Install hitchkey with [pipx](https://pypa.github.io/pipx/):
 
 ```bash
-pipsi install hitchkey
-```
-
-Or, if you'd prefer, you can safely install with "sudo pip":
-
-```bash
-sudo pip install hitchkey
+pipx install hitchkey
 ```
 
 Once hitchkey is installed:

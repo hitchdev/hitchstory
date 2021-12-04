@@ -39,7 +39,7 @@ If, instead of unit testing the hell out of everything, you subsribe to the noti
 how to build an approximation of the outside world.
 
 This is not always easy. This is not always cheap. This does not always make sense. It *might*
-be cheap if there is an easy to use [pre-existing project](https://seleniumhq.org) that mimics
+be cheap if there is an easy to use [pre-existing project](https://www.selenium.dev/) that mimics
 your code's outside world but there's no guarantee and if that project does not mimic reality
 correctly then you may also be out of luck and you either have to improve that project yourself.
 

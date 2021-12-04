@@ -2,12 +2,11 @@
 title: HitchStory
 ---
 
-!(sliced-cucumber.jpg)
+![](sliced-cucumber.jpg)
 
 
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"> 
 <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
-
 
 
 
@@ -17,11 +16,11 @@ maintained example driven [executable specifications](approach/executable-specif
 acceptance tests).
 
 It was designed initially to make [realistic testing](approach/test-realism) of code less
-of a goddamn chore so the tests would actually get written and run.
+of a chore so the tests would actually get written and run.
 
 The executable specifications can be written to specify and test applications at
 any level and have been used successfully to replace traditional
-[low level unit tests](), [integration tests]() and [end to end tests]()
+low level unit tests, integration tests and end to end tests
 with easier to maintain tests.
 
 The specifications are [written using StrictYAML](why/strictyaml) and the
@@ -166,16 +165,10 @@ $ pip install hitchstory
 However, it's recommended to install and set up hitchstory with [hitchkey](https://github.com/hitchdev/hitchkey),
 which will take care of automatically setting up a up the [recommended hitchstory environment](approach/recommended-environment).
 
-Either install hitchkey with [pipsi](https://github.com/mitsuhiko/pipsi):
+Install hitchkey with [pipx](https://pypa.github.io/pipx/):
 
 ```bash
-pipsi install hitchkey
-```
-
-Or, if you'd prefer, you can safely install with "sudo pip":
-
-```bash
-sudo pip install hitchkey
+pipx install hitchkey
 ```
 
 Once hitchkey is installed:
@@ -197,25 +190,26 @@ hk --demo pythonapi ; cd pythonapi ; hk bdd
 
 ## Using HitchStory
 
-- [Special exception named failure](using/alpha/)
-- [Inherit one story from another](using/alpha/)
-- [Flaky story detection](using/alpha/)
-- [Generate documentation from stories](using/alpha/)
-- [Abort a story with ctrl-C](using/alpha/)
-- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/alpha/)
-- [Given preconditions](using/alpha/)
-- [Gradual typing of story steps](using/alpha/)
-- [Play multiple stories in sequence](using/alpha/)
-- [Arguments to steps](using/alpha/)
-- [Story that rewrites itself](using/alpha/)
-- [Shortcut lookup for story names](using/alpha/)
-- [Continue on failure when playing multiple stories](using/alpha/)
-- [Variations](using/alpha/)
-- [Running a single named story successfully](using/alpha/)
-- [Hiding stacktraces for expected exceptions](using/alpha/)
-- [Handling failing tests](using/alpha/)
-- [Strong typing](using/alpha/)
-- [Story with parameters](using/alpha/)
+- [Abort a story with ctrl-C](using/alpha/aborting)
+- [Continue on failure when playing multiple stories](using/alpha/continue-on-failure)
+- [Hiding stacktraces for expected exceptions](using/alpha/expected-exceptions)
+- [Handling failing tests](using/alpha/failing-tests)
+- [Flaky story detection](using/alpha/flaky-story-detection)
+- [Generate documentation from stories](using/alpha/generate-documentation)
+- [Given preconditions](using/alpha/given)
+- [Gradual typing of story steps](using/alpha/gradual-typing)
+- [Inherit one story from another](using/alpha/inheritance)
+- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/alpha/metadata)
+- [Story with parameters](using/alpha/parameterized-stories)
+- [Play multiple stories in sequence](using/alpha/play-multiple-stories)
+- [Story that rewrites itself](using/alpha/rewrite-story)
+- [Running a single named story successfully](using/alpha/run-single-named-story)
+- [Shortcut lookup for story names](using/alpha/shortcut-lookup)
+- [Special exception named failure](using/alpha/special-failure-exception)
+- [Arguments to steps](using/alpha/steps-and-step-arguments)
+- [Strong typing](using/alpha/strong-typing)
+- [Variations](using/alpha/variations)
+
 
 
 

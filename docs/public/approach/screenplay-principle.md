@@ -2,20 +2,14 @@
 title: Screenplay Principle
 ---
 
->All of the writing in a screenplay must create an experience similar to that of watching a film. So, while in a novel you may be able to say:
+![Only what can be seen or heard](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Screenplay_example.svg/593px-Screenplay_example.svg.png)
 
->>Jessica sits on a bench and thinks of John. She misses him deeply. She thinks about the birthday parties, the Valentine’s Day dinners, the walks on the beach. She cries for the love they shared and the love they’ve lost.
-
->In a screenplay, if you imagine the scene visually, all you’re really experiencing is:
-
->>Jessica sits on a bench, staring down at her feet. After a moment she begins to cry.
-
->-- [Lauren McGrail, Lights Film School](https://www.lightsfilmschool.com/blog/what-visual-storytelling-looks-like-in-a-screenplay-aes)
+>The major components are action (sometimes called "screen direction") and dialogue. The action is written in the present tense and is limited to what can be heard or seen by the audience, for example descriptions of settings, character movements, or sound effects. The dialogue is the words the characters speak, and is written in a center column. -- https://en.wikipedia.org/wiki/Screenplay
 
 The screenplay principle in software mirrors the #1 rule of visual writing - describe *behavior*,
 step by step, in detail.
 
-There are two main ways to violate this principle
+This is most commonly violated in two ways:
 
 ## Skimping on user focused details
 
@@ -43,7 +37,7 @@ Missing out these details hurts from many different angles:
 
 * It will frequently not be detailed enough to describe the steps needed to reproduce a bug in precise enough detail.
 
-## Testing implementation rather than behavior
+## Describing implementation rather than behavior
 
 The other common antipattern which is not adhering to the screenplay pattern is to test implementation
 rather than behavior, analagous to the screenplay writer who describes what the character thinks
