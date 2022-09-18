@@ -1,17 +1,44 @@
 from commandlib import Command
-from hitchstory import StoryCollection, BaseEngine, exceptions, validate
+from hitchstory import StoryCollection, BaseEngine, validate
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from hitchrun import expected
 from strictyaml import Str, Map, Optional, Enum
 from pathquery import pathquery
-from hitchrun import DIR
+from click import argument, group, pass_context
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import no_stacktrace_for
 from templex import Templex
 import hitchpylibrarytoolkit
-import dirtemplate
 import colorama
 import re
+from path import Path
+
+
+class Directories:
+    gen = Path("/gen")
+    key = Path("/src/hitch/")
+    project = Path("/src/")
+    share = Path("/gen")
+
+
+DIR = Directories()
+
+
+@group(invoke_without_command=True)
+@pass_context
+def cli(ctx):
+    """Integration test command line interface."""
+    pass
+
+
+class Directories:
+    gen = Path("/gen")
+    key = Path("/src/hitch/")
+    project = Path("/src/")
+    share = Path("/gen")
+
+
+DIR = Directories()
+
 
 toolkit = hitchpylibrarytoolkit.ProjectToolkit(
     "hitchstory",
@@ -45,8 +72,12 @@ class Engine(BaseEngine):
 
     def set_up(self):
         """Set up the environment ready to run the stories."""
+        self.path.q = Path("/tmp/q")
         self.path.state = self.path.gen.joinpath("state")
+        self.path.working = self.path.state / "working"
 
+        if self.path.q.exists():
+            self.path.q.remove()
         if self.path.state.exists():
             self.path.state.rmtree(ignore_errors=True)
         self.path.state.mkdir()
@@ -55,6 +86,7 @@ class Engine(BaseEngine):
             mockfile.copy(self.path.state)
 
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
+        self._included_files = [self.path.key.joinpath("code_that_does_things.py")]
 
         # hitchstory needs to be refactored to be able to clean up this repetition
         for filename in [
@@ -68,10 +100,17 @@ class Engine(BaseEngine):
         ]:
             if filename in self.given:
                 self.path.state.joinpath(filename).write_text(self.given[filename])
+                self._included_files.append(self.path.state.joinpath(filename))
 
-        self.python = hitchpylibrarytoolkit.project_build(
-            "hitchstory", self.path, self.given.get("python_version", "3.7.0")
-        ).bin.python
+        for filename in self.path.key.joinpath("mockcode").listdir():
+            self._included_files.append(filename)
+
+        self.pylibrary = hitchpylibrarytoolkit.PyLibraryBuild(
+            "hitchstory",
+            self.path,
+        ).with_python_version(self.given.get("python_version", "3.7.0"))
+        self.pylibrary.ensure_built()
+        self.python = self.pylibrary.bin.python
 
     def _story_friendly_output(self, output):
         """
@@ -116,6 +155,7 @@ class Engine(BaseEngine):
             ExamplePythonCode(self.python, self.path.state)
             .with_terminal_size(160, 100)
             .with_setup_code(self.given.get("setup", ""))
+            .include_files(*self._included_files)
         )
         to_run = self.example_py_code.with_code(code)
 
@@ -135,7 +175,7 @@ class Engine(BaseEngine):
                 Templex(will_output).assert_match(actual_output)
             except AssertionError:
                 if self.settings.get("overwrite artefacts"):
-                    self.current_step.update(**{"will output": actual_output})
+                    self.current_step.update(will_output=actual_output)
                 else:
                     raise
 
@@ -144,7 +184,6 @@ class Engine(BaseEngine):
             message = raises.get("message")
 
             try:
-                result = self.example_py_code.expect_exceptions().run()
                 result.exception_was_raised(exception_type)
                 exception_message = self._story_friendly_output(
                     result.exception.message
@@ -169,7 +208,7 @@ class Engine(BaseEngine):
         file_contents = "\n".join(
             [
                 line.rstrip()
-                for line in self.path.state.joinpath(filename)
+                for line in self.path.working.joinpath(filename)
                 .bytes()
                 .decode("utf8")
                 .strip()
@@ -195,48 +234,53 @@ class Engine(BaseEngine):
 
     @no_stacktrace_for(FileNotFoundError)
     def output_is(self, expected_contents):
-        Templex(self.path.state.joinpath("output.txt").text()).assert_match(
+        Templex(self.path.working.joinpath("output.txt").text()).assert_match(
             expected_contents
         )
-        self.path.state.joinpath("output.txt").remove()
+        self.path.working.joinpath("output.txt").remove()
 
     def splines_reticulated(self):
-        assert self.path.state.joinpath("splines_reticulated.txt").exists()
-        self.path.state.joinpath("splines_reticulated.txt").remove()
+        assert self.path.working.joinpath("splines_reticulated.txt").exists()
+        self.path.working.joinpath("splines_reticulated.txt").remove()
 
     def llamas_ass_kicked(self):
-        assert self.path.state.joinpath("kicked_llamas_ass.txt").exists()
-        self.path.state.joinpath("kicked_llamas_ass.txt").remove()
+        assert self.path.working.joinpath("kicked_llamas_ass.txt").exists()
+        self.path.working.joinpath("kicked_llamas_ass.txt").remove()
 
     def tear_down_was_run(self):
-        assert self.path.state.joinpath("tear_down_was_run.txt").exists()
-        self.path.state.joinpath("tear_down_was_run.txt").remove()
+        assert self.path.working.joinpath("tear_down_was_run.txt").exists()
+        self.path.working.joinpath("tear_down_was_run.txt").remove()
 
     def file_was_created_with(self, filename="", contents=""):
-        if not self.path.state.joinpath(filename).exists():
+        if not self.path.working.joinpath(filename).exists():
             raise RuntimeError("{0} does not exist".format(filename))
-        if self.path.state.joinpath(filename).bytes().decode("utf8") != contents:
+        if self.path.working.joinpath(filename).bytes().decode("utf8") != contents:
             raise RuntimeError("{0} did not contain {1}".format(filename, contents))
 
     def form_filled(self, **kwargs):
         for name, value in kwargs.items():
-            assert value == self.path.state.joinpath(
+            assert value == self.path.working.joinpath(
                 "{0}.txt".format(name)
             ).bytes().decode("utf8")
 
     def buttons_clicked(self, contents):
         assert (
             contents.strip()
-            == self.path.state.joinpath("buttons.txt").bytes().decode("utf8").strip()
+            == self.path.working.joinpath("buttons.txt").bytes().decode("utf8").strip()
         )
+
+    def tear_down(self):
+        if self.path.q.exists():
+            print(self.path.q.text())
 
 
 def _storybook(settings):
     return StoryCollection(pathquery(DIR.key).ext("story"), Engine(DIR, settings))
 
 
-@expected(exceptions.HitchStoryException)
-def rbdd(*keywords):
+@cli.command()
+@argument("keywords", nargs=-1)
+def rbdd(keywords):
     """
     Run story with name containing keywords and rewrite.
     """
@@ -245,8 +289,9 @@ def rbdd(*keywords):
     ).play()
 
 
-@expected(exceptions.HitchStoryException)
-def bdd(*keywords):
+@cli.command()
+@argument("keywords", nargs=-1)
+def bdd(keywords):
     """
     Run story with name containing keywords.
     """
@@ -255,7 +300,7 @@ def bdd(*keywords):
     ).play()
 
 
-@expected(exceptions.HitchStoryException)
+@cli.command()
 def regressfile(filename):
     """
     Run all stories in filename 'filename'.
@@ -265,17 +310,28 @@ def regressfile(filename):
     ).in_filename(filename).ordered_by_name().play()
 
 
-@expected(exceptions.HitchStoryException)
+@cli.command()
+def rewriteall():
+    """
+    Run all stories in rewrite mode.
+    """
+    StoryCollection(
+        pathquery(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
+    ).only_uninherited().ordered_by_name().play()
+
+
+@cli.command()
 def regression():
     """
     Continuos integration - lint and run all stories.
     """
-    lint()
+    # toolkit.lint(exclude=["__init__.py"])
     StoryCollection(
         pathquery(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
     ).only_uninherited().ordered_by_name().play()
 
 
+@cli.command()
 def reformat():
     """
     Reformat using black and then relint.
@@ -283,6 +339,7 @@ def reformat():
     toolkit.reformat()
 
 
+@cli.command()
 def lint():
     """
     Lint project code and hitch code.
@@ -290,6 +347,7 @@ def lint():
     toolkit.lint(exclude=["__init__.py"])
 
 
+@cli.command()
 def deploy(version):
     """
     Deploy to pypi as specified version.
@@ -297,7 +355,7 @@ def deploy(version):
     toolkit.deploy(version)
 
 
-@expected(dirtemplate.exceptions.DirTemplateException)
+@cli.command()
 def docgen():
     """
     Build documentation.
@@ -305,7 +363,7 @@ def docgen():
     toolkit.docgen(Engine(DIR, {}))
 
 
-@expected(dirtemplate.exceptions.DirTemplateException)
+@cli.command()
 def readmegen():
     """
     Build documentation.
@@ -313,6 +371,7 @@ def readmegen():
     toolkit.readmegen(Engine(DIR, {}))
 
 
+@cli.command()
 def rerun(version="3.7.0"):
     """
     Rerun last example code block with specified version of python.
@@ -320,3 +379,7 @@ def rerun(version="3.7.0"):
     Command(DIR.gen.joinpath("py{0}".format(version), "bin", "python"))(
         DIR.gen.joinpath("state", "examplepythoncode.py")
     ).in_dir(DIR.gen.joinpath("state")).run()
+
+
+if __name__ == "__main__":
+    cli()

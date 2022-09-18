@@ -33,7 +33,7 @@ Story that rewrites itself:
           - Do thing: z
           - Do other thing:
               variable 1: a
-              variable 2: b
+              variable_2: b
 
         variations:
           Do more things:
@@ -57,6 +57,7 @@ Story that rewrites itself:
                   self.current_step.update(
                       variable_2="complicated:\nmultiline\nstring"
                   )
+
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
@@ -68,8 +69,8 @@ Story that rewrites itself:
           code: |
             StoryCollection(pathquery(".").ext("story"), Engine(rewrite=True)).ordered_by_name().play()
           will output: |-
-            RUNNING Do things in /path/to/example.story ... SUCCESS in 0.1 seconds.
-            RUNNING Do things/Do more things in /path/to/example.story ... SUCCESS in 0.1 seconds.
+            RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+            RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 
       - File contents will be:
           filename: example.story
@@ -87,7 +88,7 @@ Story that rewrites itself:
                   yyy
               - Do other thing:
                   variable 1: a
-                  variable 2: |-
+                  variable_2: |-
                     complicated:
                     multiline
                     string
@@ -106,6 +107,6 @@ Story that rewrites itself:
           code: |
             StoryCollection(pathquery(".").ext("story"), Engine(rewrite=False)).ordered_by_name().play()
           will output: |-
-            RUNNING Do things in /path/to/example.story ... SUCCESS in 0.1 seconds.
-            RUNNING Do things/Do more things in /path/to/example.story ... SUCCESS in 0.1 seconds.
+            RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+            RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
       - Example story unchanged

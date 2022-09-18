@@ -102,7 +102,7 @@ Strong typing:
       code: |
         StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
       will output: |-
-        RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
+        RUNNING Create files in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
   - Output is: |
       Ford Prefect
       Items put back: 1

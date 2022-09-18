@@ -35,7 +35,7 @@ Running a single named story successfully:
       code: |
         StoryCollection(pathquery(".").ext("story"), Engine()).named("Create files").play()
       will output: |-
-        RUNNING Create files in /path/to/example.story ... splines reticulated
+        RUNNING Create files in /path/to/working/example.story ... splines reticulated
         SUCCESS in 0.1 seconds.
   - File was created with:
       filename: step1.txt

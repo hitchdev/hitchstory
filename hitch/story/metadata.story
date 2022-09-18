@@ -63,11 +63,11 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
       - Run:
           code: story_collection.ordered_by_name().play()
           will output: |-
-            RUNNING Build city in /path/to/example.story ... reticulate splines
+            RUNNING Build city in /path/to/working/example.story ... reticulate splines
             SUCCESS in 0.1 seconds.
-            RUNNING Live in city in /path/to/example.story ... kick llamas ass
+            RUNNING Live in city in /path/to/working/example.story ... kick llamas ass
             SUCCESS in 0.1 seconds.
-            RUNNING Live in city/Build llama zoo in /path/to/example.story ... kick llamas ass
+            RUNNING Live in city/Build llama zoo in /path/to/working/example.story ... kick llamas ass
             kick llamas ass
             SUCCESS in 0.1 seconds.
 
@@ -78,7 +78,7 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
           code: |
             story_collection.filter(lambda story: "JIRA-124" in story.info.get('project_jiras')).ordered_by_name().play()
           will output: |-
-            RUNNING Build city in /path/to/example.story ... reticulate splines
+            RUNNING Build city in /path/to/working/example.story ... reticulate splines
             SUCCESS in 0.1 seconds.
 
 

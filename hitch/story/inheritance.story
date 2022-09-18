@@ -88,11 +88,11 @@ Inherit one story from another:
       - Run:
           code: collection.named("Login").play()
           will output: |-
-            RUNNING Login in /path/to/example.story ... visit /loginurl
+            RUNNING Login in /path/to/working/example.story ... visit /loginurl
             with password
-            enter hunter2
+            enter (( password ))
             with username
-            enter AzureDiamond
+            enter (( username ))
             clicked on login
             SUCCESS in 0.1 seconds.
 
@@ -102,11 +102,11 @@ Inherit one story from another:
       - Run:
           code: collection.named("Log in on another url").play()
           will output: |-
-            RUNNING Log in on another url in /path/to/example.story ... visit /alternativeloginurl
+            RUNNING Log in on another url in /path/to/working/example.story ... visit /alternativeloginurl
             with password
-            enter hunter2
+            enter (( password ))
             with username
-            enter AzureDiamond
+            enter (( username ))
             clicked on login
             SUCCESS in 0.1 seconds.
 
@@ -116,11 +116,11 @@ Inherit one story from another:
       - Run:
           code: collection.named("Log in as president").play()
           will output: |-
-            RUNNING Log in as president in /path/to/example.story ... visit /loginurl
+            RUNNING Log in as president in /path/to/working/example.story ... visit /loginurl
             with password
-            enter iamsosmrt
+            enter (( password ))
             with username
-            enter DonaldTrump
+            enter (( username ))
             clicked on login
             SUCCESS in 0.1 seconds.
 
@@ -163,5 +163,5 @@ Attempt inheritance from non-existent story:
         file").play()
       raises:
         type: hitchstory.exceptions.BasedOnStoryNotFound
-        message: Story 'Create files' which 'Write to file' in '/path/to/example.story'
+        message: Story 'Create files' which 'Write to file' in '/path/to/working/example.story'
           is based upon not found.

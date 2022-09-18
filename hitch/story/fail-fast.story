@@ -3,7 +3,7 @@ Continue on failure when playing multiple stories:
   about: |
     By default whenever stories are played in sequence,
     they stop when the first failure is encountered.
-    
+
     However, if your stories take a long time to run
     you may wish to continue after the first failure.
   given:
@@ -40,8 +40,8 @@ Continue on failure when playing multiple stories:
                 pathquery(".").ext("story"), Engine()
             ).ordered_by_name().play()
           will output: |-
-            RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-            RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
+            RUNNING A Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+            RUNNING B Create file in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
                 B Create file:
                   steps:
@@ -49,7 +49,7 @@ Continue on failure when playing multiple stories:
 
 
             [1]: function 'fail'
-              examplepythoncode.py
+              /path/to/working/examplepythoncode.py
 
 
                     59 :
@@ -72,8 +72,8 @@ Continue on failure when playing multiple stories:
                 pathquery(".").ext("story"), Engine()
             ).ordered_by_name().continue_on_failure().play()
           will output: |-
-            RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-            RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
+            RUNNING A Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+            RUNNING B Create file in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
                 B Create file:
                   steps:
@@ -81,7 +81,7 @@ Continue on failure when playing multiple stories:
 
 
             [1]: function 'fail'
-              examplepythoncode.py
+              /path/to/working/examplepythoncode.py
 
 
                     59 :
@@ -94,4 +94,4 @@ Continue on failure when playing multiple stories:
             builtins.Exception
               Common base class for all non-exit exceptions.
             Error
-            RUNNING C Create file a third time in /path/to/example2.story ... SUCCESS in 0.1 seconds.
+            RUNNING C Create file a third time in /path/to/working/example2.story ... SUCCESS in 0.1 seconds.

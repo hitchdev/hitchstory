@@ -39,8 +39,8 @@ Arguments to steps:
       - Run:
           code: |
             StoryCollection(pathquery(".").ext("story"), Engine()).named("Login").play()
-          will output: RUNNING Login in /path/to/example.story ... SUCCESS in 0.1
-            seconds.   
+          will output: RUNNING Login in /path/to/working/example.story ... SUCCESS
+            in 0.1 seconds.
 
       - Form filled:
           login username: john
@@ -56,8 +56,8 @@ Arguments to steps:
       - Run:
           code: |
             StoryCollection(pathquery(".").ext("story"), Engine()).named("Click button").play()
-          will output: RUNNING Click button in /path/to/example.story ... SUCCESS
-            in 0.1 seconds.
+          will output: RUNNING Click button in /path/to/working/example.story ...
+            SUCCESS in 0.1 seconds.
 
     optional args fewer than the maximum arguments:
       given:
@@ -71,5 +71,5 @@ Arguments to steps:
       - Run:
           code: |
             StoryCollection(pathquery(".").ext("story"), Engine()).named("Click button").play()
-          will output: RUNNING Click button in /path/to/example.story ... SUCCESS
-            in 0.1 seconds.
+          will output: RUNNING Click button in /path/to/working/example.story ...
+            SUCCESS in 0.1 seconds.

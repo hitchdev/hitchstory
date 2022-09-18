@@ -60,8 +60,8 @@ Generate documentation from stories:
 
 
 
-            - Enter text 'AzureDiamond' in username.
-            - Enter text 'hunter2' in password.
+            - Enter text '(( username ))' in username.
+            - Enter text '(( password ))' in password.
 
             * Click on login
 
@@ -76,8 +76,8 @@ Generate documentation from stories:
 
 
 
-            - Enter text 'AzureDiamond' in username.
-            - Enter text 'hunter2' in password.
+            - Enter text '(( username ))' in username.
+            - Enter text '(( password ))' in password.
 
             * Click on login
 
@@ -92,7 +92,7 @@ Generate documentation from stories:
 
 
 
-            - Enter text 'DonaldTrump' in username.
-            - Enter text 'iamsosmrt' in password.
+            - Enter text '(( username ))' in username.
+            - Enter text '(( password ))' in password.
 
             * Click on login

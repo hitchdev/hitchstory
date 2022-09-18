@@ -4,7 +4,7 @@ Variations:
     Some stories are very similar except for a few changed items. You
     can create substories within the same story in order to enumerate
     all of the possible permutations.
-    
+
     This works in the same way as inheritance.
   given:
     example.story: |
@@ -66,7 +66,7 @@ Variations:
           code: |
             story_collection.shortcut("cat").play().report()
           will output: |-
-            RUNNING Create files/cat in /path/to/example.story ... cat
+            RUNNING Create files/cat in /path/to/working/example.story ... cat
             dog
             42
             frog

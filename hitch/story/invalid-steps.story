@@ -29,10 +29,13 @@ Invalid story:
           code: story.play()
           raises:
             type: hitchstory.exceptions.InvalidStepYAML
-            message: "YAML Error in '/path/to/example.story' in file '/path/to/example.story':\n\
-              when expecting an integer\nfound arbitrary text\n  in \"<unicode string>\"\
-              , line 5, column 1:\n          quantity: Three\n    ^ (line: 5)"
-
+            message: |-
+              YAML Error in '/path/to/working/example.story' in file '/path/to/working/example.story':
+              when expecting an integer
+              found arbitrary text
+                in "<unicode string>", line 5, column 1:
+                        quantity: Three
+                  ^ (line: 5)
     Invalid validator on step:
       given:
         engine.py: |
@@ -83,9 +86,8 @@ Invalid story:
           code: story.play()
           raises:
             type: hitchstory.exceptions.StepNotFound
-            message: Step 'add_product' used in story 'Create files' in filename '/path/to/example.story'
+            message: Step 'add_product' used in story 'Create files' in filename '/path/to/working/example.story'
               not found in <engine.Engine object at 0xfffffffffff>.
-
     Mix of kwargs and regular arguments:
       given:
         engine.py: |
@@ -179,12 +181,12 @@ Invalid story:
       - Run:
           code: story.play()
           will output: |-
-            RUNNING Create files in /path/to/example.story ... FAILED in 0.1 seconds.
+            RUNNING Create files in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
 
 
             [1]: function 'set_up'
-              /path/to/engine.py
+              /path/to/working/engine.py
 
 
                     2 : class Engine(BaseEngine):
@@ -195,13 +197,13 @@ Invalid story:
 
 
             [2]: function '__getitem__'
-              /path/to/virtualenv/py3.7.0/lib/python3.7/site-packages/hitchstory/given.py
+              /src/hitchstory/given.py
 
 
-                    54 :                 slug,
-                    55 :                 ', '.join(self._preconditions.keys()) if len(self._preconditions.keys()) > 0 else
-                --> 56 :                 'None'
-                    57 :             ))
+                    56 :                     ", ".join(self._preconditions.keys())
+                    57 :                     if len(self._preconditions.keys()) > 0
+                --> 58 :                     else "None",
+                    59 :                 )
 
 
 

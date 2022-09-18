@@ -63,7 +63,7 @@ Quickstart:
 
         StoryCollection(pathquery(".").ext("story"), Engine()).named("Email sent").play()
       will output: |-
-        RUNNING Email sent in /path/to/example.story ...
+        RUNNING Email sent in /path/to/working/example.story ...
         Visiting http://localhost:5000/login
         Entering text hunter2 in password
         Entering text AzureDiamond in username

@@ -37,7 +37,10 @@ Invalid YAML:
         StoryCollection(pathquery(".").ext("story"), Engine()).named("Valid YAML").play()
       raises:
         type: hitchstory.exceptions.StoryYAMLError
-        message: "YAML Error in file '/path/to/example3.story':\nwhile scanning a\
-          \ simple key\n  in \"<unicode string>\", line 4, column 5:\n        Invalid\n\
-          \        ^ (line: 4)\ncould not find expected ':'\n  in \"<unicode string>\"\
-          , line 5, column 1:\n\n    ^ (line: 5)"
+        message: |-
+          YAML Error in file '/path/to/working/example1.story':
+          when expecting a mapping
+          found arbitrary text
+            in "<unicode string>", line 1, column 1:
+              Invalid YAML: steps - Do somethin ...
+               ^ (line: 1)

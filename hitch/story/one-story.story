@@ -24,4 +24,5 @@ Run one story in collection:
   steps:
   - Run:
       code: story.play()
-      will output: RUNNING Do thing in /path/to/example.story ... SUCCESS in 0.1 seconds.
+      will output: RUNNING Do thing in /path/to/working/example.story ... SUCCESS
+        in 0.1 seconds.

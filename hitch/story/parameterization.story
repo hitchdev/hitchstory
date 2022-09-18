@@ -70,7 +70,7 @@ Story with parameters:
           code: |
             story_collection.named("Click magic button").play()
           will output: |-
-            RUNNING Click magic button in /path/to/example.story ... firefox
+            RUNNING Click magic button in /path/to/working/example.story ... firefox
             37
             clicked!
             save screenshot:
@@ -83,7 +83,7 @@ Story with parameters:
           code: |
             story_collection.named("Click magic button/with chrome").play()
           will output: |-
-            RUNNING Click magic button/with chrome in /path/to/example.story ... chrome
+            RUNNING Click magic button/with chrome in /path/to/working/example.story ... chrome
             153
             clicked!
             save screenshot:
@@ -96,7 +96,7 @@ Story with parameters:
           code: |
             story_collection.with_params(browser={"name": "ie", "version": "6"}).named("Click magic button").play()
           will output: |-
-            RUNNING Click magic button in /path/to/example.story ... ie
+            RUNNING Click magic button in /path/to/working/example.story ... ie
             6
             clicked!
             save screenshot:

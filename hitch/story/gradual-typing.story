@@ -34,7 +34,7 @@ Gradual typing of story steps:
           given_definition = GivenDefinition(
               files_created=GivenProperty(),
           )
-      
+
           def set_up(self):
               for filename, contents in self.given['files_created'].items():
                   with open(filename, 'w') as handle:
@@ -51,8 +51,8 @@ Gradual typing of story steps:
   - Run:
       code: |
         StoryCollection(pathquery(".").ext("story"), Engine()).named("Create files").play()
-      will output: RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1
-        seconds.
+      will output: RUNNING Create files in /path/to/working/example.story ... SUCCESS
+        in 0.1 seconds.
   - File was created with:
       filename: preconditionfile.txt
       contents: some text

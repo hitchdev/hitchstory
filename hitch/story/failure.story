@@ -2,7 +2,7 @@ Handling failing tests:
   docs: failing-tests
   about: |
     By default, a failing story will show:
-    
+
     * A snippet of the YAML where the story failed with the failing step highlighted.
     * A stack trace from engine.py where the exception was raised.
   given:
@@ -58,12 +58,12 @@ Handling failing tests:
       - Run:
           code: story_collection.one().play()
           will output: |-
-            RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+            RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
 
 
             [1]: function 'set_up'
-              /path/to/engine.py
+              /path/to/working/engine.py
 
 
                     3 : class Engine(BaseEngine):
@@ -74,7 +74,7 @@ Handling failing tests:
 
 
             [2]: function 'raise_example_exception'
-              /path/to/code_that_does_things.py
+              /path/to/working/code_that_does_things.py
 
 
                     20 :
@@ -95,7 +95,7 @@ Handling failing tests:
       - Run:
           code: story_collection.one().play()
           will output: |-
-            RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+            RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
                   steps:
                   - Passing step
@@ -104,7 +104,7 @@ Handling failing tests:
 
 
             [1]: function 'failing_step'
-              /path/to/engine.py
+              /path/to/working/engine.py
 
 
                     6 :
@@ -115,7 +115,7 @@ Handling failing tests:
 
 
             [2]: function 'raise_example_exception'
-              /path/to/code_that_does_things.py
+              /path/to/working/code_that_does_things.py
 
 
                     20 :

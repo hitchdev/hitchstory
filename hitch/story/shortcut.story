@@ -39,7 +39,7 @@ Shortcut lookup for story names:
           code: |
             story_collection.shortcut("file", "again").play()
           will output: |-
-            RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+            RUNNING Create file again in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
 
 
     Story not found:
@@ -56,5 +56,8 @@ Shortcut lookup for story names:
           code: story_collection.shortcut("file").play()
           raises:
             type: hitchstory.exceptions.MoreThanOneStory
-            message: "More than one matching story:\nCreate file (in /path/to/example1.story)\n\
-              Create file again (in /path/to/example1.story)\nCreate files (in /path/to/example2.story)"
+            message: |-
+              More than one matching story:
+              Create file (in /path/to/working/example1.story)
+              Create file again (in /path/to/working/example1.story)
+              Create files (in /path/to/working/example2.story)

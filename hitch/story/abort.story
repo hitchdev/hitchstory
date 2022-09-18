@@ -46,5 +46,5 @@ Abort a story with ctrl-C:
   - Run:
       code: StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
       will output: |-
-        RUNNING Create files in /path/to/example.story ... Aborted
+        RUNNING Create files in /path/to/working/example.story ... Aborted
         Reticulate splines

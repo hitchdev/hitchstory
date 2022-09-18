@@ -18,7 +18,7 @@ Special exception named failure:
   - Run:
       code: story_collection.one().play()
       will output: |-
-        RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+        RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
             Failing story:
               steps:
