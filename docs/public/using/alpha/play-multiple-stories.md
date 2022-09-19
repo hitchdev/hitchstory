@@ -95,10 +95,10 @@ Ensure(results.all_passed).is_true()
 
 Will output:
 ```
-RUNNING Base story in /path/to/base.story ... SUCCESS in 0.1 seconds.
-RUNNING Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING Create files in /path/to/example2.story ... SUCCESS in 0.1 seconds.
+RUNNING Base story in /path/to/working/base.story ... SUCCESS in 0.1 seconds.
+RUNNING Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Create file again in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Create files in /path/to/working/example2.story ... SUCCESS in 0.1 seconds.
 ```
 
 
@@ -120,8 +120,8 @@ StoryCollection(
 
 Will output:
 ```
-RUNNING Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Create file again in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
 ```
 
 
@@ -143,10 +143,10 @@ StoryCollection(pathquery(".").ext("story"), Engine()).one()
 ```python
 hitchstory.exceptions.MoreThanOneStory:
 More than one matching story:
-Base story (in /path/to/base.story)
-Create file (in /path/to/example1.story)
-Create file again (in /path/to/example1.story)
-Create files (in /path/to/example2.story)
+Base story (in /path/to/working/base.story)
+Create file (in /path/to/working/example1.story)
+Create file again (in /path/to/working/example1.story)
+Create files (in /path/to/working/example2.story)
 ```
 
 

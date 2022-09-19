@@ -125,11 +125,11 @@ collection.named("Login").play()
 
 Will output:
 ```
-RUNNING Login in /path/to/example.story ... visit /loginurl
+RUNNING Login in /path/to/working/example.story ... visit /loginurl
 with password
-enter hunter2
+enter (( password ))
 with username
-enter AzureDiamond
+enter (( username ))
 clicked on login
 SUCCESS in 0.1 seconds.
 ```
@@ -150,11 +150,11 @@ collection.named("Log in on another url").play()
 
 Will output:
 ```
-RUNNING Log in on another url in /path/to/example.story ... visit /alternativeloginurl
+RUNNING Log in on another url in /path/to/working/example.story ... visit /alternativeloginurl
 with password
-enter hunter2
+enter (( password ))
 with username
-enter AzureDiamond
+enter (( username ))
 clicked on login
 SUCCESS in 0.1 seconds.
 ```
@@ -175,11 +175,11 @@ collection.named("Log in as president").play()
 
 Will output:
 ```
-RUNNING Log in as president in /path/to/example.story ... visit /loginurl
+RUNNING Log in as president in /path/to/working/example.story ... visit /loginurl
 with password
-enter iamsosmrt
+enter (( password ))
 with username
-enter DonaldTrump
+enter (( username ))
 clicked on login
 SUCCESS in 0.1 seconds.
 ```

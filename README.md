@@ -1,5 +1,6 @@
 # HitchStory
 
+[![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)
 
 HitchStory is a python 3
 [testing and living documentation framework](https://hitchdev.com/hitchstory/approach/testing-and-living-documentation) for building easily
@@ -7,11 +8,11 @@ maintained example driven [executable specifications](https://hitchdev.com/hitch
 acceptance tests).
 
 It was designed initially to make [realistic testing](https://hitchdev.com/hitchstory/approach/test-realism) of code less
-of a goddamn chore so the tests would actually get written and run.
+of a chore so the tests would actually get written and run.
 
 The executable specifications can be written to specify and test applications at
 any level and have been used successfully to replace traditional
-[low level unit tests](https://hitchdev.com/hitchstory/), [integration tests](https://hitchdev.com/hitchstory/) and [end to end tests](https://hitchdev.com/hitchstory/)
+low level unit tests, integration tests and end to end tests
 with easier to maintain tests.
 
 The specifications are [written using StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) and the
@@ -116,7 +117,7 @@ StoryCollection(pathquery(".").ext("story"), Engine()).named("Email sent").play(
 
 Will output:
 ```
-RUNNING Email sent in /path/to/example.story ...
+RUNNING Email sent in /path/to/working/example.story ...
 Visiting http://localhost:5000/login
 Entering text hunter2 in password
 Entering text AzureDiamond in username
@@ -156,16 +157,10 @@ $ pip install hitchstory
 However, it's recommended to install and set up hitchstory with [hitchkey](https://github.com/hitchdev/hitchkey),
 which will take care of automatically setting up a up the [recommended hitchstory environment](https://hitchdev.com/hitchstory/approach/recommended-environment).
 
-Either install hitchkey with [pipsi](https://github.com/mitsuhiko/pipsi):
+Install hitchkey with [pipx](https://pypa.github.io/pipx/):
 
 ```bash
-pipsi install hitchkey
-```
-
-Or, if you'd prefer, you can safely install with "sudo pip":
-
-```bash
-sudo pip install hitchkey
+pipx install hitchkey
 ```
 
 Once hitchkey is installed:
@@ -187,25 +182,26 @@ hk --demo pythonapi ; cd pythonapi ; hk bdd
 
 ## Using HitchStory
 
-- [Special exception named failure](https://hitchdev.com/hitchstory/using/alpha/)
-- [Inherit one story from another](https://hitchdev.com/hitchstory/using/alpha/)
-- [Flaky story detection](https://hitchdev.com/hitchstory/using/alpha/)
-- [Generate documentation from stories](https://hitchdev.com/hitchstory/using/alpha/)
-- [Abort a story with ctrl-C](https://hitchdev.com/hitchstory/using/alpha/)
-- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/alpha/)
-- [Given preconditions](https://hitchdev.com/hitchstory/using/alpha/)
-- [Gradual typing of story steps](https://hitchdev.com/hitchstory/using/alpha/)
-- [Play multiple stories in sequence](https://hitchdev.com/hitchstory/using/alpha/)
-- [Arguments to steps](https://hitchdev.com/hitchstory/using/alpha/)
-- [Story that rewrites itself](https://hitchdev.com/hitchstory/using/alpha/)
-- [Shortcut lookup for story names](https://hitchdev.com/hitchstory/using/alpha/)
-- [Continue on failure when playing multiple stories](https://hitchdev.com/hitchstory/using/alpha/)
-- [Variations](https://hitchdev.com/hitchstory/using/alpha/)
-- [Running a single named story successfully](https://hitchdev.com/hitchstory/using/alpha/)
-- [Hiding stacktraces for expected exceptions](https://hitchdev.com/hitchstory/using/alpha/)
-- [Handling failing tests](https://hitchdev.com/hitchstory/using/alpha/)
-- [Strong typing](https://hitchdev.com/hitchstory/using/alpha/)
-- [Story with parameters](https://hitchdev.com/hitchstory/using/alpha/)
+- [Abort a story with ctrl-C](https://hitchdev.com/hitchstory/using/alpha/aborting)
+- [Continue on failure when playing multiple stories](https://hitchdev.com/hitchstory/using/alpha/continue-on-failure)
+- [Hiding stacktraces for expected exceptions](https://hitchdev.com/hitchstory/using/alpha/expected-exceptions)
+- [Handling failing tests](https://hitchdev.com/hitchstory/using/alpha/failing-tests)
+- [Flaky story detection](https://hitchdev.com/hitchstory/using/alpha/flaky-story-detection)
+- [Generate documentation from stories](https://hitchdev.com/hitchstory/using/alpha/generate-documentation)
+- [Given preconditions](https://hitchdev.com/hitchstory/using/alpha/given)
+- [Gradual typing of story steps](https://hitchdev.com/hitchstory/using/alpha/gradual-typing)
+- [Inherit one story from another](https://hitchdev.com/hitchstory/using/alpha/inheritance)
+- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/alpha/metadata)
+- [Story with parameters](https://hitchdev.com/hitchstory/using/alpha/parameterized-stories)
+- [Play multiple stories in sequence](https://hitchdev.com/hitchstory/using/alpha/play-multiple-stories)
+- [Story that rewrites itself](https://hitchdev.com/hitchstory/using/alpha/rewrite-story)
+- [Running a single named story successfully](https://hitchdev.com/hitchstory/using/alpha/run-single-named-story)
+- [Shortcut lookup for story names](https://hitchdev.com/hitchstory/using/alpha/shortcut-lookup)
+- [Special exception named failure](https://hitchdev.com/hitchstory/using/alpha/special-failure-exception)
+- [Arguments to steps](https://hitchdev.com/hitchstory/using/alpha/steps-and-step-arguments)
+- [Strong typing](https://hitchdev.com/hitchstory/using/alpha/strong-typing)
+- [Variations](https://hitchdev.com/hitchstory/using/alpha/variations)
+
 
 
 
@@ -213,35 +209,35 @@ hk --demo pythonapi ; cd pythonapi ; hk bdd
 
 Best practices, how the tool was meant to be used, etc.
 
-- [Triality](https://hitchdev.com/hitchstory/approach/)
-- [Testing non-deterministic code](https://hitchdev.com/hitchstory/approach/)
-- [Executable specifications](https://hitchdev.com/hitchstory/approach/)
+- [What is the difference betweeen a test and a story?](https://hitchdev.com/hitchstory/approach/)
 - [Recommended complementary tools](https://hitchdev.com/hitchstory/approach/)
-- [Does hitchstory let your BA or Product Manager write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/)
-- [Screenplay Principle](https://hitchdev.com/hitchstory/approach/)
-- [What is a testing and living documentation framework?](https://hitchdev.com/hitchstory/approach/)
+- [Triality](https://hitchdev.com/hitchstory/approach/)
+- [Tests are an investment](https://hitchdev.com/hitchstory/approach/)
+- [Executable specifications](https://hitchdev.com/hitchstory/approach/)
 - [Recommended Environment](https://hitchdev.com/hitchstory/approach/)
 - [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](https://hitchdev.com/hitchstory/approach/)
-- [The importance of test realism](https://hitchdev.com/hitchstory/approach/)
-- [What is the difference betweeen a test and a story?](https://hitchdev.com/hitchstory/approach/)
+- [Does hitchstory let your BA or Product Manager write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/)
+- [What is a testing and living documentation framework?](https://hitchdev.com/hitchstory/approach/)
 - [Flaky Tests](https://hitchdev.com/hitchstory/approach/)
-- [Tests are an investment](https://hitchdev.com/hitchstory/approach/)
+- [The importance of test realism](https://hitchdev.com/hitchstory/approach/)
 - [How can executable specifications and living documentation be used for stakeholder collaboration?](https://hitchdev.com/hitchstory/approach/)
+- [Screenplay Principle](https://hitchdev.com/hitchstory/approach/)
+- [Testing non-deterministic code](https://hitchdev.com/hitchstory/approach/)
 
 
 ## Design decisions and principles
 
 Somewhat controversial design decisions are justified here.
 
-- [Why does HitchStory use StrictYAML?](https://hitchdev.com/hitchstory/why/)
-- [Why is inheritance a feature of hitchstory stories?](https://hitchdev.com/hitchstory/why/)
-- [Why does hitchstory mandate the use of given but not when and then?](https://hitchdev.com/hitchstory/why/)
-- [Two Unit Tests, Zero Integration Tests](https://hitchdev.com/hitchstory/why/)
-- [Why does hitchstory not have a command line interface?](https://hitchdev.com/hitchstory/why/)
-- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](https://hitchdev.com/hitchstory/why/)
 - [Principles](https://hitchdev.com/hitchstory/why/)
-- [Why programatically rewrite stories?](https://hitchdev.com/hitchstory/why/)
+- [Two Unit Tests, Zero Integration Tests](https://hitchdev.com/hitchstory/why/)
 - [Declarative User Stories](https://hitchdev.com/hitchstory/why/)
+- [Why is inheritance a feature of hitchstory stories?](https://hitchdev.com/hitchstory/why/)
+- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](https://hitchdev.com/hitchstory/why/)
+- [Why programatically rewrite stories?](https://hitchdev.com/hitchstory/why/)
+- [Why does HitchStory use StrictYAML?](https://hitchdev.com/hitchstory/why/)
+- [Why does hitchstory mandate the use of given but not when and then?](https://hitchdev.com/hitchstory/why/)
+- [Why does hitchstory not have a command line interface?](https://hitchdev.com/hitchstory/why/)
 
 
 ## Why not X instead?
@@ -249,5 +245,5 @@ Somewhat controversial design decisions are justified here.
 There are several tools you can use instead, this is why you should use this one instead:
 
 - [Why not use the Robot Framework?](https://hitchdev.com/hitchstory/why-not/)
-- [Why use hitchstory instead of a unit testing framework?](https://hitchdev.com/hitchstory/why-not/)
 - [Why not use Behave, Lettuce or Cucumber (Gherkin)?](https://hitchdev.com/hitchstory/why-not/)
+- [Why use hitchstory instead of a unit testing framework?](https://hitchdev.com/hitchstory/why-not/)

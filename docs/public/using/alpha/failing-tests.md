@@ -87,12 +87,12 @@ story_collection.one().play()
 
 Will output:
 ```
-RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
 
 
 [1]: function 'set_up'
-  /path/to/engine.py
+  /path/to/working/engine.py
 
 
         3 : class Engine(BaseEngine):
@@ -103,7 +103,7 @@ RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
 
 
 [2]: function 'raise_example_exception'
-  /path/to/code_that_does_things.py
+  /path/to/working/code_that_does_things.py
 
 
         20 :
@@ -136,7 +136,7 @@ story_collection.one().play()
 
 Will output:
 ```
-RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
+RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
       steps:
       - Passing step
@@ -145,7 +145,7 @@ RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
 
 
 [1]: function 'failing_step'
-  /path/to/engine.py
+  /path/to/working/engine.py
 
 
         6 :
@@ -156,7 +156,7 @@ RUNNING Failing story in /path/to/example.story ... FAILED in 0.1 seconds.
 
 
 [2]: function 'raise_example_exception'
-  /path/to/code_that_does_things.py
+  /path/to/working/code_that_does_things.py
 
 
         20 :

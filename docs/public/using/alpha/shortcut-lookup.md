@@ -76,7 +76,7 @@ story_collection.shortcut("file", "again").play()
 
 Will output:
 ```
-RUNNING Create file again in /path/to/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Create file again in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
 ```
 
 
@@ -117,9 +117,9 @@ story_collection.shortcut("file").play()
 ```python
 hitchstory.exceptions.MoreThanOneStory:
 More than one matching story:
-Create file (in /path/to/example1.story)
-Create file again (in /path/to/example1.story)
-Create files (in /path/to/example2.story)
+Create file (in /path/to/working/example1.story)
+Create file again (in /path/to/working/example1.story)
+Create files (in /path/to/working/example2.story)
 ```
 
 

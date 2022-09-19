@@ -99,7 +99,7 @@ story_collection.shortcut("cat").play().report()
 
 Will output:
 ```
-RUNNING Create files/cat in /path/to/example.story ... cat
+RUNNING Create files/cat in /path/to/working/example.story ... cat
 dog
 42
 frog

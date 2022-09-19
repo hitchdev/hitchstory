@@ -112,7 +112,7 @@ StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
 
 Will output:
 ```
-RUNNING Load with chrome in /path/to/example.story ...
+RUNNING Load with chrome in /path/to/working/example.story ...
 Browser name: chrome
 Platform: linux
 Version: 22.0
@@ -120,7 +120,7 @@ Dimensions: 1000 x 1000
 
 Visiting http://www.google.com
 SUCCESS in 0.1 seconds.
-RUNNING Load with small firefox window in /path/to/example.story ...
+RUNNING Load with small firefox window in /path/to/working/example.story ...
 Browser name: firefox
 Platform: linux
 Dimensions: 200 x 200

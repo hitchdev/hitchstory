@@ -87,11 +87,11 @@ assert flake_result.is_flaky
 
 Will output:
 ```
-RUNNING Flaky story in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING Flaky story in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING Flaky story in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING Flaky story in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING Flaky story in /path/to/example1.story ... FAILED in 0.1 seconds.
+RUNNING Flaky story in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Flaky story in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Flaky story in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Flaky story in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING Flaky story in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
     Flaky story:
       steps:
@@ -127,7 +127,7 @@ assert not flake_result.is_flaky
 
 Will output:
 ```
-RUNNING Consistent failure in /path/to/example1.story ... FAILED in 0.1 seconds.
+RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
     Consistent failure:
       steps:
@@ -139,7 +139,7 @@ hitchstory.exceptions.Failure
     Test failed.
 
 Consistent failure!
-RUNNING Consistent failure in /path/to/example1.story ... FAILED in 0.1 seconds.
+RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
     Consistent failure:
       steps:
@@ -151,7 +151,7 @@ hitchstory.exceptions.Failure
     Test failed.
 
 Consistent failure!
-RUNNING Consistent failure in /path/to/example1.story ... FAILED in 0.1 seconds.
+RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
     Consistent failure:
       steps:
@@ -163,7 +163,7 @@ hitchstory.exceptions.Failure
     Test failed.
 
 Consistent failure!
-RUNNING Consistent failure in /path/to/example1.story ... FAILED in 0.1 seconds.
+RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
     Consistent failure:
       steps:
@@ -175,7 +175,7 @@ hitchstory.exceptions.Failure
     Test failed.
 
 Consistent failure!
-RUNNING Consistent failure in /path/to/example1.story ... FAILED in 0.1 seconds.
+RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
     Consistent failure:
       steps:

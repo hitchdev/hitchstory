@@ -5,15 +5,15 @@ title: Design Justifications
 HitchStory is the result of some carefully considered, although
 controversial design decisions. These are justified here.
 
-- [Why does HitchStory use StrictYAML?]()
-- [Why is inheritance a feature of hitchstory stories?]()
-- [Why does hitchstory mandate the use of given but not when and then?]()
-- [Two Unit Tests, Zero Integration Tests]()
-- [Why does hitchstory not have a command line interface?]()
-- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?]()
 - [Principles]()
-- [Why programatically rewrite stories?]()
+- [Two Unit Tests, Zero Integration Tests]()
 - [Declarative User Stories]()
+- [Why is inheritance a feature of hitchstory stories?]()
+- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?]()
+- [Why programatically rewrite stories?]()
+- [Why does HitchStory use StrictYAML?]()
+- [Why does hitchstory mandate the use of given but not when and then?]()
+- [Why does hitchstory not have a command line interface?]()
 
 
 Rebuttals and critiques, especially from users and designers of 

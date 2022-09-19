@@ -82,7 +82,7 @@ StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
 
 Will output:
 ```
-RUNNING Create files in /path/to/example.story ... Aborted
+RUNNING Create files in /path/to/working/example.story ... Aborted
 Reticulate splines
 ```
 

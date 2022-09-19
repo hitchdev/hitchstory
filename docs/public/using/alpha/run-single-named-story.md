@@ -71,7 +71,7 @@ StoryCollection(pathquery(".").ext("story"), Engine()).named("Create files").pla
 
 Will output:
 ```
-RUNNING Create files in /path/to/example.story ... splines reticulated
+RUNNING Create files in /path/to/working/example.story ... splines reticulated
 SUCCESS in 0.1 seconds.
 ```
 

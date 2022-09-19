@@ -41,7 +41,7 @@ Do things:
     - Do thing: z
     - Do other thing:
         variable 1: a
-        variable 2: b
+        variable_2: b
 
   variations:
     Do more things:
@@ -105,8 +105,8 @@ StoryCollection(pathquery(".").ext("story"), Engine(rewrite=True)).ordered_by_na
 
 Will output:
 ```
-RUNNING Do things in /path/to/example.story ... SUCCESS in 0.1 seconds.
-RUNNING Do things/Do more things in /path/to/example.story ... SUCCESS in 0.1 seconds.
+RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 ```
 
 
@@ -128,8 +128,8 @@ StoryCollection(pathquery(".").ext("story"), Engine(rewrite=False)).ordered_by_n
 
 Will output:
 ```
-RUNNING Do things in /path/to/example.story ... SUCCESS in 0.1 seconds.
-RUNNING Do things/Do more things in /path/to/example.story ... SUCCESS in 0.1 seconds.
+RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 ```
 
 

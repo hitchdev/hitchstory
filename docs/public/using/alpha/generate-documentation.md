@@ -134,8 +134,8 @@ Load: /loginurl
 
 
 
-- Enter text 'AzureDiamond' in username.
-- Enter text 'hunter2' in password.
+- Enter text '(( username ))' in username.
+- Enter text '(( password ))' in password.
 
 * Click on login
 
@@ -150,8 +150,8 @@ Load: /alternativeloginurl
 
 
 
-- Enter text 'AzureDiamond' in username.
-- Enter text 'hunter2' in password.
+- Enter text '(( username ))' in username.
+- Enter text '(( password ))' in password.
 
 * Click on login
 
@@ -166,8 +166,8 @@ Load: /loginurl
 
 
 
-- Enter text 'DonaldTrump' in username.
-- Enter text 'iamsosmrt' in password.
+- Enter text '(( username ))' in username.
+- Enter text '(( password ))' in password.
 
 * Click on login
 ```

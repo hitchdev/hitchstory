@@ -96,11 +96,11 @@ story_collection.ordered_by_name().play()
 
 Will output:
 ```
-RUNNING Build city in /path/to/example.story ... reticulate splines
+RUNNING Build city in /path/to/working/example.story ... reticulate splines
 SUCCESS in 0.1 seconds.
-RUNNING Live in city in /path/to/example.story ... kick llamas ass
+RUNNING Live in city in /path/to/working/example.story ... kick llamas ass
 SUCCESS in 0.1 seconds.
-RUNNING Live in city/Build llama zoo in /path/to/example.story ... kick llamas ass
+RUNNING Live in city/Build llama zoo in /path/to/working/example.story ... kick llamas ass
 kick llamas ass
 SUCCESS in 0.1 seconds.
 ```
@@ -122,7 +122,7 @@ story_collection.filter(lambda story: "JIRA-124" in story.info.get('project_jira
 
 Will output:
 ```
-RUNNING Build city in /path/to/example.story ... reticulate splines
+RUNNING Build city in /path/to/working/example.story ... reticulate splines
 SUCCESS in 0.1 seconds.
 ```
 

@@ -76,8 +76,8 @@ StoryCollection(
 
 Will output:
 ```
-RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
+RUNNING A Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING B Create file in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
     B Create file:
       steps:
@@ -85,7 +85,7 @@ RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
 
 
 [1]: function 'fail'
-  examplepythoncode.py
+  /path/to/working/examplepythoncode.py
 
 
         59 :
@@ -119,8 +119,8 @@ StoryCollection(
 
 Will output:
 ```
-RUNNING A Create file in /path/to/example1.story ... SUCCESS in 0.1 seconds.
-RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
+RUNNING A Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+RUNNING B Create file in /path/to/working/example1.story ... FAILED in 0.1 seconds.
 
     B Create file:
       steps:
@@ -128,7 +128,7 @@ RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
 
 
 [1]: function 'fail'
-  examplepythoncode.py
+  /path/to/working/examplepythoncode.py
 
 
         59 :
@@ -141,7 +141,7 @@ RUNNING B Create file in /path/to/example1.story ... FAILED in 0.1 seconds.
 builtins.Exception
   Common base class for all non-exit exceptions.
 Error
-RUNNING C Create file a third time in /path/to/example2.story ... SUCCESS in 0.1 seconds.
+RUNNING C Create file a third time in /path/to/working/example2.story ... SUCCESS in 0.1 seconds.
 ```
 
 

@@ -1,5 +1,7 @@
 {% if readme -%}
 # HitchStory
+
+[![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)
 {%- else -%}
 
 ---

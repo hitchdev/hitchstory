@@ -125,7 +125,7 @@ StoryCollection(pathquery(".").ext("story"), Engine()).named("Email sent").play(
 
 Will output:
 ```
-RUNNING Email sent in /path/to/example.story ...
+RUNNING Email sent in /path/to/working/example.story ...
 Visiting http://localhost:5000/login
 Entering text hunter2 in password
 Entering text AzureDiamond in username
@@ -217,35 +217,35 @@ hk --demo pythonapi ; cd pythonapi ; hk bdd
 
 Best practices, how the tool was meant to be used, etc.
 
-- [Triality](approach/)
-- [Testing non-deterministic code](approach/)
-- [Executable specifications](approach/)
+- [What is the difference betweeen a test and a story?](approach/)
 - [Recommended complementary tools](approach/)
-- [Does hitchstory let your BA or Product Manager write stories while you just write the code?](approach/)
-- [Screenplay Principle](approach/)
-- [What is a testing and living documentation framework?](approach/)
+- [Triality](approach/)
+- [Tests are an investment](approach/)
+- [Executable specifications](approach/)
 - [Recommended Environment](approach/)
 - [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](approach/)
-- [The importance of test realism](approach/)
-- [What is the difference betweeen a test and a story?](approach/)
+- [Does hitchstory let your BA or Product Manager write stories while you just write the code?](approach/)
+- [What is a testing and living documentation framework?](approach/)
 - [Flaky Tests](approach/)
-- [Tests are an investment](approach/)
+- [The importance of test realism](approach/)
 - [How can executable specifications and living documentation be used for stakeholder collaboration?](approach/)
+- [Screenplay Principle](approach/)
+- [Testing non-deterministic code](approach/)
 
 
 ## Design decisions and principles
 
 Somewhat controversial design decisions are justified here.
 
-- [Why does HitchStory use StrictYAML?](why/)
-- [Why is inheritance a feature of hitchstory stories?](why/)
-- [Why does hitchstory mandate the use of given but not when and then?](why/)
-- [Two Unit Tests, Zero Integration Tests](why/)
-- [Why does hitchstory not have a command line interface?](why/)
-- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](why/)
 - [Principles](why/)
-- [Why programatically rewrite stories?](why/)
+- [Two Unit Tests, Zero Integration Tests](why/)
 - [Declarative User Stories](why/)
+- [Why is inheritance a feature of hitchstory stories?](why/)
+- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](why/)
+- [Why programatically rewrite stories?](why/)
+- [Why does HitchStory use StrictYAML?](why/)
+- [Why does hitchstory mandate the use of given but not when and then?](why/)
+- [Why does hitchstory not have a command line interface?](why/)
 
 
 ## Why not X instead?
@@ -253,5 +253,5 @@ Somewhat controversial design decisions are justified here.
 There are several tools you can use instead, this is why you should use this one instead:
 
 - [Why not use the Robot Framework?](why-not/)
-- [Why use hitchstory instead of a unit testing framework?](why-not/)
 - [Why not use Behave, Lettuce or Cucumber (Gherkin)?](why-not/)
+- [Why use hitchstory instead of a unit testing framework?](why-not/)

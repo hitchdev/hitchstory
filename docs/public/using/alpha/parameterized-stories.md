@@ -107,7 +107,7 @@ story_collection.named("Click magic button").play()
 
 Will output:
 ```
-RUNNING Click magic button in /path/to/example.story ... firefox
+RUNNING Click magic button in /path/to/working/example.story ... firefox
 37
 clicked!
 save screenshot:
@@ -132,7 +132,7 @@ story_collection.named("Click magic button/with chrome").play()
 
 Will output:
 ```
-RUNNING Click magic button/with chrome in /path/to/example.story ... chrome
+RUNNING Click magic button/with chrome in /path/to/working/example.story ... chrome
 153
 clicked!
 save screenshot:
@@ -157,7 +157,7 @@ story_collection.with_params(browser={"name": "ie", "version": "6"}).named("Clic
 
 Will output:
 ```
-RUNNING Click magic button in /path/to/example.story ... ie
+RUNNING Click magic button in /path/to/working/example.story ... ie
 6
 clicked!
 save screenshot:

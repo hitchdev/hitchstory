@@ -88,7 +88,7 @@ StoryCollection(pathquery(".").ext("story"), Engine()).named("Create files").pla
 
 Will output:
 ```
-RUNNING Create files in /path/to/example.story ... SUCCESS in 0.1 seconds.
+RUNNING Create files in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 ```
 
 
