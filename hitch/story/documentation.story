@@ -17,20 +17,21 @@ Generate documentation from stories:
     markdown via jinja2. This markdown can then be used to generate HTML
     with a static site generator.
   given:
-    documentation.jinja2: |
-      {% for story in story_list %}
-      {{ story.name }}
-      {{ "-" * story.name|length }}
+    core files:
+      documentation.jinja2: |
+        {% for story in story_list %}
+        {{ story.name }}
+        {{ "-" * story.name|length }}
 
-      {{ story.about }}
+        {{ story.about }}
 
-      {% for name, property in story.given.properties.items()  %}
-      {{ property.documentation }}
-      {% endfor %}
-      {% for step in story.steps %}
-      {{ step.documentation }}
-      {% endfor %}
-      {% endfor %}
+        {% for name, property in story.given.properties.items()  %}
+        {{ property.documentation }}
+        {% endfor %}
+        {% for step in story.steps %}
+        {{ step.documentation }}
+        {% endfor %}
+        {% endfor %}
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery

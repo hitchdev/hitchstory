@@ -1,7 +1,7 @@
 from commandlib import Command
 from hitchstory import StoryCollection, BaseEngine, validate
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from strictyaml import Str, Map, Optional, Enum
+from strictyaml import Str, Map, Optional, Enum, MapPattern
 from pathquery import pathquery
 from click import argument, group, pass_context
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
@@ -50,14 +50,16 @@ class Engine(BaseEngine):
     """Python engine for running tests."""
 
     given_definition = GivenDefinition(
+        files=GivenProperty(MapPattern(Str(), Str())),
+        core_files=GivenProperty(MapPattern(Str(), Str())),
         base_story=GivenProperty(Str()),
         example_story=GivenProperty(Str()),
         example1_story=GivenProperty(Str()),
         example2_story=GivenProperty(Str()),
         example3_story=GivenProperty(Str()),
         documentation_jinja2=GivenProperty(Str()),
-        python_version=GivenProperty(Str()),
         engine_py=GivenProperty(Str()),
+        python_version=GivenProperty(Str()),
         setup=GivenProperty(Str()),
     )
 
@@ -101,6 +103,16 @@ class Engine(BaseEngine):
             if filename in self.given:
                 self.path.state.joinpath(filename).write_text(self.given[filename])
                 self._included_files.append(self.path.state.joinpath(filename))
+
+        for filename, contents in list(self.given.get("files", {}).items()):
+            self.path.state.joinpath(filename).write_text(self.given["files"][filename])
+            self._included_files.append(self.path.state.joinpath(filename))
+
+
+        for filename, contents in list(self.given.get("core files", {}).items()):
+            self.path.state.joinpath(filename).write_text(self.given["core files"][filename])
+            self._included_files.append(self.path.state.joinpath(filename))
+
 
         for filename in self.path.key.joinpath("mockcode").listdir():
             self._included_files.append(filename)

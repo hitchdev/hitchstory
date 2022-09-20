@@ -22,14 +22,15 @@ Flaky story detection:
     fails consistently is considered passed, whereas a story that is run 99 times and fails once
     is considered a failure.
   given:
-    example1.story: |
-      Flaky story:
-        steps:
-        - Step that fails on fifth run
+    core files:
+      example1.story: |
+        Flaky story:
+          steps:
+          - Step that fails on fifth run
 
-      Consistent failure:
-        steps:
-        - Step that always fails
+        Consistent failure:
+          steps:
+          - Step that always fails
     setup: |
       from hitchstory import StoryCollection, BaseEngine, Failure
       from pathquery import pathquery

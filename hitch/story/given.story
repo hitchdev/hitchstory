@@ -16,54 +16,55 @@ Given preconditions:
     The following example shows a browser precondition being used to set up
     a mock selenium object.
   given:
-    example.story: |
-      Load with chrome:
-        given:
-          browser configuration:
-            name: chrome
-            version: 22.0
-            platform: linux
-        steps:
-        - Load website
+    core files:
+      example.story: |
+        Load with chrome:
+          given:
+            browser configuration:
+              name: chrome
+              version: 22.0
+              platform: linux
+          steps:
+          - Load website
 
-      Load with small firefox window:
-        given:
-          browser configuration:
-            name: firefox
-            platform: linux
-            dimensions:
-              height: 200
-              width: 200
-        steps:
-        - Load website
-    engine.py: |
-      from hitchstory import BaseEngine, GivenDefinition, GivenProperty
-      from strictyaml import Optional, Str, Map, Enum, Seq, Int, MapPattern
-      from mockselenium import Webdriver
+        Load with small firefox window:
+          given:
+            browser configuration:
+              name: firefox
+              platform: linux
+              dimensions:
+                height: 200
+                width: 200
+          steps:
+          - Load website
+      engine.py: |
+        from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+        from strictyaml import Optional, Str, Map, Enum, Seq, Int, MapPattern
+        from mockselenium import Webdriver
 
-      class Engine(BaseEngine):
-          given_definition=GivenDefinition(
-              browser_configuration=GivenProperty(
-                  schema=Map({
-                      "name": Str(),
-                      "platform": Enum(["linux", "osx", "windows"]),
-                      Optional("version"): Str(),
-                      Optional("dimensions"): Map({"height": Int(), "width": Int()}),
-                  })
-              ),
-          )
+        class Engine(BaseEngine):
+            given_definition=GivenDefinition(
+                browser_configuration=GivenProperty(
+                    schema=Map({
+                        "name": Str(),
+                        "platform": Enum(["linux", "osx", "windows"]),
+                        Optional("version"): Str(),
+                        Optional("dimensions"): Map({"height": Int(), "width": Int()}),
+                    })
+                ),
+            )
 
-          def set_up(self):
-              browser = self.given["browser configuration"]
-              self.driver = Webdriver(
-                  name=browser['name'],
-                  platform=browser['platform'],
-                  version=browser.get('version'),
-                  dimensions=browser.get('dimensions', {"height": 1000, "width": 1000}),
-              )
+            def set_up(self):
+                browser = self.given["browser configuration"]
+                self.driver = Webdriver(
+                    name=browser['name'],
+                    platform=browser['platform'],
+                    version=browser.get('version'),
+                    dimensions=browser.get('dimensions', {"height": 1000, "width": 1000}),
+                )
 
-          def load_website(self):
-              self.driver.visit("http://www.google.com")
+            def load_website(self):
+                self.driver.visit("http://www.google.com")
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery

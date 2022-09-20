@@ -6,10 +6,11 @@ Hiding stacktraces for expected exceptions:
     to see the whole stacktrace, apply the "@no_stacktrace_for"
     decorator.
   given:
-    example.story: |
-      Failing story:
-        steps:
-          - Failing step without stacktrace
+    files:
+      example.story: |
+        Failing story:
+          steps:
+            - Failing step without stacktrace
   steps:
   - Run:
       code: story_collection.one().play()

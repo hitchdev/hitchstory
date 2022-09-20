@@ -7,17 +7,18 @@ Continue on failure when playing multiple stories:
     However, if your stories take a long time to run
     you may wish to continue after the first failure.
   given:
-    example1.story: |
-      A Create file:
-        steps:
-        - Create file
-      B Create file:
-        steps:
-        - Fail
-    example2.story: |
-      C Create file a third time:
-        steps:
+    core files:
+      example1.story: |
+        A Create file:
+          steps:
           - Create file
+        B Create file:
+          steps:
+          - Fail
+      example2.story: |
+        C Create file a third time:
+          steps:
+            - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
       from pathquery import pathquery
