@@ -20,7 +20,6 @@ Invalid YAML:
       Invalid YAML:
         steps:
           - Do something: text
-          Invalid
     engine.py: |
       from hitchstory import BaseEngine
 
