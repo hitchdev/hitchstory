@@ -25,6 +25,6 @@ All stories must have a unique name:
         StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_file().play()
       raises:
         type: hitchstory.exceptions.DuplicateStoryNames
-        message: Story 'create-file' in '/path/to/working/example2.story' and 'Create
-          file' in '/path/to/working/example1.story' are identical when slugified
-          ('create-file' and 'create-file').
+        message: Story 'Create file' in '/path/to/working/example1.story' and 'create-file'
+          in '/path/to/working/example2.story' are identical when slugified ('create-file'
+          and 'create-file').
