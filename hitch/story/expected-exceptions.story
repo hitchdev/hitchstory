@@ -17,9 +17,32 @@ Hiding stacktraces for expected exceptions:
       will output: |-
         RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
-            Failing story:
               steps:
-              - Failing step without stacktrace
+              - Passing step
+              - Failing step
+              - Not executed step
+
+
+        [1]: function 'failing_step'
+          /path/to/working/engine.py
+
+
+                6 :
+                7 :     def failing_step(self):
+            --> 8 :         raise_example_exception("Towel not located")
+                9 :
+
+
+
+        [2]: function 'raise_example_exception'
+          /path/to/working/code_that_does_things.py
+
+
+                20 :
+                21 : def raise_example_exception(text=""):
+            --> 22 :     raise ExampleException(text)
+                23 :
+
 
 
         code_that_does_things.ExampleException
@@ -28,4 +51,4 @@ Hiding stacktraces for expected exceptions:
 
             It spreads across multiple lines.
 
-        Expected exception
+        Towel not located
