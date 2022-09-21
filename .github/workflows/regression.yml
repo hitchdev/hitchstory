@@ -15,10 +15,10 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v2
 
-      - name: ensure qemu installed so arm containers work
-        run: |
-          sudo apt-get update
-          sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
+      #- name: ensure qemu installed so arm containers work
+        #run: |
+          #sudo apt-get update
+          #sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
 
       - name: build
         run: |
