@@ -22,59 +22,60 @@ Inherit one story from another:
     The steps of the parent stories, if they have any steps,
     will be executed before the child story steps.
   given:
-    example.story: |
-      Login:
-        about: Simple log in.
-        with:
-          username: AzureDiamond
-          password: hunter2
-        given:
-          url: /loginurl
-        steps:
-        - Fill form:
-            username: (( username ))
-            password: (( password ))
-        - Click: login
+    core files:
+      example.story: |
+        Login:
+          about: Simple log in.
+          with:
+            username: AzureDiamond
+            password: hunter2
+          given:
+            url: /loginurl
+          steps:
+          - Fill form:
+              username: (( username ))
+              password: (( password ))
+          - Click: login
 
 
-      Log in on another url:
-        about: Alternate log in URL.
-        based on: login
-        given:
-          url: /alternativeloginurl
+        Log in on another url:
+          about: Alternate log in URL.
+          based on: login
+          given:
+            url: /alternativeloginurl
 
-      Log in as president:
-        about: For stories that involve Trump.
-        based on: login
-        with:
-          username: DonaldTrump
-          password: iamsosmrt
-    engine.py: |
-      from hitchstory import BaseEngine, GivenDefinition, GivenProperty, about
-      from strictyaml import Map, Int, Str, Optional
+        Log in as president:
+          about: For stories that involve Trump.
+          based on: login
+          with:
+            username: DonaldTrump
+            password: iamsosmrt
+      engine.py: |
+        from hitchstory import BaseEngine, GivenDefinition, GivenProperty, about
+        from strictyaml import Map, Int, Str, Optional
 
 
-      class Engine(BaseEngine):
-          given_definition = GivenDefinition(
-              url=GivenProperty(schema=Str(), document="Load: {{ url }}"),
-          )
+        class Engine(BaseEngine):
+            given_definition = GivenDefinition(
+                url=GivenProperty(schema=Str(), document="Load: {{ url }}"),
+            )
 
-          def set_up(self):
-              print("visit {0}".format(self.given['url']))
+            def set_up(self):
+                print("visit {0}".format(self.given['url']))
 
-          @about((
-              "{% for name, value in textboxes.items() %}\n"
-              "- Enter text '{{ value }}' in {{ name }}.\n"
-              "{%- endfor %}\n"
-          ))
-          def fill_form(self, **textboxes):
-              for name, text in sorted(textboxes.items()):
-                  print("with {0}".format(name))
-                  print("enter {0}".format(text))
+            @about((
+                "{% for name, value in textboxes.items() %}\n"
+                "- Enter text '{{ value }}' in {{ name }}.\n"
+                "{%- endfor %}\n"
+            ))
+            def fill_form(self, **textboxes):
+                for name, text in sorted(textboxes.items()):
+                    print("with {0}".format(name))
+                    print("enter {0}".format(text))
 
-          @about("* Click on {{ item }}")
-          def click(self, item):
-              print("clicked on {0}".format(item))
+            @about("* Click on {{ item }}")
+            def click(self, item):
+                print("clicked on {0}".format(item))
     setup: |
       from engine import Engine
       from hitchstory import StoryCollection
@@ -139,11 +140,12 @@ Inherit one story from another:
 
 Attempt inheritance from non-existent story:
   given:
-    example.story: |
-      Write to file:
-        based on: Create files
-        steps:
-          - Do thing two
+    core files:
+      example.story: |
+        Write to file:
+          based on: Create files
+          steps:
+            - Do thing two
     setup: |
       from hitchstory import StoryCollection, BaseEngine
       from strictyaml import Map, Str

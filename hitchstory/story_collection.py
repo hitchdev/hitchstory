@@ -247,7 +247,7 @@ class StoryCollection(object):
         """
         Log message to the output handle (usually stdout).
         """
-        self._output_handle.write(u"{0}{1}".format(message, u"\n" if newline else u""))
+        self._output_handle.write("{0}{1}".format(message, "\n" if newline else ""))
         self._output_handle.flush()
 
     def one(self):

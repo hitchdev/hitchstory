@@ -17,7 +17,7 @@ Generate documentation from stories:
     markdown via jinja2. This markdown can then be used to generate HTML
     with a static site generator.
   given:
-    core files:
+    files:
       documentation.jinja2: |
         {% for story in story_list %}
         {{ story.name }}

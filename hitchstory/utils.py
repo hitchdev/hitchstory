@@ -56,7 +56,7 @@ def to_underscore_style(text):
 
 def underscore_slugify(text):
     """Changes "Something like this" to "something_like_this"."""
-    return slugify(text, separator=u"_")
+    return slugify(text, separator="_")
 
 
 def render_template(templates_dict, template_name, parameters):

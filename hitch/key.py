@@ -52,13 +52,6 @@ class Engine(BaseEngine):
     given_definition = GivenDefinition(
         files=GivenProperty(MapPattern(Str(), Str())),
         core_files=GivenProperty(MapPattern(Str(), Str())),
-        base_story=GivenProperty(Str()),
-        example_story=GivenProperty(Str()),
-        example1_story=GivenProperty(Str()),
-        example2_story=GivenProperty(Str()),
-        example3_story=GivenProperty(Str()),
-        documentation_jinja2=GivenProperty(Str()),
-        engine_py=GivenProperty(Str()),
         python_version=GivenProperty(Str()),
         setup=GivenProperty(Str()),
     )
@@ -90,29 +83,15 @@ class Engine(BaseEngine):
         self.path.key.joinpath("code_that_does_things.py").copy(self.path.state)
         self._included_files = [self.path.key.joinpath("code_that_does_things.py")]
 
-        # hitchstory needs to be refactored to be able to clean up this repetition
-        for filename in [
-            "base.story",
-            "example.story",
-            "example1.story",
-            "example2.story",
-            "example3.story",
-            "engine.py",
-            "documentation.jinja2",
-        ]:
-            if filename in self.given:
-                self.path.state.joinpath(filename).write_text(self.given[filename])
-                self._included_files.append(self.path.state.joinpath(filename))
-
         for filename, contents in list(self.given.get("files", {}).items()):
             self.path.state.joinpath(filename).write_text(self.given["files"][filename])
             self._included_files.append(self.path.state.joinpath(filename))
 
-
         for filename, contents in list(self.given.get("core files", {}).items()):
-            self.path.state.joinpath(filename).write_text(self.given["core files"][filename])
+            self.path.state.joinpath(filename).write_text(
+                self.given["core files"][filename]
+            )
             self._included_files.append(self.path.state.joinpath(filename))
-
 
         for filename in self.path.key.joinpath("mockcode").listdir():
             self._included_files.append(filename)

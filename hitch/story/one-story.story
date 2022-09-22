@@ -8,6 +8,13 @@ Run one story in collection:
         Do thing:
           steps:
             - Do thing
+      engine.py: |
+        from hitchstory import BaseEngine
+        from code_that_does_things import *
+
+        class Engine(BaseEngine):
+            def do_thing(self):
+                pass
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
@@ -15,13 +22,6 @@ Run one story in collection:
 
 
       story = StoryCollection(pathquery(".").ext("story"), Engine()).one()
-    engine.py: |
-      from hitchstory import BaseEngine
-      from code_that_does_things import *
-
-      class Engine(BaseEngine):
-          def do_thing(self):
-              pass
   steps:
   - Run:
       code: story.play()

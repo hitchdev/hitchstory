@@ -15,34 +15,35 @@ Gradual typing of story steps:
     specify validators that fail fast when YAML
     snippets with an invalid structure are used.
   given:
-    example.story: |
-      Create files:
-        given:
-          files created:
-            preconditionfile.txt:
-              some text
-        steps:
-          - Create file:
-              details:
-                file name: step1.txt
-                content: some other text
-    engine.py: |
-      from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+    core files:
+      example.story: |
+        Create files:
+          given:
+            files created:
+              preconditionfile.txt:
+                some text
+          steps:
+            - Create file:
+                details:
+                  file name: step1.txt
+                  content: some other text
+      engine.py: |
+        from hitchstory import BaseEngine, GivenDefinition, GivenProperty
 
 
-      class Engine(BaseEngine):
-          given_definition = GivenDefinition(
-              files_created=GivenProperty(),
-          )
+        class Engine(BaseEngine):
+            given_definition = GivenDefinition(
+                files_created=GivenProperty(),
+            )
 
-          def set_up(self):
-              for filename, contents in self.given['files_created'].items():
-                  with open(filename, 'w') as handle:
-                      handle.write(contents)
+            def set_up(self):
+                for filename, contents in self.given['files_created'].items():
+                    with open(filename, 'w') as handle:
+                        handle.write(contents)
 
-          def create_file(self, details):
-              with open(details['file name'], 'w') as handle:
-                  handle.write(details['content'])
+            def create_file(self, details):
+                with open(details['file name'], 'w') as handle:
+                    handle.write(details['content'])
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
