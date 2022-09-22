@@ -7,25 +7,26 @@ Variations:
 
     This works in the same way as inheritance.
   given:
-    example.story: |
-      Create files:
-        given:
-          content: dog
-          hierarchical content:
-            x: 1
-            y:
-              - 42
-        steps:
-          - Do thing with precondition
-          - Do other thing: dog
-          - Do yet another thing
-          - Do a fourth thing:
-              animals:
-                pond animal: frog
-        variations:
-          cat:
-            given:
-              content: cat
+    core files:
+      example.story: |
+        Create files:
+          given:
+            content: dog
+            hierarchical content:
+              x: 1
+              y:
+                - 42
+          steps:
+            - Do thing with precondition
+            - Do other thing: dog
+            - Do yet another thing
+            - Do a fourth thing:
+                animals:
+                  pond animal: frog
+          variations:
+            cat:
+              given:
+                content: cat
     setup: |
       from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty, validate
       from strictyaml import Map, Seq, Int, Str, Optional

@@ -6,26 +6,27 @@ Invalid YAML:
     Names of stories and their filenames should
     be reported.
   given:
-    example1.story: |
-      Invalid YAML:
-        steps
-          - Do something
-              note the ^^^^ invalid YAML
-    example2.story: |
-      Valid YAML:
-        steps:
-          - Do something: |
-              text
-    example3.story: |
-      Invalid YAML:
-        steps:
-          - Do something: text
-    engine.py: |
-      from hitchstory import BaseEngine
+    files:
+      example1.story: |
+        Invalid YAML:
+          steps
+            - Do something
+                note the ^^^^ invalid YAML
+      example2.story: |
+        Valid YAML:
+          steps:
+            - Do something: |
+                text
+      example3.story: |
+        Invalid YAML:
+          steps:
+            - Do something: text
+      engine.py: |
+        from hitchstory import BaseEngine
 
-      class Engine(BaseEngine):
-          def do_something(self, text):
-              pass
+        class Engine(BaseEngine):
+            def do_something(self, text):
+                pass
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine

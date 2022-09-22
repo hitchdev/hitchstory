@@ -3,10 +3,11 @@ Run one story in collection:
     If you have just one story in your collection,
     you can run it directly by using .one().
   given:
-    example.story: |
-      Do thing:
-        steps:
-          - Do thing
+    files:
+      example.story: |
+        Do thing:
+          steps:
+            - Do thing
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery

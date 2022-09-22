@@ -212,7 +212,7 @@ class Engine(BaseEngine):
     def example_story_unchanged(self):
         assert (
             self.path.state.joinpath("example.story").text()
-            == self.given["example_story"]
+            == self.given["core files"]["example.story"]
         ), "example.story should have been unchanged but was changed"
 
     @no_stacktrace_for(AssertionError)

@@ -1,13 +1,14 @@
 No stories:
   given:
-    example.story: |
-      # hello
-      Example story
-    engine.py: |
-      from hitchstory import BaseEngine
+    files:
+      example.story: |
+        # hello
+        Example story
+      engine.py: |
+        from hitchstory import BaseEngine
 
-      class Engine(BaseEngine):
-          pass
+        class Engine(BaseEngine):
+            pass
   steps:
   - Run:
       code: |

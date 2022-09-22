@@ -25,38 +25,39 @@ Story that rewrites itself:
     for example, running all the stories on jenkins or when you are refactoring
     and *not* expecting textual output changes.
   given:
-    example.story: |
-      Do things:
-        steps:
-          - Do thing: x
-          - Do thing: y
-          - Do thing: z
-          - Do other thing:
-              variable 1: a
-              variable_2: b
+    core files:
+      example.story: |
+        Do things:
+          steps:
+            - Do thing: x
+            - Do thing: y
+            - Do thing: z
+            - Do other thing:
+                variable 1: a
+                variable_2: b
 
-        variations:
-          Do more things:
-            steps:
-              - Do thing: c
-    engine.py: |
-      from hitchstory import BaseEngine
+          variations:
+            Do more things:
+              steps:
+                - Do thing: c
+      engine.py: |
+        from hitchstory import BaseEngine
 
-      class Engine(BaseEngine):
-          def __init__(self, rewrite=True):
-              self._rewrite = rewrite
+        class Engine(BaseEngine):
+            def __init__(self, rewrite=True):
+                self._rewrite = rewrite
 
-          def do_thing(self, variable):
-              if self._rewrite:
-                  self.current_step.update(
-                      variable="xxx:\nyyy"
-                  )
+            def do_thing(self, variable):
+                if self._rewrite:
+                    self.current_step.update(
+                        variable="xxx:\nyyy"
+                    )
 
-          def do_other_thing(self, variable_1=None, variable_2=None):
-              if self._rewrite:
-                  self.current_step.update(
-                      variable_2="complicated:\nmultiline\nstring"
-                  )
+            def do_other_thing(self, variable_1=None, variable_2=None):
+                if self._rewrite:
+                    self.current_step.update(
+                        variable_2="complicated:\nmultiline\nstring"
+                    )
 
     setup: |
       from hitchstory import StoryCollection
