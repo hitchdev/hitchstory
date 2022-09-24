@@ -8,24 +8,25 @@ Play multiple stories in sequence:
     By default hitchstory will stop when it sees its first
     failure. This behavior can be changed though.
   given:
-    base.story: |
-      Base story:
-        given:
-          random variable: some value
-    example1.story: |
-      Create file:
-        based on: base story
-        steps:
-          - Create file
-      Create file again:
-        based on: base story
-        steps:
-          - Create file
-    example2.story: |
-      Create files:
-        based on: base story
-        steps:
-          - Create file
+    files:
+      base.story: |
+        Base story:
+          given:
+            random variable: some value
+      example1.story: |
+        Create file:
+          based on: base story
+          steps:
+            - Create file
+        Create file again:
+          based on: base story
+          steps:
+            - Create file
+      example2.story: |
+        Create files:
+          based on: base story
+          steps:
+            - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty
       from pathquery import pathquery

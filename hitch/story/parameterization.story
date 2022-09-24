@@ -12,51 +12,52 @@ Story with parameters:
     Parameters can be used in preconditions and in steps
     by surrounding the parameter name with (( brackets )).
   given:
-    example.story: |
-      Click magic button:
-        with:
-          browser:
-            name: firefox
-            version: 37
-        given:
-          browser: (( browser ))
-        steps:
-        - Click on button
-        - Save screenshot:
-            for browser: (( browser ))
+    files:
+      example.story: |
+        Click magic button:
+          with:
+            browser:
+              name: firefox
+              version: 37
+          given:
+            browser: (( browser ))
+          steps:
+          - Click on button
+          - Save screenshot:
+              for browser: (( browser ))
 
-        variations:
-          with chrome:
-            with:
-              browser:
-                name: chrome
-                version: 153
-    engine.py: |
-      from hitchstory import BaseEngine, GivenDefinition, GivenProperty, validate
-      from strictyaml import Map, Seq, Int, Str, Optional
-      from code_that_does_things import *
+          variations:
+            with chrome:
+              with:
+                browser:
+                  name: chrome
+                  version: 153
+      engine.py: |
+        from hitchstory import BaseEngine, GivenDefinition, GivenProperty, validate
+        from strictyaml import Map, Seq, Int, Str, Optional
+        from code_that_does_things import *
 
-      class Engine(BaseEngine):
-          given_definition=GivenDefinition(
-              browser=GivenProperty(
-                  schema=Map({"name": Str(), "version": Int()}),
-              ),
-          )
+        class Engine(BaseEngine):
+            given_definition=GivenDefinition(
+                browser=GivenProperty(
+                    schema=Map({"name": Str(), "version": Int()}),
+                ),
+            )
 
-          def set_up(self):
-              print(self.given['browser']['name'])
-              print(self.given['browser']['version'])
+            def set_up(self):
+                print(self.given['browser']['name'])
+                print(self.given['browser']['version'])
 
-          def click_on_button(self):
-              print("clicked!")
+            def click_on_button(self):
+                print("clicked!")
 
-          @validate(for_browser=Map({"name": Str(), "version": Int()}))
-          def save_screenshot(self, for_browser):
-              print('save screenshot:')
-              print("screenshot-{0}-{1}.png".format(
-                  for_browser['name'],
-                  for_browser['version']
-              ))
+            @validate(for_browser=Map({"name": Str(), "version": Int()}))
+            def save_screenshot(self, for_browser):
+                print('save screenshot:')
+                print("screenshot-{0}-{1}.png".format(
+                    for_browser['name'],
+                    for_browser['version']
+                ))
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery

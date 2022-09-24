@@ -16,28 +16,29 @@ Abort a story with ctrl-C:
     a series of stories, Ctrl-C should halt current execution,
     run tear_down and then not run any more stories.
   given:
-    example.story: |
-      Create files:
-        steps:
-          - Pause forever
+    files:
+      example.story: |
+        Create files:
+          steps:
+            - Pause forever
 
-      Should never run:
-        steps:
-          - Should not happen
-    engine.py: |
-      from hitchstory import BaseEngine
-      from code_that_does_things import reticulate_splines
-      import psutil
+        Should never run:
+          steps:
+            - Should not happen
+      engine.py: |
+        from hitchstory import BaseEngine
+        from code_that_does_things import reticulate_splines
+        import psutil
 
-      class Engine(BaseEngine):
-          def pause_forever(self):
-              psutil.Process().terminate()
+        class Engine(BaseEngine):
+            def pause_forever(self):
+                psutil.Process().terminate()
 
-          def should_not_happen(self):
-              raise Exception("This exception should never be triggered")
+            def should_not_happen(self):
+                raise Exception("This exception should never be triggered")
 
-          def tear_down(self):
-              print("Reticulate splines")
+            def tear_down(self):
+                print("Reticulate splines")
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery

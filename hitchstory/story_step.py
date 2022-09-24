@@ -126,4 +126,4 @@ class StoryStep(object):
         return jinja2.Template(self.step_method._about_template).render(**arguments)
 
     def __repr__(self):
-        return u"<StoryStep('{0}')>".format(self.slug)
+        return "<StoryStep('{0}')>".format(self.slug)

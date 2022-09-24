@@ -1,11 +1,12 @@
 Invalid story:
   given:
-    example.story: |
-      Create files:
-        steps:
-          - Add product:
-              name: Towel
-              quantity: Three
+    core files:
+      example.story: |
+        Create files:
+          steps:
+            - Add product:
+                name: Towel
+                quantity: Three
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
@@ -16,14 +17,15 @@ Invalid story:
   variations:
     Invalid YAML in step arguments:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine, validate
-          from strictyaml import Int
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine, validate
+            from strictyaml import Int
 
-          class Engine(BaseEngine):
-              @validate(quantity=Int())
-              def add_product(self, name, quantity):
-                  pass
+            class Engine(BaseEngine):
+                @validate(quantity=Int())
+                def add_product(self, name, quantity):
+                    pass
       steps:
       - Run:
           code: story.play()
@@ -38,14 +40,15 @@ Invalid story:
                   ^ (line: 5)
     Invalid validator on step:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine, validate
-          from strictyaml import Int
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine, validate
+            from strictyaml import Int
 
-          class Engine(BaseEngine):
-              @validate(not_an_argument=Int())
-              def add_product(self, name, quantity):
-                  pass
+            class Engine(BaseEngine):
+                @validate(not_an_argument=Int())
+                def add_product(self, name, quantity):
+                    pass
       steps:
       - Run:
           code: story.play()
@@ -56,12 +59,13 @@ Invalid story:
 
     Step method not callable:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine
 
-          class Engine(BaseEngine):
-             def __init__(self):
-                self.add_product = 1
+            class Engine(BaseEngine):
+              def __init__(self):
+                  self.add_product = 1
       steps:
       - Run:
           code: story.play()
@@ -72,15 +76,16 @@ Invalid story:
 
     Method not found:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine
 
-          class Engine(BaseEngine):
-            def set_up(self):
-                pass
+            class Engine(BaseEngine):
+              def set_up(self):
+                  pass
 
-            def tear_down(self):
-                pass
+              def tear_down(self):
+                  pass
       steps:
       - Run:
           code: story.play()
@@ -90,12 +95,13 @@ Invalid story:
               not found in <engine.Engine object at 0xfffffffffff>.
     Mix of kwargs and regular arguments:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine
 
-          class Engine(BaseEngine):
-              def add_product(self, name, **kwargs):
-                  print('x')
+            class Engine(BaseEngine):
+                def add_product(self, name, **kwargs):
+                    print('x')
       steps:
       - Run:
           code: story.play()
@@ -106,12 +112,13 @@ Invalid story:
               arg1, arg2, arg3). Mixing is not allowed
     Cannot use *args:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine
 
-          class Engine(BaseEngine):
-              def add_product(self, *args):
-                  pass
+            class Engine(BaseEngine):
+                def add_product(self, *args):
+                    pass
       steps:
       - Run:
           code: story.play()
@@ -123,16 +130,17 @@ Invalid story:
 
     Cannot use single argument:
       given:
-        example.story: |
-          Create files:
-            steps:
-              - Add product: Towel
-        engine.py: |
-          from hitchstory import BaseEngine
+        core files:
+          example.story: |
+            Create files:
+              steps:
+                - Add product: Towel
+          engine.py: |
+            from hitchstory import BaseEngine
 
-          class Engine(BaseEngine):
-              def add_product(self, name, quantity):
-                  pass
+            class Engine(BaseEngine):
+                def add_product(self, name, quantity):
+                    pass
       steps:
       - Run:
           code: story.play()
@@ -143,16 +151,17 @@ Invalid story:
 
     Found argument when there should be none:
       given:
-        example.story: |
-          Create files:
-            steps:
-              - Add product:
-        engine.py: |
-          from hitchstory import BaseEngine
+        core files:
+          example.story: |
+            Create files:
+              steps:
+                - Add product:
+          engine.py: |
+            from hitchstory import BaseEngine
 
-          class Engine(BaseEngine):
-              def add_product(self):
-                  pass
+            class Engine(BaseEngine):
+                def add_product(self):
+                    pass
       steps:
       - Run:
           code: story.play()
@@ -164,19 +173,20 @@ Invalid story:
 
     Access key on self.given that does not exist:
       given:
-        example.story: |
-          Create files:
-            steps:
-              - Add product
-        engine.py: |
-          from hitchstory import BaseEngine
+        core files:
+          example.story: |
+            Create files:
+              steps:
+                - Add product
+          engine.py: |
+            from hitchstory import BaseEngine
 
-          class Engine(BaseEngine):
-              def set_up(self):
-                  print(self.given['nonexistent key'])
+            class Engine(BaseEngine):
+                def set_up(self):
+                    print(self.given['nonexistent key'])
 
-              def add_product(self):
-                  pass
+                def add_product(self):
+                    pass
       steps:
       - Run:
           code: story.play()

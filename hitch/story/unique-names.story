@@ -3,14 +3,15 @@ All stories must have a unique name:
     Note that "Create file" and "create file" are not exactly
     the same name, but their slugified names are identical.
   given:
-    example1.story: |
-      Create file:
-        steps:
-          - Create file
-    example2.story: |
-      create-file:
-        steps:
-           - Create file
+    files:
+      example1.story: |
+        Create file:
+          steps:
+            - Create file
+      example2.story: |
+        create-file:
+          steps:
+            - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
       from pathquery import pathquery

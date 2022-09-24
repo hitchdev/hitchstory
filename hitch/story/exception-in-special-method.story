@@ -17,10 +17,11 @@ Exception in special methods:
     Only exceptions in set_up or steps are considered
     normal.
   given:
-    example.story: |
-      Do thing:
-        steps:
-          - Do thing
+    core files:
+      example.story: |
+        Do thing:
+          steps:
+            - Do thing
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
@@ -31,19 +32,20 @@ Exception in special methods:
   variations:
     in on_success:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine
-          from code_that_does_things import *
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine
+            from code_that_does_things import *
 
-          class Engine(BaseEngine):
-              def do_thing(self):
-                  pass
+            class Engine(BaseEngine):
+                def do_thing(self):
+                    pass
 
-              def on_success(self):
-                  raise_example_exception()
+                def on_success(self):
+                    raise_example_exception()
 
-              def tear_down(self):
-                  tear_down_was_run()
+                def tear_down(self):
+                    tear_down_was_run()
       steps:
       - Run:
           code: story.play()
@@ -85,19 +87,20 @@ Exception in special methods:
 
     in on_failure:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine
-          from code_that_does_things import *
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine
+            from code_that_does_things import *
 
-          class Engine(BaseEngine):
-              def do_thing(self):
-                  raise_example_exception()
+            class Engine(BaseEngine):
+                def do_thing(self):
+                    raise_example_exception()
 
-              def on_failure(self, result):
-                  raise_example_exception()
+                def on_failure(self, result):
+                    raise_example_exception()
 
-              def tear_down(self):
-                  tear_down_was_run()
+                def tear_down(self):
+                    tear_down_was_run()
       steps:
       - Run:
           code: story.play()
@@ -139,16 +142,17 @@ Exception in special methods:
 
     in tear_down:
       given:
-        engine.py: |
-          from hitchstory import BaseEngine
-          from code_that_does_things import *
+        files:
+          engine.py: |
+            from hitchstory import BaseEngine
+            from code_that_does_things import *
 
-          class Engine(BaseEngine):
-              def do_thing(self):
-                  pass
+            class Engine(BaseEngine):
+                def do_thing(self):
+                    pass
 
-              def tear_down(self):
-                  raise_example_exception()
+                def tear_down(self):
+                    raise_example_exception()
       steps:
       - Run:
           code: story.play()

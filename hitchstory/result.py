@@ -135,7 +135,7 @@ class Failure(Result):
         Snippet of YAML highlighting the failing line.
         """
         if self._failing_step is None:
-            return u""
+            return ""
         else:
             snippet = "{before}\n{bright}{lines}{normal}\n{after}".format(
                 before=self._failing_step.yaml.lines_before(2),

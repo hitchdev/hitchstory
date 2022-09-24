@@ -305,4 +305,4 @@ class Story(object):
                 return result
 
     def __repr__(self):
-        return u"Story('{0}')".format(self._slug)
+        return "Story('{0}')".format(self._slug)

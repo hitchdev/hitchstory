@@ -10,17 +10,18 @@ Shortcut lookup for story names:
     If you specify key words that match no stories or more than one
     story, an error is raised.
   given:
-    example1.story: |
-      Create file:
-        steps:
-          - Create file
-      Create file again:
-        steps:
-          - Create file
-    example2.story: |
-      Create files:
-        steps:
-          - Create file
+    files:
+      example1.story: |
+        Create file:
+          steps:
+            - Create file
+        Create file again:
+          steps:
+            - Create file
+      example2.story: |
+        Create files:
+          steps:
+            - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
       from ensure import Ensure

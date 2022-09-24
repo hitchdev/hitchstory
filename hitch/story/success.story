@@ -4,28 +4,29 @@ Running a single named story successfully:
     How a story runs when it is successful - i.e. when no exception
     is raised during its run.
   given:
-    example.story: |
-      Create files:
-        steps:
-          - Create file
-          - Create file: step2.txt
-          - Create file:
-              file name: step3.txt
-              content: third step
-    engine.py: |
-      from hitchstory import BaseEngine
+    files:
+      example.story: |
+        Create files:
+          steps:
+            - Create file
+            - Create file: step2.txt
+            - Create file:
+                file name: step3.txt
+                content: third step
+      engine.py: |
+        from hitchstory import BaseEngine
 
 
-      class Engine(BaseEngine):
-          def create_file(self, file_name="step1.txt", content="example"):
-              with open(file_name, 'w') as handle:
-                  handle.write(content)
+        class Engine(BaseEngine):
+            def create_file(self, file_name="step1.txt", content="example"):
+                with open(file_name, 'w') as handle:
+                    handle.write(content)
 
-          def on_success(self):
-              print("splines reticulated")
+            def on_success(self):
+                print("splines reticulated")
 
-              with open("ranstory.txt", 'w') as handle:
-                  handle.write(self.story.name)
+                with open("ranstory.txt", 'w') as handle:
+                    handle.write(self.story.name)
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
