@@ -69,10 +69,10 @@ Exception in special methods:
                 /path/to/working/code_that_does_things.py
 
 
-                      20 :
-                      21 : def raise_example_exception(text=""):
-                  --> [[ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)
-                      23 :
+                      21 :
+                      22 : def raise_example_exception(text=""):
+                  --> [[ BRIGHT ]]23[[ RESET ALL ]] :     raise ExampleException(text)
+                      24 :
 
 
 
@@ -124,10 +124,10 @@ Exception in special methods:
                 /path/to/working/code_that_does_things.py
 
 
-                      20 :
-                      21 : def raise_example_exception(text=""):
-                  --> [[ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)
-                      23 :
+                      21 :
+                      22 : def raise_example_exception(text=""):
+                  --> [[ BRIGHT ]]23[[ RESET ALL ]] :     raise ExampleException(text)
+                      24 :
 
 
 
@@ -176,10 +176,10 @@ Exception in special methods:
                 /path/to/working/code_that_does_things.py
 
 
-                      20 :
-                      21 : def raise_example_exception(text=""):
-                  --> [[ BRIGHT ]]22[[ RESET ALL ]] :     raise ExampleException(text)
-                      23 :
+                      21 :
+                      22 : def raise_example_exception(text=""):
+                  --> [[ BRIGHT ]]23[[ RESET ALL ]] :     raise ExampleException(text)
+                      24 :
 
 
 

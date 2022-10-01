@@ -38,10 +38,10 @@ Hiding stacktraces for expected exceptions:
           /path/to/working/code_that_does_things.py
 
 
-                20 :
-                21 : def raise_example_exception(text=""):
-            --> 22 :     raise ExampleException(text)
-                23 :
+                21 :
+                22 : def raise_example_exception(text=""):
+            --> 23 :     raise ExampleException(text)
+                24 :
 
 
 
