@@ -38,7 +38,7 @@ class DocStep(object):
                 var_name = step_method.argspec.keywords
                 return Template(self._docstory.slug_templates["steps"][self._step.slug]).render(**{var_name: self._step.arguments.data})
             else:
-                raise NotImplemented("Multiple arguments not implemented.")
+                return Template(self._docstory.slug_templates["steps"][self._step.slug]).render(**self._step.arguments.data)
 
 class DocStory(object):
     def __init__(self, story):

@@ -16,7 +16,7 @@ Generate documentation from stories:
     The example shown below demonstrates how a story can be transformed into
     markdown via jinja2. This markdown can then be used to generate HTML
     with a static site generator.
-    
+
     While markdown is the example given, in principle, any kind of text markup
     can be generated with the stories.
   given:
@@ -34,6 +34,9 @@ Generate documentation from stories:
               username: (( username ))
               password: (( password ))
           - Click: login
+          - Drag:
+              from item: left
+              to item: right
 
 
         Log in on another url:
@@ -65,6 +68,9 @@ Generate documentation from stories:
                 for name, text in sorted(textboxes.items()):
                     print("with {0}".format(name))
                     print("enter {0}".format(text))
+              
+            def drag(self, from_item, to_item):
+                print(f"drag {from_item} to {to_item}")
 
             def click(self, item):
                 print("clicked on {0}".format(item))
@@ -94,6 +100,7 @@ Generate documentation from stories:
             - Enter text '{{ value }}' in {{ name }}.
             {%- endfor %}
           click: '* Click on {{ item }}'
+          drag: '* Drag from {{ from_item }} to {{ to_item }}.'
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
@@ -128,6 +135,8 @@ Generate documentation from stories:
 
             * Click on login
 
+            * Drag from left to right.
+
 
             Log in on another url
             ---------------------
@@ -144,6 +153,8 @@ Generate documentation from stories:
 
             * Click on login
 
+            * Drag from left to right.
+
 
             Log in as president
             -------------------
@@ -159,3 +170,5 @@ Generate documentation from stories:
             - Enter text '(( password ))' in password.
 
             * Click on login
+
+            * Drag from left to right.
