@@ -1,6 +1,5 @@
 Generate documentation from stories:
   docs: generate-documentation
-  based on: inherit one story from another
   status: experimental
   about: |
     hitchstory YAML stories are designed to be as readable as possible while
@@ -21,7 +20,55 @@ Generate documentation from stories:
     While markdown is the example given, in principle, any kind of text markup
     can be generated with the stories.
   given:
-    files:
+    core files:
+      example.story: |
+        Login:
+          about: Simple log in.
+          with:
+            username: AzureDiamond
+            password: hunter2
+          given:
+            url: /loginurl
+          steps:
+          - Fill form:
+              username: (( username ))
+              password: (( password ))
+          - Click: login
+
+
+        Log in on another url:
+          about: Alternate log in URL.
+          based on: login
+          given:
+            url: /alternativeloginurl
+
+        Log in as president:
+          about: For stories that involve Trump.
+          based on: login
+          with:
+            username: DonaldTrump
+            password: iamsosmrt
+      engine.py: |
+        from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+        from strictyaml import Map, Int, Str, Optional
+
+
+        class Engine(BaseEngine):
+            given_definition = GivenDefinition(
+                url=GivenProperty(schema=Str(), document="Load: {{ url }}"),
+            )
+
+            def set_up(self):
+                print("visit {0}".format(self.given['url']))
+
+            def fill_form(self, **textboxes):
+                for name, text in sorted(textboxes.items()):
+                    print("with {0}".format(name))
+                    print("enter {0}".format(text))
+
+            def click(self, item):
+                print("clicked on {0}".format(item))
+
       index.jinja2: |
         {% for story in story_list %}
         {{ story.documentation }}
