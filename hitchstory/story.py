@@ -1,5 +1,6 @@
 from hitchstory.utils import DEFAULT_STACK_TRACE, underscore_slugify
 from hitchstory.result import Success, Failure, FlakeResult
+from hitchstory.docstory import DocStory
 from hitchstory.story_step import StoryStep
 from hitchstory.given import Given
 from hitchstory import exceptions
@@ -270,6 +271,15 @@ class Story(object):
         self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
         return result
 
+    @property
+    def documentation(self):
+        from jinja2 import Template
+        return Template(self._collection._doc_templates["story"]).render(story=self.docstory)
+
+    @property
+    def docstory(self):
+        return DocStory(self)
+        
     def play(self):
         """
         Run a story from beginning to end, time it and return

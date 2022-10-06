@@ -3,35 +3,50 @@ Generate documentation from stories:
   based on: inherit one story from another
   status: experimental
   about: |
-    hitchstory YAML stories *are* designed to be readable, but also terse
-    and easy to maintain.
+    hitchstory YAML stories are designed to be as readable as possible while
+    still being terse and deduplicated. This means that the stories will not be
+    as readable to people who do not have a deep understanding of the code.
 
-    Where terseness and ease of maintenance trumps readability, the former
-    take precedence. YAML stories are *not* intended to be a replacement for
+    Where terseness and duplication trumps readability, the former
+    take precedence. YAML stories are not intended to be a replacement for
     stakeholder documentation in and of themselves.
 
-    YAML stories *are* designed, however, to be used to generate documentation
-    for use by stakeholders.
+    YAML stories *are* designed, however, to be used to generate readable 
+    documentation for use by stakeholders.
 
     The example shown below demonstrates how a story can be transformed into
     markdown via jinja2. This markdown can then be used to generate HTML
     with a static site generator.
+    
+    While markdown is the example given, in principle, any kind of text markup
+    can be generated with the stories.
   given:
     files:
-      documentation.jinja2: |
+      index.jinja2: |
         {% for story in story_list %}
-        {{ story.name }}
-        {{ "-" * story.name|length }}
+        {{ story.documentation }}
+        {% endfor %}
+      document.yaml: |
+        story: |
+          {{ story.name }}
+          {{ "-" * story.name|length }}
 
-        {{ story.about }}
+          {{ story.about }}
 
-        {% for name, property in story.given.properties.items()  %}
-        {{ property.documentation }}
-        {% endfor %}
-        {% for step in story.steps %}
-        {{ step.documentation }}
-        {% endfor %}
-        {% endfor %}
+          {% for name, property in story.given.items() %}
+          {{ property.documentation }}
+          {% endfor %}
+          {% for step in story.steps %}
+          {{ step.documentation }}
+          {% endfor %}
+        given:
+          url: 'Load: {{ url }}'
+        steps:
+          fill form: |-
+            {% for name, value in textboxes.items() %}
+            - Enter text '{{ value }}' in {{ name }}.
+            {%- endfor %}
+          click: '* Click on {{ item }}'
     setup: |
       from hitchstory import StoryCollection
       from pathquery import pathquery
@@ -44,10 +59,10 @@ Generate documentation from stories:
       - run:
           code: |
             print(
-                Template(Path("documentation.jinja2").text()).render(
+                Template(Path("index.jinja2").text()).render(
                     story_list=StoryCollection(
                         pathquery(".").ext("story"), Engine()
-                    ).non_variations().ordered_by_file()
+                    ).non_variations().with_documentation(Path("document.yaml").text()).ordered_by_file()
                 )
             )
           will output: |-

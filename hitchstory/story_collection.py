@@ -44,6 +44,7 @@ class StoryCollection(object):
         self._templates = {}
         self._output_handle = sys.stdout
         self._flakecheck_times = None
+        self._with_documentation = None
 
     @property
     def engine(self):
@@ -182,6 +183,15 @@ class StoryCollection(object):
     def with_templates(self, templates):
         new_collection = self.copy()
         new_collection._templates = templates
+        return new_collection
+
+    def with_documentation(self, documentation):
+        from strictyaml import Map, Str, load, MapPattern
+        new_collection = self.copy()
+        new_collection._doc_templates = load(
+            documentation,
+            Map({"story": Str(), "given": MapPattern(Str(), Str()), "steps": MapPattern(Str(), Str())}),
+        ).data
         return new_collection
 
     def copy(self):

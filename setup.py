@@ -49,6 +49,7 @@ setup(
         "pathquery>=0.2.0",
         "python-slugify>=1.2.1",
         "prettystack>=0.3.0",
+        "jinja2",
     ],
     packages=find_packages(
         exclude=[
