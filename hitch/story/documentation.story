@@ -37,6 +37,9 @@ Generate documentation from stories:
           - Drag:
               from item: left
               to item: right
+          - Click:
+              item: right
+              double: yes
 
 
         Log in on another url:
@@ -52,8 +55,8 @@ Generate documentation from stories:
             username: DonaldTrump
             password: iamsosmrt
       engine.py: |
-        from hitchstory import BaseEngine, GivenDefinition, GivenProperty
-        from strictyaml import Map, Int, Str, Optional
+        from hitchstory import BaseEngine, GivenDefinition, GivenProperty, validate
+        from strictyaml import Map, Int, Str, Bool, Optional
 
 
         class Engine(BaseEngine):
@@ -72,8 +75,12 @@ Generate documentation from stories:
             def drag(self, from_item, to_item):
                 print(f"drag {from_item} to {to_item}")
 
-            def click(self, item):
-                print("clicked on {0}".format(item))
+            @validate(double=Bool())
+            def click(self, item, double=False):
+                if double:
+                    print(f"double clicked on {item}")
+                else:
+                    print(f"clicked on {item}")
 
       index.jinja2: |
         {% for story in story_list %}
@@ -99,7 +106,7 @@ Generate documentation from stories:
             {% for name, value in textboxes.items() %}
             - Enter text '{{ value }}' in {{ name }}.
             {%- endfor %}
-          click: '* Click on {{ item }}'
+          click: '* {% if double %}Double click{% else %}Click{% endif %} on {{ item }}'
           drag: '* Drag from {{ from_item }} to {{ to_item }}.'
     setup: |
       from hitchstory import StoryCollection
@@ -137,6 +144,8 @@ Generate documentation from stories:
 
             * Drag from left to right.
 
+            * Double click on right
+
 
             Log in on another url
             ---------------------
@@ -155,6 +164,8 @@ Generate documentation from stories:
 
             * Drag from left to right.
 
+            * Double click on right
+
 
             Log in as president
             -------------------
@@ -172,3 +183,5 @@ Generate documentation from stories:
             * Click on login
 
             * Drag from left to right.
+
+            * Double click on right
