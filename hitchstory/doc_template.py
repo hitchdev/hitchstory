@@ -4,14 +4,13 @@ import jinja2
 
 
 class DocTemplate(object):
-    def __init__(self, story_collection, doc_yaml_template, extra):
-        self._story_collection = story_collection
+    def __init__(self, engine, doc_yaml_template, extra):
         self._doc_yaml_template = doc_yaml_template
-        self.extra = extra
         self.jenv = jinja2.Environment(
             undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
         )
         self.jenv.globals.update(extra)
+        self._engine = engine
 
     def parse(self):
         self._parsed = load(
@@ -19,15 +18,20 @@ class DocTemplate(object):
             Map(
                 {
                     "story": Str(),
-                    "given": MapPattern(Str(), Str()),
+                    "given": Map(
+                        {name: Str() for name in self._engine.given_definition.keys()}
+                    ),
                     "steps": MapPattern(Str(), Str()),
-                    "info": MapPattern(Str(), Str()),
+                    "info": Map(
+                        {name: Str() for name in self._engine.info_definition.keys()}
+                    ),
                 }
             ),
         ).data
 
         self._slugified_steps = {
-            to_underscore_style(name): text for name, text in self._parsed["steps"].items()
+            to_underscore_style(name): text
+            for name, text in self._parsed["steps"].items()
         }
 
     def validate(self):

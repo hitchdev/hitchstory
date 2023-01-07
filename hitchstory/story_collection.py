@@ -188,7 +188,7 @@ class StoryCollection(object):
 
     def with_documentation(self, yaml_documentation, extra=None):
         new_collection = self.copy()
-        doc_template = DocTemplate(self, yaml_documentation, extra)
+        doc_template = DocTemplate(self.engine, yaml_documentation, extra)
         doc_template.parse()
         doc_template.validate()
         new_collection._doc_templates = doc_template

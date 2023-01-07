@@ -75,6 +75,9 @@ class GivenDefinition(object):
     def document_templates(self):
         return {name: prop.document for name, prop in self.given_properties.items()}
 
+    def keys(self):
+        return self.given_properties.keys()
+
 
 class InfoProperty(object):
     def __init__(self, schema=None):
