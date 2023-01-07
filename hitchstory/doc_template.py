@@ -45,6 +45,9 @@ class DocTemplate(object):
     def given(self):
         return self._parsed["given"]
 
+    def given_from_name(self, name):
+        return self.jenv.from_string(self.given[name])
+
     def given_from_slug(self, slug):
         return self._slugified["given"][slug]
 
@@ -53,7 +56,7 @@ class DocTemplate(object):
         return self._parsed["steps"]
 
     def step_from_slug(self, slug):
-        return self._slugified["steps"][slug]
+        return self.jenv.from_string(self._slugified["steps"][slug])
 
     def info_from_name(self, name):
         return self.jenv.from_string(self.info[name])

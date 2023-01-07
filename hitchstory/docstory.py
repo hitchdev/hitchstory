@@ -1,6 +1,5 @@
 """Documentation objects for use in templates."""
 from hitchstory.step_method import StepMethod
-import jinja2
 
 
 class DocInfoProperty(object):
@@ -22,9 +21,9 @@ class DocGivenProperty(object):
         self._given_property = given_property
 
     def documentation(self):
-        return self._docstory.jenv.from_string(
-            self._docstory.templates.given[self._name]
-        ).render(**{self._name: self._given_property})
+        return self._docstory.templates.given_from_name(self._name).render(
+            **{self._name: self._given_property}
+        )
 
 
 class DocGivenProperties(object):
@@ -57,18 +56,14 @@ class DocStep(object):
             else:
                 arguments.update(self._step.arguments.data)
 
-        return self._docstory.jenv.from_string(
-            self._docstory.templates.step_from_slug(self._step.slug)
-        ).render(**arguments)
+        return self._docstory.templates.step_from_slug(self._step.slug).render(
+            **arguments
+        )
 
 
 class DocStory(object):
     def __init__(self, story):
-        self.jenv = jinja2.Environment(
-            undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
-        )
         self.story = story
-        self.jenv.globals.update(self.templates.extra)
 
     def documentation(self):
         return self.templates.story.render(
