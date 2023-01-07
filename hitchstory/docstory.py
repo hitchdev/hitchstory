@@ -3,6 +3,7 @@ from jinja2 import Template
 from slugify import slugify
 from hitchstory.step_method import StepMethod
 from hitchstory.utils import to_underscore_style
+import jinja2
 
 
 class DocInfoProperty(object):
@@ -13,9 +14,9 @@ class DocInfoProperty(object):
 
     @property
     def documentation(self):
-        return Template(self._docstory.templates["info"][self._name]).render(
-            **{self._name: self._info_property}
-        )
+        return self._docstory.env.from_string(
+            self._docstory.templates["info"][self._name]
+        ).render(**{self._name: self._info_property})
 
 
 class DocGivenProperty(object):
@@ -69,6 +70,9 @@ class DocStep(object):
 
 class DocStory(object):
     def __init__(self, story):
+        self.env = jinja2.Environment(
+            undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
+        )
         self.story = story
         self._slugified_templates = {
             "story": self.templates["story"],
@@ -80,6 +84,15 @@ class DocStory(object):
                 slugify(name): text for name, text in self.templates["given"].items()
             },
         }
+
+    def documentation(self):
+        return self.env.from_string(self.templates["story"]).render(
+            info=self.info,
+            given=self.given,
+            name=self.name,
+            about=self.about,
+            steps=self.steps,
+        )
 
     @property
     def slug(self):

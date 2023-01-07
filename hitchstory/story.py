@@ -23,6 +23,9 @@ class StoryInfo:
     def get(self, key, default=None):
         return self._info.get(underscore_slugify(key), default)
 
+    def items(self):
+        return self._info.items()
+
     def __getitem__(self, key):
         return self._info[underscore_slugify(key)]
 
@@ -271,18 +274,9 @@ class Story(object):
         self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
         return result
 
-    @property
     def documentation(self):
-        from jinja2 import Template
-
-        docstory = self.docstory
-        variables = self.docstory.info
-        variables["story"] = docstory
-        return Template(self._collection._doc_templates["story"]).render(**variables)
-
-    @property
-    def docstory(self):
-        return DocStory(self)
+        """Generate textual documentation from story."""
+        return DocStory(self).documentation()
 
     def play(self):
         """

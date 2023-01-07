@@ -186,7 +186,7 @@ class StoryCollection(object):
         return new_collection
 
     def with_documentation(self, documentation):
-        from strictyaml import Map, Str, load, Optional, MapPattern
+        from strictyaml import Map, Str, load, MapPattern
 
         new_collection = self.copy()
         new_collection._doc_templates = load(

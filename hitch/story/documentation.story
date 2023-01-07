@@ -92,14 +92,14 @@ Generate documentation from stories:
 
       index.jinja2: |
         {% for story in story_list %}
-        {{ story.documentation }}
+        {{ story.documentation() }}
         {% endfor %}
       document.yaml: |
         story: |
           {{ name }}
           {{ "-" * name|length }}
           
-          xx{{ info.jiras.documentation }}xx{{ info}}zz{{ jiras }}
+          {{ info.jiras.documentation }}
 
           {{ about }}
 
@@ -111,9 +111,9 @@ Generate documentation from stories:
           {% endfor %}
         info:
           jiras: |
-            {% for jira in jiras %}
+            {% for jira in jiras -%}
             * https://yourproject.jira.com/JIRAS/{{ jira }}
-            {{% endfor %}
+            {% endfor %}
         given:
           url: 'Load: {{ url }}'
         steps:
@@ -134,11 +134,89 @@ Generate documentation from stories:
       steps:
       - run:
           code: |
+            import jinja2
+            
             print(
-                Template(Path("index.jinja2").text()).render(
+                jinja2.Environment(
+                    undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
+                ).from_string(Path("index.jinja2").text()).render(
                     story_list=StoryCollection(
                         pathquery(".").ext("story"), Engine()
                     ).non_variations().with_documentation(Path("document.yaml").text()).ordered_by_file()
                 )
             )
-          will output: |
+          will output: |-
+            Login
+            -----
+
+
+            * https://yourproject.jira.com/JIRAS/AZT-344
+
+            * https://yourproject.jira.com/JIRAS/AZT-345
+
+
+            Simple log in.
+
+
+            Load: /loginurl
+
+
+
+            - Enter text '(( username ))' in username.
+            - Enter text '(( password ))' in password.
+
+            * Click on login
+
+            * Drag from left to right.
+
+            * Double click on right
+
+
+            Log in on another url
+            ---------------------
+
+
+            * https://yourproject.jira.com/JIRAS/AZT-344
+
+            * https://yourproject.jira.com/JIRAS/AZT-589
+
+
+            Alternate log in URL.
+
+
+            Load: /alternativeloginurl
+
+
+
+            - Enter text '(( username ))' in username.
+            - Enter text '(( password ))' in password.
+
+            * Click on login
+
+            * Drag from left to right.
+
+            * Double click on right
+
+
+            Log in as president
+            -------------------
+
+
+            * https://yourproject.jira.com/JIRAS/AZT-611
+
+
+            For stories that involve Trump.
+
+
+            Load: /loginurl
+
+
+
+            - Enter text '(( username ))' in username.
+            - Enter text '(( password ))' in password.
+
+            * Click on login
+
+            * Drag from left to right.
+
+            * Double click on right
