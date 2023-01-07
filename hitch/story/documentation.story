@@ -96,18 +96,17 @@ Generate documentation from stories:
         {% endfor %}
       document.yaml: |
         story: |
-          {{ name }}
-          {{ "-" * name|length }}
+          # {{ name }}
           
-          {{ info.jiras.documentation }}
+          {{ info.jiras.documentation() }}
 
           {{ about }}
 
           {% for name, property in given.items() %}
-          {{ property.documentation }}
+          {{ property.documentation() }}
           {% endfor %}
           {% for step in steps %}
-          {{ step.documentation }}
+          {{ step.documentation() }}
           {% endfor %}
         info:
           jiras: |
@@ -129,7 +128,7 @@ Generate documentation from stories:
       from engine import Engine
       from path import Path
       from jinja2 import Template
-      
+
   steps:
   - run:
       code: |
@@ -145,8 +144,7 @@ Generate documentation from stories:
             )
         )
       will output: |-
-        Login
-        -----
+        # Login
 
         * https://yourproject.jira.com/JIRAS/AZT-344
         * https://yourproject.jira.com/JIRAS/AZT-345
@@ -169,8 +167,7 @@ Generate documentation from stories:
         * Double click on right
 
 
-        Log in on another url
-        ---------------------
+        # Log in on another url
 
         * https://yourproject.jira.com/JIRAS/AZT-344
         * https://yourproject.jira.com/JIRAS/AZT-589
@@ -193,8 +190,7 @@ Generate documentation from stories:
         * Double click on right
 
 
-        Log in as president
-        -------------------
+        # Log in as president
 
         * https://yourproject.jira.com/JIRAS/AZT-611
 
