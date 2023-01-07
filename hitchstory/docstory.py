@@ -12,7 +12,6 @@ class DocInfoProperty(object):
         self._name = name
         self._info_property = info_property
 
-    @property
     def documentation(self):
         return self._docstory.env.from_string(
             self._docstory.templates.info[self._name]
@@ -25,7 +24,6 @@ class DocGivenProperty(object):
         self._name = name
         self._given_property = given_property
 
-    @property
     def documentation(self):
         return Template(self._docstory.templates.given[self._name]).render(
             **{self._name: self._given_property}
@@ -48,7 +46,6 @@ class DocStep(object):
         self._docstory = docstory
         self._step = step
 
-    @property
     def documentation(self):
         step_method = StepMethod(self._step.step_method)
         if self._step.arguments.single_argument:
