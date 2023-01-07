@@ -129,89 +129,88 @@ Generate documentation from stories:
       from engine import Engine
       from path import Path
       from jinja2 import Template
-  variations:
-    Generate from story:
-      steps:
-      - run:
-          code: |
-            import jinja2
+      
+  steps:
+  - run:
+      code: |
+        import jinja2
 
-            print(
-                jinja2.Environment(
-                    undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
-                ).from_string(Path("index.jinja2").text()).render(
-                    story_list=StoryCollection(
-                        pathquery(".").ext("story"), Engine()
-                    ).non_variations().with_documentation(Path("document.yaml").text()).ordered_by_file()
-                )
+        print(
+            jinja2.Environment(
+                undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
+            ).from_string(Path("index.jinja2").text()).render(
+                story_list=StoryCollection(
+                    pathquery(".").ext("story"), Engine()
+                ).non_variations().with_documentation(Path("document.yaml").text()).ordered_by_file()
             )
-          will output: |-
-            Login
-            -----
+        )
+      will output: |-
+        Login
+        -----
 
-            * https://yourproject.jira.com/JIRAS/AZT-344
-            * https://yourproject.jira.com/JIRAS/AZT-345
-
-
-            Simple log in.
+        * https://yourproject.jira.com/JIRAS/AZT-344
+        * https://yourproject.jira.com/JIRAS/AZT-345
 
 
-            Load: /loginurl
+        Simple log in.
 
 
-
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
-
-            * Click on login
-
-            * Drag from left to right.
-
-            * Double click on right
-
-
-            Log in on another url
-            ---------------------
-
-            * https://yourproject.jira.com/JIRAS/AZT-344
-            * https://yourproject.jira.com/JIRAS/AZT-589
-
-
-            Alternate log in URL.
-
-
-            Load: /alternativeloginurl
+        Load: /loginurl
 
 
 
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
+        - Enter text '(( username ))' in username.
+        - Enter text '(( password ))' in password.
 
-            * Click on login
+        * Click on login
 
-            * Drag from left to right.
+        * Drag from left to right.
 
-            * Double click on right
-
-
-            Log in as president
-            -------------------
-
-            * https://yourproject.jira.com/JIRAS/AZT-611
+        * Double click on right
 
 
-            For stories that involve Trump.
+        Log in on another url
+        ---------------------
+
+        * https://yourproject.jira.com/JIRAS/AZT-344
+        * https://yourproject.jira.com/JIRAS/AZT-589
 
 
-            Load: /loginurl
+        Alternate log in URL.
+
+
+        Load: /alternativeloginurl
 
 
 
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
+        - Enter text '(( username ))' in username.
+        - Enter text '(( password ))' in password.
 
-            * Click on login
+        * Click on login
 
-            * Drag from left to right.
+        * Drag from left to right.
 
-            * Double click on right
+        * Double click on right
+
+
+        Log in as president
+        -------------------
+
+        * https://yourproject.jira.com/JIRAS/AZT-611
+
+
+        For stories that involve Trump.
+
+
+        Load: /loginurl
+
+
+
+        - Enter text '(( username ))' in username.
+        - Enter text '(( password ))' in password.
+
+        * Click on login
+
+        * Drag from left to right.
+
+        * Double click on right
