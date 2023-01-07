@@ -186,10 +186,12 @@ class StoryCollection(object):
         new_collection._templates = templates
         return new_collection
 
-    def with_documentation(self, documentation):
+    def with_documentation(self, yaml_documentation):
         new_collection = self.copy()
-        doc_template = DocTemplate(self, documentation)
-        new_collection._doc_templates = doc_template.parse()
+        doc_template = DocTemplate(self, yaml_documentation)
+        doc_template.parse()
+        doc_template.validate()
+        new_collection._doc_templates = doc_template
         return new_collection
 
     def copy(self):

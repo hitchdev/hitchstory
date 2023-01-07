@@ -15,7 +15,7 @@ class DocInfoProperty(object):
     @property
     def documentation(self):
         return self._docstory.env.from_string(
-            self._docstory.templates["info"][self._name]
+            self._docstory.templates.info[self._name]
         ).render(**{self._name: self._info_property})
 
 
@@ -27,7 +27,7 @@ class DocGivenProperty(object):
 
     @property
     def documentation(self):
-        return Template(self._docstory.templates["given"][self._name]).render(
+        return Template(self._docstory.templates.given[self._name]).render(
             **{self._name: self._given_property}
         )
 
@@ -75,18 +75,18 @@ class DocStory(object):
         )
         self.story = story
         self._slugified_templates = {
-            "story": self.templates["story"],
+            "story": self.templates.story,
             "steps": {
                 to_underscore_style(name): text
-                for name, text in self.templates["steps"].items()
+                for name, text in self.templates.steps.items()
             },
             "given": {
-                slugify(name): text for name, text in self.templates["given"].items()
+                slugify(name): text for name, text in self.templates.given.items()
             },
         }
 
     def documentation(self):
-        return self.env.from_string(self.templates["story"]).render(
+        return self.env.from_string(self.templates.story).render(
             info=self.info,
             given=self.given,
             name=self.name,
@@ -132,15 +132,15 @@ class DocStory(object):
     @property
     def variables(self):
         return {
-            "about": self.templates["story"],
+            "about": self.templates.story,
             "steps": {
                 to_underscore_style(name): text
-                for name, text in self.templates["steps"].items()
+                for name, text in self.templates.steps.items()
             },
             "given": {
-                slugify(name): text for name, text in self.templates["given"].items()
+                slugify(name): text for name, text in self.templates.given.items()
             },
         }
 
     def render(self):
-        return Template(self.templates["story"]).render(**self.variables)
+        return self.env.from_string(self.templates.story).render(**self.variables)
