@@ -12,7 +12,7 @@ class DocInfoProperty(object):
         self._info_property = info_property
 
     def documentation(self):
-        return self._docstory.env.from_string(
+        return self._docstory.jenv.from_string(
             self._docstory.templates.info[self._name]
         ).render(**{self._name: self._info_property})
 
@@ -24,9 +24,9 @@ class DocGivenProperty(object):
         self._given_property = given_property
 
     def documentation(self):
-        return self._docstory.env(self._docstory.templates.given[self._name]).render(
-            **{self._name: self._given_property}
-        )
+        return self._docstory.jenv.from_string(
+            self._docstory.templates.given[self._name]
+        ).render(**{self._name: self._given_property})
 
 
 class DocGivenProperties(object):
@@ -49,17 +49,21 @@ class DocStep(object):
         step_method = StepMethod(self._step.step_method)
         if self._step.arguments.single_argument:
             var_name = step_method.argspec.args[1:][0]
-            return self._docstory.env(
+
+            variables = {name: None for name in step_method.argspec.args[1:]}
+            variables[var_name] = self._step.arguments.data
+
+            return self._docstory.jenv.from_string(
                 self._docstory.slug_templates["steps"][self._step.slug]
-            ).render(**{var_name: self._step.arguments.data})
+            ).render(**variables)
         else:
             if step_method.argspec.keywords:
                 var_name = step_method.argspec.keywords
-                return self._docstory.env(
+                return self._docstory.jenv.from_string(
                     self._docstory.slug_templates["steps"][self._step.slug]
                 ).render(**{var_name: self._step.arguments.data})
             else:
-                return self._docstory.env(
+                return self._docstory.jenv.from_string(
                     self._docstory.slug_templates["steps"][self._step.slug]
                 ).render(**self._step.arguments.data)
 
@@ -70,6 +74,7 @@ class DocStory(object):
             undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
         )
         self.story = story
+        self.jenv.globals.update(self.templates.variables)
         self._slugified_templates = {
             "story": self.templates.story,
             "steps": {
@@ -84,6 +89,7 @@ class DocStory(object):
     def documentation(self):
         return self.jenv.from_string(self.templates.story).render(
             info=self.info,
+            slug=self.slug,
             given=self.given,
             name=self.name,
             about=self.about,

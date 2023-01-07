@@ -2,9 +2,10 @@ from strictyaml import Map, Str, load, MapPattern
 
 
 class DocTemplate(object):
-    def __init__(self, story_collection, doc_yaml_template):
+    def __init__(self, story_collection, doc_yaml_template, variables):
         self._story_collection = story_collection
         self._doc_yaml_template = doc_yaml_template
+        self.variables = variables
 
     def parse(self):
         self._parsed = load(
@@ -18,7 +19,6 @@ class DocTemplate(object):
                 }
             ),
         ).data
-        return self._parsed
 
     def validate(self):
         pass
