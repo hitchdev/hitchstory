@@ -135,7 +135,7 @@ Generate documentation from stories:
       - run:
           code: |
             import jinja2
-            
+
             print(
                 jinja2.Environment(
                     undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
@@ -149,9 +149,7 @@ Generate documentation from stories:
             Login
             -----
 
-
             * https://yourproject.jira.com/JIRAS/AZT-344
-
             * https://yourproject.jira.com/JIRAS/AZT-345
 
 
@@ -175,9 +173,7 @@ Generate documentation from stories:
             Log in on another url
             ---------------------
 
-
             * https://yourproject.jira.com/JIRAS/AZT-344
-
             * https://yourproject.jira.com/JIRAS/AZT-589
 
 
@@ -200,7 +196,6 @@ Generate documentation from stories:
 
             Log in as president
             -------------------
-
 
             * https://yourproject.jira.com/JIRAS/AZT-611
 
