@@ -1,7 +1,5 @@
 """Documentation objects for use in templates."""
-from slugify import slugify
 from hitchstory.step_method import StepMethod
-from hitchstory.utils import to_underscore_style
 import jinja2
 
 
@@ -60,7 +58,7 @@ class DocStep(object):
                 arguments.update(self._step.arguments.data)
 
         return self._docstory.jenv.from_string(
-            self._docstory.slug_templates["steps"][self._step.slug]
+            self._docstory.templates.step_from_slug(self._step.slug)
         ).render(**arguments)
 
 
@@ -71,19 +69,9 @@ class DocStory(object):
         )
         self.story = story
         self.jenv.globals.update(self.templates.extra)
-        self._slugified_templates = {
-            "story": self.templates.story,
-            "steps": {
-                to_underscore_style(name): text
-                for name, text in self.templates.steps.items()
-            },
-            "given": {
-                slugify(name): text for name, text in self.templates.given.items()
-            },
-        }
 
     def documentation(self):
-        return self.jenv.from_string(self.templates.story).render(
+        return self.templates.story.render(
             info=self.info,
             slug=self.slug,
             given=self.given,
@@ -122,10 +110,3 @@ class DocStory(object):
     @property
     def templates(self):
         return self.story._collection._doc_templates
-
-    @property
-    def slug_templates(self):
-        return self._slugified_templates
-
-    def render(self):
-        return self.jenv.from_string(self.templates.story).render(**self.variables)

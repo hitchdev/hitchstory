@@ -1,6 +1,7 @@
 from strictyaml import Map, Str, load, MapPattern
 from hitchstory.utils import to_underscore_style
 from slugify import slugify
+import jinja2
 
 
 class DocTemplate(object):
@@ -8,6 +9,10 @@ class DocTemplate(object):
         self._story_collection = story_collection
         self._doc_yaml_template = doc_yaml_template
         self.extra = extra
+        self.jenv = jinja2.Environment(
+            undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
+        )
+        self.jenv.globals.update(extra)
 
     def parse(self):
         self._parsed = load(
@@ -21,15 +26,12 @@ class DocTemplate(object):
                 }
             ),
         ).data
-        
+
         self._slugified = {
             "steps": {
-                to_underscore_style(name): text
-                for name, text in self.steps.items()
+                to_underscore_style(name): text for name, text in self.steps.items()
             },
-            "given": {
-                slugify(name): text for name, text in self.given.items()
-            },
+            "given": {slugify(name): text for name, text in self.given.items()},
         }
 
     def validate(self):
@@ -37,15 +39,21 @@ class DocTemplate(object):
 
     @property
     def story(self):
-        return self._parsed["story"]
+        return self.jenv.from_string(self._parsed["story"])
 
     @property
     def given(self):
         return self._parsed["given"]
 
+    def given_from_slug(self, slug):
+        return self._slugified["given"][slug]
+
     @property
     def steps(self):
         return self._parsed["steps"]
+
+    def step_from_slug(self, slug):
+        return self._slugified["steps"][slug]
 
     @property
     def info(self):
