@@ -3,37 +3,38 @@ from hitchstory.step_method import StepMethod
 
 
 class DocInfoProperty(object):
-    def __init__(self, docstory, name, info_property):
-        self._docstory = docstory
+    def __init__(self, templates, name, info_property):
+        self._templates = templates
         self._name = name
         self._info_property = info_property
 
     def documentation(self):
-        return self._docstory.templates.info_from_name(self._name).render(
+        return self._templates.info_from_name(self._name).render(
             **{self._name: self._info_property}
         )
 
 
 class DocGivenProperty(object):
-    def __init__(self, docstory, name, given_property):
-        self._docstory = docstory
+    def __init__(self, templates, name, given_property):
+        self._templates = templates
         self._name = name
         self._given_property = given_property
 
     def documentation(self):
-        return self._docstory.templates.given_from_name(self._name).render(
+        return self._templates.given_from_name(self._name).render(
             **{self._name: self._given_property}
         )
 
 
 class DocGivenProperties(object):
-    def __init__(self, docstory):
-        self._docstory = docstory
+    def __init__(self, templates, given):
+        self._templates = templates
+        self._given = given
 
     def items(self):
         return [
-            (name, DocGivenProperty(self._docstory, name, given_property))
-            for name, given_property in self._docstory.story.given.items()
+            (name, DocGivenProperty(self._templates, name, given_property))
+            for name, given_property in self._given.items()
         ]
 
 
@@ -68,11 +69,11 @@ class DocStory(object):
     def documentation(self):
         return self.templates.story.render(
             info={
-                name: DocInfoProperty(self, name, info_property)
+                name: DocInfoProperty(self.templates, name, info_property)
                 for name, info_property in self.story.info.items()
             },
             slug=self.story.slug,
-            given=DocGivenProperties(self),
+            given=DocGivenProperties(self.templates, self.story.given),
             name=self.story.name,
             about=self.story.about,
             steps=[DocStep(self, step) for step in self.story.steps],
