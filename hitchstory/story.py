@@ -281,7 +281,7 @@ class Story(object):
             raise exceptions.WithDocumentationMissing(
                 "Documentation templates missing. Did you use .with_documentation?"
             )
-        return doc_templates.story.render(
+        return doc_templates.story().render(
             info={
                 name: docstory.DocInfoProperty(doc_templates, name, info_property)
                 for name, info_property in self.info.items()

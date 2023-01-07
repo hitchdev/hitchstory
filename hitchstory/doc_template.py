@@ -1,6 +1,5 @@
 from strictyaml import Map, Str, load, MapPattern
 from hitchstory.utils import to_underscore_style
-from slugify import slugify
 import jinja2
 
 
@@ -27,40 +26,21 @@ class DocTemplate(object):
             ),
         ).data
 
-        self._slugified = {
-            "steps": {
-                to_underscore_style(name): text for name, text in self.steps.items()
-            },
-            "given": {slugify(name): text for name, text in self.given.items()},
+        self._slugified_steps = {
+            to_underscore_style(name): text for name, text in self._parsed["steps"].items()
         }
 
     def validate(self):
         pass
 
-    @property
     def story(self):
         return self.jenv.from_string(self._parsed["story"])
 
-    @property
-    def given(self):
-        return self._parsed["given"]
-
     def given_from_name(self, name):
-        return self.jenv.from_string(self.given[name])
-
-    def given_from_slug(self, slug):
-        return self._slugified["given"][slug]
-
-    @property
-    def steps(self):
-        return self._parsed["steps"]
-
-    def step_from_slug(self, slug):
-        return self.jenv.from_string(self._slugified["steps"][slug])
+        return self.jenv.from_string(self._parsed["given"][name])
 
     def info_from_name(self, name):
-        return self.jenv.from_string(self.info[name])
+        return self.jenv.from_string(self._parsed["info"][name])
 
-    @property
-    def info(self):
-        return self._parsed["info"]
+    def step_from_slug(self, slug):
+        return self.jenv.from_string(self._slugified_steps[slug])
