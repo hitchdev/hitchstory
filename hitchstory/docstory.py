@@ -39,8 +39,8 @@ class DocGivenProperties(object):
 
 
 class DocStep(object):
-    def __init__(self, docstory, step):
-        self._docstory = docstory
+    def __init__(self, templates, step):
+        self._templates = templates
         self._step = step
 
     def documentation(self):
@@ -57,9 +57,7 @@ class DocStep(object):
             else:
                 arguments.update(self._step.arguments.data)
 
-        return self._docstory.templates.step_from_slug(self._step.slug).render(
-            **arguments
-        )
+        return self._templates.step_from_slug(self._step.slug).render(**arguments)
 
 
 class DocStory(object):
@@ -76,7 +74,7 @@ class DocStory(object):
             given=DocGivenProperties(self.templates, self.story.given),
             name=self.story.name,
             about=self.story.about,
-            steps=[DocStep(self, step) for step in self.story.steps],
+            steps=[DocStep(self.templates, step) for step in self.story.steps],
         )
 
     @property
