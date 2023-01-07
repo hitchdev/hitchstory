@@ -1,5 +1,4 @@
 """Documentation objects for use in templates."""
-from jinja2 import Template
 from slugify import slugify
 from hitchstory.step_method import StepMethod
 from hitchstory.utils import to_underscore_style
@@ -25,7 +24,7 @@ class DocGivenProperty(object):
         self._given_property = given_property
 
     def documentation(self):
-        return Template(self._docstory.templates.given[self._name]).render(
+        return self._docstory.env(self._docstory.templates.given[self._name]).render(
             **{self._name: self._given_property}
         )
 
@@ -50,24 +49,24 @@ class DocStep(object):
         step_method = StepMethod(self._step.step_method)
         if self._step.arguments.single_argument:
             var_name = step_method.argspec.args[1:][0]
-            return Template(
+            return self._docstory.env(
                 self._docstory.slug_templates["steps"][self._step.slug]
             ).render(**{var_name: self._step.arguments.data})
         else:
             if step_method.argspec.keywords:
                 var_name = step_method.argspec.keywords
-                return Template(
+                return self._docstory.env(
                     self._docstory.slug_templates["steps"][self._step.slug]
                 ).render(**{var_name: self._step.arguments.data})
             else:
-                return Template(
+                return self._docstory.env(
                     self._docstory.slug_templates["steps"][self._step.slug]
                 ).render(**self._step.arguments.data)
 
 
 class DocStory(object):
     def __init__(self, story):
-        self.env = jinja2.Environment(
+        self.jenv = jinja2.Environment(
             undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
         )
         self.story = story
@@ -83,7 +82,7 @@ class DocStory(object):
         }
 
     def documentation(self):
-        return self.env.from_string(self.templates.story).render(
+        return self.jenv.from_string(self.templates.story).render(
             info=self.info,
             given=self.given,
             name=self.name,
@@ -140,4 +139,4 @@ class DocStory(object):
         }
 
     def render(self):
-        return self.env.from_string(self.templates.story).render(**self.variables)
+        return self.jenv.from_string(self.templates.story).render(**self.variables)

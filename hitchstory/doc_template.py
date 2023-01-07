@@ -19,7 +19,7 @@ class DocTemplate(object):
             ),
         ).data
         return self._parsed
-    
+
     def validate(self):
         pass
 
