@@ -24,6 +24,7 @@ Generate documentation from stories:
       example.story: |
         Login:
           about: Simple log in.
+          jiras: AZT-344, AZT-345
           with:
             username: AzureDiamond
             password: hunter2
@@ -44,24 +45,31 @@ Generate documentation from stories:
 
         Log in on another url:
           about: Alternate log in URL.
+          jiras: AZT-344, AZT-589
           based on: login
           given:
             url: /alternativeloginurl
 
         Log in as president:
           about: For stories that involve Trump.
+          jiras: AZT-611
           based on: login
           with:
             username: DonaldTrump
             password: iamsosmrt
       engine.py: |
-        from hitchstory import BaseEngine, GivenDefinition, GivenProperty, validate
-        from strictyaml import Map, Int, Str, Bool, Optional
+        from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+        from hitchstory import InfoDefinition, InfoProperty, validate
+        from strictyaml import Map, Int, Str, Bool, Optional, CommaSeparated
 
 
         class Engine(BaseEngine):
             given_definition = GivenDefinition(
-                url=GivenProperty(schema=Str(), document="Load: {{ url }}"),
+                url=GivenProperty(schema=Str()),
+            )
+            
+            info_definition = InfoDefinition(
+                jiras=InfoProperty(schema=CommaSeparated(Str())),
             )
 
             def set_up(self):
@@ -88,17 +96,24 @@ Generate documentation from stories:
         {% endfor %}
       document.yaml: |
         story: |
-          {{ story.name }}
-          {{ "-" * story.name|length }}
+          {{ name }}
+          {{ "-" * name|length }}
+          
+          xx{{ info.jiras.documentation }}xx{{ info}}zz{{ jiras }}
 
-          {{ story.about }}
+          {{ about }}
 
-          {% for name, property in story.given.items() %}
+          {% for name, property in given.items() %}
           {{ property.documentation }}
           {% endfor %}
-          {% for step in story.steps %}
+          {% for step in steps %}
           {{ step.documentation }}
           {% endfor %}
+        info:
+          jiras: |
+            {% for jira in jiras %}
+            * https://yourproject.jira.com/JIRAS/{{ jira }}
+            {{% endfor %}
         given:
           url: 'Load: {{ url }}'
         steps:
@@ -126,62 +141,4 @@ Generate documentation from stories:
                     ).non_variations().with_documentation(Path("document.yaml").text()).ordered_by_file()
                 )
             )
-          will output: |-
-            Login
-            -----
-
-            Simple log in.
-
-
-            Load: /loginurl
-
-
-
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
-
-            * Click on login
-
-            * Drag from left to right.
-
-            * Double click on right
-
-
-            Log in on another url
-            ---------------------
-
-            Alternate log in URL.
-
-
-            Load: /alternativeloginurl
-
-
-
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
-
-            * Click on login
-
-            * Drag from left to right.
-
-            * Double click on right
-
-
-            Log in as president
-            -------------------
-
-            For stories that involve Trump.
-
-
-            Load: /loginurl
-
-
-
-            - Enter text '(( username ))' in username.
-            - Enter text '(( password ))' in password.
-
-            * Click on login
-
-            * Drag from left to right.
-
-            * Double click on right
+          will output: |

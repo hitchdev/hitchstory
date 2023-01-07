@@ -274,12 +274,16 @@ class Story(object):
     @property
     def documentation(self):
         from jinja2 import Template
-        return Template(self._collection._doc_templates["story"]).render(story=self.docstory)
+
+        docstory = self.docstory
+        variables = self.docstory.info
+        variables["story"] = docstory
+        return Template(self._collection._doc_templates["story"]).render(**variables)
 
     @property
     def docstory(self):
         return DocStory(self)
-        
+
     def play(self):
         """
         Run a story from beginning to end, time it and return

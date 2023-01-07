@@ -186,11 +186,19 @@ class StoryCollection(object):
         return new_collection
 
     def with_documentation(self, documentation):
-        from strictyaml import Map, Str, load, MapPattern
+        from strictyaml import Map, Str, load, Optional, MapPattern
+
         new_collection = self.copy()
         new_collection._doc_templates = load(
             documentation,
-            Map({"story": Str(), "given": MapPattern(Str(), Str()), "steps": MapPattern(Str(), Str())}),
+            Map(
+                {
+                    "story": Str(),
+                    "given": MapPattern(Str(), Str()),
+                    "steps": MapPattern(Str(), Str()),
+                    "info": MapPattern(Str(), Str()),
+                }
+            ),
         ).data
         return new_collection
 
