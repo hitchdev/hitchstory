@@ -58,25 +58,3 @@ class DocStep(object):
                 arguments.update(self._step.arguments.data)
 
         return self._templates.step_from_slug(self._step.slug).render(**arguments)
-
-
-class DocStory(object):
-    def __init__(self, story):
-        self.story = story
-
-    def documentation(self):
-        return self.templates.story.render(
-            info={
-                name: DocInfoProperty(self.templates, name, info_property)
-                for name, info_property in self.story.info.items()
-            },
-            slug=self.story.slug,
-            given=DocGivenProperties(self.templates, self.story.given),
-            name=self.story.name,
-            about=self.story.about,
-            steps=[DocStep(self.templates, step) for step in self.story.steps],
-        )
-
-    @property
-    def templates(self):
-        return self.story._collection._doc_templates

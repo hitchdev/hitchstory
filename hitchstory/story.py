@@ -1,9 +1,9 @@
 from hitchstory.utils import DEFAULT_STACK_TRACE, underscore_slugify
 from hitchstory.result import Success, Failure, FlakeResult
-from hitchstory.docstory import DocStory
 from hitchstory.story_step import StoryStep
 from hitchstory.given import Given
 from hitchstory import exceptions
+from hitchstory import docstory
 from hitchstory import utils
 from collections import OrderedDict
 from slugify import slugify
@@ -276,11 +276,22 @@ class Story(object):
 
     def documentation(self):
         """Generate textual documentation from story."""
-        if self._collection._doc_templates is None:
+        doc_templates = self._collection._doc_templates
+        if doc_templates is None:
             raise exceptions.WithDocumentationMissing(
                 "Documentation templates missing. Did you use .with_documentation?"
             )
-        return DocStory(self).documentation()
+        return doc_templates.story.render(
+            info={
+                name: docstory.DocInfoProperty(doc_templates, name, info_property)
+                for name, info_property in self.info.items()
+            },
+            slug=self.slug,
+            given=docstory.DocGivenProperties(doc_templates, self.given),
+            name=self.name,
+            about=self.about,
+            steps=[docstory.DocStep(doc_templates, step) for step in self.steps],
+        )
 
     def play(self):
         """
