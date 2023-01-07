@@ -127,18 +127,5 @@ class DocStory(object):
     def slug_templates(self):
         return self._slugified_templates
 
-    @property
-    def variables(self):
-        return {
-            "about": self.templates.story,
-            "steps": {
-                to_underscore_style(name): text
-                for name, text in self.templates.steps.items()
-            },
-            "given": {
-                slugify(name): text for name, text in self.templates.given.items()
-            },
-        }
-
     def render(self):
         return self.jenv.from_string(self.templates.story).render(**self.variables)
