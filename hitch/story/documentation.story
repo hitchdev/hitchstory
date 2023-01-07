@@ -144,14 +144,14 @@ Generate documentation from story:
   steps:
   - run:
       code: |
-        VARS = {
+        extra = {
             "WEBSITE": "http://www.yourdocumentation.com/"
         }
 
         print(
             jenv.from_string(Path("index.jinja2").text()).render(
                 story_list=story_collection.with_documentation(
-                    Path("document.yaml").text(), variables=VARS
+                    Path("document.yaml").text(), extra=extra
                 ).ordered_by_file()
             )
         )

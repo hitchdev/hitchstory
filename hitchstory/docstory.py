@@ -70,7 +70,7 @@ class DocStory(object):
             undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
         )
         self.story = story
-        self.jenv.globals.update(self.templates.variables)
+        self.jenv.globals.update(self.templates.extra)
         self._slugified_templates = {
             "story": self.templates.story,
             "steps": {
