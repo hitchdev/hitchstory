@@ -74,6 +74,7 @@ Base documentation:
         {% for story in story_list %}
         {{ story.documentation() }}
         {% endfor %}
+    files:
       document.yaml: |
         story: |
           # {{ name }}
