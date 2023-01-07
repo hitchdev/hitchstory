@@ -230,3 +230,11 @@ class Failure(Exception):
     """
 
     pass
+
+
+class WithDocumentationMissing(HitchStoryException):
+    """
+    WithDocumentation not used on StoryCollection.
+    """
+
+    pass

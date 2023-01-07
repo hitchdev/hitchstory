@@ -276,6 +276,10 @@ class Story(object):
 
     def documentation(self):
         """Generate textual documentation from story."""
+        if self._collection._doc_templates is None:
+            raise exceptions.WithDocumentationMissing(
+                "Documentation templates missing. Did you use .with_documentation?"
+            )
         return DocStory(self).documentation()
 
     def play(self):

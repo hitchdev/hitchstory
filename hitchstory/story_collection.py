@@ -45,7 +45,7 @@ class StoryCollection(object):
         self._templates = {}
         self._output_handle = sys.stdout
         self._flakecheck_times = None
-        self._with_documentation = None
+        self._doc_templates = None
 
     @property
     def engine(self):

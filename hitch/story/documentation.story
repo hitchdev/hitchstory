@@ -1,24 +1,4 @@
-Generate documentation from stories:
-  docs: generate-documentation
-  status: experimental
-  about: |
-    hitchstory YAML stories are designed to be as readable as possible while
-    still being terse and deduplicated. This means that the stories will not be
-    as readable to people who do not have a deep understanding of the code.
-
-    Where terseness and duplication trumps readability, the former
-    take precedence. YAML stories are not intended to be a replacement for
-    stakeholder documentation in and of themselves.
-
-    YAML stories *are* designed, however, to be used to generate readable 
-    documentation for use by stakeholders.
-
-    The example shown below demonstrates how a story can be transformed into
-    markdown via jinja2. This markdown can then be used to generate HTML
-    with a static site generator.
-
-    While markdown is the example given, in principle, any kind of text markup
-    can be generated with the stories.
+Base documentation:
   given:
     core files:
       example.story: |
@@ -129,24 +109,50 @@ Generate documentation from stories:
       from pathquery import pathquery
       from engine import Engine
       from path import Path
-      from jinja2 import Template
+      import jinja2
+      
+      jenv = jinja2.Environment(
+          undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
+      )
+      
+      story_collection = StoryCollection(
+          pathquery(".").ext("story"), Engine()
+      ).non_variations()
 
+Generate documentation from story:
+  based on: base documentation
+  docs: generate-documentation
+  status: experimental
+  about: |
+    hitchstory YAML stories are designed to be as readable as possible while
+    still being terse and deduplicated. This means that the stories will not be
+    as readable to people who do not have a deep understanding of the code.
+
+    Where terseness and duplication trumps readability, the former
+    take precedence. YAML stories are not intended to be a replacement for
+    stakeholder documentation in and of themselves.
+
+    YAML stories *are* designed, however, to be used to generate readable 
+    documentation for use by stakeholders.
+
+    The example shown below demonstrates how a story can be transformed into
+    markdown via jinja2. This markdown can then be used to generate HTML
+    with a static site generator.
+
+    While markdown is the example given, in principle, any kind of text markup
+    can be generated with the stories.
   steps:
   - run:
       code: |
-        import jinja2
-
         VARS = {
             "WEBSITE": "http://www.yourdocumentation.com/"
         }
 
         print(
-            jinja2.Environment(
-                undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
-            ).from_string(Path("index.jinja2").text()).render(
-                story_list=StoryCollection(
-                    pathquery(".").ext("story"), Engine()
-                ).non_variations().with_documentation(Path("document.yaml").text(), variables=VARS).ordered_by_file()
+            jenv.from_string(Path("index.jinja2").text()).render(
+                story_list=story_collection.with_documentation(
+                    Path("document.yaml").text(), variables=VARS
+                ).ordered_by_file()
             )
         )
       will output: |-
