@@ -55,6 +55,9 @@ class DocTemplate(object):
     def step_from_slug(self, slug):
         return self._slugified["steps"][slug]
 
+    def info_from_name(self, name):
+        return self.jenv.from_string(self.info[name])
+
     @property
     def info(self):
         return self._parsed["info"]

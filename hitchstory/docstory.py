@@ -10,9 +10,9 @@ class DocInfoProperty(object):
         self._info_property = info_property
 
     def documentation(self):
-        return self._docstory.jenv.from_string(
-            self._docstory.templates.info[self._name]
-        ).render(**{self._name: self._info_property})
+        return self._docstory.templates.info_from_name(self._name).render(
+            **{self._name: self._info_property}
+        )
 
 
 class DocGivenProperty(object):
