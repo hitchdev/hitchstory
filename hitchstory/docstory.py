@@ -67,40 +67,16 @@ class DocStory(object):
 
     def documentation(self):
         return self.templates.story.render(
-            info=self.info,
-            slug=self.slug,
-            given=self.given,
-            name=self.name,
-            about=self.about,
-            steps=self.steps,
+            info={
+                name: DocInfoProperty(self, name, info_property)
+                for name, info_property in self.story.info.items()
+            },
+            slug=self.story.slug,
+            given=DocGivenProperties(self),
+            name=self.story.name,
+            about=self.story.about,
+            steps=[DocStep(self, step) for step in self.story.steps],
         )
-
-    @property
-    def slug(self):
-        return self.story.slug
-
-    @property
-    def name(self):
-        return self.story.name
-
-    @property
-    def about(self):
-        return self.story.about
-
-    @property
-    def given(self):
-        return DocGivenProperties(self)
-
-    @property
-    def info(self):
-        return {
-            name: DocInfoProperty(self, name, info_property)
-            for name, info_property in self.story.info.items()
-        }
-
-    @property
-    def steps(self):
-        return [DocStep(self, step) for step in self.story.steps]
 
     @property
     def templates(self):
