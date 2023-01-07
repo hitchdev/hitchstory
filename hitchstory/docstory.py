@@ -47,25 +47,21 @@ class DocStep(object):
 
     def documentation(self):
         step_method = StepMethod(self._step.step_method)
+        arguments = {name: None for name in step_method.argspec.args[1:]}
+
         if self._step.arguments.single_argument:
             var_name = step_method.argspec.args[1:][0]
-
-            variables = {name: None for name in step_method.argspec.args[1:]}
-            variables[var_name] = self._step.arguments.data
-
-            return self._docstory.jenv.from_string(
-                self._docstory.slug_templates["steps"][self._step.slug]
-            ).render(**variables)
+            arguments[var_name] = self._step.arguments.data
         else:
             if step_method.argspec.keywords:
                 var_name = step_method.argspec.keywords
-                return self._docstory.jenv.from_string(
-                    self._docstory.slug_templates["steps"][self._step.slug]
-                ).render(**{var_name: self._step.arguments.data})
+                arguments[var_name] = self._step.arguments.data
             else:
-                return self._docstory.jenv.from_string(
-                    self._docstory.slug_templates["steps"][self._step.slug]
-                ).render(**self._step.arguments.data)
+                arguments.update(self._step.arguments.data)
+
+        return self._docstory.jenv.from_string(
+            self._docstory.slug_templates["steps"][self._step.slug]
+        ).render(**arguments)
 
 
 class DocStory(object):
