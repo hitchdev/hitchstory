@@ -1,5 +1,6 @@
 from hitchstory.story_list import StoryList
 from hitchstory.story_file import StoryFile
+from hitchstory.doc_template import DocTemplate
 from hitchstory.engine import BaseEngine
 from collections import OrderedDict
 from hitchstory import exceptions
@@ -186,20 +187,9 @@ class StoryCollection(object):
         return new_collection
 
     def with_documentation(self, documentation):
-        from strictyaml import Map, Str, load, MapPattern
-
         new_collection = self.copy()
-        new_collection._doc_templates = load(
-            documentation,
-            Map(
-                {
-                    "story": Str(),
-                    "given": MapPattern(Str(), Str()),
-                    "steps": MapPattern(Str(), Str()),
-                    "info": MapPattern(Str(), Str()),
-                }
-            ),
-        ).data
+        doc_template = DocTemplate(self, documentation)
+        new_collection._doc_templates = doc_template.parse()
         return new_collection
 
     def copy(self):
