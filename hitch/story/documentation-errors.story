@@ -11,3 +11,8 @@ with_documentation necessary:
       raises:
         type: hitchstory.exceptions.WithDocumentationMissing
         message: Documentation templates missing. Did you use .with_documentation?
+
+Missing step:
+  about: |
+    * Check to see if there are steps/given/info there shouldnt be.
+    * If it is not used in the template, it doesn't need to be there.
