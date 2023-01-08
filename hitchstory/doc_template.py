@@ -1,5 +1,6 @@
-from strictyaml import Map, Str, load, MapPattern
+from strictyaml import Map, Str, Optional, load
 from hitchstory.utils import to_underscore_style
+from hitchstory.engine import BaseEngine
 import jinja2
 
 
@@ -12,18 +13,38 @@ class DocTemplate(object):
         self.jenv.globals.update(extra)
         self._engine = engine
 
+    def _step_methods(self):
+        base_methods = [
+            method
+            for method in BaseEngine.__dict__.keys()
+            if not method.startswith("_")
+        ]
+        return [
+            method.replace("_", " ")
+            for method in self._engine.__class__.__dict__.keys()
+            if not method.startswith("_") and method not in base_methods
+        ]
+
     def parse(self):
         self._parsed = load(
             self._doc_yaml_template,
             Map(
                 {
                     "story": Str(),
-                    "given": Map(
-                        {name: Str() for name in self._engine.given_definition.keys()}
+                    Optional("given"): Map(
+                        {
+                            Optional(name): Str()
+                            for name in self._engine.given_definition.keys()
+                        }
                     ),
-                    "steps": MapPattern(Str(), Str()),
-                    "info": Map(
-                        {name: Str() for name in self._engine.info_definition.keys()}
+                    Optional("info"): Map(
+                        {
+                            Optional(name): Str()
+                            for name in self._engine.info_definition.keys()
+                        }
+                    ),
+                    Optional("steps"): Map(
+                        {Optional(name): Str() for name in self._step_methods()}
                     ),
                 }
             ),
@@ -31,7 +52,7 @@ class DocTemplate(object):
 
         self._slugified_steps = {
             to_underscore_style(name): text
-            for name, text in self._parsed["steps"].items()
+            for name, text in self._parsed.get("steps", {}).items()
         }
 
     def validate(self):
