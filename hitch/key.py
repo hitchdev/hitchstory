@@ -342,11 +342,30 @@ def lint():
 
 
 @cli.command()
-def deploy(version):
+def deploy():
     """
     Deploy to pypi as specified version.
     """
-    toolkit.deploy(version)
+    git = Command("git")
+    git("clone", "git@github.com:hitchdev/hitchstory.git").in_dir(DIR.gen).run()
+    project = DIR.gen / "hitchstory"
+    version = project.joinpath("VERSION").text().rstrip()
+    initpy = project.joinpath("hitchstory", "__init__.py")
+    original_initpy_contents = initpy.bytes().decode("utf8")
+    initpy.write_text(original_initpy_contents.replace("DEVELOPMENT_VERSION", version))
+    python("setup.py", "sdist").in_dir(project).run()
+    initpy.write_text(original_initpy_contents)
+
+    # Upload to pypi
+    python(
+        "-m",
+        "twine",
+        "upload",
+        "dist/{0}-{1}.tar.gz".format("hitchstory", version),
+    ).in_dir(project).run()
+
+    # Clean up
+    DIR.gen.joinpath("hitchstory").rmtree()
 
 
 @cli.command()
