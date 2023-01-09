@@ -346,7 +346,12 @@ def deploy():
     """
     Deploy to pypi as specified version.
     """
+    from commandlib import python
     git = Command("git")
+    
+    if DIR.gen.joinpath("hitchstory").exists():
+        DIR.gen.joinpath("hitchstory").rmtree()
+    
     git("clone", "git@github.com:hitchdev/hitchstory.git").in_dir(DIR.gen).run()
     project = DIR.gen / "hitchstory"
     version = project.joinpath("VERSION").text().rstrip()
