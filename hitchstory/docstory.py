@@ -64,7 +64,7 @@ class DocStep(object):
 
 
 def story_template(story, doc_templates):
-    doc_string = doc_templates.story(
+    return doc_templates.story(
         info={
             name: DocInfoProperty(doc_templates, name, info_property)
             for name, info_property in story.info.items()
@@ -75,4 +75,3 @@ def story_template(story, doc_templates):
         about=story.about,
         steps=[DocStep(doc_templates, step) for step in story.steps],
     )
-    return doc_string
