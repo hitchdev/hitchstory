@@ -111,11 +111,11 @@ Base documentation:
       from engine import Engine
       from path import Path
       import jinja2
-      
+
       jenv = jinja2.Environment(
           undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
       )
-      
+
       story_collection = StoryCollection(
           pathquery(".").ext("story"), Engine()
       ).non_variations()
@@ -229,3 +229,71 @@ Generate documentation from story:
         * Drag from left to right.
 
         * Double click on right
+
+
+Generate documentation with extra variables and functions:
+  based on: base documentation
+  docs: generate-documentation
+  status: experimental
+  about: |
+    Using extra=, you can use additional functions and variables
+    defined outside of the template.
+  given:
+    files:
+      document.yaml: |
+        story: |
+          # {{ name }}
+          
+          URL : {{ WEBSITE }}/stories/{{ slug }}.html
+          
+          {{ info.jiras.documentation() }}
+
+          {{ about }}
+        info:
+          jiras: |
+            {% for jira in jiras -%}
+            * https://yourproject.jira.com/JIRAS/{{ jira }}
+            {% endfor %}
+  steps:
+  - run:
+      code: |
+        extra = {
+            "WEBSITE": "http://www.yourdocumentation.com/"
+        }
+
+        print(
+            jenv.from_string(Path("index.jinja2").text()).render(
+                story_list=story_collection.with_documentation(
+                    Path("document.yaml").text(), extra=extra
+                ).ordered_by_file()
+            )
+        )
+      will output: |-
+        # Login
+
+        URL : http://www.yourdocumentation.com//stories/login.html
+
+        * https://yourproject.jira.com/JIRAS/AZT-344
+        * https://yourproject.jira.com/JIRAS/AZT-345
+
+
+        Simple log in.
+
+        # Log in on another url
+
+        URL : http://www.yourdocumentation.com//stories/log-in-on-another-url.html
+
+        * https://yourproject.jira.com/JIRAS/AZT-344
+        * https://yourproject.jira.com/JIRAS/AZT-589
+
+
+        Alternate log in URL.
+
+        # Log in as president
+
+        URL : http://www.yourdocumentation.com//stories/log-in-as-president.html
+
+        * https://yourproject.jira.com/JIRAS/AZT-611
+
+
+        For stories that involve Trump.
