@@ -79,8 +79,6 @@ Base documentation:
         story: |
           # {{ name }}
           
-          URL : {{ WEBSITE }}/stories/{{ slug }}.html
-          
           {{ info.jiras.documentation() }}
 
           {{ about }}
@@ -145,21 +143,15 @@ Generate documentation from story:
   steps:
   - run:
       code: |
-        extra = {
-            "WEBSITE": "http://www.yourdocumentation.com/"
-        }
-
         print(
             jenv.from_string(Path("index.jinja2").text()).render(
                 story_list=story_collection.with_documentation(
-                    Path("document.yaml").text(), extra=extra
+                    Path("document.yaml").text(),
                 ).ordered_by_file()
             )
         )
       will output: |-
         # Login
-
-        URL : http://www.yourdocumentation.com//stories/login.html
 
         * https://yourproject.jira.com/JIRAS/AZT-344
         * https://yourproject.jira.com/JIRAS/AZT-345
@@ -184,8 +176,6 @@ Generate documentation from story:
 
         # Log in on another url
 
-        URL : http://www.yourdocumentation.com//stories/log-in-on-another-url.html
-
         * https://yourproject.jira.com/JIRAS/AZT-344
         * https://yourproject.jira.com/JIRAS/AZT-589
 
@@ -208,8 +198,6 @@ Generate documentation from story:
 
 
         # Log in as president
-
-        URL : http://www.yourdocumentation.com//stories/log-in-as-president.html
 
         * https://yourproject.jira.com/JIRAS/AZT-611
 

@@ -10,7 +10,8 @@ class DocTemplate(object):
         self.jenv = jinja2.Environment(
             undefined=jinja2.StrictUndefined, loader=jinja2.BaseLoader
         )
-        self.jenv.globals.update(extra)
+        if extra is not None:
+            self.jenv.globals.update(extra)
         self._engine = engine
 
     def _step_methods(self):
