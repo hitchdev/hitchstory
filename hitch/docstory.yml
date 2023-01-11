@@ -1,0 +1,145 @@
+# NOT YET USED
+
+story: |
+  {% if include_title -%}
+  ---
+  title: {{ name }}
+  ---
+  {{ info["experimental"].documentation() }}
+  {% endif %}
+
+  {{ about }}
+
+  {{ given["base_story"].documentation() }}
+  {{ given["example_story"].documentation() }}
+  {{ given["example1_story"].documentation() }}
+  {{ given["example2_story"].documentation() }}
+  {{ given["example3_story"].documentation() }}
+  {{ given["engine_py"].documentation() }}
+  {{ given["setup"].documentation() }}
+
+  {% if variations %}
+  {% for variation in variations %}
+  {{ variation.child_name }}:
+
+  {% for step in variation.steps %}
+  {{ step.documentation() }}
+  {% endfor %}
+
+  {% else %}
+
+  {% for step in steps %}
+  {{ step.documentation() }}
+  {% endfor %}
+
+  {% endif %}
+
+  {% if include_title %}
+
+  !!! note "Executable specification"
+
+      Documentation automatically generated from 
+      <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/{{ filename.basename() }}">{{ filename.basename() }}
+      storytests.</a>
+
+  {% endif %}
+info:
+  experimental: |
+    {% if info['experimental'] %}{% raw %}
+    !!! warning "Experimental"
+
+        This feature is in alpha. The API may change on a minor version increment.
+    {% endraw %}{% endif %}
+given:
+  base story: |
+    {% if base_story -%}
+    Example base.story:
+
+    ```yaml
+    {{ base_story }}
+    ```
+    {%- endif %}
+  example story: |
+    {% if example_story -%}
+    Example example.story:
+
+    ```yaml
+    {{ example_story }}
+    ```
+    {%- endif %}
+  example1 story: |
+    {% if example_story -%}
+    Example example1.story:
+
+    ```yaml
+    {{ example_story }}
+    ```
+    {%- endif %}
+  example2 story: |
+    {% if example2_story -%}
+    Example example2.story:
+
+    ```yaml
+    {{ example2_story }}
+    ```
+    {%- endif %}
+  example3 story: |
+    {% if example3_story -%}
+    Example example3.story:
+
+    ```yaml
+    {{ example3_story }}
+    ```
+    {%- endif %}
+  engine py: |
+    {% if engine_py -%}
+    Example engine.py:
+
+    ```python
+    {{ engine_py }}
+    ```
+    {%- endif %}
+  setup: |
+    ```python
+    {{ setup }}
+    ```
+steps:
+  file was created with: |
+    File {{ filename }} should now contain:
+
+    ```
+    {{ contents }}
+    ```
+  example story unchanged: Then the example story will be unchanged.
+  run: |
+    {% in_interpreter %}
+    ```python
+    {% for line in code.rstrip('\n').split('\n') %}>>> {{ line }}
+    {% endfor -%}
+    {{ will_output }}
+    ```
+    {% else %}
+    ```python
+    {{ code }}
+    ```
+    {% if will_output is not None %}
+    Will output:
+    ```
+    {{ will_output }}
+    ```
+    {% endif %}
+    {% if raises is not None %}
+    ```python
+    {% if 'in python 3' in raises['type'] -%}
+    {{ raises['type']['in python 3'] }}:
+    {%- else %}{{ raises['type'] }}:{% endif -%}
+    {%- if 'in python 3' in raises['message'] -%}
+    {{ raises['message']['in python 3']  }}:
+    ```
+    {% else %}
+    {{ raises['message'] }}
+    ```
+    {% endif %}
+    {% endif %}
+    {% endif %}
+  
