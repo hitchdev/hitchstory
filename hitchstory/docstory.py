@@ -22,9 +22,7 @@ class DocGivenProperty(object):
         self._given_property = given_property
 
     def documentation(self):
-        return self._templates.given_from_name(self._name).render(
-            **{self._name: self._given_property}
-        )
+        return self._templates.given_from_name(self._name, self._given_property)
 
 
 class DocGivenProperties(object):
@@ -61,7 +59,7 @@ class DocStep(object):
             else:
                 arguments.update(self._step.arguments.data)
 
-        return self._templates.step_from_slug(self._step.slug).render(**arguments)
+        return self._templates.step_from_slug(self._step.slug, arguments)
 
 
 def story_template(story, doc_templates):

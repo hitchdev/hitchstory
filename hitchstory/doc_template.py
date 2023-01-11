@@ -98,8 +98,10 @@ class DocTemplate(object):
         else:
             return ""
 
-    def given_from_name(self, name):
-        return self.jenv.from_string(self._parsed["given"][name])
+    def given_from_name(self, name, given_property):
+        return self.jenv.from_string(self._parsed["given"][name]).render(
+            **{name: given_property}
+        )
 
-    def step_from_slug(self, slug):
-        return self.jenv.from_string(self._slugified_steps[slug])
+    def step_from_slug(self, slug, arguments):
+        return self.jenv.from_string(self._slugified_steps[slug]).render(**arguments)
