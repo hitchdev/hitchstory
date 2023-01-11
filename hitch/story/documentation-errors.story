@@ -18,23 +18,29 @@ Template error:
     If errors are raised in the template then display them
     clearly to the user.
 
-  given:
-    files:
-      document.yaml: |
-        story: |
-          # {{ name }}
-          
-          {{ nonexistentvar }}
-  steps:
-  - run:
-      code: |
-        print(
-            jenv.from_string(Path("index.jinja2").text()).render(
-                story_list=story_collection.with_documentation(
-                    Path("document.yaml").text()
-                ).ordered_by_file()
+  variations:
+    in story:
+      given:
+        files:
+          document.yaml: |
+            story: |
+              # {{ name }}
+              
+              {{ nonexistentvar }}
+      steps:
+      - run:
+          code: |
+            print(
+                jenv.from_string(Path("index.jinja2").text()).render(
+                    story_list=story_collection.with_documentation(
+                        Path("document.yaml").text()
+                    ).ordered_by_file()
+                )
             )
-        )
-      raises:
-        type: hitchstory.exceptions.DocumentationTemplateError
-        message: 3 'nonexistentvar' is undefined
+          raises:
+            type: hitchstory.exceptions.DocumentationTemplateError
+            message: |-
+              Exception in 'story' template.
+
+              jinja2.exceptions.UndefinedError
+              'nonexistentvar' is undefined

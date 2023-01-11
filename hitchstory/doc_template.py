@@ -1,9 +1,15 @@
 from strictyaml import Map, Str, Optional, load
-from hitchstory.utils import to_underscore_style
+from hitchstory.utils import to_underscore_style, current_stack_trace_data
 from hitchstory.exceptions import DocumentationTemplateError
 from hitchstory.engine import BaseEngine
-import traceback
 import jinja2
+
+EXCEPTION_TEMPLATE = """\
+Exception in '{name}' template.
+
+{exception_type}
+{exception_message}
+"""
 
 
 class DocTemplate(object):
@@ -64,9 +70,15 @@ class DocTemplate(object):
     def story(self, **variables):
         try:
             return self.jenv.from_string(self._parsed["story"]).render(**variables)
-        except Exception as error:
-            lineno = traceback.extract_tb(error.__traceback__)[-1].lineno
-            raise DocumentationTemplateError(f"{lineno} {error}")
+        except Exception:
+            stack_trace = current_stack_trace_data()
+            raise DocumentationTemplateError(
+                EXCEPTION_TEMPLATE.format(
+                    name="story",
+                    exception_type=stack_trace["exception_type"],
+                    exception_message=stack_trace["exception_string"],
+                )
+            )
 
     def given_from_name(self, name):
         return self.jenv.from_string(self._parsed["given"][name])
