@@ -20,24 +20,28 @@ class DocGivenProperty(object):
         self._templates = templates
         self._name = name
         self._given_property = given_property
+        self._documentation = self._templates.given_from_name(
+            self._name, self._given_property
+        )
 
     def documentation(self):
-        return self._templates.given_from_name(self._name, self._given_property)
+        return self._documentation
 
 
 class DocGivenProperties(object):
     def __init__(self, templates, given):
         self._templates = templates
         self._given = given
+        self._property_docs = {
+            name: DocGivenProperty(self._templates, name, self._given[name])
+            for name, given_property in self._given.items()
+        }
 
     def __getattr__(self, name):
-        return DocGivenProperty(self._templates, name, self._given[name])
+        return self._property_docs[name]
 
     def items(self):
-        return [
-            (name, DocGivenProperty(self._templates, name, given_property))
-            for name, given_property in self._given.items()
-        ]
+        return self._property_docs.items()
 
 
 class DocStep(object):
@@ -45,7 +49,6 @@ class DocStep(object):
         self._templates = templates
         self._step = step
 
-    def documentation(self):
         step_method = StepMethod(self._step.step_method)
         arguments = {name: None for name in step_method.argspec.args[1:]}
 
@@ -59,7 +62,10 @@ class DocStep(object):
             else:
                 arguments.update(self._step.arguments.data)
 
-        return self._templates.step_from_slug(self._step.slug, arguments)
+        self._documentation = self._templates.step_from_slug(self._step.slug, arguments)
+
+    def documentation(self):
+        return self._documentation
 
 
 def story_template(story, doc_templates):

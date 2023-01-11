@@ -23,15 +23,10 @@ class DocTemplate(object):
         self._engine = engine
 
     def _step_methods(self):
-        base_methods = [
-            method
-            for method in BaseEngine.__dict__.keys()
-            if not method.startswith("_")
-        ]
         return [
             method.replace("_", " ")
             for method in self._engine.__class__.__dict__.keys()
-            if not method.startswith("_") and method not in base_methods
+            if not method.startswith("_") and method not in BaseEngine.__dict__.keys()
         ]
 
     def parse(self):
@@ -67,30 +62,15 @@ class DocTemplate(object):
     def validate(self):
         pass
 
-    def story(self, **variables):
-        try:
-            return self.jenv.from_string(self._parsed["story"]).render(**variables)
-        except Exception:
-            stack_trace = current_stack_trace_data()
-            raise DocumentationTemplateError(
-                EXCEPTION_TEMPLATE.format(
-                    name="story",
-                    exception_type=stack_trace["exception_type"],
-                    exception_message=stack_trace["exception_string"],
-                )
-            )
-
-    def info_from_name(self, name, info_property):
-        if "info" in self._parsed:
+    def _render(self, name, template, variables):
+        if template is not None:
             try:
-                return self.jenv.from_string(self._parsed["info"][name]).render(
-                    **{name: info_property}
-                )
+                return self.jenv.from_string(template).render(**variables)
             except Exception:
                 stack_trace = current_stack_trace_data()
                 raise DocumentationTemplateError(
                     EXCEPTION_TEMPLATE.format(
-                        name=f"info/{name}",
+                        name=name,
                         exception_type=stack_trace["exception_type"],
                         exception_message=stack_trace["exception_string"],
                     )
@@ -98,10 +78,28 @@ class DocTemplate(object):
         else:
             return ""
 
+    def story(self, **variables):
+        return self._render(
+            name="story", template=self._parsed["story"], variables=variables
+        )
+
+    def info_from_name(self, name, info_property):
+        return self._render(
+            name=f"info/{name}",
+            template=self._parsed.get("info", {}).get(name),
+            variables={name: info_property},
+        )
+
     def given_from_name(self, name, given_property):
-        return self.jenv.from_string(self._parsed["given"][name]).render(
-            **{name: given_property}
+        return self._render(
+            name=f"given/{name}",
+            template=self._parsed.get("given", {}).get(name),
+            variables={name: given_property},
         )
 
     def step_from_slug(self, slug, arguments):
-        return self.jenv.from_string(self._slugified_steps[slug]).render(**arguments)
+        return self._render(
+            name=f"steps/{slug}",
+            template=self._slugified_steps.get(slug),
+            variables=arguments,
+        )
