@@ -238,3 +238,11 @@ class WithDocumentationMissing(HitchStoryException):
     """
 
     pass
+
+
+class DocumentationTemplateError(HitchStoryException):
+    """
+    Exception in documentation templates occurred.
+    """
+
+    pass

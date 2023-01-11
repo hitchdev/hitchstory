@@ -281,17 +281,7 @@ class Story(object):
             raise exceptions.WithDocumentationMissing(
                 "Documentation templates missing. Did you use .with_documentation?"
             )
-        return doc_templates.story().render(
-            info={
-                name: docstory.DocInfoProperty(doc_templates, name, info_property)
-                for name, info_property in self.info.items()
-            },
-            slug=self.slug,
-            given=docstory.DocGivenProperties(doc_templates, self.given),
-            name=self.name,
-            about=self.about,
-            steps=[docstory.DocStep(doc_templates, step) for step in self.steps],
-        )
+        return docstory.story_template(self, doc_templates)
 
     def play(self):
         """
