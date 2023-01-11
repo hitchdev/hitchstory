@@ -84,7 +84,7 @@ Base documentation:
           {{ about }}
 
           {% for name, property in given.items() %}
-          {{ property.documentation() }}
+          {{ given[name].documentation() }}
           {% endfor %}
           {% for step in steps %}
           {{ step.documentation() }}

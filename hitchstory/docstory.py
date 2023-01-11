@@ -30,6 +30,9 @@ class DocGivenProperties(object):
     def __init__(self, templates, given):
         self._templates = templates
         self._given = given
+    
+    def __getattr__(self, name):
+        return DocGivenProperty(self._templates, name, self._given[name])
 
     def items(self):
         return [
