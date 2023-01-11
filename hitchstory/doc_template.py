@@ -80,11 +80,26 @@ class DocTemplate(object):
                 )
             )
 
+    def info_from_name(self, name, info_property):
+        if "info" in self._parsed:
+            try:
+                return self.jenv.from_string(self._parsed["info"][name]).render(
+                    **{name: info_property}
+                )
+            except Exception:
+                stack_trace = current_stack_trace_data()
+                raise DocumentationTemplateError(
+                    EXCEPTION_TEMPLATE.format(
+                        name="story",
+                        exception_type=stack_trace["exception_type"],
+                        exception_message=stack_trace["exception_string"],
+                    )
+                )
+        else:
+            return ""
+
     def given_from_name(self, name):
         return self.jenv.from_string(self._parsed["given"][name])
-
-    def info_from_name(self, name):
-        return self.jenv.from_string(self._parsed["info"][name])
 
     def step_from_slug(self, slug):
         return self.jenv.from_string(self._slugified_steps[slug])

@@ -7,11 +7,12 @@ class DocInfoProperty(object):
         self._templates = templates
         self._name = name
         self._info_property = info_property
+        self._documentation = self._templates.info_from_name(
+            self._name, self._info_property
+        )
 
     def documentation(self):
-        return self._templates.info_from_name(self._name).render(
-            **{self._name: self._info_property}
-        )
+        return self._documentation
 
 
 class DocGivenProperty(object):

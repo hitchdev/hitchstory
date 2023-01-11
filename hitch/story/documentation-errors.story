@@ -44,8 +44,6 @@ Template error:
 
               jinja2.exceptions.UndefinedError
               'nonexistentvar' is undefined
-
-
     in info:
       given:
         files:
