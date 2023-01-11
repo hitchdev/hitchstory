@@ -90,7 +90,7 @@ class DocTemplate(object):
                 stack_trace = current_stack_trace_data()
                 raise DocumentationTemplateError(
                     EXCEPTION_TEMPLATE.format(
-                        name="story",
+                        name=f"info/{name}",
                         exception_type=stack_trace["exception_type"],
                         exception_message=stack_trace["exception_string"],
                     )

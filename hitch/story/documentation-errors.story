@@ -71,7 +71,7 @@ Template error:
           raises:
             type: hitchstory.exceptions.DocumentationTemplateError
             message: |-
-              Exception in 'story' template.
+              Exception in 'info/jiras' template.
 
               jinja2.exceptions.UndefinedError
               'non_existent_var' is undefined
