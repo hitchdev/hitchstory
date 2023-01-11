@@ -1,6 +1,8 @@
 from strictyaml import Map, Str, Optional, load
 from hitchstory.utils import to_underscore_style
+from hitchstory.exceptions import DocumentationTemplateError
 from hitchstory.engine import BaseEngine
+import traceback
 import jinja2
 
 
@@ -59,8 +61,12 @@ class DocTemplate(object):
     def validate(self):
         pass
 
-    def story(self):
-        return self.jenv.from_string(self._parsed["story"])
+    def story(self, **variables):
+        try:
+            return self.jenv.from_string(self._parsed["story"]).render(**variables)
+        except Exception as error:
+            lineno = traceback.extract_tb(error.__traceback__)[-1].lineno
+            raise DocumentationTemplateError(f"{lineno} {error}")
 
     def given_from_name(self, name):
         return self.jenv.from_string(self._parsed["given"][name])

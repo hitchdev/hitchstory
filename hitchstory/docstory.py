@@ -1,7 +1,5 @@
 """Documentation objects for use in templates."""
 from hitchstory.step_method import StepMethod
-from hitchstory.exceptions import DocumentationTemplateError
-import traceback
 
 
 class DocInfoProperty(object):
@@ -66,19 +64,15 @@ class DocStep(object):
 
 
 def story_template(story, doc_templates):
-    try:
-        doc_string = doc_templates.story().render(
-            info={
-                name: DocInfoProperty(doc_templates, name, info_property)
-                for name, info_property in story.info.items()
-            },
-            slug=story.slug,
-            given=DocGivenProperties(doc_templates, story.given),
-            name=story.name,
-            about=story.about,
-            steps=[DocStep(doc_templates, step) for step in story.steps],
-        )
-    except Exception as error:
-        lineno = traceback.extract_tb(error.__traceback__)[-1].lineno
-        raise DocumentationTemplateError(f"{lineno} {error}")
+    doc_string = doc_templates.story(
+        info={
+            name: DocInfoProperty(doc_templates, name, info_property)
+            for name, info_property in story.info.items()
+        },
+        slug=story.slug,
+        given=DocGivenProperties(doc_templates, story.given),
+        name=story.name,
+        about=story.about,
+        steps=[DocStep(doc_templates, step) for step in story.steps],
+    )
     return doc_string
