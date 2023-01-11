@@ -182,7 +182,7 @@ class Engine(BaseEngine):
                 exception_message = self._story_friendly_output(
                     result.exception.message
                 )
-                Templex(exception_message).assert_match(message)
+                Templex(message).assert_match(exception_message)
             except AssertionError:
                 if self.settings.get("overwrite artefacts"):
                     new_raises = raises.copy()
