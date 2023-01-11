@@ -59,9 +59,6 @@ class DocTemplate(object):
             for name, text in self._parsed.get("steps", {}).items()
         }
 
-    def validate(self):
-        pass
-
     def _render(self, name, template, variables):
         if template is not None:
             try:

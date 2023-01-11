@@ -190,7 +190,6 @@ class StoryCollection(object):
         new_collection = self.copy()
         doc_template = DocTemplate(self.engine, yaml_documentation, extra)
         doc_template.parse()
-        doc_template.validate()
         new_collection._doc_templates = doc_template
         return new_collection
 
