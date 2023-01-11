@@ -240,13 +240,14 @@ Generate documentation with extra variables and functions:
         info:
           jiras: |
             {% for jira in jiras -%}
-            * https://yourproject.jira.com/JIRAS/{{ jira }}
+            * {{ jira_url(jira) }}
             {% endfor %}
   steps:
   - run:
       code: |
         extra = {
-            "WEBSITE": "http://www.yourdocumentation.com/"
+            "WEBSITE": "http://www.yourdocumentation.com/",
+            "jira_url": lambda jira: f"https://yourproject.jira.com/JIRAS/{jira}",
         }
 
         print(
