@@ -39,7 +39,7 @@ story: |
   !!! note "Executable specification"
 
       Documentation automatically generated from 
-      <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/{{ filename.basename() }}">{{ filename.basename() }}
+      <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/{{ filename.name }}">{{ filename.name }}
       storytests.</a>
 
   {% endif %}
