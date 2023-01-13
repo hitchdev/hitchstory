@@ -1,5 +1,6 @@
 """Documentation objects for use in templates."""
 from hitchstory.step_method import StepMethod
+import pathlib
 
 
 class DocInfoProperty(object):
@@ -68,4 +69,5 @@ def story_template(story, doc_templates):
         name=story.name,
         about=story.about,
         steps=[DocStep(doc_templates, step) for step in story.steps],
+        filename=pathlib.Path(story.filename),
     )

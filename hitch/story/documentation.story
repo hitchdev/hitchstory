@@ -89,6 +89,10 @@ Base documentation:
           {% for step in steps %}
           {{ step.documentation() }}
           {% endfor %}
+          
+          ## Automatically generated
+          
+          Automatically generated from {{ filename.name }}
         info:
           jiras: |
             {% for jira in jiras -%}
@@ -174,6 +178,10 @@ Generate documentation from story:
         * Double click on right
 
 
+        ## Automatically generated
+
+        Automatically generated from example.story
+
         # Log in on another url
 
         * https://yourproject.jira.com/JIRAS/AZT-344
@@ -197,6 +205,10 @@ Generate documentation from story:
         * Double click on right
 
 
+        ## Automatically generated
+
+        Automatically generated from example.story
+
         # Log in as president
 
         * https://yourproject.jira.com/JIRAS/AZT-611
@@ -217,6 +229,11 @@ Generate documentation from story:
         * Drag from left to right.
 
         * Double click on right
+
+
+        ## Automatically generated
+
+        Automatically generated from example.story
 
 
 Generate documentation with extra variables and functions:
