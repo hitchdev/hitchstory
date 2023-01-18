@@ -3,8 +3,19 @@
 
 ### Latest
 
+* FEATURE : Reference filename in story template.
+* BUGFIX : Documentation templates - fix exception on info.
+* FEATURE : Clearer exceptions on templates - on info.
+* FEATURE : Give clean exceptions on template.
+* FEATURE : Don't raise exceptions directly when coming from template.
+* BUGFIX : Use given[name] in templates.
+* BUGFIX : Make it possible to not take extra variables.
+* FEATURE : Raise clear exception if .with_exception not used.
+* FEATURE : Put variables into doc templates.
+* FEATURE : Documentation generator - generate info properties.
+* FEATURE : Document generation with multiple arguments in a step.
+* FEATURE : Doctemplating with YAML feature.
 
-No relevant code changes.
 
 ### 0.12.1
 
