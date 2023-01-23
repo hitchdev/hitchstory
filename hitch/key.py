@@ -6,6 +6,7 @@ from pathquery import pathquery
 from click import argument, group, pass_context
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from hitchstory import no_stacktrace_for
+from docgen import run_docgen
 from templex import Templex
 import hitchpylibrarytoolkit
 import colorama
@@ -379,7 +380,7 @@ def docgen():
     """
     Build documentation.
     """
-    toolkit.docgen(Engine(DIR, {}))
+    run_docgen(DIR, _storybook({}))
 
 
 @cli.command()

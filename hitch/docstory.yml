@@ -5,17 +5,15 @@ story: |
   ---
   title: {{ name }}
   ---
-  {{ info["experimental"].documentation() }}
+  {{ info["status"].documentation() }}
   {% endif %}
 
   {{ about }}
 
-  {{ given["base_story"].documentation() }}
-  {{ given["example_story"].documentation() }}
-  {{ given["example1_story"].documentation() }}
-  {{ given["example2_story"].documentation() }}
-  {{ given["example3_story"].documentation() }}
-  {{ given["engine_py"].documentation() }}
+  {{ given["core_files"].documentation() }}
+
+  {{ given["files"].documentation() }}
+
   {{ given["setup"].documentation() }}
 
   {% if variations %}
@@ -44,61 +42,29 @@ story: |
 
   {% endif %}
 info:
-  experimental: |
-    {% if info['experimental'] %}{% raw %}
+  status: |
+    {% if status == "experimental" %}{% raw %}
     !!! warning "Experimental"
 
         This feature is in alpha. The API may change on a minor version increment.
     {% endraw %}{% endif %}
 given:
-  base story: |
-    {% if base_story -%}
-    Example base.story:
+  core_files: |
+    {% for filename, contents in core_files.items() -%}
+    Example {{ filename }}:
 
     ```yaml
-    {{ base_story }}
+    {{ contents }}
     ```
-    {%- endif %}
-  example story: |
-    {% if example_story -%}
-    Example example.story:
+    {%- endfor %}
+  files: |
+    {% for filename, contents in files.items() -%}
+    Example {{ filename }}:
 
     ```yaml
-    {{ example_story }}
+    {{ contents }}
     ```
-    {%- endif %}
-  example1 story: |
-    {% if example_story -%}
-    Example example1.story:
-
-    ```yaml
-    {{ example_story }}
-    ```
-    {%- endif %}
-  example2 story: |
-    {% if example2_story -%}
-    Example example2.story:
-
-    ```yaml
-    {{ example2_story }}
-    ```
-    {%- endif %}
-  example3 story: |
-    {% if example3_story -%}
-    Example example3.story:
-
-    ```yaml
-    {{ example3_story }}
-    ```
-    {%- endif %}
-  engine py: |
-    {% if engine_py -%}
-    Example engine.py:
-
-    ```python
-    {{ engine_py }}
-    ```
-    {%- endif %}
+    {%- endfor %}
   setup: |
     ```python
     {{ setup }}
