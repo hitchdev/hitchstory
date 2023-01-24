@@ -32,6 +32,7 @@ Variations:
       from strictyaml import Map, Seq, Int, Str, Optional
       from pathquery import pathquery
       from ensure import Ensure
+      from path import Path
 
 
       class Engine(BaseEngine):
@@ -102,3 +103,18 @@ Variations:
             ]).equals(
                 ["Create files/cat"],
             )
+
+    Generate documentation:
+      given:
+        files:
+          docstory.yml: |
+            story: |
+              # {{ name }}
+      steps:
+      - Run:
+          code: |
+            story = story_collection.with_documentation(
+                Path("docstory.yml").text()
+            ).named("Create files")
+            print(story.documentation())
+          will output: '# Create files'

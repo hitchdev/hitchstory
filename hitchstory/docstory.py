@@ -42,7 +42,9 @@ class DocStep(object):
         step_method = StepMethod(step.step_method)
         arguments = {name: None for name in step_method.argspec.args[1:]}
 
-        if step.arguments.single_argument:
+        if step.arguments.is_none:
+            arguments = {}
+        elif step.arguments.single_argument:
             var_name = step_method.argspec.args[1:][0]
             arguments[var_name] = step.arguments.data
         else:
