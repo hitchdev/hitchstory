@@ -110,6 +110,12 @@ Variations:
           docstory.yml: |
             story: |
               # {{ name }}
+              
+              {% for variation in variations %}
+              {{ variation }}
+              {% endfor %}
+            variation: |
+              ## {{ name }}
       steps:
       - Run:
           code: |
@@ -117,4 +123,8 @@ Variations:
                 Path("docstory.yml").text()
             ).named("Create files")
             print(story.documentation())
-          will output: '# Create files'
+          will output: |-
+            # Create files
+
+
+            <hitchstory.docstory.DocVariation object at 0xfffffffffff>

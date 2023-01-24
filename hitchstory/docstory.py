@@ -3,11 +3,17 @@ from hitchstory.step_method import StepMethod
 import pathlib
 
 
+class DocVariation(object):
+    def __init__(self, templates, variables):
+        self._documentation = templates.variation(**variables)
+
+    def documentation(self):
+        return self._documentation
+
+
 class DocInfoProperty(object):
     def __init__(self, templates, name, info_property):
-        self._documentation = templates.info_from_name(
-            name, info_property
-        )
+        self._documentation = templates.info_from_name(name, info_property)
 
     def documentation(self):
         return self._documentation
@@ -15,9 +21,7 @@ class DocInfoProperty(object):
 
 class DocGivenProperty(object):
     def __init__(self, templates, name, given_property):
-        self._documentation = templates.given_from_name(
-            name, given_property
-        )
+        self._documentation = templates.given_from_name(name, given_property)
 
     def documentation(self):
         return self._documentation
@@ -62,6 +66,10 @@ class DocStep(object):
 
 def story_template(story, doc_templates):
     return doc_templates.story(
+        variations=[
+            DocVariation(doc_templates, {"name": variation.name})
+            for variation in story.variations
+        ],
         info={
             name: DocInfoProperty(doc_templates, name, info_property)
             for name, info_property in story.info.items()

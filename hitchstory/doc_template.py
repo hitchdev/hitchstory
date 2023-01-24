@@ -35,6 +35,7 @@ class DocTemplate(object):
             Map(
                 {
                     "story": Str(),
+                    Optional("variation"): Str(),
                     Optional("given"): Map(
                         {
                             Optional(name): Str()
@@ -74,6 +75,13 @@ class DocTemplate(object):
                 )
         else:
             return ""
+
+    def variation(self, **variables):
+        return self._render(
+            name="variation",
+            template=self._parsed.get("variation"),
+            variables=variables,
+        )
 
     def story(self, **variables):
         return self._render(
