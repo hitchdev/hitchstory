@@ -25,6 +25,7 @@ Variations:
                   pond animal: frog
           variations:
             cat:
+              about: about a cat
               given:
                 content: cat
     setup: |
@@ -112,19 +113,24 @@ Variations:
               # {{ name }}
               
               {% for variation in variations %}
-              {{ variation }}
+              {{ variation.documentation() }}
               {% endfor %}
             variation: |
               ## {{ name }}
+              
+              {{ about }}
       steps:
       - Run:
           code: |
-            story = story_collection.with_documentation(
-                Path("docstory.yml").text()
-            ).named("Create files")
-            print(story.documentation())
+            print(
+                story_collection.with_documentation(
+                    Path("docstory.yml").text()
+                ).named("Create files").documentation()
+            )
           will output: |-
             # Create files
 
 
-            <hitchstory.docstory.DocVariation object at 0xfffffffffff>
+            ## Create files/cat
+
+            about a cat

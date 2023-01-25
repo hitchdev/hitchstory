@@ -64,20 +64,25 @@ class DocStep(object):
         return self._documentation
 
 
-def story_template(story, doc_templates):
-    return doc_templates.story(
-        variations=[
-            DocVariation(doc_templates, {"name": variation.name})
-            for variation in story.variations
-        ],
-        info={
+def _story_variables(story, doc_templates):
+    return {
+        "info": {
             name: DocInfoProperty(doc_templates, name, info_property)
             for name, info_property in story.info.items()
         },
-        slug=story.slug,
-        given=DocGivenProperties(doc_templates, story.given),
-        name=story.name,
-        about=story.about,
-        steps=[DocStep(doc_templates, step) for step in story.steps],
-        filename=pathlib.Path(story.filename),
-    )
+        "slug": story.slug,
+        "given": DocGivenProperties(doc_templates, story.given),
+        "name": story.name,
+        "about": story.about,
+        "steps": [DocStep(doc_templates, step) for step in story.steps],
+        "filename": pathlib.Path(story.filename),
+    }
+
+
+def story_template(story, doc_templates):
+    variables = _story_variables(story, doc_templates)
+    variables["variations"] = [
+        DocVariation(doc_templates, _story_variables(variation, doc_templates))
+        for variation in story.variations
+    ]
+    return doc_templates.story(**variables)
