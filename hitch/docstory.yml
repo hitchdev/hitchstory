@@ -5,23 +5,20 @@ story: |
   ---
   title: {{ name }}
   ---
+  {% if "status" in info %}
   {{ info["status"].documentation() }}
+  {% endif %}
   {% endif %}
 
   {{ about }}
 
-  {{ given["core_files"].documentation() }}
-
-  {{ given["files"].documentation() }}
-
-  {{ given["setup"].documentation() }}
+  {% for name, property in given.items() %}
+  {{ property.documentation() }}
+  {% endfor %}
 
   {% if variations %}
   {% for variation in variations %}
-  {{ variation.child_name }}:
-
-  {% for step in variation.steps %}
-  {{ step.documentation() }}
+  {{ variation.documentation() }}
   {% endfor %}
 
   {% else %}
@@ -50,25 +47,33 @@ info:
     {% endraw %}{% endif %}
 given:
   core_files: |
-    {% for filename, contents in core_files.items() -%}
-    Example {{ filename }}:
+    {% for filename, contents in core_files.items() %}
+    {{ filename }}:
 
-    ```yaml
-    {{ contents }}
-    ```
+    ```{% if filename.endswith("py") %}python{% else %}yaml{% endif %}
+    {{ contents }}```
     {%- endfor %}
   files: |
-    {% for filename, contents in files.items() -%}
-    Example {{ filename }}:
+    {% for filename, contents in files.items() %}
+    {{ filename }}:
 
-    ```yaml
-    {{ contents }}
-    ```
+    ```{% if filename.endswith("py") %}python{% else %}yaml{% endif %}
+    {{ contents }}```
     {%- endfor %}
   setup: |
+    With code:
+
     ```python
     {{ setup }}
     ```
+variation: |
+  ## {{ name }}
+  
+  {{ about }}
+
+  {% for step in steps %}
+  {{ step.documentation() }}
+  {% endfor %}
 steps:
   file was created with: |
     File {{ filename }} should now contain:
@@ -77,8 +82,9 @@ steps:
     {{ contents }}
     ```
   example story unchanged: Then the example story will be unchanged.
+
   run: |
-    {% in_interpreter %}
+    {%- if in_interpreter %}
     ```python
     {% for line in code.rstrip('\n').split('\n') %}>>> {{ line }}
     {% endfor -%}
@@ -87,18 +93,19 @@ steps:
     {% else %}
     ```python
     {{ code }}
+    
     ```
-    {% if will_output is not None %}
+    {% if will_output %}
     Will output:
     ```
     {{ will_output }}
     ```
-    {% endif %}
-    {% if raises is not None %}
+    {% if raises %}
     ```python
     {% if 'in python 3' in raises['type'] -%}
     {{ raises['type']['in python 3'] }}:
     {%- else %}{{ raises['type'] }}:{% endif -%}
+    
     {%- if 'in python 3' in raises['message'] -%}
     {{ raises['message']['in python 3']  }}:
     ```
@@ -108,4 +115,4 @@ steps:
     {% endif %}
     {% endif %}
     {% endif %}
-  
+    {% endif %}
