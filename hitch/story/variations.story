@@ -25,7 +25,7 @@ Variations:
                   pond animal: frog
           variations:
             cat:
-              about: about a cat
+              about: create a cat file
               given:
                 content: cat
     setup: |
@@ -115,10 +115,18 @@ Variations:
               {% for variation in variations %}
               {{ variation.documentation() }}
               {% endfor %}
+            given:
+              content: '{{ content }}'
+              hierarchical_content: '{{ hierarchical_content["x"] }}'
             variation: |
               ## {{ name }}
+              ## {{ full_name }}
               
               {{ about }}
+              
+              {% for name, property in given.items() %}
+              {{ property.documentation() }}
+              {% endfor %}
       steps:
       - Run:
           code: |
@@ -131,6 +139,12 @@ Variations:
             # Create files
 
 
+            ## cat
             ## Create files/cat
 
-            about a cat
+            create a cat file
+
+
+            cat
+
+            1
