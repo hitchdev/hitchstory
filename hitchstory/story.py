@@ -67,16 +67,32 @@ class Story(object):
     def _parent_steps(self):
         return self.parent._yaml_steps if self.parent is not None else []
 
-    def _initialize(self):
-        precondition_dict = self._unparameterized_preconditions()
-        for name, precondition in precondition_dict.items():
+    def _parameterized_preconditions(self, unparameterized_preconditions):
+        all_preconditions = unparameterized_preconditions
+
+        for name, precondition in all_preconditions.items():
             if utils.is_parameter(precondition):
-                precondition_dict[name] = self.params[
+                all_preconditions[name] = self.params[
                     utils.parameter_name(precondition)
                 ]
             else:
-                precondition_dict[name] = precondition
-        self._precondition_dict = precondition_dict
+                all_preconditions[name] = precondition
+        return all_preconditions
+
+    def initialize(self):
+        """
+        Revalidate steps and parameterize stories.
+        These things can only be done after the story hierarchy is set
+        """
+        all_paramaterized_preconditions = self._parameterized_preconditions(
+            self._unparameterized_preconditions()
+        )
+
+        self._given = Given(
+            all_paramaterized_preconditions,
+            self.engine.given_definition.document_templates,
+        )
+
         number_of_parent_steps = len(self._parent_steps)
 
         self._steps = [
@@ -150,9 +166,7 @@ class Story(object):
 
     @property
     def given(self):
-        return Given(
-            self._precondition_dict, self.engine.given_definition.document_templates
-        )
+        return self._given
 
     @property
     def steps(self):

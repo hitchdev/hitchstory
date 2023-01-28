@@ -91,7 +91,7 @@ class StoryCollection(object):
             # Revalidate steps and parameterize
             # These things can only be done after the story hierarchy is set
             for story in self._stories.values():
-                story._initialize()
+                story.initialize()
         return self._stories
 
     def ordered_by_file(self):
