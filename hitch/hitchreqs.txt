@@ -32,6 +32,8 @@ cryptography==36.0.0
     # via secretstorage
 decorator==5.1.0
     # via ipython
+dirtempl==0.1.2
+    # via dirtempl
 dirtemplate==0.4.0
     # via hitchpylibrarytoolkit
 docutils==0.18.1
