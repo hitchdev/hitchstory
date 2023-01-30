@@ -1,20 +1,4 @@
-{% if readme -%}
-# HitchStory
-
-[![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)
-{%- else -%}
-
----
-title: HitchStory
----
-
-![](sliced-cucumber.jpg)
-
-{% raw %}
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"> 
-<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
-{% endraw %}
-{% endif %}
+{{{{ intro.txt }}}
 
 HitchStory is a python 3
 [testing and living documentation framework](approach/testing-and-living-documentation) for building easily
@@ -35,73 +19,33 @@ code to execute them is written by you, in python.
 
 ## Example
 
-{% for story in quickstart %}
-{% with include_title=False %}{% include 'story.jinja2' %}{% endwith %}
-{% endfor %}
+{{{{ quickstart.txt }}}}
 
 
-## Installation and set up
-
-You *can* install hitchstory through pypi in any python 3 virtualenv:
+## Install
 
 ```bash
 $ pip install hitchstory
 ```
 
-However, it's recommended to install and set up hitchstory with [hitchkey](https://github.com/hitchdev/hitchkey),
-which will take care of automatically setting up a up the [recommended hitchstory environment](approach/recommended-environment).
-
-Install hitchkey with [pipx](https://pypa.github.io/pipx/):
-
-```bash
-pipx install hitchkey
-```
-
-Once hitchkey is installed:
-
-Example demo of hitchstory basics:
-
-```bash
-cd temp
-hk --demo hitchstory ; hk bdd email
-```
-
-Example python API test demo (uses game of life):
-
-```bash
-cd temp
-hk --demo pythonapi ; cd pythonapi ; hk bdd
-```
-
-
 ## Using HitchStory
 
-{% for dirfile in (subdir("using/alpha/").ext("md") - subdir("using/alpha/").named("index.md"))|sort() -%}
-- [{{ title(dirfile) }}](using/alpha/{{ dirfile.name.splitext()[0] }})
-{% endfor %}
-
-
+{{{{ using-contents.txt }}}}
 
 ## Approach to using HitchStory
 
 Best practices, how the tool was meant to be used, etc.
 
-{% for dirfile in subdir("approach").is_not_dir() - subdir("approach").named("index.md") -%} 
-- [{{ title(dirfile) }}](approach/{{ dirfile.namebase }})
-{% endfor %}
+{{{{ approach-contents.txt }}}}
 
 ## Design decisions and principles
 
-Somewhat controversial design decisions are justified here.
+Design decisions are justified here:
 
-{% for dirfile in subdir("why").is_not_dir() - subdir("why").named("index.md") -%} 
-- [{{ title(dirfile) }}](why/{{ dirfile.namebase }})
-{% endfor %}
+{{{{ why-contents.txt }}}}
 
 ## Why not X instead?
 
 There are several tools you can use instead, this is why you should use this one instead:
 
-{% for dirfile in subdir("why-not").is_not_dir() - subdir("why-not").named("index.md") -%} 
-- [{{ title(dirfile) }}](why-not/{{ dirfile.namebase }})
-{% endfor %}
+{{{{ why-not-contents.txt }}}}

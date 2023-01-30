@@ -5,4 +5,5 @@ dist/
 hitchstory.egg-info/
 hitch/hitchdir
 hitch/gen
+docs/snippets/
 temp/
