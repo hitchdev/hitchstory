@@ -1,4 +1,4 @@
-{{{{ intro.txt }}}
+{{{{ intro.txt }}}}
 
 HitchStory is a python 3
 [testing and living documentation framework](approach/testing-and-living-documentation) for building easily
