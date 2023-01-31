@@ -1,5 +1,6 @@
 from strictyaml import load
 from commandlib import python_bin
+import hitchpylibrarytoolkit
 
 
 README_INTRO = """# HitchStory
@@ -74,6 +75,10 @@ def run_docgen(paths, storybook):
     )
     snippets_path.joinpath("using-contents.txt").write_text(_contents(doc_src, "using"))
     dirtempl("--snippets", "snippets", "src", dest_path).run()
+    
+    dest_path.joinpath("changelog.md").write_text(
+        hitchpylibrarytoolkit.docgen.changelog(paths.project)
+    )
 
 
 def generate_storydocs(docstory, docpath, storybook):
