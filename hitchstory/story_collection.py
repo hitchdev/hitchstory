@@ -38,7 +38,6 @@ class StoryCollection(object):
         self._filters = []
         self._params = {}
         self._story_files = {}
-        self._stories = None
         self._filtered_stories = None
         self._non_variations = False
         self._only_uninherited = False
@@ -52,47 +51,44 @@ class StoryCollection(object):
         return self._engine
 
     def story_file(self, filename):
-        if filename not in self._story_files:
-            self._story_files[filename] = StoryFile(filename, self)
-        return self._story_files[filename]
+        return StoryFile(filename, self)
 
     @property
     def stories(self):
-        if self._stories is None:
-            self._stories = OrderedDict()
-            for filename in self._storypaths:
-                if not Path(filename).exists():
-                    raise exceptions.InvalidStoryPaths(
-                        "Story file name '{0}' does not exist.".format(filename)
+        story_dict = OrderedDict()
+        for filename in self._storypaths:
+            if not Path(filename).exists():
+                raise exceptions.InvalidStoryPaths(
+                    "Story file name '{0}' does not exist.".format(filename)
+                )
+            if Path(filename).isdir():
+                raise exceptions.InvalidStoryPaths(
+                    "Story path '{0}' is a directory.".format(filename)
+                )
+            for story in self.story_file(filename).ordered_by_file():
+                if story.slug in story_dict:
+                    raise exceptions.DuplicateStoryNames(
+                        story, story_dict[story.slug]
                     )
-                if Path(filename).isdir():
-                    raise exceptions.InvalidStoryPaths(
-                        "Story path '{0}' is a directory.".format(filename)
+                story_dict[story.slug] = story
+
+        # Make sure parent stories know who their children are and vice versa
+        for name, story in story_dict.items():
+            if story.based_on is not None:
+                parent_slug = slugify(story.based_on)
+
+                if parent_slug not in story_dict:
+                    raise exceptions.BasedOnStoryNotFound(
+                        story.based_on, story.name, story.filename
                     )
-                for story in self.story_file(filename).ordered_by_file():
-                    if story.slug in self._stories:
-                        raise exceptions.DuplicateStoryNames(
-                            story, self._stories[story.slug]
-                        )
-                    self._stories[story.slug] = story
+                story_dict[parent_slug].children.append(story)
+                story._parent = story_dict[parent_slug]
 
-            # Make sure parent stories know who their children are and vice versa
-            for name, story in self._stories.items():
-                if story.based_on is not None:
-                    parent_slug = slugify(story.based_on)
-
-                    if parent_slug not in self._stories:
-                        raise exceptions.BasedOnStoryNotFound(
-                            story.based_on, story.name, story.filename
-                        )
-                    self._stories[parent_slug].children.append(story)
-                    story._parent = self._stories[parent_slug]
-
-            # Revalidate steps and parameterize
-            # These things can only be done after the story hierarchy is set
-            for story in self._stories.values():
-                story.initialize()
-        return self._stories
+        # Revalidate steps and parameterize
+        # These things can only be done after the story hierarchy is set
+        for story in story_dict.values():
+            story.initialize()
+        return story_dict
 
     def ordered_by_file(self):
         """
