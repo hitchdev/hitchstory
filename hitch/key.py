@@ -376,11 +376,29 @@ def deploy():
 
 
 @cli.command()
-def docgen():
+def draftdocs():
     """
     Build documentation.
     """
     run_docgen(DIR, _storybook({}))
+
+
+@cli.command()
+def publishdocs():
+    git = Command("git").in_dir(DIR.gen)
+
+    if DIR.gen.joinpath("hitchstory").exists():
+        DIR.gen.joinpath("hitchstory").rmtree()
+
+    git("config", "user.name", "Bot").run()
+    git("config", "user.email", "bot@hithdev.com").run()
+    git("clone", "git@github.com:hitchdev/hitchstory.git").run()
+    git("rm", "-r", "docs/publish").run()
+
+    run_docgen(DIR, _storybook({}), publish=True)
+
+    git("add", "docs/publish").run()
+    git("commit", "-m", "Regenerated docs").run()
 
 
 @cli.command()

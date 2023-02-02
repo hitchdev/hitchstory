@@ -1,5 +1,5 @@
 from strictyaml import load
-from commandlib import python_bin
+from commandlib import Command, python_bin
 import hitchpylibrarytoolkit
 
 
@@ -37,11 +37,16 @@ def _contents(main_folder, folder):
     return markdown
 
 
-def run_docgen(paths, storybook):
+def run_docgen(paths, storybook, publish=False):
     dirtempl = python_bin.dirtempl.in_dir(paths.project / "docs")
     doc_src = paths.project / "docs" / "src"
-    dest_path = paths.project / "docs" / "draft"
     snippets_path = paths.project / "docs" / "snippets"
+    git = Command("git").in_dir(paths.project)
+
+    if publish:
+        dest_path = paths.gen / "docs" / "publish"
+    else:
+        dest_path = paths.project / "docs" / "draft"
 
     if snippets_path.exists():
         snippets_path.rmtree()
@@ -75,7 +80,7 @@ def run_docgen(paths, storybook):
     )
     snippets_path.joinpath("using-contents.txt").write_text(_contents(doc_src, "using"))
     dirtempl("--snippets", "snippets", "src", dest_path).run()
-    
+
     dest_path.joinpath("changelog.md").write_text(
         hitchpylibrarytoolkit.docgen.changelog(paths.project)
     )

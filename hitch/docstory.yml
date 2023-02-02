@@ -70,6 +70,10 @@ variation: |
   ## {{ name }}
   
   {{ about }}
+  
+  {% for name, property in given.items() %}
+  {{ property.documentation() }}
+  {% endfor %}
 
   {% for step in steps %}
   {{ step.documentation() }}
