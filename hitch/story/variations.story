@@ -3,9 +3,10 @@ Variations:
   about: |
     Some stories are very similar except for a few changed items. You
     can create substories within the same story in order to enumerate
-    all of the possible permutations.
+    all of the possible permutations of preconditions and steps
+    under a particular story.
 
-    This works in the same way as inheritance.
+    Variations are simply inherited stories defined on the same story.
   given:
     core files:
       example.story: |
@@ -75,7 +76,7 @@ Variations:
             frog
             SUCCESS in 0.1 seconds.
 
-    Non-variations:
+    Non-variations can be selected from the collection:
       steps:
       - Run:
           code: |
@@ -85,7 +86,7 @@ Variations:
                 ["Create files", ]
             )
 
-    Variations on story:
+    Variations can be grabbed directly from a story object:
       steps:
       - Run:
           code: |
@@ -95,7 +96,7 @@ Variations:
                 ["Create files/cat"],
             )
 
-    Only children:
+    Only child stories can be selected also:
       steps:
       - Run:
           code: |
