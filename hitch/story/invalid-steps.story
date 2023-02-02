@@ -210,10 +210,10 @@ Invalid story:
               /src/hitchstory/given.py
 
 
-                    61 :                     ", ".join(self._preconditions.keys())
-                    62 :                     if len(self._preconditions.keys()) > 0
-                --> 63 :                     else "None",
-                    64 :                 )
+                    63 :                     ", ".join(self._preconditions.keys())
+                    64 :                     if len(self._preconditions.keys()) > 0
+                --> 65 :                     else "None",
+                    66 :                 )
 
 
 

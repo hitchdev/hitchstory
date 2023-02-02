@@ -57,7 +57,7 @@ Inherit one story from another:
 
         class Engine(BaseEngine):
             given_definition = GivenDefinition(
-                url=GivenProperty(schema=Str(), document="Load: {{ url }}"),
+                url=GivenProperty(schema=Str()),
             )
 
             def set_up(self):
