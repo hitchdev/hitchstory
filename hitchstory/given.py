@@ -35,8 +35,15 @@ class GivenProperties(object):
 
 
 class Given(object):
-    def __init__(self, preconditions, document_templates=None):
+    def __init__(
+        self, preconditions, child_preconditions=None, document_templates=None
+    ):
         self._preconditions = preconditions
+        if child_preconditions is not None:
+            self.child = Given(child_preconditions)
+        else:
+            self.child = self
+
         self._document_templates = document_templates
 
     def get(self, key, default=None):

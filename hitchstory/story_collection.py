@@ -67,9 +67,7 @@ class StoryCollection(object):
                 )
             for story in self.story_file(filename).ordered_by_file():
                 if story.slug in story_dict:
-                    raise exceptions.DuplicateStoryNames(
-                        story, story_dict[story.slug]
-                    )
+                    raise exceptions.DuplicateStoryNames(story, story_dict[story.slug])
                 story_dict[story.slug] = story
 
         # Make sure parent stories know who their children are and vice versa

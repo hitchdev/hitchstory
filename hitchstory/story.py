@@ -47,12 +47,14 @@ class Story(object):
         self.children = []
         self.about = self.data.get("about", "")
 
-    def _unparameterized_preconditions(self):
+    def _unparameterized_preconditions(self, child=False):
         precondition_dict = (
             self.parent._unparameterized_preconditions()
             if self.parent is not None
             else OrderedDict()
         )
+        if child:
+            precondition_dict = OrderedDict()
         for name, precondition in self.data.get("given", OrderedDict()).items():
             precondition_dict[name] = precondition
         return precondition_dict
@@ -84,13 +86,14 @@ class Story(object):
         Revalidate steps and parameterize stories.
         These things can only be done after the story hierarchy is set
         """
-        all_paramaterized_preconditions = self._parameterized_preconditions(
-            self._unparameterized_preconditions()
-        )
-
         self._given = Given(
-            all_paramaterized_preconditions,
-            self.engine.given_definition.document_templates,
+            preconditions=self._parameterized_preconditions(
+                self._unparameterized_preconditions()
+            ),
+            child_preconditions=self._parameterized_preconditions(
+                self._unparameterized_preconditions(child=True),
+            ),
+            document_templates=self.engine.given_definition.document_templates,
         )
 
         number_of_parent_steps = len(self._parent_steps)

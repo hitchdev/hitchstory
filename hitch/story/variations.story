@@ -124,7 +124,7 @@ Variations:
               
               {{ about }}
               
-              {% for name, property in given.items() %}
+              {% for name, property in given.child.items() %}
               {{ property.documentation() }}
               {% endfor %}
       steps:
@@ -146,5 +146,3 @@ Variations:
 
 
             cat
-
-            1

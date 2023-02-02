@@ -28,11 +28,13 @@ class DocGivenProperty(object):
 
 
 class DocGivenProperties(object):
-    def __init__(self, templates, given):
+    def __init__(self, templates, given, child=False):
         self._property_docs = {
             name: DocGivenProperty(templates, name, given[name])
             for name, given_property in given.items()
         }
+        if not child:
+            self.child = DocGivenProperties(templates, given.child, child=True)
 
     def __getattr__(self, name):
         return self._property_docs[name]
