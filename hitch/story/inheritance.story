@@ -31,6 +31,9 @@ Inherit one story from another:
             password: hunter2
           given:
             url: /loginurl
+            files:
+              a.txt: a
+              b.txt: b
           steps:
           - Fill form:
               username: (( username ))
@@ -52,16 +55,20 @@ Inherit one story from another:
             password: iamsosmrt
       engine.py: |
         from hitchstory import BaseEngine, GivenDefinition, GivenProperty
-        from strictyaml import Map, Int, Str, Optional
+        from strictyaml import Map, Int, Str, MapPattern, Optional
 
 
         class Engine(BaseEngine):
             given_definition = GivenDefinition(
                 url=GivenProperty(schema=Str()),
+                files=GivenProperty(schema=MapPattern(Str(), Str())),
             )
 
             def set_up(self):
                 print("visit {0}".format(self.given['url']))
+                
+                for filename, content in self.given.get("files", {}).items():
+                    print("{}: {}".format(filename, content))
 
             def fill_form(self, **textboxes):
                 for name, text in sorted(textboxes.items()):
@@ -84,6 +91,8 @@ Inherit one story from another:
           code: collection.named("Login").play()
           will output: |-
             RUNNING Login in /path/to/working/example.story ... visit /loginurl
+            a.txt: a
+            b.txt: b
             with password
             enter (( password ))
             with username
@@ -98,6 +107,8 @@ Inherit one story from another:
           code: collection.named("Log in on another url").play()
           will output: |-
             RUNNING Log in on another url in /path/to/working/example.story ... visit /alternativeloginurl
+            a.txt: a
+            b.txt: b
             with password
             enter (( password ))
             with username
@@ -112,6 +123,8 @@ Inherit one story from another:
           code: collection.named("Log in as president").play()
           will output: |-
             RUNNING Log in as president in /path/to/working/example.story ... visit /loginurl
+            a.txt: a
+            b.txt: b
             with password
             enter (( password ))
             with username
@@ -155,8 +168,7 @@ Attempt inheritance from non-existent story:
 
   steps:
   - Run:
-      code: StoryCollection(Path(".").glob("*.story"), Engine()).named("Write to
-        file").play()
+      code: StoryCollection(Path(".").glob("*.story"), Engine()).named("Write to file").play()
       raises:
         type: hitchstory.exceptions.BasedOnStoryNotFound
         message: Story 'Create files' which 'Write to file' in '/path/to/working/example.story'
