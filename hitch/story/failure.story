@@ -42,9 +42,9 @@ Handling failing tests:
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
-      from pathquery import pathquery
+      from pathlib import Path
 
-      story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+      story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
   variations:
     Failure in set_up method:
       given:

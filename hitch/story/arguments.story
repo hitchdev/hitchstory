@@ -25,7 +25,7 @@ Arguments to steps:
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
-      from pathquery import pathquery
+      from pathlib import Path
 
   variations:
     kwargs:
@@ -40,7 +40,7 @@ Arguments to steps:
       steps:
       - Run:
           code: |
-            StoryCollection(pathquery(".").ext("story"), Engine()).named("Login").play()
+            StoryCollection(Path(".").glob("*.story"), Engine()).named("Login").play()
           will output: RUNNING Login in /path/to/working/example.story ... SUCCESS
             in 0.1 seconds.
 
@@ -58,7 +58,7 @@ Arguments to steps:
       steps:
       - Run:
           code: |
-            StoryCollection(pathquery(".").ext("story"), Engine()).named("Click button").play()
+            StoryCollection(Path(".").glob("*.story"), Engine()).named("Click button").play()
           will output: RUNNING Click button in /path/to/working/example.story ...
             SUCCESS in 0.1 seconds.
 
@@ -74,6 +74,6 @@ Arguments to steps:
       steps:
       - Run:
           code: |
-            StoryCollection(pathquery(".").ext("story"), Engine()).named("Click button").play()
+            StoryCollection(Path(".").glob("*.story"), Engine()).named("Click button").play()
           will output: RUNNING Click button in /path/to/working/example.story ...
             SUCCESS in 0.1 seconds.

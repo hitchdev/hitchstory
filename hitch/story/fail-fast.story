@@ -21,7 +21,7 @@ Continue on failure when playing multiple stories:
             - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine
-      from pathquery import pathquery
+      from pathlib import Path
 
 
       class Engine(BaseEngine):
@@ -38,7 +38,7 @@ Continue on failure when playing multiple stories:
       - Run:
           code: |
             StoryCollection(
-                pathquery(".").ext("story"), Engine()
+                Path(".").glob("*.story"), Engine()
             ).ordered_by_name().play()
           will output: |-
             RUNNING A Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
@@ -70,7 +70,7 @@ Continue on failure when playing multiple stories:
       - Run:
           code: |
             StoryCollection(
-                pathquery(".").ext("story"), Engine()
+                Path(".").glob("*.story"), Engine()
             ).ordered_by_name().continue_on_failure().play()
           will output: |-
             RUNNING A Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.

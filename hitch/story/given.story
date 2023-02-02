@@ -67,14 +67,14 @@ Given preconditions:
                 self.driver.visit("http://www.google.com")
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from engine import Engine
   variations:
     Specified:
       steps:
       - Run:
           code: |
-            StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
+            StoryCollection(Path(".").glob("*.story"), Engine()).ordered_by_name().play()
           will output: |-
             RUNNING Load with chrome in /path/to/working/example.story ...
             Browser name: chrome

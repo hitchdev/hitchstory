@@ -96,12 +96,12 @@ Strong typing:
                 pass
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from engine import Engine
   steps:
   - Run:
       code: |
-        StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
+        StoryCollection(Path(".").glob("*.story"), Engine()).ordered_by_name().play()
       will output: |-
         RUNNING Create files in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
   - Output is: |

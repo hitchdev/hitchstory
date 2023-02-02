@@ -17,11 +17,11 @@ Run one story in collection:
                 pass
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from engine import Engine
 
 
-      story = StoryCollection(pathquery(".").ext("story"), Engine()).one()
+      story = StoryCollection(Path(".").glob("*.story"), Engine()).one()
   steps:
   - Run:
       code: story.play()

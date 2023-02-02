@@ -29,7 +29,7 @@ Play multiple stories in sequence:
             - Create file
     setup: |
       from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty
-      from pathquery import pathquery
+      from pathlib import Path
       from ensure import Ensure
 
       class Engine(BaseEngine):
@@ -65,7 +65,7 @@ Play multiple stories in sequence:
       - Run:
           code: |
             StoryCollection(
-                pathquery(".").ext("story"), Engine()
+                Path(".").glob("*.story"), Engine()
             ).in_filename("example1.story").ordered_by_name().play()
           will output: |-
             RUNNING Create file in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
@@ -76,7 +76,7 @@ Play multiple stories in sequence:
       steps:
       - Run:
           code: |
-            StoryCollection(pathquery(".").ext("story"), Engine()).one()
+            StoryCollection(Path(".").glob("*.story"), Engine()).one()
           raises:
             type: hitchstory.exceptions.MoreThanOneStory
             message: |-

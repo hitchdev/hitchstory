@@ -61,14 +61,14 @@ Story that rewrites itself:
 
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from engine import Engine
   variations:
     Rewritten:
       steps:
       - Run:
           code: |
-            StoryCollection(pathquery(".").ext("story"), Engine(rewrite=True)).ordered_by_name().play()
+            StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).ordered_by_name().play()
           will output: |-
             RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
             RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
@@ -106,7 +106,7 @@ Story that rewrites itself:
       steps:
       - Run:
           code: |
-            StoryCollection(pathquery(".").ext("story"), Engine(rewrite=False)).ordered_by_name().play()
+            StoryCollection(Path(".").glob("*.story"), Engine(rewrite=False)).ordered_by_name().play()
           will output: |-
             RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
             RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.

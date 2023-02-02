@@ -30,15 +30,15 @@ Invalid YAML:
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
-      from pathquery import pathquery
+      from pathlib import Path
   steps:
   - Run:
       code: |
-        StoryCollection(pathquery(".").ext("story"), Engine()).named("Valid YAML").play()
+        StoryCollection(Path(".").glob("*.story"), Engine()).named("Valid YAML").play()
       raises:
         type: hitchstory.exceptions.StoryYAMLError
         message: |-
-          YAML Error in file '/path/to/working/example1.story':
+          YAML Error in file 'example1.story':
           when expecting a mapping
           found arbitrary text
             in "<unicode string>", line 1, column 1:

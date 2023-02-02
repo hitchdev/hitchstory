@@ -32,7 +32,7 @@ Variations:
     setup: |
       from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty, validate
       from strictyaml import Map, Seq, Int, Str, Optional
-      from pathquery import pathquery
+      from pathlib import Path
       from ensure import Ensure
       from path import Path
 
@@ -62,7 +62,7 @@ Variations:
               assert type(animals['pond animal']) is str
               print(animals['pond animal'])
 
-      story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+      story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
   variations:
     Play:
       steps:

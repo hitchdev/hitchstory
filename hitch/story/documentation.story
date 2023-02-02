@@ -109,7 +109,7 @@ Base documentation:
           drag: '* Drag from {{ from_item }} to {{ to_item }}.'
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from engine import Engine
       from path import Path
       import jinja2
@@ -119,7 +119,7 @@ Base documentation:
       )
 
       story_collection = StoryCollection(
-          pathquery(".").ext("story"), Engine()
+          Path(".").glob("*.story"), Engine()
       ).non_variations()
 
 Generate documentation from story:

@@ -13,8 +13,8 @@ No stories:
   - Run:
       code: |
         from hitchstory import StoryCollection
-        from pathquery import pathquery
+        from pathlib import Path
         from engine import Engine
 
-        StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
+        StoryCollection(Path(".").glob("*.story"), Engine()).ordered_by_name().play()
       will output: No stories found

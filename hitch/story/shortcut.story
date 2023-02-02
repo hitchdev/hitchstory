@@ -25,14 +25,14 @@ Shortcut lookup for story names:
     setup: |
       from hitchstory import StoryCollection, BaseEngine
       from ensure import Ensure
-      from pathquery import pathquery
+      from pathlib import Path
 
       class Engine(BaseEngine):
           def create_file(self, filename="step1.txt", content="example"):
               with open(filename, 'w') as handle:
                   handle.write(content)
 
-      story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+      story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
   variations:
     Story found and run:
       steps:

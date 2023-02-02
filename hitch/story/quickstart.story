@@ -59,10 +59,10 @@ Quickstart:
   - Run:
       code: |
         from hitchstory import StoryCollection
-        from pathquery import pathquery
+        from pathlib import Path
         from engine import Engine
 
-        StoryCollection(pathquery(".").ext("story"), Engine()).named("Email sent").play()
+        StoryCollection(Path(".").glob("*.story"), Engine()).named("Email sent").play()
       will output: |-
         RUNNING Email sent in /path/to/working/example.story ...
         Visiting http://localhost:5000/login

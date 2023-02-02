@@ -60,10 +60,10 @@ Story with parameters:
                 ))
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from engine import Engine
 
-      story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+      story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
   variations:
     Default:
       steps:

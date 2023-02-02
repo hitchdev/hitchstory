@@ -24,11 +24,11 @@ Exception in special methods:
             - Do thing
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from engine import Engine
 
 
-      story = StoryCollection(pathquery(".").ext("story"), Engine()).one()
+      story = StoryCollection(Path(".").glob("*.story"), Engine()).one()
   variations:
     in on_success:
       given:

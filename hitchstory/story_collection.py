@@ -28,7 +28,7 @@ class StoryCollection(object):
             raise exceptions.InvalidStoryPaths(
                 (
                     "storypaths should be a list or iterator returning a list of story files"
-                    " (e.g. using pathquery). Instead it was string '{0}'."
+                    " (e.g. using pathlib.Path.glob). Instead it was string '{0}'."
                 ).format(storypaths)
             )
         self._storypaths = storypaths

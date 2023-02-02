@@ -33,7 +33,7 @@ Flaky story detection:
           - Step that always fails
     setup: |
       from hitchstory import StoryCollection, BaseEngine, Failure
-      from pathquery import pathquery
+      from pathlib import Path
 
       class Engine(BaseEngine):
           def __init__(self):
@@ -51,7 +51,7 @@ Flaky story detection:
       steps:
       - Run:
           code: |
-            flake_result = StoryCollection(pathquery(".").ext("story"), Engine()).with_flake_detection(times=5).named("flaky story").play()
+            flake_result = StoryCollection(Path(".").glob("*.story"), Engine()).with_flake_detection(times=5).named("flaky story").play()
 
             assert flake_result.is_flaky
           will output: |-
@@ -79,7 +79,7 @@ Flaky story detection:
       steps:
       - Run:
           code: |
-            flake_result = StoryCollection(pathquery(".").ext("story"), Engine()).with_flake_detection(times=5).named("consistent failure").play()
+            flake_result = StoryCollection(Path(".").glob("*.story"), Engine()).with_flake_detection(times=5).named("consistent failure").play()
 
             assert not flake_result.is_flaky
           will output: |-

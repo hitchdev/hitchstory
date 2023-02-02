@@ -10,8 +10,7 @@ Invalid story collections:
           raises:
             type: hitchstory.exceptions.InvalidStoryPaths
             message: storypaths should be a list or iterator returning a list of story
-              files (e.g. using pathquery). Instead it was string 'invalid'.
-
+              files (e.g. using pathlib.Path.glob). Instead it was string 'invalid'.
     Nonexistent files:
       steps:
       - Run:

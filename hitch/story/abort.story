@@ -41,11 +41,11 @@ Abort a story with ctrl-C:
                 print("Reticulate splines")
     setup: |
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from engine import Engine
   steps:
   - Run:
-      code: StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
+      code: StoryCollection(Path(".").glob("*.story"), Engine()).ordered_by_name().play()
       will output: |-
         RUNNING Create files in /path/to/working/example.story ... Aborted
         Reticulate splines

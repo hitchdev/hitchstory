@@ -73,10 +73,10 @@ Inherit one story from another:
     setup: |
       from engine import Engine
       from hitchstory import StoryCollection
-      from pathquery import pathquery
+      from pathlib import Path
       from ensure import Ensure
 
-      collection = StoryCollection(pathquery(".").ext("story"), Engine())
+      collection = StoryCollection(Path(".").glob("*.story"), Engine())
   variations:
     Original story:
       steps:
@@ -143,7 +143,7 @@ Attempt inheritance from non-existent story:
     setup: |
       from hitchstory import StoryCollection, BaseEngine
       from strictyaml import Map, Str
-      from pathquery import pathquery
+      from pathlib import Path
 
 
       class Engine(BaseEngine):
@@ -155,7 +155,7 @@ Attempt inheritance from non-existent story:
 
   steps:
   - Run:
-      code: StoryCollection(pathquery(".").ext("story"), Engine()).named("Write to
+      code: StoryCollection(Path(".").glob("*.story"), Engine()).named("Write to
         file").play()
       raises:
         type: hitchstory.exceptions.BasedOnStoryNotFound
