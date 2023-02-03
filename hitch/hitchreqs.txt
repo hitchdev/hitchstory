@@ -56,7 +56,7 @@ hitchrun==0.4.0
     #   hitchpylibrarytoolkit
 hitchrunpy==0.11.2
     # via hitchpylibrarytoolkit
-hitchstory==0.13.3
+hitchstory==0.14.0
     # via hitchpylibrarytoolkit
 icommandlib==0.5.0
     # via hitchrunpy

@@ -71,7 +71,7 @@ variation: |
   
   {{ about }}
   
-  {% for name, property in given.items() %}
+  {% for name, property in given.child.items() %}
   {{ property.documentation() }}
   {% endfor %}
 
@@ -86,6 +86,21 @@ steps:
     {{ contents }}
     ```
   example story unchanged: Then the example story will be unchanged.
+  
+  output is: |
+    The code will output:
+    ```
+    {{ expected_contents }}
+    ```
+  
+  tear down was run: Then teardown is run.
+
+  form filled: |
+    Then the form is filled with:
+    
+    {% for name, value in kwargs.items() %}
+    * {{ name }}: {{ value }}
+    {% endfor %}
 
   run: |
     {%- if in_interpreter %}
@@ -97,7 +112,6 @@ steps:
     {% else %}
     ```python
     {{ code }}
-    
     ```
     {% if will_output %}
     Will output:
