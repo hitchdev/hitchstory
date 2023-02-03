@@ -1,5 +1,3 @@
-# NOT YET USED
-
 story: |
   {% if include_title -%}
   ---
