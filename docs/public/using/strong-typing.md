@@ -48,17 +48,7 @@ Create files:
         options:
           tagline: Hoopy
           nametag: Ford Prefect
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -114,14 +104,13 @@ class Engine(BaseEngine):
 
     def tear_down(self):
         pass
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
-from pathquery import pathquery
+from pathlib import Path
 from engine import Engine
 
 ```
@@ -132,7 +121,7 @@ from engine import Engine
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
+StoryCollection(Path(".").glob("*.story"), Engine()).ordered_by_name().play()
 
 ```
 
@@ -144,8 +133,12 @@ RUNNING Create files in /path/to/working/example.story ... SUCCESS in 0.1 second
 
 
 
+The code will output:
+```
+Ford Prefect
+Items put back: 1
 
-
+```
 
 
 

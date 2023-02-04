@@ -45,24 +45,14 @@ Live in city:
       features: zoo
       steps:
       - Kick llama's ass
-
 ```
 
-
-
-
-
-
-
-
-
-
-
+With code:
 
 ```python
 from hitchstory import StoryCollection, BaseEngine, InfoDefinition, InfoProperty
 from strictyaml import Map, Str, CommaSeparated, Optional
-from pathquery import pathquery
+from pathlib import Path
 from ensure import Ensure
 from code_that_does_things import reticulate_splines, kick_llamas_ass
 
@@ -78,14 +68,17 @@ class Engine(BaseEngine):
     def kick_llamas_ass(self):
         print('kick llamas ass')
 
-story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
 
 ```
 
 
 
 
-Run all stories:
+## Run all stories
+
+
+
 
 
 
@@ -109,8 +102,10 @@ SUCCESS in 0.1 seconds.
 
 
 
+## Run only filtered stories
 
-Run only filtered stories:
+
+
 
 
 
@@ -130,8 +125,10 @@ SUCCESS in 0.1 seconds.
 
 
 
+## Info
 
-Info:
+
+
 
 
 
@@ -142,8 +139,6 @@ Ensure([story.info['project_jiras'] for story in story_collection.ordered_by_nam
 )
 
 ```
-
-
 
 
 

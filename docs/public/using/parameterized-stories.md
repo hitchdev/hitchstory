@@ -39,17 +39,7 @@ Click magic button:
         browser:
           name: chrome
           version: 153
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -78,24 +68,26 @@ class Engine(BaseEngine):
             for_browser['name'],
             for_browser['version']
         ))
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
-from pathquery import pathquery
+from pathlib import Path
 from engine import Engine
 
-story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
 
 ```
 
 
 
 
-Default:
+## Default
+
+
+
 
 
 
@@ -119,8 +111,10 @@ SUCCESS in 0.1 seconds.
 
 
 
+## Variation
 
-Variation:
+
+
 
 
 
@@ -144,8 +138,10 @@ SUCCESS in 0.1 seconds.
 
 
 
+## Specify parameters with code
 
-Specify parameters with code:
+
+
 
 
 
@@ -164,7 +160,6 @@ save screenshot:
 screenshot-ie-6.png
 SUCCESS in 0.1 seconds.
 ```
-
 
 
 

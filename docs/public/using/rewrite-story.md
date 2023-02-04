@@ -47,17 +47,7 @@ Do things:
     Do more things:
       steps:
         - Do thing: c
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -78,14 +68,13 @@ class Engine(BaseEngine):
             self.current_step.update(
                 variable_2="complicated:\nmultiline\nstring"
             )
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
-from pathquery import pathquery
+from pathlib import Path
 from engine import Engine
 
 ```
@@ -93,13 +82,16 @@ from engine import Engine
 
 
 
-Rewritten:
+## Rewritten
+
+
+
 
 
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine(rewrite=True)).ordered_by_name().play()
+StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).ordered_by_name().play()
 
 ```
 
@@ -115,14 +107,16 @@ RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS i
 
 
 
+## No changes
 
-No changes:
+
+
 
 
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine(rewrite=False)).ordered_by_name().play()
+StoryCollection(Path(".").glob("*.story"), Engine(rewrite=False)).ordered_by_name().play()
 
 ```
 
@@ -131,14 +125,11 @@ Will output:
 RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 ```
-
-
 
 
 
 
 Then the example story will be unchanged.
-
 
 
 

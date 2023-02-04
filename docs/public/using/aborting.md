@@ -32,17 +32,7 @@ Create files:
 Should never run:
   steps:
     - Should not happen
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -59,14 +49,13 @@ class Engine(BaseEngine):
 
     def tear_down(self):
         print("Reticulate splines")
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
-from pathquery import pathquery
+from pathlib import Path
 from engine import Engine
 
 ```
@@ -77,7 +66,7 @@ from engine import Engine
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
+StoryCollection(Path(".").glob("*.story"), Engine()).ordered_by_name().play()
 ```
 
 Will output:
@@ -85,7 +74,6 @@ Will output:
 RUNNING Create files in /path/to/working/example.story ... Aborted
 Reticulate splines
 ```
-
 
 
 

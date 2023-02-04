@@ -44,17 +44,7 @@ Load with small firefox window:
         width: 200
   steps:
   - Load website
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -85,14 +75,13 @@ class Engine(BaseEngine):
 
     def load_website(self):
         self.driver.visit("http://www.google.com")
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
-from pathquery import pathquery
+from pathlib import Path
 from engine import Engine
 
 ```
@@ -100,13 +89,16 @@ from engine import Engine
 
 
 
-Specified:
+## Specified
+
+
+
 
 
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine()).ordered_by_name().play()
+StoryCollection(Path(".").glob("*.story"), Engine()).ordered_by_name().play()
 
 ```
 
@@ -128,7 +120,6 @@ Dimensions: 200 x 200
 Visiting http://www.google.com
 SUCCESS in 0.1 seconds.
 ```
-
 
 
 

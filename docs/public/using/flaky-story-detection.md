@@ -28,8 +28,6 @@ is considered a failure.
 
 
 
-
-
 example1.story:
 
 ```yaml
@@ -40,21 +38,13 @@ Flaky story:
 Consistent failure:
   steps:
   - Step that always fails
-
 ```
 
-
-
-
-
-
-
-
-
+With code:
 
 ```python
 from hitchstory import StoryCollection, BaseEngine, Failure
-from pathquery import pathquery
+from pathlib import Path
 
 class Engine(BaseEngine):
     def __init__(self):
@@ -73,13 +63,16 @@ class Engine(BaseEngine):
 
 
 
-Run a single story that fails on fifth try:
+## Run a single story that fails on fifth try
+
+
+
 
 
 
 
 ```python
-flake_result = StoryCollection(pathquery(".").ext("story"), Engine()).with_flake_detection(times=5).named("flaky story").play()
+flake_result = StoryCollection(Path(".").glob("*.story"), Engine()).with_flake_detection(times=5).named("flaky story").play()
 
 assert flake_result.is_flaky
 
@@ -112,14 +105,16 @@ FLAKINESS DETECTED in 0.1 seconds, 20% of stories failed.
 
 
 
+## Run a single story that fails every time
 
-Run a single story that fails every time:
+
+
 
 
 
 
 ```python
-flake_result = StoryCollection(pathquery(".").ext("story"), Engine()).with_flake_detection(times=5).named("consistent failure").play()
+flake_result = StoryCollection(Path(".").glob("*.story"), Engine()).with_flake_detection(times=5).named("consistent failure").play()
 
 assert not flake_result.is_flaky
 
@@ -190,7 +185,6 @@ Consistent failure!
 
 NO FLAKINESS DETECTED in 0.1 seconds after running 'Consistent failure' story 5 times.
 ```
-
 
 
 

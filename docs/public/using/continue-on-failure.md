@@ -13,8 +13,6 @@ you may wish to continue after the first failure.
 
 
 
-
-
 example1.story:
 
 ```yaml
@@ -24,29 +22,20 @@ A Create file:
 B Create file:
   steps:
   - Fail
-
 ```
-
-
 example2.story:
 
 ```yaml
 C Create file a third time:
   steps:
     - Create file
-
 ```
 
-
-
-
-
-
-
+With code:
 
 ```python
 from hitchstory import StoryCollection, BaseEngine
-from pathquery import pathquery
+from pathlib import Path
 
 
 class Engine(BaseEngine):
@@ -62,14 +51,17 @@ class Engine(BaseEngine):
 
 
 
-Stop on failure is default behavior:
+## Stop on failure is default behavior
+
+
+
 
 
 
 
 ```python
 StoryCollection(
-    pathquery(".").ext("story"), Engine()
+    Path(".").glob("*.story"), Engine()
 ).ordered_by_name().play()
 
 ```
@@ -104,15 +96,17 @@ Error
 
 
 
+## Continue on failure
 
-Continue on failure:
+
+
 
 
 
 
 ```python
 StoryCollection(
-    pathquery(".").ext("story"), Engine()
+    Path(".").glob("*.story"), Engine()
 ).ordered_by_name().continue_on_failure().play()
 
 ```
@@ -143,7 +137,6 @@ builtins.Exception
 Error
 RUNNING C Create file a third time in /path/to/working/example2.story ... SUCCESS in 0.1 seconds.
 ```
-
 
 
 

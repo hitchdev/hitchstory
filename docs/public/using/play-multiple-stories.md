@@ -12,18 +12,15 @@ By default hitchstory will stop when it sees its first
 failure. This behavior can be changed though.
 
 
-Example base.story:
+
+
+base.story:
 
 ```yaml
 Base story:
   given:
     random variable: some value
-
 ```
-
-
-
-
 example1.story:
 
 ```yaml
@@ -35,10 +32,7 @@ Create file again:
   based on: base story
   steps:
     - Create file
-
 ```
-
-
 example2.story:
 
 ```yaml
@@ -46,19 +40,13 @@ Create files:
   based on: base story
   steps:
     - Create file
-
 ```
 
-
-
-
-
-
-
+With code:
 
 ```python
 from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty
-from pathquery import pathquery
+from pathlib import Path
 from ensure import Ensure
 
 class Engine(BaseEngine):
@@ -75,7 +63,10 @@ class Engine(BaseEngine):
 
 
 
-Running all stories in file order:
+## Running all stories in file order
+
+
+
 
 
 
@@ -105,15 +96,17 @@ RUNNING Create files in /path/to/working/example2.story ... SUCCESS in 0.1 secon
 
 
 
+## Running all tests ordered by name in 'example1.story'
 
-Running all tests ordered by name in 'example1.story':
+
+
 
 
 
 
 ```python
 StoryCollection(
-    pathquery(".").ext("story"), Engine()
+    Path(".").glob("*.story"), Engine()
 ).in_filename("example1.story").ordered_by_name().play()
 
 ```
@@ -128,28 +121,18 @@ RUNNING Create file again in /path/to/working/example1.story ... SUCCESS in 0.1 
 
 
 
-
-Using .one() on a group of stories will fail:
-
+## Using .one() on a group of stories will fail
 
 
 
-```python
-StoryCollection(pathquery(".").ext("story"), Engine()).one()
 
-```
+
 
 
 ```python
-hitchstory.exceptions.MoreThanOneStory:
-More than one matching story:
-Base story (in /path/to/working/base.story)
-Create file (in /path/to/working/example1.story)
-Create file again (in /path/to/working/example1.story)
-Create files (in /path/to/working/example2.story)
+StoryCollection(Path(".").glob("*.story"), Engine()).one()
+
 ```
-
-
 
 
 

@@ -17,7 +17,7 @@ This means, among other things, *where it is feasible*, automated test builders 
 
 While "test realistically" might *appear* to be very obvious, it does, unfortunately,
 conflict with certain more fashionable principles, chiefly
-"[FIRST](https://web.archive.org/web/20190914234457/https://pragprog.com/magazines/2012-01/unit-tests-are-first)".
+"[FIRST](https://pragprog.com/magazines/2012-01/unit-tests-are-first)".
 
 Taken to extremes this means you get some people saying "[TDD test suites should run in
 10 seconds or less](http://blog.ploeh.dk/2012/05/24/TDDtestsuitesshouldrunin10secondsorless/)"

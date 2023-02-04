@@ -20,17 +20,7 @@ Create files:
     - Create file:
         file name: step3.txt
         content: third step
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -47,14 +37,13 @@ class Engine(BaseEngine):
 
         with open("ranstory.txt", 'w') as handle:
             handle.write(self.story.name)
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
-from pathquery import pathquery
+from pathlib import Path
 from engine import Engine
 
 ```
@@ -65,7 +54,7 @@ from engine import Engine
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine()).named("Create files").play()
+StoryCollection(Path(".").glob("*.story"), Engine()).named("Create files").play()
 
 ```
 
@@ -78,15 +67,11 @@ SUCCESS in 0.1 seconds.
 
 
 
-
-
 File step1.txt should now contain:
 
 ```
 example
 ```
-
-
 
 File step2.txt should now contain:
 
@@ -94,22 +79,17 @@ File step2.txt should now contain:
 example
 ```
 
-
-
 File step3.txt should now contain:
 
 ```
 third step
 ```
 
-
-
 File ranstory.txt should now contain:
 
 ```
 Create files
 ```
-
 
 
 

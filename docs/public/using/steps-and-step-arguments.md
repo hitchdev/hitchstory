@@ -13,15 +13,6 @@ largely consistent with how python methods work:
 
 
 
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -38,28 +29,41 @@ class Engine(BaseEngine):
     def click(self, what, how_many_times=1, double_click=False):
         for _ in range(how_many_times):
             click(what)
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
 from engine import Engine
-from pathquery import pathquery
+from pathlib import Path
 
 ```
 
 
 
 
-kwargs:
+## kwargs
+
+
+
+
+
+example.story:
+
+```yaml
+Login:
+  steps:
+    - Fill form:
+        login username: john
+        login password: hunter2
+```
 
 
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine()).named("Login").play()
+StoryCollection(Path(".").glob("*.story"), Engine()).named("Login").play()
 
 ```
 
@@ -71,17 +75,34 @@ RUNNING Login in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 
 
 
+Then the form is filled with:
+
+
+* login username: john
+
+* login password: hunter2
+
+
+
+## optional args single argument
 
 
 
 
-optional args single argument:
+
+example.story:
+
+```yaml
+Click button:
+  steps:
+    - Click: my button
+```
 
 
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine()).named("Click button").play()
+StoryCollection(Path(".").glob("*.story"), Engine()).named("Click button").play()
 
 ```
 
@@ -94,14 +115,27 @@ RUNNING Click button in /path/to/working/example.story ... SUCCESS in 0.1 second
 
 
 
+## optional args fewer than the maximum arguments
 
-optional args fewer than the maximum arguments:
+
+
+
+
+example.story:
+
+```yaml
+Click button:
+  steps:
+    - Click:
+        what: my button
+        how many times: 2
+```
 
 
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine()).named("Click button").play()
+StoryCollection(Path(".").glob("*.story"), Engine()).named("Click button").play()
 
 ```
 
@@ -109,7 +143,6 @@ Will output:
 ```
 RUNNING Click button in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 ```
-
 
 
 

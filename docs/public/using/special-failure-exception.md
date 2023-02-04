@@ -1,5 +1,5 @@
 ---
-title: Special exception named failure
+title: Raising a Failure exception for known errors
 ---
 
 
@@ -9,25 +9,6 @@ If you want to indicate a test failure, raise the
 
 This is by default an expected exception, so no stack trace
 will be printed if it is raised.
-
-
-
-
-example.story:
-
-```yaml
-Failing story:
-  steps:
-    - Raise special failure exception
-    - Step that will not run
-    - Step that will not run
-
-```
-
-
-
-
-
 
 
 
@@ -60,17 +41,25 @@ class Engine(BaseEngine):
 
     def not_executed_step(self):
         pass
+```
+example.story:
 
+```yaml
+Failing story:
+  steps:
+    - Raise special failure exception
+    - Step that will not run
+    - Step that will not run
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
 from engine import Engine
-from pathquery import pathquery
+from pathlib import Path
 
-story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
 
 ```
 
@@ -99,7 +88,6 @@ hitchstory.exceptions.Failure
 
 Special failure exception - no stacktrace printed!
 ```
-
 
 
 

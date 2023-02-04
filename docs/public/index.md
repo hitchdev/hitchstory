@@ -4,10 +4,8 @@ title: HitchStory
 
 ![](sliced-cucumber.jpg)
 
-
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"> 
 <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
-
 
 
 HitchStory is a python 3
@@ -28,7 +26,6 @@ code to execute them is written by you, in python.
 
 
 ## Example
-
 
 
 
@@ -64,17 +61,7 @@ Email sent:
         I think I got hacked!
   - Clicked: send email
   - Email was sent
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -103,11 +90,7 @@ class Engine(BaseEngine):
 
     def email_was_sent(self):
         email_was_sent()
-
 ```
-
-
-
 
 
 
@@ -115,16 +98,11 @@ class Engine(BaseEngine):
 
 
 ```python
-from hitchstory import StoryCollection
-from pathquery import pathquery
-from engine import Engine
-
-StoryCollection(pathquery(".").ext("story"), Engine()).named("Email sent").play()
-
-```
-
-Will output:
-```
+>>> from hitchstory import StoryCollection
+>>> from pathlib import Path
+>>> from engine import Engine
+>>> 
+>>> StoryCollection(Path(".").glob("*.story"), Engine()).named("Email sent").play()
 RUNNING Email sent in /path/to/working/example.story ...
 Visiting http://localhost:5000/login
 Entering text hunter2 in password
@@ -150,108 +128,74 @@ SUCCESS in 0.1 seconds.
 
 
 
-
-
-
-
-## Installation and set up
-
-You *can* install hitchstory through pypi in any python 3 virtualenv:
+## Install
 
 ```bash
 $ pip install hitchstory
 ```
 
-However, it's recommended to install and set up hitchstory with [hitchkey](https://github.com/hitchdev/hitchkey),
-which will take care of automatically setting up a up the [recommended hitchstory environment](approach/recommended-environment).
-
-Install hitchkey with [pipx](https://pypa.github.io/pipx/):
-
-```bash
-pipx install hitchkey
-```
-
-Once hitchkey is installed:
-
-Example demo of hitchstory basics:
-
-```bash
-cd temp
-hk --demo hitchstory ; hk bdd email
-```
-
-Example python API test demo (uses game of life):
-
-```bash
-cd temp
-hk --demo pythonapi ; cd pythonapi ; hk bdd
-```
-
-
 ## Using HitchStory
 
-- [Abort a story with ctrl-C](using/alpha/aborting)
-- [Continue on failure when playing multiple stories](using/alpha/continue-on-failure)
-- [Hiding stacktraces for expected exceptions](using/alpha/expected-exceptions)
-- [Handling failing tests](using/alpha/failing-tests)
-- [Flaky story detection](using/alpha/flaky-story-detection)
-- [Generate documentation from stories](using/alpha/generate-documentation)
-- [Given preconditions](using/alpha/given)
-- [Gradual typing of story steps](using/alpha/gradual-typing)
-- [Inherit one story from another](using/alpha/inheritance)
-- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/alpha/metadata)
-- [Story with parameters](using/alpha/parameterized-stories)
-- [Play multiple stories in sequence](using/alpha/play-multiple-stories)
-- [Story that rewrites itself](using/alpha/rewrite-story)
-- [Running a single named story successfully](using/alpha/run-single-named-story)
-- [Shortcut lookup for story names](using/alpha/shortcut-lookup)
-- [Special exception named failure](using/alpha/special-failure-exception)
-- [Arguments to steps](using/alpha/steps-and-step-arguments)
-- [Strong typing](using/alpha/strong-typing)
-- [Variations](using/alpha/variations)
-
-
+- [Abort a story with ctrl-C](using/aborting)
+- [Continue on failure when playing multiple stories](using/continue-on-failure)
+- [Hiding stacktraces for expected exceptions](using/expected-exceptions)
+- [Handling failing tests](using/failing-tests)
+- [Flaky story detection](using/flaky-story-detection)
+- [Generate documentation with extra variables and functions](using/generate-documentation)
+- [Given preconditions](using/given)
+- [Gradual typing of story steps](using/gradual-typing)
+- [Inherit one story from another](using/inheritance)
+- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/metadata)
+- [Story with parameters](using/parameterized-stories)
+- [Play multiple stories in sequence](using/play-multiple-stories)
+- [Story that rewrites itself](using/rewrite-story)
+- [Running a single named story successfully](using/run-single-named-story)
+- [Shortcut lookup for story names](using/shortcut-lookup)
+- [Raising a Failure exception for known errors](using/special-failure-exception)
+- [Arguments to steps](using/steps-and-step-arguments)
+- [Strong typing](using/strong-typing)
+- [Variations](using/variations)
 
 
 ## Approach to using HitchStory
 
 Best practices, how the tool was meant to be used, etc.
 
-- [What is the difference betweeen a test and a story?](approach/)
-- [Recommended complementary tools](approach/)
-- [Triality](approach/)
-- [Tests are an investment](approach/)
-- [Executable specifications](approach/)
-- [Recommended Environment](approach/)
-- [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](approach/)
-- [Does hitchstory let your BA or Product Manager write stories while you just write the code?](approach/)
-- [What is a testing and living documentation framework?](approach/)
-- [Flaky Tests](approach/)
-- [The importance of test realism](approach/)
-- [How can executable specifications and living documentation be used for stakeholder collaboration?](approach/)
-- [Screenplay Principle](approach/)
-- [Testing non-deterministic code](approach/)
+- [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](approach/bdd)
+- [Recommended complementary tools](approach/complementary-tools)
+- [Executable specifications](approach/executable-specifications)
+- [Flaky Tests](approach/flaky-tests)
+- [Does hitchstory let your BA or Product Manager write stories while you just write the code?](approach/human-writable)
+- [Recommended Environment](approach/recommended-environment)
+- [Screenplay Principle](approach/screenplay-principle)
+- [How can executable specifications and living documentation be used for stakeholder collaboration?](approach/stakeholder-collaboration)
+- [Tests are an investment](approach/test-investment)
+- [What is the difference betweeen a test and a story?](approach/test-or-story)
+- [The importance of test realism](approach/test-realism)
+- [What is a testing and living documentation framework?](approach/testing-and-living-documentation)
+- [Testing non-deterministic code](approach/testing-nondeterministic-code)
+- [Triality](approach/triality)
 
 
 ## Design decisions and principles
 
-Somewhat controversial design decisions are justified here.
+Design decisions are justified here:
 
-- [Principles](why/)
-- [Two Unit Tests, Zero Integration Tests](why/)
-- [Declarative User Stories](why/)
-- [Why is inheritance a feature of hitchstory stories?](why/)
-- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](why/)
-- [Why programatically rewrite stories?](why/)
-- [Why does HitchStory use StrictYAML?](why/)
-- [Why does hitchstory mandate the use of given but not when and then?](why/)
-- [Why does hitchstory not have a command line interface?](why/)
+- [Declarative User Stories](why/declarative)
+- [Why does hitchstory mandate the use of given but not when and then?](why/given-when-then)
+- [Why is inheritance a feature of hitchstory stories?](why/inheritance)
+- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](why/interesting-to-the-business)
+- [Why does hitchstory not have a command line interface?](why/no-cli)
+- [Principles](why/principles)
+- [Why programatically rewrite stories?](why/rewrite)
+- [Why does HitchStory use StrictYAML?](why/strictyaml)
 
 
 ## Why not X instead?
 
 There are several tools you can use instead, this is why you should use this one instead:
 
-- [Why not use the Robot Framework?](why-not/)
-- [Why not use Behave, Lettuce or Cucumber (Gherkin)?](why-not/)
-- [Why use hitchstory instead of a unit testing framework?](why-not/)
+- [Why not use Behave, Lettuce or Cucumber (Gherkin)?](why-not/gherkin)
+- [Why not use the Robot Framework?](why-not/robot)
+- [Why use hitchstory instead of a unit testing framework?](why-not/unit-test)
+

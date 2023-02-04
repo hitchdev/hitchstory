@@ -16,18 +16,10 @@ example.story:
 ```yaml
 Failing story:
   steps:
-    - Failing step without stacktrace
-
+    - Passing step
+    - Failing step
+    - Not executed step
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -56,18 +48,26 @@ class Engine(BaseEngine):
 
     def not_executed_step(self):
         pass
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
 from engine import Engine
-from pathquery import pathquery
+from pathlib import Path
 
-story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
 
+```
+
+
+example.story:
+
+```yaml
+Failing story:
+  steps:
+    - Failing step without stacktrace
 ```
 
 
@@ -83,9 +83,32 @@ Will output:
 ```
 RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
-    Failing story:
       steps:
-      - Failing step without stacktrace
+      - Passing step
+      - Failing step
+      - Not executed step
+
+
+[1]: function 'failing_step'
+  /path/to/working/engine.py
+
+
+        6 :
+        7 :     def failing_step(self):
+    --> 8 :         raise_example_exception("Towel not located")
+        9 :
+
+
+
+[2]: function 'raise_example_exception'
+  /path/to/working/code_that_does_things.py
+
+
+        21 :
+        22 : def raise_example_exception(text=""):
+    --> 23 :     raise ExampleException(text)
+        24 :
+
 
 
 code_that_does_things.ExampleException
@@ -94,9 +117,8 @@ code_that_does_things.ExampleException
 
     It spreads across multiple lines.
 
-Expected exception
+Towel not located
 ```
-
 
 
 

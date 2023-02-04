@@ -38,6 +38,9 @@ Login:
     password: hunter2
   given:
     url: /loginurl
+    files:
+      a.txt: a
+      b.txt: b
   steps:
   - Fill form:
       username: (( username ))
@@ -57,64 +60,54 @@ Log in as president:
   with:
     username: DonaldTrump
     password: iamsosmrt
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
-from hitchstory import BaseEngine, GivenDefinition, GivenProperty, about
-from strictyaml import Map, Int, Str, Optional
+from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+from strictyaml import Map, Int, Str, MapPattern, Optional
 
 
 class Engine(BaseEngine):
     given_definition = GivenDefinition(
-        url=GivenProperty(schema=Str(), document="Load: {{ url }}"),
+        url=GivenProperty(schema=Str()),
+        files=GivenProperty(schema=MapPattern(Str(), Str())),
     )
 
     def set_up(self):
         print("visit {0}".format(self.given['url']))
+        
+        for filename, content in self.given.get("files", {}).items():
+            print("{}: {}".format(filename, content))
 
-    @about((
-        "{% for name, value in textboxes.items() %}\n"
-        "- Enter text '{{ value }}' in {{ name }}.\n"
-        "{%- endfor %}\n"
-    ))
     def fill_form(self, **textboxes):
         for name, text in sorted(textboxes.items()):
             print("with {0}".format(name))
             print("enter {0}".format(text))
 
-    @about("* Click on {{ item }}")
     def click(self, item):
         print("clicked on {0}".format(item))
-
 ```
 
-
+With code:
 
 ```python
 from engine import Engine
 from hitchstory import StoryCollection
-from pathquery import pathquery
+from pathlib import Path
 from ensure import Ensure
 
-collection = StoryCollection(pathquery(".").ext("story"), Engine())
+collection = StoryCollection(Path(".").glob("*.story"), Engine())
 
 ```
 
 
 
 
-Original story:
+## Original story
+
+
+
 
 
 
@@ -126,6 +119,8 @@ collection.named("Login").play()
 Will output:
 ```
 RUNNING Login in /path/to/working/example.story ... visit /loginurl
+a.txt: a
+b.txt: b
 with password
 enter (( password ))
 with username
@@ -138,8 +133,10 @@ SUCCESS in 0.1 seconds.
 
 
 
+## Override given
 
-Override given:
+
+
 
 
 
@@ -151,6 +148,8 @@ collection.named("Log in on another url").play()
 Will output:
 ```
 RUNNING Log in on another url in /path/to/working/example.story ... visit /alternativeloginurl
+a.txt: a
+b.txt: b
 with password
 enter (( password ))
 with username
@@ -163,8 +162,10 @@ SUCCESS in 0.1 seconds.
 
 
 
+## Override parameters
 
-Override parameters:
+
+
 
 
 
@@ -176,6 +177,8 @@ collection.named("Log in as president").play()
 Will output:
 ```
 RUNNING Log in as president in /path/to/working/example.story ... visit /loginurl
+a.txt: a
+b.txt: b
 with password
 enter (( password ))
 with username
@@ -188,8 +191,10 @@ SUCCESS in 0.1 seconds.
 
 
 
+## Only children
 
-Only children:
+
+
 
 
 
@@ -206,7 +211,6 @@ Will output:
 Log in on another url
 Log in as president
 ```
-
 
 
 

@@ -1,0 +1,89 @@
+{% if include_title -%}
+---
+title: {{ story.name }}
+---
+{% if story.info['experimental'] %}{% raw %}
+!!! warning "Experimental"
+
+    This feature is in alpha. The API may change on a minor version increment.
+{% endraw %}{% endif %}
+{% endif %}
+
+{{ story.about }}
+
+{% if 'base_story' in story.given %}Example base.story:
+
+```yaml
+{{ story.given['base_story'] }}
+```
+{% endif %}
+
+{% if 'example_story' in story.given %}example.story:
+
+```yaml
+{{ story.given['example_story'] }}
+```
+{% endif %}
+
+{% if 'example1_story' in story.given %}example1.story:
+
+```yaml
+{{ story.given['example1_story'] }}
+```
+{% endif %}
+
+{% if 'example2_story' in story.given %}example2.story:
+
+```yaml
+{{ story.given['example2_story'] }}
+```
+{% endif %}
+
+{% if 'example3_story' in story.given %}example3.story:
+
+```yaml
+{{ story.given['example3_story'] }}
+```
+{% endif %}
+
+
+{% if 'engine_py' in story.given %}engine.py:
+
+```python
+{{ story.given['engine_py'] }}
+```
+{% endif %}
+
+{% if 'setup' in story.given %}
+```python
+{{ story.given['setup'] }}
+```
+{%- endif %}
+
+{% if story.variations %}
+
+{% for variation in story.variations %}
+{{ variation.child_name }}:
+
+{% for step in variation.steps %}
+{% with step = step %}{% include "step.jinja2" %}{% endwith %}
+{% endfor %}
+{% endfor %}
+
+{% else %}
+
+{% for step in story.steps %}
+{% with step = step %}{% include "step.jinja2" %}{% endwith %}
+{% endfor %}
+
+{% endif %}
+
+{% if include_title %}
+
+!!! note "Executable specification"
+
+    Documentation automatically generated from 
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/{{ story.filename.basename() }}">{{ story.filename.basename() }}
+    storytests.</a>
+
+{% endif %}

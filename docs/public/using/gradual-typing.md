@@ -34,17 +34,7 @@ Create files:
         details:
           file name: step1.txt
           content: some other text
-
 ```
-
-
-
-
-
-
-
-
-
 engine.py:
 
 ```python
@@ -64,14 +54,13 @@ class Engine(BaseEngine):
     def create_file(self, details):
         with open(details['file name'], 'w') as handle:
             handle.write(details['content'])
-
 ```
 
-
+With code:
 
 ```python
 from hitchstory import StoryCollection
-from pathquery import pathquery
+from pathlib import Path
 from engine import Engine
 
 ```
@@ -82,7 +71,7 @@ from engine import Engine
 
 
 ```python
-StoryCollection(pathquery(".").ext("story"), Engine()).named("Create files").play()
+StoryCollection(Path(".").glob("*.story"), Engine()).named("Create files").play()
 
 ```
 
@@ -94,22 +83,17 @@ RUNNING Create files in /path/to/working/example.story ... SUCCESS in 0.1 second
 
 
 
-
-
 File preconditionfile.txt should now contain:
 
 ```
 some text
 ```
 
-
-
 File step1.txt should now contain:
 
 ```
 some other text
 ```
-
 
 
 

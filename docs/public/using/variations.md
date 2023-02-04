@@ -6,9 +6,10 @@ title: Variations
 
 Some stories are very similar except for a few changed items. You
 can create substories within the same story in order to enumerate
-all of the possible permutations.
+all of the possible permutations of preconditions and steps
+under a particular story.
 
-This works in the same way as inheritance.
+Variations are simply inherited stories defined on the same story.
 
 
 
@@ -32,27 +33,19 @@ Create files:
           pond animal: frog
   variations:
     cat:
+      about: create a cat file
       given:
         content: cat
-
 ```
 
-
-
-
-
-
-
-
-
-
-
+With code:
 
 ```python
 from hitchstory import StoryCollection, BaseEngine, GivenDefinition, GivenProperty, validate
 from strictyaml import Map, Seq, Int, Str, Optional
-from pathquery import pathquery
+from pathlib import Path
 from ensure import Ensure
+from path import Path
 
 
 class Engine(BaseEngine):
@@ -80,14 +73,17 @@ class Engine(BaseEngine):
         assert type(animals['pond animal']) is str
         print(animals['pond animal'])
 
-story_collection = StoryCollection(pathquery(".").ext("story"), Engine())
+story_collection = StoryCollection(Path(".").glob("*.story"), Engine())
 
 ```
 
 
 
 
-Play:
+## Play
+
+
+
 
 
 
@@ -110,8 +106,10 @@ SUCCESS in 0.1 seconds.
 
 
 
+## Non-variations can be selected from the collection
 
-Non-variations:
+
+
 
 
 
@@ -128,9 +126,10 @@ Ensure([
 
 
 
+## Variations can be grabbed directly from a story object
 
 
-Variations on story:
+
 
 
 
@@ -147,9 +146,10 @@ Ensure([
 
 
 
+## Only child stories can be selected also
 
 
-Only children:
+
 
 
 
@@ -163,6 +163,63 @@ Ensure([
 
 ```
 
+
+
+
+## Generate documentation
+
+
+
+
+
+docstory.yml:
+
+```yaml
+story: |
+  # {{ name }}
+  
+  {% for variation in variations %}
+  {{ variation.documentation() }}
+  {% endfor %}
+given:
+  content: '{{ content }}'
+  hierarchical_content: '{{ hierarchical_content["x"] }}'
+variation: |
+  ## {{ name }}
+  ## {{ full_name }}
+  
+  {{ about }}
+  
+  {% for name, property in given.child.items() %}
+  {{ property.documentation() }}
+  {% endfor %}
+```
+
+
+
+
+```python
+print(
+    story_collection.with_documentation(
+        Path("docstory.yml").text()
+    ).named("Create files").documentation()
+)
+
+```
+
+Will output:
+```
+# Create files
+
+
+## cat
+## Create files/cat
+
+create a cat file
+
+
+cat
+```
 
 
 
