@@ -79,10 +79,7 @@ def run_docgen(paths, storybook, publish=False):
         _contents(doc_src, "approach")
     )
     snippets_path.joinpath("using-contents.txt").write_text(_contents(doc_src, "using"))
-
-    import IPython
-
-    IPython.embed()
+    
     dirtempl("--snippets", snippets_path, doc_src, dest_path).run()
 
     dest_path.joinpath("changelog.md").write_text(
