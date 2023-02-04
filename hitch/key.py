@@ -371,20 +371,27 @@ def draftdocs():
 
 @cli.command()
 def publishdocs():
-    git = Command("git").in_dir(DIR.gen)
-
     if DIR.gen.joinpath("hitchstory").exists():
         DIR.gen.joinpath("hitchstory").rmtree()
 
+    Path("/root/.ssh/known_hosts").write_text(
+        Command("ssh-keyscan", "github.com").output()
+    )
+    Command("git", "clone", "git@github.com:hitchdev/hitchstory.git").in_dir(
+        DIR.gen
+    ).run()
+
+    git = Command("git").in_dir(DIR.gen / "hitchstory")
     git("config", "user.name", "Bot").run()
     git("config", "user.email", "bot@hithdev.com").run()
-    git("clone", "git@github.com:hitchdev/hitchstory.git").run()
-    git("rm", "-r", "docs/publish").run()
+    git("rm", "-r", "docs/public").run()
 
     run_docgen(DIR, _storybook({}), publish=True)
 
-    git("add", "docs/publish").run()
-    git("commit", "-m", "Regenerated docs").run()
+    git("add", "docs/public").run()
+    git("commit", "-m", "DOCS : Regenerated docs.").run()
+
+    git("push").run()
 
 
 @cli.command()

@@ -44,7 +44,7 @@ def run_docgen(paths, storybook, publish=False):
     git = Command("git").in_dir(paths.project)
 
     if publish:
-        dest_path = paths.gen / "docs" / "publish"
+        dest_path = paths.gen / "hitchstory" / "docs" / "public"
     else:
         dest_path = paths.project / "docs" / "draft"
 
@@ -79,7 +79,11 @@ def run_docgen(paths, storybook, publish=False):
         _contents(doc_src, "approach")
     )
     snippets_path.joinpath("using-contents.txt").write_text(_contents(doc_src, "using"))
-    dirtempl("--snippets", "snippets", "src", dest_path).run()
+
+    import IPython
+
+    IPython.embed()
+    dirtempl("--snippets", snippets_path, doc_src, dest_path).run()
 
     dest_path.joinpath("changelog.md").write_text(
         hitchpylibrarytoolkit.docgen.changelog(paths.project)
