@@ -27,7 +27,7 @@ the correct the mistakes that I'd made interpreting him, but also mistakes *he'd
 *writing* the ticket - just by looking over my shoulder.
 
 At the same time as correcting my mistakes I tried noting down metadata
-[alongside the stories](../../using/alpha/metadata) - about *why* the behavior
+[alongside the stories](../../using/metadata) - about *why* the behavior
 was as it was although due to time pressures I never really did figure it out
 and document it.
 
@@ -62,7 +62,7 @@ first *always* and then wrote the code that made it pass.
 
 Instead, I opted for a looser approach. I wrote the basic outline of the
 test first, *then* I wrote the code and *then* I ran the test in [rewrite
-mode](../../using/alpha/rewrite-story) so that whatever the command line output
+mode](../../using/rewrite-story) so that whatever the command line output
 was, that was written directly in to the story automatically if the rest of
 the scenario didn't fail.
 
