@@ -10,7 +10,7 @@
 /why/standard-yaml: /why/strictyaml
 /why/triality: /approach/triality
 /why/cucumbers-mistakes: /why-not/gherkin
-/why/2-unit-tests-0-integration-tests.md: /
+/why/2-unit-tests-0-integration-tests: /
 /using/alpha/continue-on-failure: /using/continue-on-failure
 /using/alpha/expected-exceptions: /using/expected-exceptions
 /using/alpha/failing-tests: /using/failing-tests
@@ -29,3 +29,5 @@
 /using/alpha/steps-and-step-arguments: /using/steps-and-step-arguments
 /using/alpha/strong-typing: /using/strong-typing
 /using/alpha/variations: /using/variations
+/using/alpha/aborting: /using/aborting
+/using/alpha: /using
