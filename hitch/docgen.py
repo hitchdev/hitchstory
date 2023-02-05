@@ -99,6 +99,10 @@ def run_docgen(paths, storybook, publish=False):
         _contents(doc_src / "why-not", "")
     )
 
+    snippets_path.joinpath("using-index-contents.txt").write_text(
+        _contents(doc_src / "using", "")
+    )
+
     dirtempl("--snippets", snippets_path, doc_src, dest_path).run()
 
     dest_path.joinpath("changelog.md").write_text(
