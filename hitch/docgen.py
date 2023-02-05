@@ -19,21 +19,28 @@ title: HitchStory
 
 
 def _title(filepath):
-    assert len(filepath.text().split("---")) >= 3, "{} doesn't have ---".format(
-        filepath
-    )
-    return load(filepath.text().split("---")[1]).data.get("title", "misc")
+    try:
+        assert len(filepath.text().split("---")) >= 3, "{} doesn't have ---".format(
+            filepath
+        )
+        return load(filepath.text().split("---")[1]).data.get("title", "misc")
+    except UnicodeDecodeError:
+        return None
+    except AssertionError:
+        return None
 
 
 def _contents(main_folder, folder):
     markdown = ""
     for filepath in sorted(main_folder.joinpath(folder).listdir()):
         if filepath.name != "index.md":
-            filepath.name.stripext()
-            markdown += "- [{}]({})\n".format(
-                _title(filepath),
-                filepath.relpath(main_folder).stripext(),
-            )
+            title = _title(filepath)
+
+            if title is not None:
+                markdown += "- [{}]({})\n".format(
+                    title,
+                    filepath.relpath(main_folder).stripext(),
+                )
     return markdown
 
 
@@ -79,7 +86,19 @@ def run_docgen(paths, storybook, publish=False):
         _contents(doc_src, "approach")
     )
     snippets_path.joinpath("using-contents.txt").write_text(_contents(doc_src, "using"))
-    
+
+    snippets_path.joinpath("approach-index-contents.txt").write_text(
+        _contents(doc_src / "approach", "")
+    )
+
+    snippets_path.joinpath("why-index-contents.txt").write_text(
+        _contents(doc_src / "why", "")
+    )
+
+    snippets_path.joinpath("why-not-index-contents.txt").write_text(
+        _contents(doc_src / "why-not", "")
+    )
+
     dirtempl("--snippets", snippets_path, doc_src, dest_path).run()
 
     dest_path.joinpath("changelog.md").write_text(
