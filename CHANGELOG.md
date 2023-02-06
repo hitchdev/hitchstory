@@ -3,6 +3,30 @@
 
 ### Latest
 
+
+No relevant code changes.
+
+### 0.14.0
+
+* FEATURE : given.child.items() usable in documentation templates.
+
+
+### 0.13.3
+
+* BUGFIX : Fix for bug caused by re-use use of with_documentation.
+* BUGFIX : Failing story for re use of with_documentation.
+* FEATURE : Display names properly in variation sub docs.
+
+
+### 0.13.2
+
+* FEATURE : Variations can be used to output docs.
+* FEATURE : Added ability to include variation docs.
+* BUGFIX : Fixed documentation error on steps with no arguments.
+
+
+### 0.13.1
+
 * FEATURE : Reference filename in story template.
 * BUGFIX : Documentation templates - fix exception on info.
 * FEATURE : Clearer exceptions on templates - on info.

@@ -399,7 +399,9 @@ def readmegen():
     """
     Build documentation.
     """
-    toolkit.readmegen(Engine(DIR, {}))
+    run_docgen(DIR, _storybook({}), readme=True)
+    DIR.project.joinpath("docs", "draft", "index.md").copy("README.md")
+    DIR.project.joinpath("docs", "draft", "changelog.md").copy("CHANGELOG.md")
 
 
 @cli.command()

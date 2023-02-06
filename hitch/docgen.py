@@ -30,21 +30,23 @@ def _title(filepath):
         return None
 
 
-def _contents(main_folder, folder):
+def _contents(main_folder, folder, readme):
     markdown = ""
     for filepath in sorted(main_folder.joinpath(folder).listdir()):
         if filepath.name != "index.md":
             title = _title(filepath)
 
             if title is not None:
+                path = filepath.relpath(main_folder).stripext()
+
                 markdown += "- [{}]({})\n".format(
                     title,
-                    filepath.relpath(main_folder).stripext(),
+                    "https://hitchdev.com/hitchstory/" + path if readme else path,
                 )
     return markdown
 
 
-def run_docgen(paths, storybook, publish=False):
+def run_docgen(paths, storybook, publish=False, readme=False):
     dirtempl = python_bin.dirtempl.in_dir(paths.project / "docs")
     doc_src = paths.project / "docs" / "src"
     snippets_path = paths.project / "docs" / "snippets"
@@ -77,31 +79,19 @@ def run_docgen(paths, storybook, publish=False):
         storybook,
     )
 
-    snippets_path.joinpath("intro.txt").write_text(DOCS_INTRO)
-    snippets_path.joinpath("why-contents.txt").write_text(_contents(doc_src, "why"))
-    snippets_path.joinpath("why-not-contents.txt").write_text(
-        _contents(doc_src, "why-not")
-    )
-    snippets_path.joinpath("approach-contents.txt").write_text(
-        _contents(doc_src, "approach")
-    )
-    snippets_path.joinpath("using-contents.txt").write_text(_contents(doc_src, "using"))
-
-    snippets_path.joinpath("approach-index-contents.txt").write_text(
-        _contents(doc_src / "approach", "")
+    snippets_path.joinpath("intro.txt").write_text(
+        README_INTRO if readme else DOCS_INTRO
     )
 
-    snippets_path.joinpath("why-index-contents.txt").write_text(
-        _contents(doc_src / "why", "")
-    )
+    for folder in ["why", "approach", "why-not", "using"]:
+        snippets_path.joinpath(f"{folder}-contents.txt").write_text(
+            _contents(doc_src, folder, readme=readme)
+        )
 
-    snippets_path.joinpath("why-not-index-contents.txt").write_text(
-        _contents(doc_src / "why-not", "")
-    )
-
-    snippets_path.joinpath("using-index-contents.txt").write_text(
-        _contents(doc_src / "using", "")
-    )
+    for folder in ["why", "approach", "why-not", "using"]:
+        snippets_path.joinpath(f"{folder}-index-contents.txt").write_text(
+            _contents(doc_src / "approach", "", readme=readme)
+        )
 
     dirtempl("--snippets", snippets_path, doc_src, dest_path).run()
 
