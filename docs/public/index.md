@@ -1,200 +1,201 @@
 ---
-title: OrJi
+title: HitchStory
 ---
 
 ![](sliced-cucumber.jpg)
 
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/crdoconnor/orji?style=social"> 
-<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/orji">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"> 
+<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
 
 
-OrJi is a command line tool to generate text files using [jinja2](https://en.wikipedia.org/wiki/Jinja_(template_engine))
-and [orgmode](https://en.wikipedia.org/wiki/Org-mode) files. It can be used to generate LaTeX or HTML or any other kind
-of text from an orgmode file.
+HitchStory is a python 3
+[testing and living documentation framework](approach/testing-and-living-documentation) for building easily
+maintained example driven [executable specifications](approach/executable-specifications) (sometimes dubbed
+acceptance tests).
 
-## Why?
+It was designed initially to make [realistic testing](approach/test-realism) of code less
+of a chore so the tests would actually get written and run.
 
-For me so I can write [letters](https://raw.githubusercontent.com/crdoconnor/orji/main/examples/letter.org) and stuff in [orgzly](https://orgzly.com/) or [plainorg](https://plainorg.com/) and run
-a short script to create a nicely formatted PDF from an easily edited [template file](https://github.com/crdoconnor/orji/blob/main/examples/letter.jinja2).
+The executable specifications can be written to specify and test applications at
+any level and have been used successfully to replace traditional
+low level unit tests, integration tests and end to end tests
+with easier to maintain tests.
 
-You can do quite a lot more than that, though.
+The specifications are [written using StrictYAML](why/strictyaml) and the
+code to execute them is written by you, in python.
+
+
+## Example
+
+
+
+
+
+
+
+example.story:
+
+```yaml
+Logged in:
+  given:
+    website: /login  # preconditions
+  steps:
+  - Form filled:
+      username: AzureDiamond
+      password: hunter2
+  - Clicked: login
+
+
+Email sent:
+  about: |
+    The most basic email with no subject, cc or bcc
+    set.
+  based on: logged in             # inherits from and continues from test above
+  steps:
+  - Clicked: new email
+  - Form filled:
+      to: Cthon98@aol.com
+      contents: |                # long form text
+        Hey guys,
+
+        I think I got hacked!
+  - Clicked: send email
+  - Email was sent
+```
+engine.py:
+
+```python
+from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+from mockemailchecker import email_was_sent
+from mockselenium import Webdriver
+from strictyaml import Str
+
+class Engine(BaseEngine):
+    given_definition = GivenDefinition(
+        website=GivenProperty(Str()),
+    )
+
+    def set_up(self):
+        self.driver = Webdriver()
+        self.driver.visit(
+            "http://localhost:5000{0}".format(self.given['website'])
+        )
+
+    def form_filled(self, **textboxes):
+        for name, contents in sorted(textboxes.items()):
+            self.driver.fill_form(name, contents)
+
+    def clicked(self, name):
+        self.driver.click(name)
+
+    def email_was_sent(self):
+        email_was_sent()
+```
+
+
+
+
+
+
+```python
+>>> from hitchstory import StoryCollection
+>>> from pathlib import Path
+>>> from engine import Engine
+>>> 
+>>> StoryCollection(Path(".").glob("*.story"), Engine()).named("Email sent").play()
+RUNNING Email sent in /path/to/working/example.story ...
+Visiting http://localhost:5000/login
+Entering text hunter2 in password
+Entering text AzureDiamond in username
+Clicking on login
+Clicking on new email
+In contents entering text:
+Hey guys,
+
+I think I got hacked!
+
+
+Entering text Cthon98@aol.com in to
+Clicking on send email
+Email was sent
+SUCCESS in 0.1 seconds.
+```
+
+
+
+
+
+
+
 
 ## Install
 
-OrJi is a command line app that be installed with pip:
-
 ```bash
-pipx install orji
+$ pip install hitchstory
 ```
 
-Typically best installed by installing it through
-[pipx](https://pypa.github.io/pipx/).
+## Using HitchStory
 
-```bash
-pipx install orji
-```
-
-## Example Usage
-
----
-title: Quickstart
----
-# Quickstart
-
-Use all basic orji template features in one file.
-
-
-
-
-
-simple.org
-```
-* TODO A todo note
-
-About text
-
-* DONE A done note with bullet points :tag1:
-
-+ Bullet one
-+ Bullet two
-
-* A third note with checkboxes :tag2:tag3:
-
-- [ ] Checkbox 1
-- [X] Checkbox 2
-- [ ] Checkbox 3
-
-* Fourth note
-:PROPERTIES:
-:prop1: ABC
-:prop2: CDE
-:END:
-
-Text
-
-** Subnote B
-
-*** Subnote C
-
-Subnote C body.
-
-```
+- [Abort a story with ctrl-C](using/aborting)
+- [Continue on failure when playing multiple stories](using/continue-on-failure)
+- [Hiding stacktraces for expected exceptions](using/expected-exceptions)
+- [Handling failing tests](using/failing-tests)
+- [Flaky story detection](using/flaky-story-detection)
+- [Generate documentation with extra variables and functions](using/generate-documentation)
+- [Given preconditions](using/given)
+- [Gradual typing of story steps](using/gradual-typing)
+- [Inherit one story from another](using/inheritance)
+- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/metadata)
+- [Story with parameters](using/parameterized-stories)
+- [Play multiple stories in sequence](using/play-multiple-stories)
+- [Story that rewrites itself](using/rewrite-story)
+- [Running a single named story successfully](using/run-single-named-story)
+- [Shortcut lookup for story names](using/shortcut-lookup)
+- [Raising a Failure exception for known errors](using/special-failure-exception)
+- [Arguments to steps](using/steps-and-step-arguments)
+- [Strong typing](using/strong-typing)
+- [Variations](using/variations)
 
 
-simple.jinja2
-```
-{% for note in notes %}
--------------------------
-Name: {{ note.name }}
-Slug: {{ note.slug }}
-State: {{ note.state }}
-Tags: {% for tag in note.tags %}{{ tag }} {% endfor %}
-ILookup : {{ note.indexlookup }}
+## Approach to using HitchStory
 
-Text:
+Best practices, how the tool was meant to be used, etc.
 
-{{ note.body }}
--------------------------
-{% endfor %}
-
-=========================
-Lookup level A:
-
-Text: {{ notes.at("Fourth note").body }}
-Property 1: {{ notes.at("Fourth note").prop["prop1"] }}
-ILookup : {{ notes.at("Fourth note").indexlookup }}
-=========================
-Lookup level C:
-
-Text: {{ notes.at("Fourth note").at("Subnote B").at("Subnote C").body }}
-ILookup : {{ notes.at("Fourth note").at("Subnote B").at("Subnote C").indexlookup }}
-=========================
-
-```
+- [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](approach/bdd)
+- [Recommended complementary tools](approach/complementary-tools)
+- [Executable specifications](approach/executable-specifications)
+- [Flaky Tests](approach/flaky-tests)
+- [Does hitchstory let your BA or Product Manager write stories while you just write the code?](approach/human-writable)
+- [Recommended Environment](approach/recommended-environment)
+- [Screenplay Principle](approach/screenplay-principle)
+- [How can executable specifications and living documentation be used for stakeholder collaboration?](approach/stakeholder-collaboration)
+- [Tests are an investment](approach/test-investment)
+- [What is the difference betweeen a test and a story?](approach/test-or-story)
+- [The importance of test realism](approach/test-realism)
+- [What is a testing and living documentation framework?](approach/testing-and-living-documentation)
+- [Testing non-deterministic code](approach/testing-nondeterministic-code)
+- [Triality](approach/triality)
 
 
+## Design decisions and principles
+
+Design decisions are justified here:
+
+- [Declarative User Stories](why/declarative)
+- [Why does hitchstory mandate the use of given but not when and then?](why/given-when-then)
+- [Why is inheritance a feature of hitchstory stories?](why/inheritance)
+- [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](why/interesting-to-the-business)
+- [Why does hitchstory not have a command line interface?](why/no-cli)
+- [Principles](why/principles)
+- [Why programatically rewrite stories?](why/rewrite)
+- [Why does HitchStory use StrictYAML?](why/strictyaml)
 
 
-orji simple.org simple.jinja2
+## Why not X instead?
 
+There are several tools you can use instead, this is why you should use this one instead:
 
-```
-
--------------------------
-Name: A todo note
-Slug: a-todo-note
-State: TODO
-Tags: 
-ILookup : 0
-
-Text:
-
-
-About text
-
--------------------------
-
--------------------------
-Name: A done note with bullet points
-Slug: a-done-note-with-bullet-points
-State: DONE
-Tags: tag1 
-ILookup : 1
-
-Text:
-
-
-+ Bullet one
-+ Bullet two
-
--------------------------
-
--------------------------
-Name: A third note with checkboxes
-Slug: a-third-note-with-checkboxes
-State: None
-Tags: tag2 tag3 
-ILookup : 2
-
-Text:
-
-
-- [ ] Checkbox 1
-- [X] Checkbox 2
-- [ ] Checkbox 3
-
--------------------------
-
--------------------------
-Name: Fourth note
-Slug: fourth-note
-State: None
-Tags: 
-ILookup : 3
-
-Text:
-
-
-Text
-
--------------------------
-
-
-=========================
-Lookup level A:
-
-Text: 
-Text
-
-Property 1: ABC
-ILookup : 3
-=========================
-Lookup level C:
-
-Text: 
-Subnote C body.
-ILookup : 3/0/0
-=========================
-
-```
+- [Why not use Behave, Lettuce or Cucumber (Gherkin)?](why-not/gherkin)
+- [Why not use the Robot Framework?](why-not/robot)
+- [Why use hitchstory instead of a unit testing framework?](why-not/unit-test)
 
