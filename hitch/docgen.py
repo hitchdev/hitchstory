@@ -90,7 +90,7 @@ def run_docgen(paths, storybook, publish=False, readme=False):
 
     for folder in ["why", "approach", "why-not", "using"]:
         snippets_path.joinpath(f"{folder}-index-contents.txt").write_text(
-            _contents(doc_src / "approach", "", readme=readme)
+            _contents(doc_src / folder, "", readme=readme)
         )
 
     dirtempl("--snippets", snippets_path, doc_src, dest_path).run()
