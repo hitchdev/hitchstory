@@ -3,27 +3,14 @@ title: What is a testing and living documentation framework?
 ---
 
 While traditional testing frameworks are designed *just* to test code and find bugs,
-hitchstory is designed such that the "tests" you write can *also* be used as
-specifications that define how your application is supposed to work.
+hitchstory is designed such that the "tests" you write are specifications which can be [executed and used to generate documentation](../triality).
 
-The three critical features that let you do this are:
-
-* A clear separation of concerns between specification and execution code
-* A clear segregation barrier between the environment that *executes* your tests and the environment *under* test.
-* The executable specifications are described using declarative markup instead of turing complete code
-
-Most tests - *especially* unit tests - fail on all three counts and the code ends up
-being smush of obscure mocks, combined with unclear scenarios and no explanation why
-any part of it does anything that it does.
-
-Writing tests that double as [executable specifications](../executable-specifications)
-makes these tests useful not only as a kind of pseudo-documentation, but also as a
-template that can be used to generate living documentation.
+Normal [xUnit](https://en.wikipedia.org/wiki/XUnit) testing frameworks like pytest do not allow for this because there is no clear separation of concerns between specification and execution code. At best they can serve as [documentation for somebody who knows how to read them](https://capgemini.github.io/development/unit-tests-as-documentation/).
 
 ## What is the difference between an executable specification and living documentation?
 
 I dubbed a specification "pseudo documentation" above, because  executable specifications
-are already a *hell* of a lot clearer and easier to understand
+are already a lot clearer and easier to understand
 than most test code. Moreover, it can be used for effective [stakeholder collaboration](../stakeholder-collaboration),
 especially with highly technical stakeholders.
 

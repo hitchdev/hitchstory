@@ -8,21 +8,13 @@ title: HitchStory
 <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
 
 
-HitchStory is a python 3
-[testing and living documentation framework](approach/testing-and-living-documentation) for building easily
-maintained example driven [executable specifications](approach/executable-specifications) (sometimes dubbed
-acceptance tests).
+HitchStory is a python 
+[testing and living documentation framework](approach/testing-and-living-documentation) for building strictly typed [executable specifications](approach/executable-specifications) which can [auto-generate your howto documentation](approach/triality).
 
-It was designed initially to make [realistic testing](approach/test-realism) of code less
-of a chore so the tests would actually get written and run.
+The executable specifications can be written to specify, test and document applications at every level - replacing [xUnit](https://en.wikipedia.org/wiki/XUnit) equivalents of unit tests, integration tests and end to end tests with appropriate tooling.
 
-The executable specifications can be written to specify and test applications at
-any level and have been used successfully to replace traditional
-low level unit tests, integration tests and end to end tests
-with easier to maintain tests.
+The specifications are written using [StrictYAML](why/strictyaml).
 
-The specifications are [written using StrictYAML](why/strictyaml) and the
-code to execute them is written by you, in python.
 
 
 ## Example
