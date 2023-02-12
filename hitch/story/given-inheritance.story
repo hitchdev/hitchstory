@@ -1,18 +1,22 @@
-Given preconditions - simple override via inheritance:
+Story inheritance - override given scalar preconditions:
   about: |
-    Hitch stories can inherit steps and given preconditions.
+    Child stories can be based upon parent stories.
+
+    If you change one precondition in a child story,
+    when it is run the steps and the other preconditions
+    will all remain the same.
   given:
     core files:
       example.story: |
         Login:
           given:
             url: /loginurl
+            browser: firefox
           steps:
           - Fill form:
               username: hello
               password: password
           - Click: login
-
 
         Log in on alternate url:
           based on: login
@@ -27,9 +31,11 @@ Given preconditions - simple override via inheritance:
         class Engine(BaseEngine):
             given_definition = GivenDefinition(
                 url=GivenProperty(schema=Str()),
+                browser=GivenProperty(schema=Str()),
             )
 
             def set_up(self):
+                print("use browser {0}".format(self.given["browser"]))
                 print("visit {0}".format(self.given['url']))
 
             def fill_form(self, **textboxes):
@@ -40,10 +46,9 @@ Given preconditions - simple override via inheritance:
             def click(self, item):
                 print("clicked on {0}".format(item))
     setup: |
-      from engine import Engine
       from hitchstory import StoryCollection
+      from engine import Engine
       from pathlib import Path
-      from ensure import Ensure
 
       collection = StoryCollection(Path(".").glob("*.story"), Engine())
   variations:
@@ -52,20 +57,22 @@ Given preconditions - simple override via inheritance:
       - Run:
           code: collection.named("Login").play()
           will output: |-
-            RUNNING Login in /path/to/working/example.story ... visit /loginurl
+            RUNNING Login in /path/to/working/example.story ... use browser firefox
+            visit /loginurl
             with password
             enter password
             with username
             enter hello
             clicked on login
             SUCCESS in 0.1 seconds.
-            
+
     Child:
       steps:
       - Run:
           code: collection.named("Login").play()
           will output: |-
-            RUNNING Login in /path/to/working/example.story ... visit /loginurl
+            RUNNING Login in /path/to/working/example.story ... use browser firefox
+            visit /loginurl
             with password
             enter password
             with username
