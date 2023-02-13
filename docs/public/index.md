@@ -136,7 +136,7 @@ $ pip install hitchstory
 - [Generate documentation with extra variables and functions](using/generate-documentation)
 - [Given preconditions](using/given)
 - [Gradual typing of story steps](using/gradual-typing)
-- [Inherit one story from another](using/inheritance)
+- [Inherit one story from another simply](using/inheritance)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/metadata)
 - [Story with parameters](using/parameterized-stories)
 - [Play multiple stories in sequence](using/play-multiple-stories)

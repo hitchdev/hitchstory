@@ -12,7 +12,7 @@ How to:
 - [Generate documentation with extra variables and functions](generate-documentation)
 - [Given preconditions](given)
 - [Gradual typing of story steps](gradual-typing)
-- [Inherit one story from another](inheritance)
+- [Inherit one story from another simply](inheritance)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](metadata)
 - [Story with parameters](parameterized-stories)
 - [Play multiple stories in sequence](play-multiple-stories)

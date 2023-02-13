@@ -1,5 +1,5 @@
 ---
-title: Inherit one story from another
+title: Inherit one story from another simply
 ---
 
 
@@ -224,6 +224,6 @@ Log in as president
 !!! note "Executable specification"
 
     Documentation automatically generated from 
-    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/inheritance.story">inheritance.story
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/simple-inheritance.story">simple-inheritance.story
     storytests.</a>
 
