@@ -3,6 +3,8 @@ Story inheritance - parameters:
     Child stories can be based upon parent stories.
 
     Parameters will be overridden.
+    
+    NOTE: This feature has a bug, avoid using.
   given:
     core files:
       example.story: |
