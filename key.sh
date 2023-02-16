@@ -8,6 +8,7 @@ hitchrun() {
         -v hitchstory-hitch-container:/gen \
         -v ~/.ssh/id_rsa:/root/.ssh/id_rsa \
         -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
+        -p 5555:5555 \
         --workdir /src \
         hitchstory-hitch \
         $1
