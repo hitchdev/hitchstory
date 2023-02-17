@@ -56,7 +56,14 @@ class Story(object):
         if child:
             precondition_dict = OrderedDict()
         for name, precondition in self.data.get("given", OrderedDict()).items():
-            precondition_dict[name] = precondition
+
+            if self.engine.given_definition.should_override(name):
+                if name not in precondition_dict:
+                    precondition_dict[name] = precondition
+                else:
+                    precondition_dict[name].update(precondition)
+            else:
+                precondition_dict[name] = precondition
         return precondition_dict
 
     @property

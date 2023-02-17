@@ -55,9 +55,25 @@ def about(template):
 
 
 class GivenProperty(object):
-    def __init__(self, schema=None, document=None):
-        self.schema = Any() if schema is None else schema
+    OVERRIDE = -1
+    REPLACE = -2
+
+    def __init__(self, schema=None, document=None, inherit_via=None):
         self.document = document
+        self.inherit_via = inherit_via
+
+        if utils.is_schema_mapping(schema):
+            if inherit_via == -1:
+                self.schema = utils.optionalize_schema(schema)
+            elif inherit_via == -2:
+                self.schema = schema
+            else:
+                raise Exception("inherit_via must be specified on mappings.")
+        else:
+            if inherit_via is None:
+                self.schema = Any() if schema is None else schema
+            else:
+                raise Exception("inherit_via cannot be specified on non mappings.")
 
 
 class GivenDefinition(object):
@@ -77,6 +93,9 @@ class GivenDefinition(object):
 
     def keys(self):
         return self.given_properties.keys()
+
+    def should_override(self, name):
+        return self.given_properties[name].inherit_via == -1
 
 
 class InfoProperty(object):

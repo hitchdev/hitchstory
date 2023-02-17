@@ -1,4 +1,5 @@
-from strictyaml import Regex, ScalarValidator
+from strictyaml import Regex, ScalarValidator, validators
+import strictyaml as sy
 from re import compile
 from path import Path
 import prettystack
@@ -109,3 +110,22 @@ def current_stack_trace_data():
             type(exception).__module__, type(exception).__name__
         ),
     }
+
+
+def is_schema_mapping(schema):
+    return isinstance(schema, validators.MapValidator)
+
+
+def optionalize_schema(schema):
+    if isinstance(schema, sy.Map):
+        return sy.Map(
+            {
+                key
+                if isinstance(key, sy.Optional)
+                else sy.Optional(key): optionalize_schema(value)
+                for key, value in schema._validator.items()
+            },
+            key_validator=schema._key_validator,
+        )
+    else:
+        return schema

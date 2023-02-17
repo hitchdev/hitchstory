@@ -61,7 +61,10 @@ Inherit one story from another simply:
         class Engine(BaseEngine):
             given_definition = GivenDefinition(
                 url=GivenProperty(schema=Str()),
-                files=GivenProperty(schema=MapPattern(Str(), Str())),
+                files=GivenProperty(
+                    schema=MapPattern(Str(), Str()),
+                    inherit_via=GivenProperty.REPLACE,
+                ),
             )
 
             def set_up(self):
