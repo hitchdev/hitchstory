@@ -68,12 +68,18 @@ class GivenProperty(object):
             elif inherit_via == -2:
                 self.schema = schema
             else:
-                raise Exception("inherit_via must be specified on mappings.")
+                raise exceptions.InheritViaRequired(
+                    "inherit_via is required on every GivenProperty that has a "
+                    "strictyaml mapping schema (i.e. Map or MapPattern)."
+                )
         else:
             if inherit_via is None:
                 self.schema = Any() if schema is None else schema
             else:
-                raise Exception("inherit_via cannot be specified on non mappings.")
+                raise exceptions.InheritViaDisallowed(
+                    "inherit_via cannot be used on non mapping-schemas "
+                    "(i.e. every schema that isn't Map or MapPattern)."
+                )
 
 
 class GivenDefinition(object):

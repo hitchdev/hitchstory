@@ -246,3 +246,21 @@ class DocumentationTemplateError(HitchStoryException):
     """
 
     pass
+
+
+class InheritViaRequired(HitchStoryException):
+    """
+    inherit_via was not specified on GivenProperty
+    with mapping schema.
+    """
+
+    pass
+
+
+class InheritViaDisallowed(HitchStoryException):
+    """
+    inhert_via should not be specified on GivenProperty
+    without mapping schema.
+    """
+
+    pass
