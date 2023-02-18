@@ -19,13 +19,18 @@ class StoryFile(object):
         steps_schema = Seq(Str() | MapPattern(Str(), Any(), maximum_keys=1))
 
         story_schema = {
+            Optional("replacement_steps"): steps_schema,
+            Optional("following_steps"): steps_schema,
             Optional("steps"): steps_schema,
             Optional("about"): Str(),
             Optional("with"): Any(),
             Optional("given"): self.engine.given_definition.preconditions,
         }
 
+        # TODO : Make copy of story schema
         variation_schema = {
+            Optional("replacement_steps"): steps_schema,
+            Optional("following_steps"): steps_schema,
             Optional("steps"): steps_schema,
             Optional("about"): Str(),
             Optional("with"): Any(),

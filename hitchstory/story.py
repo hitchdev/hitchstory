@@ -69,7 +69,13 @@ class Story(object):
     @property
     def _yaml_steps(self):
         step_list = self._parent_steps
-        step_list.extend(self._parsed_yaml.get("steps", []))
+
+        if "following_steps" in self._parsed_yaml:
+            step_list.extend(self._parsed_yaml.get("following_steps", []))
+        elif "replacement_steps" in self._parsed_yaml:
+            step_list = self._parsed_yaml.get("replacement_steps", [])
+        else:
+            step_list.extend(self._parsed_yaml.get("steps", []))
         return step_list
 
     @property

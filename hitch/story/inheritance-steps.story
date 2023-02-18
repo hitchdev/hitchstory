@@ -1,9 +1,13 @@
-Story inheritance - follow on steps:
+Story inheritance - steps:
   about: |
     Child stories can be based upon parent stories.
 
-    Child story steps will, by default, follow on from parent
-    story steps.
+    If a parent story has no steps, child stories can just specify their own.
+
+    If a child story has no steps and the parent does, the parent steps will be run.
+
+    If a parent story *does* have steps, child stories must specify either
+    "following steps" or "replacement steps".
   given:
     core files:
       example.story: |
@@ -18,8 +22,19 @@ Story inheritance - follow on steps:
           - Click: login
 
         Visit inbox:
+          about: uses parent login and following steps.
           based on: login
-          steps:
+          following steps:
+          - Click: inbox
+
+        Login as hiya and visit inbox:
+          about: uses parent properties but replaces its own steps.
+          based on: login
+          replacement steps:
+          - Fill form:
+              username: hiya
+              password: password
+          - Click: login
           - Click: inbox
 
       engine.py: |
@@ -65,7 +80,7 @@ Story inheritance - follow on steps:
             clicked on login
             SUCCESS in 0.1 seconds.
 
-    Child:
+    With following steps:
       steps:
       - Run:
           code: collection.named("Visit inbox").play()
@@ -76,6 +91,21 @@ Story inheritance - follow on steps:
             enter password
             with username
             enter hello
+            clicked on login
+            clicked on inbox
+            SUCCESS in 0.1 seconds.
+
+    With replacement steps:
+      steps:
+      - Run:
+          code: collection.named("Login as hiya and visit inbox").play()
+          will output: |-
+            RUNNING Login as hiya and visit inbox in /path/to/working/example.story ... use browser firefox
+            visit /loginurl
+            with password
+            enter password
+            with username
+            enter hiya
             clicked on login
             clicked on inbox
             SUCCESS in 0.1 seconds.
