@@ -10,19 +10,19 @@ Upgrading breaking changes between v1 and v2:
       example.story: |
         Create files:
           given:
-            x:
-              a: a
-              b: b
+            browser:
+              type: chrome
+              size: 1024x768
           steps:
-            - Add product:
-                name: Towel
-                quantity: Three
+           - Add product:
+              name: Towel
+              quantity: 3
     setup: |
       from hitchstory import StoryCollection
       from engine import Engine
       from pathlib import Path
 
-      story = StoryCollection(Path(".").glob("*.story"), Engine()).one()
+      collection = StoryCollection(Path(".").glob("*.story"), Engine())
 
   variations:
     GivenProperty with a mapping schema have inherit_via specified:
@@ -46,7 +46,7 @@ Upgrading breaking changes between v1 and v2:
                     pass
       steps:
       - Run:
-          code: story.play()
+          code: collection.one().play()
           raises:
             type: hitchstory.exceptions.InheritViaRequired
             message: inherit_via is required on every GivenProperty that has a strictyaml
@@ -76,8 +76,47 @@ Upgrading breaking changes between v1 and v2:
                     pass
       steps:
       - Run:
-          code: story.play()
+          code: collection.one().play()
           raises:
             type: hitchstory.exceptions.InheritViaDisallowed
             message: inherit_via cannot be used on non mapping-schemas (i.e. every
               schema that isn't Map or MapPattern).
+
+
+    Using steps on child story where parent also has steps:
+      about: |
+        In this example a parent story has steps and a child story
+        also has steps. Since this is ambiguous, this behavior
+        is disallowed since version 2.0.
+
+      given:
+        files:
+          example_child.story: |
+            Create other files:
+              based on: create files
+              steps:
+              - Add product:
+                  name: Towel
+                  quantity: 3
+          engine.py: |
+            from hitchstory import BaseEngine, GivenDefinition, GivenProperty, validate
+            from strictyaml import Int, Map, Str
+
+            class Engine(BaseEngine):
+                given_definition = GivenDefinition(
+                    browser=GivenProperty(
+                        schema=Map({"type": Str(), "size": Str()}),
+                        inherit_via=GivenProperty.OVERRIDE,
+                    ),
+                )
+
+                @validate(quantity=Int())
+                def add_product(self, name, quantity):
+                    pass
+      steps:
+      - Run:
+          code: collection.named("Create other files").play()
+          raises:
+            type: hitchstory.exceptions.AmbiguousSteps
+            message: Since 'Create files' has steps, 'Create other files' must have
+              either 'replacement steps' or 'following steps'

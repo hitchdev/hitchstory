@@ -264,3 +264,12 @@ class InheritViaDisallowed(HitchStoryException):
     """
 
     pass
+
+
+class AmbiguousSteps(HitchStoryException):
+    """
+    Child stories of parent stories with steps must specify
+    if they have replacement or following steps.
+    """
+
+    pass

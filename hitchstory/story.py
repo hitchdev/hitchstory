@@ -75,6 +75,14 @@ class Story(object):
         elif "replacement_steps" in self._parsed_yaml:
             step_list = self._parsed_yaml.get("replacement_steps", [])
         else:
+            if len(self._parent_steps) > 0:
+                raise exceptions.AmbiguousSteps(
+                    "Since '{}' has steps, '{}' must have either "
+                    "'replacement steps' or 'following steps'".format(
+                        self.parent.name,
+                        self.name,
+                    )
+                )
             step_list.extend(self._parsed_yaml.get("steps", []))
         return step_list
 
