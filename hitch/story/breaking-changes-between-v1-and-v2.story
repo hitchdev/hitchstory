@@ -4,7 +4,7 @@ Upgrading breaking changes between v1 and v2:
 
     * For every GivenProperty with a mapping schema inherit_via must be specified as either OVERRIDE or REPLACE.
 
-    * TODO : steps -> replacement steps / follow on steps.
+    * If parent stories have steps, child stories must specify either "replacement steps" or "following steps".
   given:
     core files:
       example.story: |
