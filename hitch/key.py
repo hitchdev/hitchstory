@@ -282,6 +282,7 @@ def bdd(keywords):
 
 
 @cli.command()
+@argument("filename")
 def regressfile(filename):
     """
     Run all stories in filename 'filename'.
