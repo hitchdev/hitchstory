@@ -34,10 +34,6 @@ case "$1" in
     "bash")
         hitchrun "bash"
         ;;
-    "--help")
-        echo "Commands:"
-        echo "./run.sh make     - build docker containers."
-        ;;
     *)
         hitchrun "/venv/bin/python hitch/key.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
         ;; 
