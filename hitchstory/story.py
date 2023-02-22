@@ -75,7 +75,8 @@ class Story(object):
         elif "replacement_steps" in self._parsed_yaml:
             step_list = self._parsed_yaml.get("replacement_steps", [])
         else:
-            if len(self._parent_steps) > 0:
+            yaml_child_steps = self._parsed_yaml.get("steps", [])
+            if len(self._parent_steps) > 0 and len(yaml_child_steps) > 0:
                 raise exceptions.AmbiguousSteps(
                     "Since '{}' has steps, '{}' must have either "
                     "'replacement steps' or 'following steps'".format(
@@ -83,7 +84,7 @@ class Story(object):
                         self.name,
                     )
                 )
-            step_list.extend(self._parsed_yaml.get("steps", []))
+            step_list.extend(yaml_child_steps)
         return step_list
 
     @property

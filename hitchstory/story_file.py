@@ -74,31 +74,58 @@ class StoryFile(object):
         """
         if self._updated_yaml is None:
             self._updated_yaml = copy.copy(self._parsed_yaml)
+        
         if story.variation:
             if step.child_index >= 0:
-                yaml_story = self._updated_yaml[story.based_on]["variations"][
-                    story.child_name
-                ]
+                variations = self._updated_yaml[story.based_on]["variations"]
+                yaml_story = variations[story.child_name]
+                
+                if "steps" in yaml_story:
+                    step_type = "steps"
+                elif "replacement_steps" in yaml_story:
+                    step_type = "replacement_steps"
+                elif "following_steps" in yaml_story:
+                    step_type = "following_steps"
+                else:
+                    raise Exception("No steps found")
+
                 if step.arguments.single_argument:
-                    yaml_story["steps"][step.child_index][step.name] = list(
-                        kwargs.values()
-                    )[0]
+                    value = list(kwargs.values())[0]
+                    yaml_story[step_type][step.child_index][step.name] = value
                 else:
                     for key, value in kwargs.items():
-                        yaml_story["steps"][step.child_index][step.name][key] = value
+                        yaml_story[step_type][step.child_index][step.name][key] = value
             else:
                 yaml_story = self._updated_yaml[story.based_on]
+                
+                if "steps" in yaml_story:
+                    step_type = "steps"
+                elif "replacement_steps" in yaml_story:
+                    step_type = "replacement_steps"
+                elif "following_steps" in yaml_story:
+                    step_type = "following_steps"
+                else:
+                    raise Exception("No steps found")
+
                 if step.arguments.single_argument:
-                    yaml_story["steps"][step.index][step.name] = list(kwargs.values())[
-                        0
-                    ]
+                    value = list(kwargs.values())[0]
+                    yaml_story[step_type][step.index][step.name] = value
                 else:
                     for key, value in kwargs.items():
-                        yaml_story["steps"][step.index][step.name][key] = value
+                        yaml_story[step_type][step.index][step.name][key] = value
         else:
-            step_to_update = self._updated_yaml[story.name]["steps"][step.index]
+            yaml_story = self._updated_yaml[story.name]
+            
+            if "steps" in yaml_story:
+                step_to_update = yaml_story["steps"][step.index]
+            elif "replacement_steps" in yaml_story:
+                step_to_update = yaml_story["replacement_steps"][step.index]
+            elif "following_steps" in yaml_story:
+                step_to_update = yaml_story["following_steps"][step.index]
+            
             if step.arguments.single_argument:
-                step_to_update[step.name] = list(kwargs.values())[0]
+                value = list(kwargs.values())[0]
+                step_to_update[step.name] = value
             else:
                 for key_to_update, value_to_update in kwargs.items():
                     step_to_update[step.name][key_to_update] = value_to_update

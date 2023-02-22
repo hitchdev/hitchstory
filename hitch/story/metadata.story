@@ -36,7 +36,7 @@ Extra story metadata - e.g. adding JIRA ticket numbers to stories:
             Build llama zoo:
               project jiras: JIRA-123
               features: zoo
-              steps:
+              following steps:
               - Kick llama's ass
     setup: |
       from hitchstory import StoryCollection, BaseEngine, InfoDefinition, InfoProperty

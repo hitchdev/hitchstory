@@ -17,7 +17,7 @@ Quickstart:
             The most basic email with no subject, cc or bcc
             set.
           based on: logged in             # inherits from and continues from test above
-          steps:
+          following steps:
           - Clicked: new email
           - Form filled:
               to: Cthon98@aol.com

@@ -38,7 +38,7 @@ Story that rewrites itself:
 
           variations:
             Do more things:
-              steps:
+              following steps:
                 - Do thing: c
       engine.py: |
         from hitchstory import BaseEngine
@@ -97,7 +97,7 @@ Story that rewrites itself:
 
               variations:
                 Do more things:
-                  steps:
+                  following steps:
                   - Do thing: |-
                       xxx:
                       yyy
