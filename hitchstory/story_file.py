@@ -5,6 +5,21 @@ from path import Path
 import copy
 
 
+def _step_type(yaml_story):
+    """Determine the step type of a story YAML snippet."""
+    if "steps" in yaml_story:
+        return "steps"
+    elif "replacement_steps" in yaml_story:
+        return "replacement_steps"
+    elif "following_steps" in yaml_story:
+        return "following_steps"
+    else:
+        raise NotImplementedError(
+            "This should never happen - please raise "
+            "a ticket on github.com/hitchdev/hitchstory"
+        )
+
+
 class StoryFile(object):
     """
     YAML file containing one or more named stories, part of a collection.
@@ -80,14 +95,7 @@ class StoryFile(object):
                 variations = self._updated_yaml[story.based_on]["variations"]
                 yaml_story = variations[story.child_name]
 
-                if "steps" in yaml_story:
-                    step_type = "steps"
-                elif "replacement_steps" in yaml_story:
-                    step_type = "replacement_steps"
-                elif "following_steps" in yaml_story:
-                    step_type = "following_steps"
-                else:
-                    raise Exception("No steps found")
+                step_type = _step_type(yaml_story)
 
                 if step.arguments.single_argument:
                     value = list(kwargs.values())[0]
@@ -98,14 +106,7 @@ class StoryFile(object):
             else:
                 yaml_story = self._updated_yaml[story.based_on]
 
-                if "steps" in yaml_story:
-                    step_type = "steps"
-                elif "replacement_steps" in yaml_story:
-                    step_type = "replacement_steps"
-                elif "following_steps" in yaml_story:
-                    step_type = "following_steps"
-                else:
-                    raise Exception("No steps found")
+                step_type = _step_type(yaml_story)
 
                 if step.arguments.single_argument:
                     value = list(kwargs.values())[0]
@@ -115,13 +116,7 @@ class StoryFile(object):
                         yaml_story[step_type][step.index][step.name][key] = value
         else:
             yaml_story = self._updated_yaml[story.name]
-
-            if "steps" in yaml_story:
-                step_to_update = yaml_story["steps"][step.index]
-            elif "replacement_steps" in yaml_story:
-                step_to_update = yaml_story["replacement_steps"][step.index]
-            elif "following_steps" in yaml_story:
-                step_to_update = yaml_story["following_steps"][step.index]
+            step_to_update = yaml_story[_step_type(yaml_story)][step.index]
 
             if step.arguments.single_argument:
                 value = list(kwargs.values())[0]
