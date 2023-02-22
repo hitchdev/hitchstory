@@ -74,12 +74,12 @@ class StoryFile(object):
         """
         if self._updated_yaml is None:
             self._updated_yaml = copy.copy(self._parsed_yaml)
-        
+
         if story.variation:
             if step.child_index >= 0:
                 variations = self._updated_yaml[story.based_on]["variations"]
                 yaml_story = variations[story.child_name]
-                
+
                 if "steps" in yaml_story:
                     step_type = "steps"
                 elif "replacement_steps" in yaml_story:
@@ -97,7 +97,7 @@ class StoryFile(object):
                         yaml_story[step_type][step.child_index][step.name][key] = value
             else:
                 yaml_story = self._updated_yaml[story.based_on]
-                
+
                 if "steps" in yaml_story:
                     step_type = "steps"
                 elif "replacement_steps" in yaml_story:
@@ -115,14 +115,14 @@ class StoryFile(object):
                         yaml_story[step_type][step.index][step.name][key] = value
         else:
             yaml_story = self._updated_yaml[story.name]
-            
+
             if "steps" in yaml_story:
                 step_to_update = yaml_story["steps"][step.index]
             elif "replacement_steps" in yaml_story:
                 step_to_update = yaml_story["replacement_steps"][step.index]
             elif "following_steps" in yaml_story:
                 step_to_update = yaml_story["following_steps"][step.index]
-            
+
             if step.arguments.single_argument:
                 value = list(kwargs.values())[0]
                 step_to_update[step.name] = value
