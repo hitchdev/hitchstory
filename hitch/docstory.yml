@@ -85,6 +85,13 @@ steps:
     ```
   example story unchanged: Then the example story will be unchanged.
   
+  file contents will be: |
+    File {{ filename }} should now contain:
+    
+    ```
+    {{ contents }}
+    ```
+  
   output is: |
     The code will output:
     ```
