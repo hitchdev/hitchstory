@@ -45,7 +45,7 @@ Do things:
 
   variations:
     Do more things:
-      steps:
+      following steps:
         - Do thing: c
 ```
 engine.py:
@@ -104,7 +104,35 @@ RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS i
 
 
 
+File example.story should now contain:
 
+```
+Do things:
+  steps:
+  - Do thing: |-
+      xxx:
+      yyy
+  - Do thing: |-
+      xxx:
+      yyy
+  - Do thing: |-
+      xxx:
+      yyy
+  - Do other thing:
+      variable 1: a
+      variable_2: |-
+        complicated:
+        multiline
+        string
+
+
+  variations:
+    Do more things:
+      following steps:
+      - Do thing: |-
+          xxx:
+          yyy
+```
 
 
 ## No changes

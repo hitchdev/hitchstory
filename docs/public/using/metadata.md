@@ -43,7 +43,7 @@ Live in city:
     Build llama zoo:
       project jiras: JIRA-123
       features: zoo
-      steps:
+      following steps:
       - Kick llama's ass
 ```
 

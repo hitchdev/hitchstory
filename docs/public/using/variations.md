@@ -52,7 +52,8 @@ class Engine(BaseEngine):
     given_definition=GivenDefinition(
         content=GivenProperty(schema=Str()),
         hierarchical_content=GivenProperty(
-            schema=Map({"x": Int(), "y": Seq(Str())})
+            schema=Map({"x": Int(), "y": Seq(Str())}),
+            inherit_via=GivenProperty.OVERRIDE,
         ),
     )
 

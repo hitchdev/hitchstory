@@ -3,8 +3,12 @@
 
 ### Latest
 
+* BUGFIX : Fix story rewriting being done incorrectly when there are 'replacement steps' or 'following steps'.
+* FEATURE : Readable exception for child stories that have ambiguous steps.
+* FEATURE : Following / replacement steps on child stories.
+* FEATURE : Clearer exceptions and storytest for invalid use of inherit_via.
+* MAJOR : Backwards incompatible feature - inherit_via on given preconditions.
 
-No relevant code changes.
 
 ### 0.14.0
 

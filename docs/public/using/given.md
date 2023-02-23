@@ -55,13 +55,16 @@ from mockselenium import Webdriver
 class Engine(BaseEngine):
     given_definition=GivenDefinition(
         browser_configuration=GivenProperty(
-            schema=Map({
-                "name": Str(),
-                "platform": Enum(["linux", "osx", "windows"]),
-                Optional("version"): Str(),
-                Optional("dimensions"): Map({"height": Int(), "width": Int()}),
-            })
-        ),
+            schema=Map(
+                {
+                    "name": Str(),
+                    "platform": Enum(["linux", "osx", "windows"]),
+                    Optional("version"): Str(),
+                    Optional("dimensions"): Map({"height": Int(), "width": Int()}),
+                }
+            ),
+            inherit_via=GivenProperty.OVERRIDE,
+        )
     )
 
     def set_up(self):

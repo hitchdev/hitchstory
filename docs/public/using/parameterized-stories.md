@@ -51,6 +51,7 @@ class Engine(BaseEngine):
     given_definition=GivenDefinition(
         browser=GivenProperty(
             schema=Map({"name": Str(), "version": Int()}),
+            inherit_via=GivenProperty.OVERRIDE,
         ),
     )
 
