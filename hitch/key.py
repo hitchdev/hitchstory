@@ -384,7 +384,7 @@ def publishdocs():
 
     git = Command("git").in_dir(DIR.gen / "hitchstory")
     git("config", "user.name", "Bot").run()
-    git("config", "user.email", "bot@hithdev.com").run()
+    git("config", "user.email", "bot@hitchdev.com").run()
     git("rm", "-r", "docs/public").run()
 
     run_docgen(DIR, _storybook({}), publish=True)
