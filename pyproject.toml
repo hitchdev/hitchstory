@@ -29,7 +29,6 @@ dependencies = [
     "path.py>=9.0",
     "jinja2>=2.9",
     "colorama>=0.3.8",
-    "pathquery>=0.2.0",
     "python-slugify>=1.2.1",
     "prettystack>=0.3.0",
 ]

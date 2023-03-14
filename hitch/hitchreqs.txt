@@ -2,6 +2,8 @@ argcomplete==1.12.2
     # via hitchrun
 backcall==0.2.0
     # via ipython
+build==0.1.0
+    # via build
 black==23.1.0
     # via hitchpylibrarytoolkit
 bleach==4.1.0
