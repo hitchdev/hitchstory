@@ -11,6 +11,7 @@ from templex import Templex
 import hitchpylibrarytoolkit
 import colorama
 import re
+import pyenv
 from path import Path
 
 
@@ -62,9 +63,11 @@ class Engine(BaseEngine):
         docs=InfoProperty(schema=Str()),
     )
 
-    def __init__(self, paths, settings):
+    def __init__(self, paths, python_path, rewrite=False, cprofile=False):
         self.path = paths
-        self.settings = settings
+        self._rewrite = rewrite
+        self._python_path = python_path
+        self._cprofile = cprofile
 
     def set_up(self):
         """Set up the environment ready to run the stories."""
@@ -154,7 +157,7 @@ class Engine(BaseEngine):
         )
         to_run = self.example_py_code.with_code(code)
 
-        if self.settings.get("cprofile"):
+        if self._cprofile:
             to_run = to_run.with_cprofile(
                 self.path.profile.joinpath("{0}.dat".format(self.story.slug))
             )
@@ -169,7 +172,7 @@ class Engine(BaseEngine):
             try:
                 Templex(will_output).assert_match(actual_output)
             except AssertionError:
-                if self.settings.get("overwrite artefacts"):
+                if self._rewrite:
                     self.current_step.update(will_output=actual_output)
                 else:
                     raise
@@ -185,7 +188,7 @@ class Engine(BaseEngine):
                 )
                 Templex(message).assert_match(exception_message)
             except AssertionError:
-                if self.settings.get("overwrite artefacts"):
+                if self._rewrite:
                     new_raises = raises.copy()
                     new_raises["message"] = exception_message
                     self.current_step.update(raises=new_raises)
@@ -213,7 +216,7 @@ class Engine(BaseEngine):
         try:
             Templex(contents.strip()).assert_match(file_contents)
         except AssertionError:
-            if self.settings.get("overwrite artefacts"):
+            if self._rewrite:
                 self.current_step.update(contents=file_contents)
             else:
                 raise
@@ -256,7 +259,23 @@ class Engine(BaseEngine):
 
 
 def _storybook(settings):
-    return StoryCollection(pathquery(DIR.key).ext("story"), Engine(DIR, settings))
+    return StoryCollection(pathquery(DIR.key).ext("story"), Engine(DIR, **settings))
+
+
+def _current_version():
+    return DIR.project.joinpath("VERSION").text().rstrip()
+
+
+def _devenv():
+    env = pyenv.DevelopmentVirtualenv(
+        pyenv.Pyenv(DIR.gen / "pyenv"),
+        DIR.project.joinpath("hitch", "devenv.yml"),
+        DIR.project.joinpath("hitch", "debugrequirements.txt"),
+        DIR.project,
+        DIR.project.joinpath("pyproject.toml").text(),
+    )
+    env.ensure_built()
+    return env
 
 
 @cli.command()
@@ -265,7 +284,7 @@ def rbdd(keywords):
     """
     Run story with name containing keywords and rewrite.
     """
-    _storybook({"overwrite artefacts": True, "print output": True}).shortcut(
+    _storybook(python_path=_devenv().python_path, rewrite=True).shortcut(
         *keywords
     ).play()
 
@@ -276,7 +295,7 @@ def bdd(keywords):
     """
     Run story with name containing keywords.
     """
-    _storybook({"overwrite artefacts": False, "print output": True}).shortcut(
+    _storybook(python_path=_devenv().python_path, rewrite=True).shortcut(
         *keywords
     ).play()
 
@@ -288,7 +307,7 @@ def regressfile(filename):
     Run all stories in filename 'filename'.
     """
     StoryCollection(
-        pathquery(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
+        pathquery(DIR.key).ext("story"), Engine(DIR, python_path=_devenv().python_path)
     ).in_filename(filename).ordered_by_name().play()
 
 
@@ -298,7 +317,8 @@ def rewriteall():
     Run all stories in rewrite mode.
     """
     StoryCollection(
-        pathquery(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": True})
+        pathquery(DIR.key).ext("story"),
+        Engine(DIR, python_path=_devenv().python_path, rewrite=True),
     ).only_uninherited().ordered_by_name().play()
 
 
@@ -309,7 +329,7 @@ def regression():
     """
     # toolkit.lint(exclude=["__init__.py"])
     StoryCollection(
-        pathquery(DIR.key).ext("story"), Engine(DIR, {"overwrite artefacts": False})
+        pathquery(DIR.key).ext("story"), Engine(DIR, python_path=_devenv().python_path)
     ).only_uninherited().ordered_by_name().play()
 
 
@@ -330,7 +350,8 @@ def lint():
 
 
 @cli.command()
-def deploy():
+@argument("test", nargs=1)
+def deploy(test="notest"):
     """
     Deploy to pypi as specified version.
     """
@@ -347,16 +368,23 @@ def deploy():
     initpy = project.joinpath("hitchstory", "__init__.py")
     original_initpy_contents = initpy.bytes().decode("utf8")
     initpy.write_text(original_initpy_contents.replace("DEVELOPMENT_VERSION", version))
-    python("setup.py", "sdist").in_dir(project).run()
+    python("-m", "pip", "wheel", ".", "-w", "dist").in_dir(project).run()
+    python("-m", "build", "--sdist").in_dir(project).run()
     initpy.write_text(original_initpy_contents)
 
     # Upload to pypi
-    python(
-        "-m",
-        "twine",
-        "upload",
-        "dist/{0}-{1}.tar.gz".format("hitchstory", version),
-    ).in_dir(project).run()
+    wheel_args = ["-m", "twine", "upload"]
+    if test == "test":
+        wheel_args += ["--repository", "testpypi"]
+    wheel_args += ["dist/{}-{}-py3-none-any.whl".format("hitchstory", version)]
+
+    python(*wheel_args).in_dir(project).run()
+
+    sdist_args = ["-m", "twine", "upload"]
+    if test == "test":
+        sdist_args += ["--repository", "testpypi"]
+    sdist_args += ["dist/{0}-{1}.tar.gz".format("hitchstory", version)]
+    python(*sdist_args).in_dir(project).run()
 
     # Clean up
     DIR.gen.joinpath("hitchstory").rmtree()
@@ -406,13 +434,29 @@ def readmegen():
 
 
 @cli.command()
-def rerun(version="3.7.0"):
-    """
-    Rerun last example code block with specified version of python.
-    """
-    Command(DIR.gen.joinpath("py{0}".format(version), "bin", "python"))(
-        DIR.gen.joinpath("state", "examplepythoncode.py")
-    ).in_dir(DIR.gen.joinpath("state")).run()
+def build():
+    _devenv()
+
+
+@cli.command()
+def cleanpyenv():
+    pyenv.Pyenv(DIR.gen / "pyenv").clean()
+
+
+@cli.command()
+@argument("strategy_name", nargs=1)
+def envirotest(strategy_name):
+    """Run tests on package / python version combinations."""
+    import envirotest
+
+    envirotest.run_test(
+        pyenv.Pyenv(DIR.gen / "pyenv"),
+        DIR.project.joinpath("pyproject.toml").text(),
+        "hitchstory=={}".format(_current_version()),
+        strategy_name,
+        _storybook,
+        lambda python_path: False,
+    )
 
 
 if __name__ == "__main__":

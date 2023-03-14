@@ -1,2 +1,5 @@
-recursive-include hitchstory *.py *.jinja2
-include VERSION
+include VERSION LICENSE.txt README.md CHANGELOG.md
+recursive-include hitchstory/
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .git*
