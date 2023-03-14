@@ -13,6 +13,10 @@ test your code.
 
 The three preconditions for this are:
 
-* A clear separation of concerns between specification and execution code
+* A clear separation of test concerns between specification and execution.
 * A clear segregation barrier between the environment that *executes* your tests and the environment *under* test.
-* The executable specifications are described using declarative markup instead of turing complete code
+* The executable specifications are described using declarative markup instead of turing complete code.
+
+Executable specifications are formed at the nexus of Behavior Driven Development and Acceptance Test Driven Development.
+
+In order for Executable specifications to be used effectively they need to be written in a domain appropriate scenario language.

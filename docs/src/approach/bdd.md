@@ -2,20 +2,36 @@
 title: Can I do BDD with hitchstory? How do I do BDD with hitchstory? 
 ---
 
-Short answer: yes, but you can also do BDD with a pencil and a napkin.
+Yes. BDD is a commonly misrepresented idea, however.
 
-The time when it was most useful as a “BDD tool” was when I was working with an extremely technical product manager who was proposing behavior in a command line tool he wanted.
+What it is often interpreted as is using Cucumber to write tests where "the business" may or may not (usually not) involve themselves in writing them.
 
-Initially I received a word document describing the complex logic flows and behavior which he wanted. Gradually I turned those descriptions in to HitchStory specifications that described how the command line tool was supposed to behave. This was a process fraught with difficulty because the descriptions were often vague, complicated, overloaded and missing data. Worse, I actually didn’t really understand what I was building.
+What BDD actually is, is (much simplified):
 
-I built executable hitchstory specs that I thought were 95% what the product manager wanted.
+1. A way to craft specifications using example written scenarios.
+2. Using those scenarios to have conversations about intended behavior with stakeholders.
+3. Using those scenarios as a way to agree example behavior.
 
-I then showed the HitchStory specs to the product manager and explained what they meant. Because he could understand the specs he could correct the mistakes I’d made interpreting the original requirements just by looking over my shoulder and also explain why the command line tool was supposed to behave in those ways.
+That is, it's a way to evolve a program specification *only*. It doesn't require any tool. It can even in theory be done with pen and paper.
 
-At the same time as correcting my mistakes I noted down alongside the stories why each behavior was necessary.
+## Where does testing fit in to BDD?
 
-Once I he told me that I’d interpreted him correctly by reading my specs I could start writing the code.
+Example based scenarios make extremely *good* acceptance tests. Once you use the results of a BDD specification to write a test with any tool, you are not doing BDD, you are probably doing ATDD (acceptance test driven development).
 
-QA picked up bugs afterwards but they were all either (quickly rectified) mistakes he’d made himself in the spec or environment issues. Surprisingly, I had zero spec<->programmer communication issues even though the domain was very complex and I still didn’t understand it.
+The two *can* be combined, saving time and repetition if, instead of pen and paper or short JIRA descriptions, you use a domain appropriate scenario language.
 
-Gherkin could have been used to do this in theory, but in practice the spec is not sufficiently expressive and the stories would have ended up being unusably vague. Unit tests could also do this in theory I guess, but good luck getting a stakeholder to read them.
+A language which can be used to execute tests *and* agree intended behavior with stakeholders can be used to combined BDD and ATDD.
+
+## What is the combination of BDD and ATDD?
+
+The combination of BDD and ATDD is executable specification driven development.
+
+It requires the use of a domain appropriate scenario language.
+
+## How does combining BDD and ATDD go wrong?
+
+- Difficult to read scenario language. For example, if a program is largely tested with xUnit tests, even though the stakeholders will understand the scenarios they will usually not be able to read the tests.
+
+- Inexpressive scenario language. A language that routinely abstracts away important details about the specification or ends up being very repetitive may be usable to write tests, but not to do do BDD. This is the most common failure mode with Gherkin/Cucumber tests due to their structure and syntax.
+
+- Stakeholders are expected to want to write the scenario language. Drafting scenarios that are concise, clear and unambiguous is an art and a skill that most people do not have. It isn't programming, but it's more like programming than anything else.
