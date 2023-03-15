@@ -100,12 +100,7 @@ class Engine(BaseEngine):
         for filename in self.path.key.joinpath("mockcode").listdir():
             self._included_files.append(filename)
 
-        self.pylibrary = hitchpylibrarytoolkit.PyLibraryBuild(
-            "hitchstory",
-            self.path,
-        ).with_python_version(self.given.get("python_version", "3.7.0"))
-        self.pylibrary.ensure_built()
-        self.python = self.pylibrary.bin.python
+        self.python = Command(self._python_path)
 
     def _story_friendly_output(self, output):
         """
@@ -258,7 +253,7 @@ class Engine(BaseEngine):
             print(self.path.q.text())
 
 
-def _storybook(settings):
+def _storybook(**settings):
     return StoryCollection(pathquery(DIR.key).ext("story"), Engine(DIR, **settings))
 
 
@@ -295,9 +290,7 @@ def bdd(keywords):
     """
     Run story with name containing keywords.
     """
-    _storybook(python_path=_devenv().python_path, rewrite=True).shortcut(
-        *keywords
-    ).play()
+    _storybook(python_path=_devenv().python_path).shortcut(*keywords).play()
 
 
 @cli.command()
@@ -444,15 +437,30 @@ def cleanpyenv():
 
 
 @cli.command()
+def cleandevenv():
+    DIR.gen.joinpath("pyenv", "versions", "devvenv").remove()
+
+
+@cli.command()
 @argument("strategy_name", nargs=1)
 def envirotest(strategy_name):
     """Run tests on package / python version combinations."""
     import envirotest
+    import pyenv
+
+    test_package = pyenv.PythonRequirements(
+        [
+            "hitchstory=={}".format(_current_version()),
+        ],
+        test_repo=True,
+    )
+
+    test_package = pyenv.PythonProjectDirectory(DIR.project)
 
     envirotest.run_test(
         pyenv.Pyenv(DIR.gen / "pyenv"),
         DIR.project.joinpath("pyproject.toml").text(),
-        "hitchstory=={}".format(_current_version()),
+        test_package,
         strategy_name,
         _storybook,
         lambda python_path: False,

@@ -5,6 +5,29 @@ from functools import partial
 import inspect
 
 
+class ArgSpec(object):
+    """Temporarily proxy the real argspec, which has deprecated."""
+
+    def __init__(self, method):
+        self._fullargspec = inspect.getfullargspec(method)
+
+    @property
+    def varargs(self):
+        return self._fullargspec.varargs
+
+    @property
+    def defaults(self):
+        return self._fullargspec.defaults
+
+    @property
+    def args(self):
+        return self._fullargspec.args
+
+    @property
+    def keywords(self):
+        return self._fullargspec.varkw
+
+
 class StepMethod(object):
     def __init__(self, method):
         self._method = method
@@ -26,7 +49,7 @@ class StepMethod(object):
 
     @property
     def argspec(self):
-        return inspect.getargspec(self._method)
+        return ArgSpec(self._method)
 
     @property
     def _defaults(self):

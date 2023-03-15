@@ -67,11 +67,11 @@ class ProjectDependencies:
 
 
 class EnvirotestVirtualenv(hitchbuild.HitchBuild):
-    def __init__(self, pyenv_build, pyproject_toml, picker, testpypi_package):
+    def __init__(self, pyenv_build, pyproject_toml, picker, test_package):
         self._pyenv_build = pyenv_build
         self._pyproject_toml = pyproject_toml
         self._picker = picker
-        self._testpypi_package = testpypi_package
+        self._test_package = test_package
 
     def build(self):
         self._pyenv_build.ensure_built()
@@ -98,13 +98,10 @@ class EnvirotestVirtualenv(hitchbuild.HitchBuild):
             ),
             packages=[
                 PythonRequirements(
-                    ["ensure", "python-slugify"],
-                ),
-                PythonRequirements(
                     [
-                        self._testpypi_package,
-                    ],
-                    test_repo=True,
+                        "ensure",
+                        "markupsafe==2.0.0" if LooseVersion(self.python_version) < "3.9" else "markupsafe"
+                    ]
                 ),
                 PythonRequirements(
                     [
@@ -112,6 +109,7 @@ class EnvirotestVirtualenv(hitchbuild.HitchBuild):
                         for library, version in self.picked_versions.items()
                     ]
                 ),
+                self._test_package,
             ],
         )
         self.venv.clean()
@@ -181,13 +179,13 @@ class DevelopmentVirtualenv(hitchbuild.HitchBuild):
                     PythonRequirements(
                         ["ensure", "python-slugify"],
                     ),
-                    PythonProjectDirectory(self._project_path),
                     PythonRequirements(
                         [
                             "{}=={}".format(library, version)
                             for library, version in self.picked_versions.items()
                         ]
                     ),
+                    PythonProjectDirectory(self._project_path),
                 ],
             )
             self.venv.ensure_built()
