@@ -9,6 +9,7 @@ hitchrun() {
         -v ~/.ssh/id_rsa:/root/.ssh/id_rsa \
         -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
         -p 5555:5555 \
+        --secret pypitoken,type=env,target=PYPITOKEN \
         --workdir /src \
         hitchstory-hitch \
         $1
