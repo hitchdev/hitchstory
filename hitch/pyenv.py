@@ -67,11 +67,12 @@ class ProjectDependencies:
 
 
 class EnvirotestVirtualenv(hitchbuild.HitchBuild):
-    def __init__(self, pyenv_build, pyproject_toml, picker, test_package):
+    def __init__(self, pyenv_build, pyproject_toml, picker, test_package, prerequisites):
         self._pyenv_build = pyenv_build
         self._pyproject_toml = pyproject_toml
         self._picker = picker
         self._test_package = test_package
+        self._prerequisites = prerequisites
 
     def build(self):
         self._pyenv_build.ensure_built()
@@ -96,13 +97,7 @@ class EnvirotestVirtualenv(hitchbuild.HitchBuild):
                 self._pyenv_build,
                 self.python_version,
             ),
-            packages=[
-                PythonRequirements(
-                    [
-                        "ensure",
-                        "markupsafe==2.0.0" if LooseVersion(self.python_version) < "3.9" else "markupsafe"
-                    ]
-                ),
+            packages=self._prerequisites + [
                 PythonRequirements(
                     [
                         "{}=={}".format(library, version)
@@ -196,12 +191,26 @@ class PythonPackage:
     pass
 
 
+class PythonVersionDependentRequirement(PythonPackage):
+    def __init__(self, package, lower_version, python_version_threshold, higher_version):
+        self._package = package
+        self._lower_version = lower_version
+        self._python_version_threshold = LooseVersion(python_version_threshold)
+        self._higher_version = higher_version
+    
+    def install(self, venv):
+        if LooseVersion(venv.py_version.version) > self._python_version_threshold:
+            venv.pip("install", "{}={}".format(self._package, self._higher_version))
+        else:
+            venv.pip("install", "{}={}".format(self._package, self._lower_version))
+
+
 class PythonRequirementsFile(PythonPackage):
     def __init__(self, requirements_file):
         self.requirements_file = requirements_file
 
-    def install(self, pip):
-        pip("install", "-r", self.requirements_file).run()
+    def install(self, venv):
+        venv.pip("install", "-r", self.requirements_file).run()
 
 
 class PythonRequirements(PythonPackage):
@@ -209,10 +218,10 @@ class PythonRequirements(PythonPackage):
         self.requirements = requirements
         self._test_repo = test_repo
 
-    def install(self, pip):
+    def install(self, venv):
         for requirement in self.requirements:
             if self._test_repo:
-                pip(
+                venv.pip(
                     "install",
                     "--no-build-isolation",
                     "--index-url",
@@ -220,15 +229,15 @@ class PythonRequirements(PythonPackage):
                     requirement,
                 ).run()
             else:
-                pip("install", requirement).run()
+                venv.pip("install", requirement).run()
 
 
 class PythonProjectPackage(PythonPackage):
     def __init__(self, package_filename):
         self.package_filename = package_filename
 
-    def install(self, pip):
-        local_install_output = pip("install", self.package_filename).output()
+    def install(self, venv):
+        local_install_output = venv.pip("install", self.package_filename).output()
 
         if "DEPRECATION" in local_install_output:
             raise Exception("DEPRECATION ERROR:\n {}".format(local_install_output))
@@ -238,8 +247,8 @@ class PythonProjectDirectory(PythonPackage):
     def __init__(self, project_directory):
         self.project_directory = project_directory
 
-    def install(self, pip):
-        pip("install", "-e", self.project_directory).run()
+    def install(self, venv):
+        venv.pip("install", "-e", self.project_directory).run()
 
 
 class ProjectVirtualenv(hitchbuild.HitchBuild):
@@ -287,7 +296,7 @@ class ProjectVirtualenv(hitchbuild.HitchBuild):
 
             if self.packages is not None:
                 for package in self.packages:
-                    package.install(self.pip)
+                    package.install(self)
 
             self.refingerprint()
 

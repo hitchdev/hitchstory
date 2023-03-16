@@ -457,10 +457,25 @@ def envirotest(strategy_name):
 
     test_package = pyenv.PythonProjectDirectory(DIR.project)
 
+    prerequisites = [
+        pyenv.PythonVersionDependentRequirement(
+            package="markupsafe",
+            lower_version="2.0.0",
+            python_version_threshold="3.9",
+            higher_version="2.1.2",
+        ),
+        pyenv.PythonRequirements(
+            [
+                "ensure",
+            ]
+        ),
+    ]
+
     envirotest.run_test(
         pyenv.Pyenv(DIR.gen / "pyenv"),
         DIR.project.joinpath("pyproject.toml").text(),
         test_package,
+        prerequisites,
         strategy_name,
         _storybook,
         lambda python_path: False,
