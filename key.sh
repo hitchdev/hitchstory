@@ -4,8 +4,8 @@ PROJECT_NAME=hitchstory
 
 PROJECT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 FOLDER_HASH=$(echo $PROJECT_DIR | md5sum | cut -c 1-5)
-GEN_VOLUME_NAME=${PROJECT_NAME}-hitch-gen
-IMAGE_NAME=${PROJECT_NAME}-hitch
+GEN_VOLUME_NAME=hitch-vol-${PROJECT_NAME}-${FOLDER_HASH}
+IMAGE_NAME=hitch-${FOLDER_HASH}-${PROJECT_NAME}
 
 hitchrun() {
     podman run --privileged -it --rm \
@@ -34,6 +34,12 @@ case "$1" in
                 ;;
             "gen")
                 hitchrun "rm -rf /gen/*"
+                ;;
+            "pyenv")
+                hitchrun "rm -rf /gen/pyenv"
+                ;;
+            "devenv")
+                hitchrun "rm /gen/pyenv/versions/devvenv"
                 ;;
             *)
                 echo "Invalid clean target. ./key.sh clean [all]"
