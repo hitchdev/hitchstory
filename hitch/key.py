@@ -388,7 +388,7 @@ def draftdocs():
     """
     Build documentation.
     """
-    run_docgen(DIR, _storybook())
+    run_docgen(DIR, _storybook(python_path=_devenv().python_path))
 
 
 @cli.command()
@@ -408,7 +408,7 @@ def publishdocs():
     git("config", "user.email", "bot@hitchdev.com").run()
     git("rm", "-r", "docs/public").run()
 
-    run_docgen(DIR, _storybook({}), publish=True)
+    run_docgen(DIR, _storybook(python_path=_devenv().python_path), publish=True)
 
     git("add", "docs/public").run()
     git("commit", "-m", "DOCS : Regenerated docs.").run()
