@@ -5,7 +5,7 @@ title: General Approach
 HitchStory best practices are documented here:
 
 - [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](bdd)
-- [Recommended complementary tools](complementary-tools)
+- [Complementary tools](complementary-tools)
 - [Executable specifications](executable-specifications)
 - [Flaky Tests](flaky-tests)
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](human-writable)
