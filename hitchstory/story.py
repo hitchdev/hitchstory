@@ -72,7 +72,8 @@ class Story(object):
         if "following_steps" in self._parsed_yaml:
             step_list.extend(self._parsed_yaml.get("following_steps", []))
         elif "replacement_steps" in self._parsed_yaml:
-            step_list = self._parsed_yaml.get("replacement_steps", [])
+            step_list = []
+            step_list.extend(self._parsed_yaml.get("replacement_steps", []))
         else:
             yaml_child_steps = self._parsed_yaml.get("steps", [])
             if len(self._parent_steps) > 0 and len(yaml_child_steps) > 0:

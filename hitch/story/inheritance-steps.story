@@ -37,6 +37,19 @@ Story inheritance - steps:
           - Click: login
           - Click: inbox
 
+        Login as hiya and visit different pages:
+          about: login as hiya and visit inbox
+          based on: Login as hiya and visit inbox
+          variations:
+            Dashboard:
+              replacement steps:
+              - Fill form:
+                  username: hiya
+                  password: password
+              - Click: login
+              - Click: dashboard
+          
+
       engine.py: |
         from hitchstory import BaseEngine, GivenDefinition, GivenProperty
         from strictyaml import Map, Int, Str, MapPattern, Optional
@@ -108,4 +121,19 @@ Story inheritance - steps:
             enter hiya
             clicked on login
             clicked on inbox
+            SUCCESS in 0.1 seconds.
+
+    With variations and replacement steps:
+      steps:
+      - Run:
+          code: collection.named("Login as hiya and visit different pages/Dashboard").play()
+          will output: |-
+            RUNNING Login as hiya and visit different pages/Dashboard in /path/to/working/example.story ... use browser firefox
+            visit /loginurl
+            with password
+            enter password
+            with username
+            enter hiya
+            clicked on login
+            clicked on dashboard
             SUCCESS in 0.1 seconds.
