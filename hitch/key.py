@@ -388,7 +388,7 @@ def draftdocs():
     """
     Build documentation.
     """
-    run_docgen(DIR, _storybook({}))
+    run_docgen(DIR, _storybook())
 
 
 @cli.command()
@@ -421,7 +421,7 @@ def readmegen():
     """
     Build documentation.
     """
-    run_docgen(DIR, _storybook({}), readme=True)
+    run_docgen(DIR, _storybook(python_path=_devenv().python_path), readme=True)
     DIR.project.joinpath("docs", "draft", "index.md").copy("README.md")
     DIR.project.joinpath("docs", "draft", "changelog.md").copy("CHANGELOG.md")
 
