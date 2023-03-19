@@ -2,21 +2,13 @@
 
 [![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)
 
-HitchStory is a python 3
-[testing and living documentation framework](approach/testing-and-living-documentation) for building easily
-maintained example driven [executable specifications](approach/executable-specifications) (sometimes dubbed
-acceptance tests).
+HitchStory is a python 
+[testing and living documentation framework](approach/testing-and-living-documentation) for building strictly typed [executable specifications](approach/executable-specifications) which can [auto-generate your howto documentation](approach/triality).
 
-It was designed initially to make [realistic testing](approach/test-realism) of code less
-of a chore so the tests would actually get written and run.
+The executable specifications can be written to specify, test and document applications at every level - replacing [xUnit](https://en.wikipedia.org/wiki/XUnit) equivalents of unit tests, integration tests and end to end tests with appropriate tooling.
 
-The executable specifications can be written to specify and test applications at
-any level and have been used successfully to replace traditional
-low level unit tests, integration tests and end to end tests
-with easier to maintain tests.
+The specifications are written using [StrictYAML](why/strictyaml).
 
-The specifications are [written using StrictYAML](why/strictyaml) and the
-code to execute them is written by you, in python.
 
 
 ## Example
@@ -45,7 +37,7 @@ Email sent:
     The most basic email with no subject, cc or bcc
     set.
   based on: logged in             # inherits from and continues from test above
-  steps:
+  following steps:
   - Clicked: new email
   - Form filled:
       to: Cthon98@aol.com
@@ -138,7 +130,7 @@ $ pip install hitchstory
 - [Generate documentation with extra variables and functions](https://hitchdev.com/hitchstory/using/generate-documentation)
 - [Given preconditions](https://hitchdev.com/hitchstory/using/given)
 - [Gradual typing of story steps](https://hitchdev.com/hitchstory/using/gradual-typing)
-- [Inherit one story from another](https://hitchdev.com/hitchstory/using/inheritance)
+- [Inherit one story from another simply](https://hitchdev.com/hitchstory/using/inheritance)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/metadata)
 - [Story with parameters](https://hitchdev.com/hitchstory/using/parameterized-stories)
 - [Play multiple stories in sequence](https://hitchdev.com/hitchstory/using/play-multiple-stories)
@@ -156,7 +148,7 @@ $ pip install hitchstory
 Best practices, how the tool was meant to be used, etc.
 
 - [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](https://hitchdev.com/hitchstory/approach/bdd)
-- [Recommended complementary tools](https://hitchdev.com/hitchstory/approach/complementary-tools)
+- [Complementary tools](https://hitchdev.com/hitchstory/approach/complementary-tools)
 - [Executable specifications](https://hitchdev.com/hitchstory/approach/executable-specifications)
 - [Flaky Tests](https://hitchdev.com/hitchstory/approach/flaky-tests)
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)

@@ -6,6 +6,23 @@
 
 No relevant code changes.
 
+### 0.15.3
+
+* BUGFIX : 'YAML' object has no attribute 'extend' bug.
+
+
+### 0.15.2
+
+* BUGFIX : Fixed reliance on deprecated inspect.getargspec.
+* BUGFIX : Removed unnecessary dependency.
+* FEATURE : Use pyproject.toml and put lower bounds on all dependency packages.
+* BUGFIX : Fix story rewriting being done incorrectly when there are 'replacement steps' or 'following steps'.
+* FEATURE : Readable exception for child stories that have ambiguous steps.
+* FEATURE : Following / replacement steps on child stories.
+* FEATURE : Clearer exceptions and storytest for invalid use of inherit_via.
+* MAJOR : Backwards incompatible feature - inherit_via on given preconditions.
+
+
 ### 0.14.0
 
 * FEATURE : given.child.items() usable in documentation templates.
