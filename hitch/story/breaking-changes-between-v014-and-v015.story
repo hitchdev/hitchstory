@@ -1,6 +1,6 @@
-Upgrading breaking changes between v1 and v2:
-  about: |
-    Version 2 contains two important but quite easy to fix breaking changes:
+Upgrading breaking changes between v0.14 and v0.15:
+  about: |  
+    Version 0.15 contains two important but quite easy to fix breaking changes:
 
     * For every GivenProperty with a mapping schema inherit_via must be specified as either OVERRIDE or REPLACE.
 
