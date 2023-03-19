@@ -1,4 +1,5 @@
 Story inheritance - given mapping preconditions overridden:
+  docs: inheritance-override-given-mapping
   about: |
     Child stories can be based upon parent stories. Given
     preconditions are overridden

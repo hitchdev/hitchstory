@@ -1,10 +1,11 @@
-Upgrading breaking changes between v0.14 and v0.15:
+Upgrade breaking changes between v0.14 and v0.15:
+  docs: breaking-changes-between-v014-and-v015
   about: |  
-    Version 0.15 contains two important but quite easy to fix breaking changes:
+    Version 0.15 contains two important breaking changes:
 
     * For every GivenProperty with a mapping schema inherit_via must be specified as either OVERRIDE or REPLACE.
 
-    * If parent stories have steps, child stories must specify either "replacement steps" or "following steps".
+    * If parent stories have steps, child stories must specify either "replacement steps" or "following steps" instead of "steps".
   given:
     core files:
       example.story: |

@@ -1,4 +1,6 @@
 Story inheritance - parameters:
+  docs: inheritance-parameters
+  status: experimental
   about: |
     Child stories can be based upon parent stories.
 
