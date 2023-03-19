@@ -2,39 +2,42 @@
 title: Flaky Tests
 ---
 
-Flaky tests are tests which will do not pass or fail consistently.
+Flaky tests are tests which do not pass or fail consistently.
+
+The probability of flakiness increases with the amount of code being tested. Extreme flakiness can lead to test failure habituation and, in extreme
+cases, test abandonment.
 
 Higher level tests suffer more from flakiness than low level tests, although
 this tends to be only because high level tests are testing more code.
 
-The probability of flakiness increases with the amount of code being tested.
+Flakiness in any test is an undesirable property.
 
-## How to deal with flakiness?
+## Detecting flakiness with HitchStory
 
-Extreme flakiness can lead to test failure habituation and, in extreme
-cases, test abandonment.
-
-Flakiness in any test should mainly be considered an undesirable property
-to test for and, when detected, a bug to be fixed.
+Some kinds of flakiness (e.g. race conditions) can be detected by running tests multiple times.
 
 ## Causes
 
 There are a number of common causes of flaky tests:
 
 * Timing issues
-** The selenium sleep
+** The selenium sleep is a hacky fix for this. Expected conditions waits are better.
+
 * Dependencies behaving in unexpected ways:
-** Upgraded packages
+** Upgraded packages in the test environment.
 ** New data from a downloaded database.
+
+* Non deterministic code.
+** SELECT statements without ORDER BY will often jumble the order of returned items, causing test failures 
+
 * Environment behaving in unexpected ways:
-** Odd time
 * Bugs and indeterminism in testing code
 * Code that behaves non-deterministically
 
 Flaky tests can almost always be solved through more:
 
 * Increasing isolation
-* Changing code to be deterministic
+* Making code more deterministic (e.g. 
 * Accomodating indeterminism
 
 ## Useful flakiness

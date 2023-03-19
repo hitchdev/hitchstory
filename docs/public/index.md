@@ -154,7 +154,7 @@ $ pip install hitchstory
 Best practices, how the tool was meant to be used, etc.
 
 - [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](approach/bdd)
-- [Recommended complementary tools](approach/complementary-tools)
+- [Complementary tools](approach/complementary-tools)
 - [Executable specifications](approach/executable-specifications)
 - [Flaky Tests](approach/flaky-tests)
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](approach/human-writable)
