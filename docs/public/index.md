@@ -129,6 +129,7 @@ $ pip install hitchstory
 ## Using HitchStory
 
 - [Abort a story with ctrl-C](using/aborting)
+- [Upgrade breaking changes between v0.14 and v0.15](using/breaking-changes-between-v014-and-v015)
 - [Continue on failure when playing multiple stories](using/continue-on-failure)
 - [Hiding stacktraces for expected exceptions](using/expected-exceptions)
 - [Handling failing tests](using/failing-tests)
@@ -136,6 +137,10 @@ $ pip install hitchstory
 - [Generate documentation with extra variables and functions](using/generate-documentation)
 - [Given preconditions](using/given)
 - [Gradual typing of story steps](using/gradual-typing)
+- [Story inheritance - given mapping preconditions overridden](using/inheritance-override-given-mapping)
+- [Story inheritance - override given scalar preconditions](using/inheritance-override-given-scalar)
+- [Story inheritance - parameters](using/inheritance-parameters)
+- [Story inheritance - steps](using/inheritance-steps)
 - [Inherit one story from another simply](using/inheritance)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/metadata)
 - [Story with parameters](using/parameterized-stories)
