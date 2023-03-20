@@ -2,7 +2,7 @@ from hitchstory import StoryCollection
 from commandlib import Command
 from pathquery import pathquery
 from click import argument, group, pass_context
-from docgen import run_docgen
+from docgen import run_docgen, ProjectDocumentation
 import hitchpylibrarytoolkit
 import pyenv
 from path import Path
@@ -204,7 +204,14 @@ def readmegen():
     """
     Build documentation.
     """
-    run_docgen(DIR, _storybook(python_path=_devenv().python_path), readme=True)
+    ProjectDocumentation(
+        _storybook(python_path=_devenv().python_path),
+        DIR.project,
+        DIR.project / "docs" / "draft",
+        "HitchStory",
+        "hitchdev/hitchstory",
+        image="![](sliced-cucumber.jpg)"
+    ).generate(readme=True)
     DIR.project.joinpath("docs", "draft", "index.md").copy("README.md")
     DIR.project.joinpath("docs", "draft", "changelog.md").copy("CHANGELOG.md")
 
