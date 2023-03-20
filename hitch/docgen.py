@@ -3,9 +3,67 @@ from commandlib import Command, python_bin
 import hitchpylibrarytoolkit
 
 
-README_INTRO = """# HitchStory
+class Documentation:
+    def __init__(self, project_name, github_address, image=""):
+        self._project_name = project_name
+        self._github_address = github_address
+        self._project_slug = project_name.lower()
+        self._image = image
+    
+    def _readme_intro(self):
+        return (
+            "# {project_name}\n"
+            "\n"
+            "[![Main branch status](https://github.com/{github_address}/actions/workflows/regression.yml/badge.svg)](https://github.com/{github_address}/actions/workflows/regression.yml)"
+        ).format(
+            project_name=self._project_name,
+            github_address=self._github_address,
+        )
+    
+    def _docs_intro(self):
+        return (
+            "---\n"
+            "title: {project_name}\n"
+            "---\n"
+            "\n{image}\n\n"
+            "<img alt=\"GitHub Repo stars\" src=\"https://img.shields.io/github/stars/{github_address}?style=social\">"
+            "<img alt=\"PyPI - Downloads\" src=\"https://img.shields.io/pypi/dm/{project_slug}\">"
+        ).format(
+            image=self._image,
+            project_name=self._project_name,
+            github_address=self._github_address,
+            project_slug=self._project_slug,
+        )
+    
+    def _title(self, filepath):
+        try:
+            assert len(filepath.text().split("---")) >= 3, "{} doesn't have ---".format(
+                filepath
+            )
+            return load(filepath.text().split("---")[1]).data.get("title", "misc")
+        except UnicodeDecodeError:
+            return None
+        except AssertionError:
+            return None
+    
+    
+    def _contents(self, main_folder, folder, readme):
+        markdown = ""
+        for filepath in sorted(main_folder.joinpath(folder).listdir()):
+            if filepath.name != "index.md":
+                title = _title(filepath)
 
-[![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)"""
+                if title is not None:
+                    path = filepath.relpath(main_folder).stripext()
+
+                    markdown += "- [{}]({})\n".format(
+                        title,
+                        "https://hitchdev.com/hitchstory/" + path if readme else path,
+                    )
+        return markdown
+            
+
+README_INTRO = ""
 
 DOCS_INTRO = """---
 title: HitchStory
