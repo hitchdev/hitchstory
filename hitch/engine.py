@@ -3,7 +3,9 @@ from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoPrope
 from strictyaml import Str, Map, Optional, Enum, MapPattern
 from hitchstory import no_stacktrace_for
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
+from commandlib import Command
 from templex import Templex
+from path import Path
 import colorama
 import re
 

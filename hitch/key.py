@@ -29,10 +29,13 @@ def cli(ctx):
 DIR = Directories()
 
 
-toolkit = hitchpylibrarytoolkit.ProjectToolkit(
+toolkit = hitchpylibrarytoolkit.ProjectToolkitV2(
+    "HitchStory",
     "hitchstory",
-    DIR,
+    "hitchdev/hitchstory",
 )
+
+DIR = toolkit.DIR
 
 
 def _storybook(**settings):
