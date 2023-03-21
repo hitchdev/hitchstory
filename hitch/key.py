@@ -2,7 +2,7 @@ from hitchstory import StoryCollection
 from commandlib import Command
 from pathquery import pathquery
 from click import argument, group, pass_context
-from docgen import ProjectDocumentation
+from hitchpylibrarytoolkit.project_docs import ProjectDocumentation
 import hitchpylibrarytoolkit
 import pyenv
 from path import Path
