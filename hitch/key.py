@@ -1,22 +1,17 @@
 from hitchstory import StoryCollection
-from commandlib import Command
 from pathquery import pathquery
 from click import argument, group, pass_context
-from hitchpylibrarytoolkit.project_docs import ProjectDocumentation
 import hitchpylibrarytoolkit
 import pyenv
-from path import Path
 from engine import Engine
 
 
-class Directories:
-    gen = Path("/gen")
-    key = Path("/src/hitch/")
-    project = Path("/src/")
-    share = Path("/gen")
-
-
-DIR = Directories()
+toolkit = hitchpylibrarytoolkit.ProjectToolkitV2(
+    "HitchStory",
+    "hitchstory",
+    "hitchdev/hitchstory",
+    image="![](sliced-cucumber.jpg)",
+)
 
 
 @group(invoke_without_command=True)
@@ -25,15 +20,6 @@ def cli(ctx):
     """Integration test command line interface."""
     pass
 
-
-DIR = Directories()
-
-
-toolkit = hitchpylibrarytoolkit.ProjectToolkitV2(
-    "HitchStory",
-    "hitchstory",
-    "hitchdev/hitchstory",
-)
 
 DIR = toolkit.DIR
 
@@ -47,15 +33,7 @@ def _current_version():
 
 
 def _devenv():
-    env = pyenv.DevelopmentVirtualenv(
-        pyenv.Pyenv(DIR.gen / "pyenv"),
-        DIR.project.joinpath("hitch", "devenv.yml"),
-        DIR.project.joinpath("hitch", "debugrequirements.txt"),
-        DIR.project,
-        DIR.project.joinpath("pyproject.toml").text(),
-    )
-    env.ensure_built()
-    return env
+    return toolkit.devenv()
 
 
 @cli.command()
@@ -128,44 +106,13 @@ def lint():
 
 
 @cli.command()
-@argument("test", nargs=1)
-def deploy(test="notest"):
+@argument("test", required=False)
+def deploy(test="test"):
     """
     Deploy to pypi as specified version.
     """
-    from commandlib import python
-
-    git = Command("git")
-
-    if DIR.gen.joinpath("hitchstory").exists():
-        DIR.gen.joinpath("hitchstory").rmtree()
-
-    git("clone", "git@github.com:hitchdev/hitchstory.git").in_dir(DIR.gen).run()
-    project = DIR.gen / "hitchstory"
-    version = project.joinpath("VERSION").text().rstrip()
-    initpy = project.joinpath("hitchstory", "__init__.py")
-    original_initpy_contents = initpy.bytes().decode("utf8")
-    initpy.write_text(original_initpy_contents.replace("DEVELOPMENT_VERSION", version))
-    python("-m", "pip", "wheel", ".", "-w", "dist").in_dir(project).run()
-    python("-m", "build", "--sdist").in_dir(project).run()
-    initpy.write_text(original_initpy_contents)
-
-    # Upload to pypi
-    wheel_args = ["-m", "twine", "upload"]
-    if test == "test":
-        wheel_args += ["--repository", "testpypi"]
-    wheel_args += ["dist/{}-{}-py3-none-any.whl".format("hitchstory", version)]
-
-    python(*wheel_args).in_dir(project).run()
-
-    sdist_args = ["-m", "twine", "upload"]
-    if test == "test":
-        sdist_args += ["--repository", "testpypi"]
-    sdist_args += ["dist/{0}-{1}.tar.gz".format("hitchstory", version)]
-    python(*sdist_args).in_dir(project).run()
-
-    # Clean up
-    DIR.gen.joinpath("hitchstory").rmtree()
+    testpypi = not (test == "live")
+    toolkit.deploy(testpypi=testpypi)
 
 
 @cli.command()
@@ -173,64 +120,13 @@ def draftdocs():
     """
     Build documentation.
     """
-    ProjectDocumentation(
-        _storybook(python_path=_devenv().python_path),
-        DIR.project,
-        DIR.project / "docs" / "draft",
-        "HitchStory",
-        "hitchdev/hitchstory",
-        image="![](sliced-cucumber.jpg)",
-    ).generate()
+    toolkit.draft_docs(storybook=_storybook(python_path=_devenv().python_path))
 
 
 @cli.command()
 def publishdocs():
-    # ![](sliced-cucumber.jpg)
-    if DIR.gen.joinpath("hitchstory").exists():
-        DIR.gen.joinpath("hitchstory").rmtree()
-
-    Path("/root/.ssh/known_hosts").write_text(
-        Command("ssh-keyscan", "github.com").output()
-    )
-    Command("git", "clone", "git@github.com:hitchdev/hitchstory.git").in_dir(
-        DIR.gen
-    ).run()
-
-    git = Command("git").in_dir(DIR.gen / "hitchstory")
-    git("config", "user.name", "Bot").run()
-    git("config", "user.email", "bot@hitchdev.com").run()
-    git("rm", "-r", "docs/public").run()
-
-    ProjectDocumentation(
-        _storybook(python_path=_devenv().python_path),
-        DIR.project,
-        DIR.project / "docs" / "public",
-        "HitchStory",
-        "hitchdev/hitchstory",
-        image="![](sliced-cucumber.jpg)",
-    ).generate()
-
-    git("add", "docs/public").run()
-    git("commit", "-m", "DOCS : Regenerated docs.").run()
-
-    git("push").run()
-
-
-@cli.command()
-def readmegen():
-    """
-    Build documentation.
-    """
-    ProjectDocumentation(
-        _storybook(python_path=_devenv().python_path),
-        DIR.project,
-        DIR.project / "docs" / "draft",
-        "HitchStory",
-        "hitchdev/hitchstory",
-        image="![](sliced-cucumber.jpg)",
-    ).generate(readme=True)
-    DIR.project.joinpath("docs", "draft", "index.md").copy("README.md")
-    DIR.project.joinpath("docs", "draft", "changelog.md").copy("CHANGELOG.md")
+    """Publish pushed docs."""
+    toolkit.publish(storybook=_storybook(python_path=_devenv().python_path))
 
 
 @cli.command()
