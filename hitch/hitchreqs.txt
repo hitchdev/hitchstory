@@ -2,7 +2,7 @@ argcomplete==1.12.2
     # via hitchrun
 backcall==0.2.0
     # via ipython
-build==0.1.0
+build==0.10.0
     # via build
 black==23.1.0
     # via hitchpylibrarytoolkit
@@ -130,7 +130,7 @@ pkginfo==1.8.1
     # via twine
 platformdirs==2.4.0
     # via black
-prettystack==0.3.0
+prettystack==0.4.0
     # via
     #   hitchrun
     #   hitchrunpy
