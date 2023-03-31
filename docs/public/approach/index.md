@@ -11,6 +11,7 @@ HitchStory best practices are documented here:
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](human-writable)
 - [Recommended Environment](recommended-environment)
 - [Screenplay Principle](screenplay-principle)
+- [Separation of Test Concerns](separation-of-test-concerns)
 - [How can executable specifications and living documentation be used for stakeholder collaboration?](stakeholder-collaboration)
 - [Tests are an investment](test-investment)
 - [What is the difference betweeen a test and a story?](test-or-story)

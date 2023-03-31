@@ -1,11 +1,6 @@
 # Changelog
 
 
-### Latest
-
-
-No relevant code changes.
-
 ### 0.15.3
 
 * BUGFIX : 'YAML' object has no attribute 'extend' bug.

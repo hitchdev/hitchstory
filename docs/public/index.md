@@ -4,9 +4,7 @@ title: HitchStory
 
 ![](sliced-cucumber.jpg)
 
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"> 
-<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
-
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
 
 HitchStory is a python 
 [testing and living documentation framework](approach/testing-and-living-documentation) for building strictly typed [executable specifications](approach/executable-specifications) which can [auto-generate your howto documentation](approach/triality).
@@ -165,6 +163,7 @@ Best practices, how the tool was meant to be used, etc.
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](approach/human-writable)
 - [Recommended Environment](approach/recommended-environment)
 - [Screenplay Principle](approach/screenplay-principle)
+- [Separation of Test Concerns](approach/separation-of-test-concerns)
 - [How can executable specifications and living documentation be used for stakeholder collaboration?](approach/stakeholder-collaboration)
 - [Tests are an investment](approach/test-investment)
 - [What is the difference betweeen a test and a story?](approach/test-or-story)
