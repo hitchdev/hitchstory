@@ -14,14 +14,14 @@ Flakiness in any test is an undesirable property.
 
 ## Detecting flakiness with HitchStory
 
-Some kinds of flakiness (e.g. race conditions) can be detected by running tests multiple times.
+Some kinds of flakiness (e.g. race conditions) can be detected by running tests multiple times. A practical approach to doing this is documented in the [flaky story detection how to](../using/flaky-story-detection).
 
 ## Causes
 
-There are a number of common causes of flaky tests:
+There are a number of common different causes of flaky tests:
 
-* Timing issues
-** The selenium sleep is a hacky fix for this. Expected conditions waits are better.
+* Timing issues when interacting with interfaces (e.g. web pages on selenium)
+** A common but very hacky fix for this is using sleeps. The "proper" way to fix this is with expected condition waits with timeouts.
 
 * Dependencies behaving in unexpected ways:
 ** Upgraded packages in the test environment.
@@ -30,19 +30,17 @@ There are a number of common causes of flaky tests:
 * Non deterministic code.
 ** SELECT statements without ORDER BY will often jumble the order of returned items, causing test failures 
 
-* Environment behaving in unexpected ways:
-* Bugs and indeterminism in testing code
-* Code that behaves non-deterministically
+* Bugs and indeterminism in testing code.
 
 Flaky tests can almost always be solved through more:
 
-* Increasing isolation
-* Making code more deterministic (e.g. 
-* Accomodating indeterminism
+* Increasing isolation - e.g. containerizing and upgrading containers consistently.
+* Making code behave in a more deterministic fashion - e.g. always a LIMIT to all database select code.
+* Accomodating indeterminism - making user stories accept the full range of potential outputs.
 
 ## Useful flakiness
 
 Mostly test flakiness is just an irritation.
 
 However, sometimes, flakiness is actually useful in that it highlights a
-bug that would previously have remained uncovered.
+bug that would previously have remained uncovered - e.g. a race condition.
