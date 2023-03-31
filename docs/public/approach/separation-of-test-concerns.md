@@ -57,7 +57,7 @@ def test_add_user(browser, web_server, init, dbsession):
     b.fill("password-confirm", "secret")
     b.find_by_name("add").click()
 
-    # TODO: Convert to CSS based test
+    # Convert to CSS based test
     assert b.is_element_present_by_css("#msg-item-added")
 ```
 
