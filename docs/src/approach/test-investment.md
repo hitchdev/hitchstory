@@ -1,5 +1,5 @@
 ---
-title: Tests are an investment
+title: Tests as an investment
 ---
 
 >1. You are NOT ALLOWED to write any production code unless it is to make a failing unit test pass.
@@ -10,18 +10,11 @@ title: Tests are an investment
 >
 >- Uncle Bob, The Three Laws of TDD
 
-I remember the first time I followed this rule to the letter - the tests were good, the code
-was clean and I ended up throwing it all away. I trialed the code in a real life situation
-and the code ultimately proved unnecessary. It solved the wrong problem.
+I remember the first time I followed this rule to the letter - the tests were good, the code was clean and I ended up throwing it all away. I trialed the code in a real life situation and the code ultimately proved unnecessary.
 
-TDD is a fantastically powerful approach which I try to use as often as possible, but there
-have been situations where it *hasn't* paid off because the cost of the tests was too high
-and the benefit was minimal in the end.
+The problem was it solved entirely the wrong problem - the customer didn't *want* the code I'd just TDD'ed.
 
-I am not anti-TDD. In fact, part of the reason for me writing this
-[testing and living documentation framework](../testing-and-living-documentation)
-was because I wanted to bring down the overall cost of writing and maintaining tests
-as well as raise their value so that the investment is more likely to pay off.
+TDD is a fantastically powerful approach which I always use by default, but there have been situations where it *hasn't* paid off because the cost of the tests was too high and the benefit was minimal in the end.
 
 ## The cost of building mocks
 
@@ -59,7 +52,3 @@ There are four ways that automated tests can pay off:
 * Giving confidence in the code
 * Documenting the code
 * Providing freedom to refactor
-
-I do not count driving design, since I believe that this is an antipattern.
-
-## How to deal with 
