@@ -1,8 +1,9 @@
+/approach/screenplay-principle: /hitchstory/separation-of-test-concerns/
 /why/flaky-tests: /approach/flaky-tests
 /why/cucumber: /why-not/gherkin
 /why/why-not-unit-test: /why-not/unit-test
 /why/unit-tests: /why-not/unit-test
-/why/screenplay-principle: /approach/screenplay-principle
+/why/screenplay-principle: /approach/separation-of-test-concerns/
 /why/human-writable: /approach/human-writable
 /setup-with-hitchkey:  /
 /why/bdd: /approach/bdd
