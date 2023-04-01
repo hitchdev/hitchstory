@@ -13,16 +13,20 @@ While executable specifications are typically a lot clearer and easier to unders
 than xUnit test code, the qualities of good executable specifications still conflict
 with the qualities of good documentation.
 
+Good executable specification are:
 
+* Terse
+* DRY
+* Will assume most relevant domain knowledge
+* Covers edge cases
 
-. Moreover, it can be used for effective [stakeholder collaboration](../stakeholder-collaboration),
-especially with highly technical stakeholders.
+Whereas clear how to documentation:
 
-However, hitchstory takes the approach that documentation and specification
-are two very closely related but highly *distinct* things and that instead of
-treating them as one and the same, that the best documentation is built from a
-combination of skeleton docs, executable specifications and (sometimes) test
-artefacts.
+* Is expansive, not terse
+* Is not DRY
+* Does not necessarily assume domain knowledge
+* Will not cover most edge cases
+
 
 ## Why do you want executable specifications and documentation to be separate?
 
