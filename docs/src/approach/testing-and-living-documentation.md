@@ -20,36 +20,33 @@ Good executable specification are:
 * Will assume most relevant domain knowledge
 * Covers edge cases
 
-Whereas clear how to documentation:
+Whereas clear documentation:
 
 * Is expansive, not terse
 * Is not DRY
 * Does not necessarily assume domain knowledge
 * Will not cover most edge cases
 
+## "Business readable" documentation
 
-## Why do you want executable specifications and documentation to be separate?
+Cucumber's official documentation takes the opinion that [business readable specs](https://cucumber.io/blog/bdd/isn-t-the-business-readable-documentation-just-ove/) are worthwhile to maintain and it is true.
 
-Good executable specifications are terse, DRY and highly specific and
-follow the [screenplay principle](../screenplay-principle) but that doesn't
-make the best documentation.
+However, while all stakeholders have some kind of interest in the behavior of the software, they will all have wildly varying levels of interest in the detail.
 
-Good documentation, on the other hand, should *not* be terse or DRY. Moreover,
-stakeholders are usually interested only in certain aspects of how the application
-behaves. A lot of them will not care about the really obscure edge cases you have
-to program in, for example and feeding them details which do not matter to
-them will not just bore them, it will lead to them skimming and missing
-the really important details that matter to them.
+Cucumber's approach is to provide a high level human-language-like interface to low
+level code, where the onus is on the developer to depict a level of detail that is "just right" for "the business". As an example:
 
-## Who is the documentation for?
+```gherkin
+  Scenario: Create a new person
+    Given API: I create a new person
+    Then API: I check that POST call body is "OK"
+    And API: I check that POST call status code is 200
+```
 
-A CEO, translator, product manager, customer, designer, UX, third party
-API consumer/producer, etc. are all interested in different details of how
-your software behaves and they will have varying levels of interest in the
-level of detail about your software's behavior.
+Since the syntax of Gherkin is not suitable for representing complex specifications and many key details *are* uninteresting to stakeholders, key details often get pushed down to the execution layer. This can end up with details the business *is* interested in (e.g. how the new person is created) being concealed while uninteresting details (e.g. 200 status code) are surfaced.
 
-It may even make sense for some projects to generate more than one kind of
-documentation for different kinds of stakeholders from the same specifications
-albeit varying levels of detail - or, at the very least, documentation which
-can expose high level details of the software on top and detail that can be
-drilled down into.
+HitchStory takes the approach that *no* specification details should be buried in the
+execution layer and what is "interesting to stakeholders" is a matter for whomever is
+implementing the documentation generation step to worry about.
+
+
