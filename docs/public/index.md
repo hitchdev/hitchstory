@@ -163,7 +163,6 @@ Best practices, how the tool was meant to be used, etc.
 - [Does hitchstory let your BA or Product Manager write stories while you just write the code?](approach/human-writable)
 - [Recommended Environment](approach/recommended-environment)
 - [Separation of Test Concerns](approach/separation-of-test-concerns)
-- [How can executable specifications and living documentation be used for stakeholder collaboration?](approach/stakeholder-collaboration)
 - [Tests as an investment](approach/test-investment)
 - [What is the difference betweeen a test and a story?](approach/test-or-story)
 - [The importance of test realism](approach/test-realism)
