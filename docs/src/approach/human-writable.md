@@ -1,13 +1,8 @@
 ---
-title: Does hitchstory let your BA or Product Manager write stories while you just write the code?
+title: Does hitchstory let "the business" write stories while you just write the code?
 ---
 
-It is possible but I wouldn't recommend it.
-
-Having "analysts" write and read stories instead of programmers was an explicit goal
-of several BDD tools like Cucumber. However, the reality of these tools is that
-"the business" is rarely interested in reading these stories, let alone writing
-them.
+Having "analysts" write and read stories instead of programmers was an explicit goal of several BDD tools like Cucumber. However, the reality of these tools is that "the business" is rarely interested in reading these stories, let alone writing them.
 
 This is an explicit non-goal of hitchstory. The framework is designed such that
 it does not have loops, conditionals or other such accoutrements of a programming
@@ -23,7 +18,7 @@ not without prior training.
 
 That said, *pairing* with business analysts while writing and maintaining stories,
 especially on an ad hoc basis can be a supremely effective workflow for doing
-[stakeholder collaboration](../stakeholder-collaboration).
+[stakeholder collaboration](../bdd).
 
 
 ## Should testers write stories?

@@ -14,7 +14,7 @@ Flakiness in any test is an undesirable property.
 
 ## Detecting flakiness with HitchStory
 
-Some kinds of flakiness (e.g. race conditions) can be detected by running tests multiple times. A practical approach to doing this is documented in the [flaky story detection how to](../using/flaky-story-detection).
+Some kinds of flakiness (e.g. race conditions) can be detected by running tests multiple times. A practical approach to doing this is documented in the [flaky story detection how to](../../using/flaky-story-detection).
 
 ## Causes
 
