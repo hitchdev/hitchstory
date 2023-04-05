@@ -14,7 +14,7 @@ Whereas hitchstory's philosophy emphasizes very *similar* values, with some impo
 
 * The use of [typed YAML](../../why/strictyaml) to define specs for readability, precision, clarity, terseness and ease of maintenance.
 
-* Specifying all behavior precisely as per the [screenplay principle](../../approach/screenplay-principle).
+* Specifying all behavior precisely rather than a subset that is deemed "interesting to the business".
 
 * Templated documentation generation from specs and/or code artefacts to communicate information that is interesting to stakeholders.
 
