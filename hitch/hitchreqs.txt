@@ -56,11 +56,11 @@ hitchrun==0.4.0
     # via
     #   -r hitchreqs.in
     #   hitchpylibrarytoolkit
-hitchrunpy==0.11.2
+hitchrunpy==0.11.3
     # via hitchpylibrarytoolkit
-hitchstory==0.14.0
+hitchstory==0.15.3
     # via hitchpylibrarytoolkit
-icommandlib==0.5.0
+icommandlib==0.6.1
     # via hitchrunpy
 idna==3.3
     # via requests
@@ -124,7 +124,7 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pip-tools==6.4.0
+pip-tools==6.12.3
     # via hitchrun
 pkginfo==1.8.1
     # via twine
@@ -162,8 +162,6 @@ python-slugify==5.0.2
     #   dirtemplate
     #   hitchbuild
     #   hitchstory
-pyuv==1.4.0
-    # via icommandlib
 q==2.6
     # via hitchpylibrarytoolkit
 readme-renderer==30.0

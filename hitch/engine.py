@@ -14,8 +14,14 @@ class Engine(BaseEngine):
     """Python engine for running tests."""
 
     given_definition = GivenDefinition(
-        files=GivenProperty(MapPattern(Str(), Str())),
-        core_files=GivenProperty(MapPattern(Str(), Str())),
+        files=GivenProperty(
+            MapPattern(Str(), Str()),
+            inherit_via=GivenProperty.OVERRIDE,
+        ),
+        core_files=GivenProperty(
+            MapPattern(Str(), Str()),
+            inherit_via=GivenProperty.OVERRIDE,
+        ),
         python_version=GivenProperty(Str()),
         setup=GivenProperty(Str()),
     )
@@ -108,7 +114,7 @@ class Engine(BaseEngine):
     def run(self, code, will_output=None, raises=None):
         self.example_py_code = (
             ExamplePythonCode(self.python, self.path.state)
-            .with_terminal_size(160, 100)
+            .with_terminal_size(160, 160)
             .with_setup_code(self.given.get("setup", ""))
             .include_files(*self._included_files)
         )
