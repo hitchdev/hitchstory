@@ -1,29 +1,14 @@
 FROM quay.io/podman/stable
 
-RUN yum install libuv-devel -y
-RUN yum install ncurses-devel -y
-RUN yum install xz-devel -y
-RUN yum install python3-virtualenv -y
-RUN yum install curl make wget -y
-RUN yum install zlib zlib-devel bzip2-devel openssl-devel sqlite-devel readline-devel -y
-RUN yum install gcc git curl make zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl openssl-devel -y
-RUN yum install git -y
-RUN yum install podman -y
-RUN yum install python-devel -y
-RUN yum install libffi-devel -y
-RUN yum install vim -y
+RUN yum install \
+    zlib zlib-devel bzip2 bzip2-devel xz xz-devel \
+    openssl openssl-devel sqlite sqlite-devel readline-devel \
+    python-devel libuv-devel ncurses-devel libffi-devel \
+    python3-virtualenv gcc git curl make vim podman \
+    -y && yum clean all
 
+# Ensure podman-in-podman is stored in volume
 RUN sed -i 's|/var/lib/containers/storage|/gen/containers|g' /etc/containers/storage.conf
-
-#RUN apt-get update && apt-get install \
-#    libuv1-dev libncurses5-dev libncursesw5-dev xz-utils \
-#    liblzma-dev tk-dev build-essential \
-#    libreadline-dev libffi-dev libsqlite3-dev \
-#    zlib1g-dev zlib1g libbz2-dev libssl-dev \
-#    curl git make llvm wget \
-#    python3-virtualenv virtualenv python3.8-venv \
-#    python3-dev python-openssl -y \
-#    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /src
 WORKDIR /src
