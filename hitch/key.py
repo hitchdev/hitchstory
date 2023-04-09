@@ -134,7 +134,7 @@ def docpublish():
     from path import Path
     from commandlib import Command
     import os
-    token = os.getenv("GITHUBTOKEN")
+    token = os.getenv("GITHUBTOKEN").rstrip()
     Path("/root/.ssh/known_hosts").write_text(
         Command("ssh-keyscan", "github.com").output()
     )
