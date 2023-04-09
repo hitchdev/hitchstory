@@ -17,5 +17,5 @@ HitchStory best practices are documented here:
 - [The importance of test realism](test-realism)
 - [What is a testing and living documentation framework?](testing-and-living-documentation)
 - [Testing non-deterministic code](testing-nondeterministic-code)
-- [Triality](triality)
+- [Specification Documentation Test Triality](triality)
 

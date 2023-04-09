@@ -169,7 +169,7 @@ Best practices, how the tool was meant to be used, etc.
 - [The importance of test realism](approach/test-realism)
 - [What is a testing and living documentation framework?](approach/testing-and-living-documentation)
 - [Testing non-deterministic code](approach/testing-nondeterministic-code)
-- [Triality](approach/triality)
+- [Specification Documentation Test Triality](approach/triality)
 
 
 ## Design decisions and principles
