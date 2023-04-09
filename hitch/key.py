@@ -138,12 +138,14 @@ def docpublish():
     Path("/root/.ssh/known_hosts").write_text(
         Command("ssh-keyscan", "github.com").output()
     )
+    if DIR.gen.joinpath("hitchstory").exists():
+        DIR.gen.joinpath("hitchstory").rmtree()
     Command(
-        "git", "clone", f"git:{}@github.com:{}.git".format(
+        "git", "clone", "git:{}@github.com:{}.git".format(
             token,
-            self._github_address
+            "hitchdev/hitchstory",
         )
-    ).in_dir(self.DIR.gen).run()
+    ).in_dir(DIR.gen).run()
 
 
 @cli.command()
