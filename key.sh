@@ -18,6 +18,7 @@ hitchrun() {
         -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
         -p 5555:5555 \
         --secret pypitoken,type=env,target=PYPITOKEN \
+        --secret githubtoken,type=env,target=GITHUBTOKEN \
         --workdir /src \
         $IMAGE_NAME \
         $1
