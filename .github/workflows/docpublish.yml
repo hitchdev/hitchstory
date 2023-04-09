@@ -21,4 +21,4 @@ jobs:
           ./key.sh make
 
       - name: docpublish
-        run: ./key.sh docpublish
+        run: ./key.sh publishdocs

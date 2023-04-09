@@ -130,25 +130,6 @@ def publishdocs():
 
 
 @cli.command()
-def docpublish():
-    from path import Path
-    from commandlib import Command
-    import os
-    token = os.getenv("GITHUBTOKEN").rstrip()
-    Path("/root/.ssh/known_hosts").write_text(
-        Command("ssh-keyscan", "github.com").output()
-    )
-    if DIR.gen.joinpath("hitchstory").exists():
-        DIR.gen.joinpath("hitchstory").rmtree()
-    Command(
-        "git", "clone", "https://{}@github.com/{}.git".format(
-            token,
-            "hitchdev/hitchstory",
-        )
-    ).in_dir(DIR.gen).run()
-
-
-@cli.command()
 def build():
     _devenv()
 
