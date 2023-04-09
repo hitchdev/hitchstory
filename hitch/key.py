@@ -141,7 +141,7 @@ def docpublish():
     if DIR.gen.joinpath("hitchstory").exists():
         DIR.gen.joinpath("hitchstory").rmtree()
     Command(
-        "git", "clone", "git:{}@github.com:{}.git".format(
+        "git", "clone", "https://{}@github.com:{}.git".format(
             token,
             "hitchdev/hitchstory",
         )
