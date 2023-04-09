@@ -130,6 +130,23 @@ def publishdocs():
 
 
 @cli.command()
+def docpublish():
+    from path import Path
+    from commandlib import Command
+    import os
+    token = os.getenv("GITHUBTOKEN")
+    Path("/root/.ssh/known_hosts").write_text(
+        Command("ssh-keyscan", "github.com").output()
+    )
+    Command(
+        "git", "clone", f"git:{}@github.com:{}.git".format(
+            token,
+            self._github_address
+        )
+    ).in_dir(self.DIR.gen).run()
+
+
+@cli.command()
 def build():
     _devenv()
 
