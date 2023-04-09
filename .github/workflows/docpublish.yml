@@ -1,10 +1,10 @@
-name: Regression
+name: Docpublish
 
 on:
   workflow_dispatch:
 
 jobs:
-  regression:
+  docpublish:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -20,5 +20,5 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | podman secret create githubtoken -
           ./key.sh make
 
-      - name: regression
+      - name: docpublish
         run: ./key.sh docpublish
