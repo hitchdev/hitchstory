@@ -11,7 +11,6 @@ HitchStory best practices are documented here:
 - [Does hitchstory let "the business" write stories while you just write the code?](human-writable)
 - [Recommended Environment](recommended-environment)
 - [Separation of Test Concerns](separation-of-test-concerns)
-- [Specification Documentation Test Triality](specification-documentation-test-triality)
 - [Tests as an investment](test-investment)
 - [What is the difference betweeen a test and a story?](test-or-story)
 - [The importance of test realism](test-realism)
