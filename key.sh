@@ -17,7 +17,7 @@ hitchrun() {
         -v ~/.ssh/id_rsa:/root/.ssh/id_rsa \
         -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
         -p 5555:5555 \
-        -e CI='$CI' \
+        -e CI=$CI \
         --secret pypitoken,type=env,target=PYPITOKEN \
         --secret githubtoken,type=env,target=GITHUBTOKEN \
         --workdir /src \
