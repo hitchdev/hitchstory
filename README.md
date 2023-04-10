@@ -156,16 +156,15 @@ Best practices, how the tool was meant to be used, etc.
 - [Complementary tools](https://hitchdev.com/hitchstory/approach/complementary-tools)
 - [Executable specifications](https://hitchdev.com/hitchstory/approach/executable-specifications)
 - [Flaky Tests](https://hitchdev.com/hitchstory/approach/flaky-tests)
-- [Does hitchstory let your BA or Product Manager write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)
+- [Does hitchstory let "the business" write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)
 - [Recommended Environment](https://hitchdev.com/hitchstory/approach/recommended-environment)
-- [Screenplay Principle](https://hitchdev.com/hitchstory/approach/screenplay-principle)
-- [How can executable specifications and living documentation be used for stakeholder collaboration?](https://hitchdev.com/hitchstory/approach/stakeholder-collaboration)
-- [Tests are an investment](https://hitchdev.com/hitchstory/approach/test-investment)
+- [Separation of Test Concerns](https://hitchdev.com/hitchstory/approach/separation-of-test-concerns)
+- [Tests as an investment](https://hitchdev.com/hitchstory/approach/test-investment)
 - [What is the difference betweeen a test and a story?](https://hitchdev.com/hitchstory/approach/test-or-story)
 - [The importance of test realism](https://hitchdev.com/hitchstory/approach/test-realism)
 - [What is a testing and living documentation framework?](https://hitchdev.com/hitchstory/approach/testing-and-living-documentation)
 - [Testing non-deterministic code](https://hitchdev.com/hitchstory/approach/testing-nondeterministic-code)
-- [Triality](https://hitchdev.com/hitchstory/approach/triality)
+- [Specification Documentation Test Triality](https://hitchdev.com/hitchstory/approach/triality)
 
 
 ## Design decisions and principles
