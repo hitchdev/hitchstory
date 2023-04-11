@@ -14,7 +14,6 @@ The executable specifications can be written to specify, test and document appli
 The specifications are written using [StrictYAML](why/strictyaml).
 
 
-
 ## Example
 
 
