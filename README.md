@@ -10,6 +10,7 @@ The executable specifications can be written to specify, test and document appli
 The specifications are written using [StrictYAML](why/strictyaml).
 
 
+
 ## Example
 
 
@@ -184,7 +185,6 @@ Design decisions are justified here:
 
 There are several tools you can use instead, this is why you should use this one instead:
 
-- [Why not use Behave, Lettuce or Cucumber (Gherkin)?](https://hitchdev.com/hitchstory/why-not/gherkin)
 - [Why not use the Robot Framework?](https://hitchdev.com/hitchstory/why-not/robot)
 - [Why use hitchstory instead of a unit testing framework?](https://hitchdev.com/hitchstory/why-not/unit-test)
 
