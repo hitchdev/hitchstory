@@ -4,7 +4,7 @@ title: Why use Hitchstory instead of Behave, Lettuce or Cucumber (Gherkin)?
 # Why use Hitchstory instead of Behave, Lettuce or Cucumber (Gherkin)?
 
 HitchStory and Gherkin are both DSLs for writing user stories that can double as
-acceptance tests, but they have very different approach and philosophies.
+acceptance tests, but they have very different approaches and philosophies.
 
 Gherkin primarily emphasizes [the execution of feature documentation written in "business-facing" text](https://en.wikipedia.org/wiki/Cucumber_(software)).
 
