@@ -103,7 +103,10 @@ The imprecision of English is drawn out in Gherkin specifications partly due to 
 
 !!! note "#"
 
-    Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems. - Jamie ZawinksiBecause of the Englishy nature of the language, parsing is also difficult. Gherkin requires very 
+    Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems. - Jamie Zawinksi
+
+
+Because of the Englishy nature of the language, parsing is also difficult. Gherkin requires very 
 
 There are a multiplicity of examples around the web where it went wrong causing many headaches for users of Cucumber
 and often leading to hours of unnecessary debugging and [workarounds](http://coryschires.com/ten-tips-for-writing-better-cucumber-steps/).
@@ -160,7 +163,10 @@ HitchStory, on the other hand, is based upon StrictYAML and bakes in schema base
 
 !!! note "#"
 
-    "The short answer, no. Feature files can't inherit from another feature file." - [Stack Overflow](https://stackoverflow.com/questions/41872376/can-a-cucumber-feature-file-inherit-from-a-parent-feature-file)Inheritance is, and always has been about keeping code DRY. It is a thorny tool because, while it can reduce
+    "The short answer, no. Feature files can't inherit from another feature file." - [Stack Overflow](https://stackoverflow.com/questions/41872376/can-a-cucumber-feature-file-inherit-from-a-parent-feature-file)
+
+
+Inheritance is, and always has been about keeping code DRY. It is a thorny tool because, while it can reduce
 repetition it can sacrifice readability. For this reason, Gherkin left it out.
 
 From the Stack overflow question:
