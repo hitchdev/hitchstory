@@ -90,7 +90,7 @@ An example of such a high level scenario (drawn from a representative cucumber t
     And API: I check that POST call status code is 200
 ```
 
-This example exhibits [test concern leakage](../tests-concerns-leakage).
+This example exhibits [test concern leakage](../test-concern-leakage).
 
 This provides a limited window into the intended (or actual) behavior of the API as it is a very high level overview of the API's behavior. Key specification details about this story will still exist in this executable specification but they will be buried in the step code that the above translates to. 
 
