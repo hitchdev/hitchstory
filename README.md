@@ -159,6 +159,7 @@ Best practices, how the tool was meant to be used, etc.
 - [Does hitchstory let "the business" write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)
 - [Recommended Environment](https://hitchdev.com/hitchstory/approach/recommended-environment)
 - [Separation of Test Concerns](https://hitchdev.com/hitchstory/approach/separation-of-test-concerns)
+- [Test Artefact Environment Isolation](https://hitchdev.com/hitchstory/approach/test-artefact-environment-isolation)
 - [Test concern leakage](https://hitchdev.com/hitchstory/approach/test-concern-leakage)
 - [Tests as an investment](https://hitchdev.com/hitchstory/approach/test-investment)
 - [What is the difference betweeen a test and a story?](https://hitchdev.com/hitchstory/approach/test-or-story)
