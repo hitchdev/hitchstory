@@ -13,6 +13,9 @@ The executable specifications can be written to specify, test and document appli
 
 The specifications are written using [StrictYAML](why/strictyaml).
 
+Fleshed out examples of HitchStory integration tests for a website, a REST API, a command line app and a python API can be seen
+[here in the examples project](https://github.com/hitchdev/examples/).
+
 
 
 ## Example
