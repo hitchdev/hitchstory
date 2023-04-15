@@ -3,6 +3,12 @@ from hitchstory.step_method import StepMethod
 import pathlib
 
 
+class DocStory(object):
+    def __init__(self, story):
+        self.slug = story.slug
+        self.name = story.name
+
+
 class DocVariation(object):
     def __init__(self, templates, variables):
         self._documentation = templates.variation(**variables)
@@ -44,7 +50,7 @@ class DocGivenProperties(object):
 
 
 class DocStep(object):
-    def __init__(self, templates, step):
+    def __init__(self, templates, step, this_story):
         step_method = StepMethod(step.step_method)
         arguments = {name: None for name in step_method.argspec.args[1:]}
 
@@ -60,13 +66,27 @@ class DocStep(object):
             else:
                 arguments.update(step.arguments.data)
 
-        self._documentation = templates.step_from_slug(step.slug, arguments)
+        variables = dict(arguments)
+        variables["this_step"] = self
+        variables["this_story"] = this_story
+        self._slug = step.slug
+        self._index = step.index
+        self._documentation = templates.step_from_slug(step.slug, variables)
+
+    @property
+    def slug(self):
+        return self._slug
+
+    @property
+    def index(self):
+        return self._index
 
     def documentation(self):
         return self._documentation
 
 
 def _story_variables(story, doc_templates, variation=False):
+    this_story = DocStory(story)
     variables = {
         "info": {
             name: DocInfoProperty(doc_templates, name, info_property)
@@ -76,7 +96,7 @@ def _story_variables(story, doc_templates, variation=False):
         "given": DocGivenProperties(doc_templates, story.given),
         "name": story.child_name if variation else story.name,
         "about": story.about,
-        "steps": [DocStep(doc_templates, step) for step in story.steps],
+        "steps": [DocStep(doc_templates, step, this_story) for step in story.steps],
         "filename": pathlib.Path(story.filename),
     }
     if variation:

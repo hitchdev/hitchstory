@@ -105,8 +105,16 @@ Base documentation:
             {% for name, value in textboxes.items() %}
             - Enter text '{{ value }}' in {{ name }}.
             {%- endfor %}
-          click: '* {% if double %}Double click{% else %}Click{% endif %} on {{ item }}'
-          drag: '* Drag from {{ from_item }} to {{ to_item }}.'
+            
+            ![](screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png)
+          click: |
+            '* {% if double %}Double click{% else %}Click{% endif %} on {{ item }}'
+            
+            ![](screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png)
+          drag: |
+            '* Drag from {{ from_item }} to {{ to_item }}.'
+            
+            ![](screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png)
     setup: |
       from hitchstory import StoryCollection
       from pathlib import Path
@@ -171,11 +179,19 @@ Generate documentation from story:
         - Enter text '(( username ))' in username.
         - Enter text '(( password ))' in password.
 
-        * Click on login
+        ![](screenshots/login-0-fill_form.png)
 
-        * Drag from left to right.
+        '* Click on login'
 
-        * Double click on right
+        ![](screenshots/login-1-click.png)
+
+        '* Drag from left to right.'
+
+        ![](screenshots/login-2-drag.png)
+
+        '* Double click on right'
+
+        ![](screenshots/login-3-click.png)
 
 
         ## Automatically generated
@@ -198,11 +214,19 @@ Generate documentation from story:
         - Enter text '(( username ))' in username.
         - Enter text '(( password ))' in password.
 
-        * Click on login
+        ![](screenshots/log-in-on-another-url-0-fill_form.png)
 
-        * Drag from left to right.
+        '* Click on login'
 
-        * Double click on right
+        ![](screenshots/log-in-on-another-url-1-click.png)
+
+        '* Drag from left to right.'
+
+        ![](screenshots/log-in-on-another-url-2-drag.png)
+
+        '* Double click on right'
+
+        ![](screenshots/log-in-on-another-url-3-click.png)
 
 
         ## Automatically generated
@@ -224,11 +248,19 @@ Generate documentation from story:
         - Enter text '(( username ))' in username.
         - Enter text '(( password ))' in password.
 
-        * Click on login
+        ![](screenshots/log-in-as-president-0-fill_form.png)
 
-        * Drag from left to right.
+        '* Click on login'
 
-        * Double click on right
+        ![](screenshots/log-in-as-president-1-click.png)
+
+        '* Drag from left to right.'
+
+        ![](screenshots/log-in-as-president-2-drag.png)
+
+        '* Double click on right'
+
+        ![](screenshots/log-in-as-president-3-click.png)
 
 
         ## Automatically generated

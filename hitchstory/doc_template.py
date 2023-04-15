@@ -102,9 +102,9 @@ class DocTemplate(object):
             variables={name: given_property},
         )
 
-    def step_from_slug(self, slug, arguments):
+    def step_from_slug(self, slug, variables):
         return self._render(
             name=f"steps/{slug}",
             template=self._slugified_steps.get(slug),
-            variables=arguments,
+            variables=variables,
         )
