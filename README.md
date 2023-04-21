@@ -3,11 +3,11 @@
 [![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)
 
 HitchStory is a python testing framework where the tests can rewrite themselves
-and [write your docs](approach/triality).
+and [write your docs](https://hitchdev.com/hitchstory/approach/triality).
 
 [![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](http://www.youtube.com/watch?v=Aqk5Sao27O0 "Test rewriting itself")
 
-The executable specifications are written, using [StrictYAML](why/strictyaml) and
+The executable specifications are written, using [StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) and
 can test and document applications of any kind.
 
 Fully fleshed out examples (a website, an interactive CLI, a REST API and Python API) with self rewriting tests and generated docs can be seen
