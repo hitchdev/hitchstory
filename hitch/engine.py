@@ -72,16 +72,16 @@ class Engine(BaseEngine):
 
     def _story_friendly_output(self, output):
         """
-        Takes output from exceptions and to the screen that contains:
+        Cleanses outputs that may vary across test runs or look
+        wrong in the story. For example:
 
         * Environment specific paths.
         * Terminal color codes.
         * Random hexadecimal numbers.
-        * Slightly longer lasting stories reporting 0.2  or shorted reporting 0.0 seconds.
-        * Trailing spaces (these look screwy in YAML).
+        * Slightly longer lasting stories reporting 0.2 or shortened reporting 0.0 seconds.
+        * Messages reporting package versions.
 
-        ...and replaces them with a deterministic, representative or
-        more human readable output.
+        These are all replaced with deterministic representative output.
         """
         friendly_output = "\n".join(
             [
@@ -93,16 +93,14 @@ class Engine(BaseEngine):
                 .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
                 .replace(self.path.state, "/path/to")
                 .replace(self.path.gen, "/path/to/virtualenv")
-                .replace("0.5 seconds", "0.1 seconds")
-                .replace("0.4 seconds", "0.1 seconds")
-                .replace("0.3 seconds", "0.1 seconds")
-                .replace("0.2 seconds", "0.1 seconds")
-                .replace("0.0 seconds", "0.1 seconds")
                 .rstrip()
                 .split("\n")
             ]
         )
-        return re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
+        friendly_output = re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
+        friendly_output = re.sub(r"\d+.\d+ seconds", "0.1 seconds", friendly_output)
+        friendly_output = re.sub(r"\d+.\d+s", "0.1s", friendly_output) 
+        return friendly_output
 
     @no_stacktrace_for(AssertionError)
     @no_stacktrace_for(HitchRunPyException)
@@ -214,7 +212,9 @@ class Engine(BaseEngine):
     
     def pytest(self, args, will_output):
         import shlex
-        actual_output = self.python("-m", "pytest", *shlex.split(args)).in_dir(self.path.state).output()
+        result_output = self.python("-m", "pytest", *shlex.split(args)).in_dir(self.path.state).output()
+        
+        actual_output = self._story_friendly_output(result_output)
         
         try:
             Templex(will_output).assert_match(actual_output)

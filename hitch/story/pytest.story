@@ -16,25 +16,25 @@ Using hitchstory with pytest:
         from pathlib import Path
         from engine import Engine
 
-        collection = StoryCollection(Path(".").glob("*.story"), Engine())
+        hitchstory_collection = StoryCollection(Path(".").glob("*.story"), Engine())
 
         def test_email_sent():
-            collection.named("Email sent").play()
-            
+            hitchstory_collection.named("Email sent").play()
+
         def test_logged_in():
-            collection.named("Logged in").play()
+            hitchstory_collection.named("Logged in").play()
   replacement steps:
   - pytest:
       args: test_integration.py
-      will output: |
+      will output: |-
         ============================= test session starts ==============================
         platform linux -- Python 3.11.2, pytest-7.3.1, pluggy-1.0.0
-        rootdir: /gen/state
+        rootdir: /path/to
         collected 2 items
 
         test_integration.py ..                                                   [100%]
 
-        ============================== 2 passed in 0.17s ===============================
+        ============================== 2 passed in 0.1s ===============================
 
 
 
