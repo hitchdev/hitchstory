@@ -211,6 +211,18 @@ class Engine(BaseEngine):
             assert value == self.path.working.joinpath(
                 "{0}.txt".format(name)
             ).bytes().decode("utf8")
+    
+    def pytest(self, args, will_output):
+        import shlex
+        actual_output = self.python("-m", "pytest", *shlex.split(args)).in_dir(self.path.state).output()
+        
+        try:
+            Templex(will_output).assert_match(actual_output)
+        except AssertionError:
+            if self._rewrite:
+                self.current_step.update(will_output=actual_output)
+            else:
+                raise
 
     def tear_down(self):
         if self.path.q.exists():
