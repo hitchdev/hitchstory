@@ -139,3 +139,11 @@ steps:
     {% endif %}
     {% endif %}
     {% endif %}
+
+  pytest: |
+    Running: `pytest {{ args }}`
+    
+    Outputs:
+    ```
+    {{ will_output }}
+    ```
