@@ -16,19 +16,23 @@ Using hitchstory with pytest:
         from pathlib import Path
         from engine import Engine
 
-        hitchstory_collection = StoryCollection(Path(".").glob("*.story"), Engine())
+        hs = StoryCollection(
+            # All *.story files in this test's directory
+            Path(__file__).parent.glob("*.story"), 
+            Engine()
+        )
 
         def test_email_sent():
-            hitchstory_collection.named("Email sent").play()
+            hs.named("Email sent").play()
 
         def test_logged_in():
-            hitchstory_collection.named("Logged in").play()
+            hs.named("Logged in").play()
   replacement steps:
   - pytest:
       args: test_integration.py
       will output: |-
         ============================= test session starts ==============================
-        platform linux -- Python 3.11.2, pytest-7.3.1, pluggy-1.0.0
+        platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
         rootdir: /path/to
         collected 2 items
 

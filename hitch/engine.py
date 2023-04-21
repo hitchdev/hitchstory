@@ -99,7 +99,8 @@ class Engine(BaseEngine):
         )
         friendly_output = re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
         friendly_output = re.sub(r"\d+.\d+ seconds", "0.1 seconds", friendly_output)
-        friendly_output = re.sub(r"\d+.\d+s", "0.1s", friendly_output) 
+        friendly_output = re.sub(r"\d+.\d+s", "0.1s", friendly_output)
+        friendly_output = re.sub("\d+.\d+.\d+", "n.n.n", friendly_output)
         return friendly_output
 
     @no_stacktrace_for(AssertionError)
