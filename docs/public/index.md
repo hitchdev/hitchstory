@@ -6,17 +6,21 @@ title: HitchStory
 
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
 
-HitchStory is a python 
-[testing and living documentation framework](approach/testing-and-living-documentation) for building strictly typed [executable specifications](approach/executable-specifications) which can [auto-generate your howto documentation](approach/triality).
+HitchStory is a python testing framework where the tests can rewrite themselves
+and [write your docs](approach/triality).
 
-The executable specifications can be written to specify, test and document applications at every level - replacing [xUnit](https://en.wikipedia.org/wiki/XUnit) equivalents of unit tests, integration tests and end to end tests with appropriate tooling.
+[![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](http://www.youtube.com/watch?v=Aqk5Sao27O0 "Test rewriting itself")
 
-The specifications are written using my other project [StrictYAML](why/strictyaml).
+The executable specifications are written, using [StrictYAML](why/strictyaml) and
+can test and document applications of any kind.
 
-Fully fleshed out example projects (website, interactive command line, REST API and Python API) tested and documented with HitchStory executable specifications can be seen
-[here in the examples project](https://github.com/hitchdev/examples/).
+Fully fleshed out examples (a website, an interactive CLI, a REST API and Python API) with self rewriting tests and generated docs can be seen
+[in the examples folder](https://github.com/hitchdev/hitchstory/tree/master/examples)
+and run.
 
-In these sample projects the website is tested with [playwright](https://playwright.dev/python/), the REST API tested using [requests](https://docs.python-requests.org/en/latest/index.html), the interactive command line with [icommandlib](https://github.com/crdoconnor/icommandlib) the python API tested with [hitchrunpy](https://hitchdev.com/hitchrunpy/).
+The library is 100% pure python. The tests can be run individually [inside an existing runner
+like pytest](https://hitchdev.com/hitchstory/using/pytest) or the built in runner
+can be invoked from a [CLI file like this example](https://github.com/hitchdev/hitchstory/blob/master/examples/website/hitch/key.py#L33).
 
 
 ## Example
