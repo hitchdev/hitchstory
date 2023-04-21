@@ -1,4 +1,5 @@
 Using hitchstory with pytest:
+  docs: pytest
   based on: quickstart
   about: |
     If you already have pytest set up and a full
