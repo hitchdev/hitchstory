@@ -1,0 +1,24 @@
+story: |
+  # {{ name }}
+  
+  {{ about }}
+  
+  {% for step in steps %}
+  {{ step.documentation() }}
+  {% endfor %}
+steps:
+  call api: |
+    ## {{ request["method"] }} request
+    
+    Request on {{ request["path"] }}
+    
+    {% if request_content %}
+    ```json
+    {{ request_content }}
+    ```
+    {% endif %}
+    
+    Will respond with:
+    ```json
+    {{ response_content }}
+    ```

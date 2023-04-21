@@ -1,0 +1,16 @@
+# Only dependencies
+
+hitchstory
+click
+ipython
+templex
+commandlib
+icommandlib
+requests
+pip-tools
+
+# make sure version matches Dockerfile-playwright
+playwright
+
+# For getting ipython to play nicely with playwright
+nest_asyncio

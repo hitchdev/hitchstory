@@ -1,0 +1,25 @@
+story: |
+  # {{ name }}
+  
+  {{ about }}
+  
+  {% for step in steps %}
+  {{ step.documentation() }}
+  {% endfor %}
+steps:
+  expect: |
+    * When `{{ text }}` appears.
+  
+  display: |
+    Should display:
+  
+    ```
+    {{ text }}
+    ```
+  enter text: |
+    * When `{{ text }}` is entered.
+
+  exit successfully: |
+    * And the app should exit successfully.
+    
+  

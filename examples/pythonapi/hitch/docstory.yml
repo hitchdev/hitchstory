@@ -1,0 +1,25 @@
+story: |
+  # {{ name }}
+  
+  {{ about }}
+  
+  {% for step in steps %}
+  {{ step.documentation() }}
+  {% endfor %}
+steps:
+  run: |
+    ```python
+    {{ code }}
+    ```
+    {% if will_output %}
+    Will output:
+    ```
+    {{ will_output }}
+    ```
+    {% endif %}
+
+    {% if raises %}
+    ```python
+    {{ raises['message'] }}
+    ```
+    {% endif %}

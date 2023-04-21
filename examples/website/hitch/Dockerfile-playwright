@@ -1,0 +1,5 @@
+FROM mcr.microsoft.com/playwright:v1.32.0-focal
+
+WORKDIR /root
+RUN npm install playwright@1.32.0 && ./node_modules/.bin/playwright install
+CMD ["./node_modules/.bin/playwright", "run-server"]
