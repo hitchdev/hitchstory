@@ -21,6 +21,7 @@ How to:
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](metadata)
 - [Story with parameters](parameterized-stories)
 - [Play multiple stories in sequence](play-multiple-stories)
+- [Using hitchstory with pytest](pytest)
 - [Story that rewrites itself](rewrite-story)
 - [Running a single named story successfully](run-single-named-story)
 - [Shortcut lookup for story names](shortcut-lookup)

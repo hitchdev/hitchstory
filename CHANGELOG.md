@@ -1,6 +1,11 @@
 # Changelog
 
 
+### 0.16.0
+
+* FEATURE : Added this_step and this_story to step templates for generating documentation.
+
+
 ### 0.15.3
 
 * BUGFIX : 'YAML' object has no attribute 'extend' bug.

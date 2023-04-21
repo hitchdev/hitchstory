@@ -147,6 +147,7 @@ $ pip install hitchstory
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/metadata)
 - [Story with parameters](using/parameterized-stories)
 - [Play multiple stories in sequence](using/play-multiple-stories)
+- [Using hitchstory with pytest](using/pytest)
 - [Story that rewrites itself](using/rewrite-story)
 - [Running a single named story successfully](using/run-single-named-story)
 - [Shortcut lookup for story names](using/shortcut-lookup)
