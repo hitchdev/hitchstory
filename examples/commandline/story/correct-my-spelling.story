@@ -40,6 +40,8 @@ Correct my spelling:
 
   - enter text: Y
 
+  - expect: 1. buy bread
+
   - display: |-
       To-do list:
       Options:

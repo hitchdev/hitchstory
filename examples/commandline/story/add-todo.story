@@ -19,7 +19,7 @@ Add and retrieve todo:
 
   - enter text: Buy bread
 
-  - expect: Buy bread
+  - expect: 1. Buy bread
 
   - display: |-
       To-do list:

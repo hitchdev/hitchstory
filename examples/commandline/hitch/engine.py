@@ -27,7 +27,6 @@ class Engine(BaseEngine):
         self._iprocess.wait_until_output_contains(text)
 
     def display(self, text):
-        time.sleep(0.5)
         try:
             Templex(text).assert_match(self._iprocess.stripshot())
         except AssertionError:
