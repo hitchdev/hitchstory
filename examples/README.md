@@ -118,6 +118,14 @@ $ ./key.sh clean all
 > **Note**
 >It must be run in each project folder you ran ./key.sh make in.
 
+# Github Actions
+
+All of the above projects are trivially tested on github actions with
+the same two steps - make and regression. See here:
+
+* [Github actions YAML](https://github.com/hitchdev/hitchstory/blob/master/.github/workflows/examples.yml)
+* [Runner](https://github.com/hitchdev/hitchstory/actions/workflows/examples.yml)
+
 # About the projects
 
 The four folders contain four versions of the same project -
