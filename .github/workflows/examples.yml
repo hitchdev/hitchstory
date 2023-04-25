@@ -21,46 +21,49 @@ jobs:
           #sudo apt-get update
           #sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
 
+      # Integration test REST API
       - name: build restapi
         run: |
-          cd restapi
+          cd examples/restapi
           ./key.sh make
 
       - name: regression test restapi
         run: |
-          cd restapi
+          cd examples/restapi
           ./key.sh regression
 
 
-
+      # Integration test Website
       - name: build website
         run: |
-          cd website
+          cd examples/website
           ./key.sh make
 
       - name: regression test website
         run: |
-          cd website
+          cd examples/website
           ./key.sh regression
 
-          
+
+      # Integration test interactive Command Line
       - name: build command line
         run: |
-          cd commandline
+          cd examples/commandline
           ./key.sh make
 
       - name: regression test commandline
         run: |
-          cd commandline
+          cd examples/commandline
           ./key.sh regression
 
           
+      # TIntegration test Python API
       - name: build python api
         run: |
-          cd pythonapi
+          cd examples/pythonapi
           ./key.sh make
 
       - name: regression test python api
         run: |
-          cd pythonapi
+          cd examples/pythonapi
           ./key.sh regression
