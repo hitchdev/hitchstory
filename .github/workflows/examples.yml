@@ -1,0 +1,66 @@
+name: Example Tests Running on Github Actions
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - examples/**
+    
+
+jobs:
+  regression:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      #- name: make containers work running on arm
+        #run: |
+          #sudo apt-get update
+          #sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
+
+      - name: build restapi
+        run: |
+          cd restapi
+          ./key.sh make
+
+      - name: regression test restapi
+        run: |
+          cd restapi
+          ./key.sh regression
+
+
+
+      - name: build website
+        run: |
+          cd website
+          ./key.sh make
+
+      - name: regression test website
+        run: |
+          cd website
+          ./key.sh regression
+
+          
+      - name: build command line
+        run: |
+          cd commandline
+          ./key.sh make
+
+      - name: regression test commandline
+        run: |
+          cd commandline
+          ./key.sh regression
+
+          
+      - name: build python api
+        run: |
+          cd pythonapi
+          ./key.sh make
+
+      - name: regression test python api
+        run: |
+          cd pythonapi
+          ./key.sh regression
