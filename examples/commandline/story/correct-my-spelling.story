@@ -6,8 +6,6 @@ Correct my spelling:
     to detect misspellings and replies to the API with a suggestion
     instead of adding it to the to do list.
   steps:
-  - expect: Enter your choice
-
   - display: |-
       To-do list:
       Options:
@@ -18,11 +16,16 @@ Correct my spelling:
 
   - enter text: 1
 
-  - expect: Enter a to-do item
+  - display: |-
+      To-do list:
+      Options:
+      1. Add item
+      2. Remove item
+      3. Quit
+      Enter your choice: 1
+      Enter a to-do item:
 
   - enter text: biuy breod
-
-  - expect: Did you mean "buy bread"?
 
   - display: |-
       To-do list:
@@ -35,12 +38,7 @@ Correct my spelling:
       Did you mean "buy bread"?
       Enter Y to confirm, or any other key to re-enter:
 
-
-  - expect: Enter Y to confirm
-
   - enter text: Y
-
-  - expect: 1. buy bread
 
   - display: |-
       To-do list:
@@ -59,7 +57,6 @@ Correct my spelling:
       2. Remove item
       3. Quit
       Enter your choice:
-
 
   - enter text: 3
 

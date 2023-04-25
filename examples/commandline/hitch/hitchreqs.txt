@@ -32,7 +32,7 @@ executing==1.2.0
     # via stack-data
 hitchstory==0.16.0
     # via -r hitch/hitchreqs.in
-icommandlib==0.6.1
+icommandlib==0.7.0
     # via -r hitch/hitchreqs.in
 idna==3.4
     # via requests

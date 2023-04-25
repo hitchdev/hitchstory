@@ -26,12 +26,16 @@ class Engine(BaseEngine):
     def expect(self, text):
         self._iprocess.wait_until_output_contains(text)
 
-    def display(self, text):
+    def display(self, expected_text):
         try:
-            Templex(text).assert_match(self._iprocess.stripshot())
+            self._iprocess.wait_for_stripshot_to_match(
+                expected_text,
+                timeout=10,
+            )
         except AssertionError:
             if self._rewrite:
-                self.current_step.update(text=self._iprocess.stripshot())
+                time.sleep(10)
+                self.current_step.update(expected_text=self._iprocess.stripshot())
             else:
                 raise
 
