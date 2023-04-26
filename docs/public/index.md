@@ -19,8 +19,8 @@ and run.
 
 The library is 100% pure python. The tests can be run:
 
-* [Inside pytest or similar](https://hitchdev.com/hitchstory/using/pytest).
-* [Or via a short CLI like this](https://github.com/hitchdev/hitchstory/blob/master/examples/website/hitch/key.py#L33).
+* [Inside pytest or similar](https://hitchdev.com/hitchstory/using/pytest)
+* [Or via a basic CLI runner](using/basic-cli)
 
 
 ## Example
