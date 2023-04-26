@@ -5,6 +5,7 @@ title: Using HitchStory
 How to:
 
 - [Abort a story with ctrl-C](aborting)
+- [Creating a basic command line test runner](basic-cli)
 - [Upgrade breaking changes between v0.14 and v0.15](breaking-changes-between-v014-and-v015)
 - [Continue on failure when playing multiple stories](continue-on-failure)
 - [Hiding stacktraces for expected exceptions](expected-exceptions)

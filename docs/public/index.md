@@ -135,6 +135,7 @@ $ pip install hitchstory
 ## Using HitchStory
 
 - [Abort a story with ctrl-C](using/aborting)
+- [Creating a basic command line test runner](using/basic-cli)
 - [Upgrade breaking changes between v0.14 and v0.15](using/breaking-changes-between-v014-and-v015)
 - [Continue on failure when playing multiple stories](using/continue-on-failure)
 - [Hiding stacktraces for expected exceptions](using/expected-exceptions)
