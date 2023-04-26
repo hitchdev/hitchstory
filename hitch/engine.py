@@ -7,6 +7,7 @@ from commandlib import Command
 from templex import Templex
 from path import Path
 import colorama
+import shlex
 import re
 
 
@@ -87,6 +88,7 @@ class Engine(BaseEngine):
             [
                 line.rstrip()
                 for line in output.replace(colorama.Fore.RED, "[[ RED ]]")
+                .replace(colorama.Fore.GREEN, "[[ GREEN ]]")
                 .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")
                 .replace(colorama.Style.DIM, "[[ DIM ]]")
                 .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
@@ -100,7 +102,7 @@ class Engine(BaseEngine):
         friendly_output = re.sub(r"0x[0-9a-f]+", "0xfffffffffff", friendly_output)
         friendly_output = re.sub(r"\d+.\d+ seconds", "0.1 seconds", friendly_output)
         friendly_output = re.sub(r"\d+.\d+s", "0.1s", friendly_output)
-        friendly_output = re.sub("\d+.\d+.\d+", "n.n.n", friendly_output)
+        friendly_output = re.sub("\d+\.\d+\.\d+", "n.n.n", friendly_output)
         return friendly_output
 
     @no_stacktrace_for(AssertionError)
@@ -207,16 +209,30 @@ class Engine(BaseEngine):
 
     def form_filled(self, **kwargs):
         for name, value in kwargs.items():
-            assert value == self.path.working.joinpath(
-                "{0}.txt".format(name)
-            ).bytes().decode("utf8")
-    
-    def pytest(self, args, will_output):
-        import shlex
-        result_output = self.python("-m", "pytest", *shlex.split(args)).in_dir(self.path.state).output()
-        
+            assert value == self.path.working.joinpath("{0}.txt".format(name)).text()
+
+    def run_python(self, args, will_output):
+        result_output = self.python(*shlex.split(args)).in_dir(self.path.state).output()
+
         actual_output = self._story_friendly_output(result_output)
-        
+
+        try:
+            Templex(will_output).assert_match(actual_output)
+        except AssertionError:
+            if self._rewrite:
+                self.current_step.update(will_output=actual_output)
+            else:
+                raise
+
+    def pytest(self, args, will_output):
+        result_output = (
+            self.python("-m", "pytest", *shlex.split(args))
+            .in_dir(self.path.state)
+            .output()
+        )
+
+        actual_output = self._story_friendly_output(result_output)
+
         try:
             Templex(will_output).assert_match(actual_output)
         except AssertionError:

@@ -67,7 +67,9 @@ class ProjectDependencies:
 
 
 class EnvirotestVirtualenv(hitchbuild.HitchBuild):
-    def __init__(self, pyenv_build, pyproject_toml, picker, test_package, prerequisites):
+    def __init__(
+        self, pyenv_build, pyproject_toml, picker, test_package, prerequisites
+    ):
         self._pyenv_build = pyenv_build
         self._pyproject_toml = pyproject_toml
         self._picker = picker
@@ -97,7 +99,8 @@ class EnvirotestVirtualenv(hitchbuild.HitchBuild):
                 self._pyenv_build,
                 self.python_version,
             ),
-            packages=self._prerequisites + [
+            packages=self._prerequisites
+            + [
                 PythonRequirements(
                     [
                         "{}=={}".format(library, version)
@@ -192,12 +195,14 @@ class PythonPackage:
 
 
 class PythonVersionDependentRequirement(PythonPackage):
-    def __init__(self, package, lower_version, python_version_threshold, higher_version):
+    def __init__(
+        self, package, lower_version, python_version_threshold, higher_version
+    ):
         self._package = package
         self._lower_version = lower_version
         self._python_version_threshold = LooseVersion(python_version_threshold)
         self._higher_version = higher_version
-    
+
     def install(self, venv):
         if LooseVersion(venv.py_version.version) > self._python_version_threshold:
             venv.pip("install", "{}={}".format(self._package, self._higher_version))

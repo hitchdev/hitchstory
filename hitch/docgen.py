@@ -4,7 +4,15 @@ import hitchpylibrarytoolkit
 
 
 class ProjectDocumentation:
-    def __init__(self, storybook, project_path, publish_path, project_name, github_address, image=""):
+    def __init__(
+        self,
+        storybook,
+        project_path,
+        publish_path,
+        project_name,
+        github_address,
+        image="",
+    ):
         self._storybook = storybook
         self._project_path = project_path
         self._publish_path = publish_path
@@ -12,7 +20,7 @@ class ProjectDocumentation:
         self._github_address = github_address
         self._project_slug = project_name.lower()
         self._image = image
-    
+
     def _readme_intro(self):
         return (
             "# {project_name}\n"
@@ -22,22 +30,22 @@ class ProjectDocumentation:
             project_name=self._project_name,
             github_address=self._github_address,
         )
-    
+
     def _docs_intro(self):
         return (
             "---\n"
             "title: {project_name}\n"
             "---\n"
             "\n{image}\n\n"
-            "<img alt=\"GitHub Repo stars\" src=\"https://img.shields.io/github/stars/{github_address}?style=social\">"
-            "<img alt=\"PyPI - Downloads\" src=\"https://img.shields.io/pypi/dm/{project_slug}\">"
+            '<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/{github_address}?style=social">'
+            '<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/{project_slug}">'
         ).format(
             image=self._image,
             project_name=self._project_name,
             github_address=self._github_address,
             project_slug=self._project_slug,
         )
-    
+
     def _title(self, filepath):
         try:
             assert len(filepath.text().split("---")) >= 3, "{} doesn't have ---".format(
@@ -48,8 +56,7 @@ class ProjectDocumentation:
             return None
         except AssertionError:
             return None
-    
-    
+
     def _contents(self, main_folder, folder, readme):
         markdown = ""
         for filepath in sorted(main_folder.joinpath(folder).listdir()):
@@ -61,11 +68,12 @@ class ProjectDocumentation:
 
                     markdown += "- [{}]({})\n".format(
                         title,
-                        "https://hitchdev.com/{}/".format(self._project_slug) + path if readme else path,
+                        "https://hitchdev.com/{}/".format(self._project_slug) + path
+                        if readme
+                        else path,
                     )
         return markdown
-    
-    
+
     def generate(self, readme=False):
         dirtempl = python_bin.dirtempl.in_dir(self._project_path / "docs")
         doc_src = self._project_path / "docs" / "src"
@@ -115,7 +123,7 @@ class ProjectDocumentation:
         dest_path.joinpath("changelog.md").write_text(
             hitchpylibrarytoolkit.docgen.changelog(self._project_path)
         )
-    
+
     def _generate_storydocs(self, docstory, docpath, storybook):
         storydocs = storybook.with_documentation(
             docstory,
@@ -127,8 +135,6 @@ class ProjectDocumentation:
             if docfilename is not None:
                 docpath.joinpath(docfilename + ".md").write_text(story.documentation())
 
-
-            
 
 README_INTRO = ""
 

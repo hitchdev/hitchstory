@@ -2,7 +2,6 @@ from hitchstory import StoryCollection
 from pathquery import pathquery
 from click import argument, group, pass_context
 import hitchpylibrarytoolkit
-import pyenv
 from engine import Engine
 
 

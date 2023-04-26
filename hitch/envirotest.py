@@ -4,7 +4,13 @@ import random
 
 
 def run_test(
-    pyenv_build, pyproject_toml, test_package, prerequisites, strategy_name, _storybook, _doctests
+    pyenv_build,
+    pyproject_toml,
+    test_package,
+    prerequisites,
+    strategy_name,
+    _storybook,
+    _doctests,
 ):
     if strategy_name == "latest":
         strategies = [
