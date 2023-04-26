@@ -2,8 +2,7 @@
 
 [![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)
 
-HitchStory is a python testing framework where the tests can rewrite themselves
-and [write your docs](https://hitchdev.com/hitchstory/approach/triality).
+HitchStory is a literate python testing framework where the tests can rewrite themselves and [write your docs](https://hitchdev.com/hitchstory/approach/triality).
 
 [![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](http://www.youtube.com/watch?v=Aqk5Sao27O0 "Test rewriting itself")
 
@@ -14,9 +13,10 @@ Fully fleshed out examples (a website, an interactive CLI, a REST API and Python
 [in the examples folder](https://github.com/hitchdev/hitchstory/tree/master/examples)
 and run.
 
-The library is 100% pure python. The tests can be run individually [inside an existing runner
-like pytest](https://hitchdev.com/hitchstory/using/pytest) or the built in runner
-can be invoked from a [CLI file like this example](https://github.com/hitchdev/hitchstory/blob/master/examples/website/hitch/key.py#L33).
+The library is 100% pure python. The tests can be run:
+
+* [Inside pytest or similar](https://hitchdev.com/hitchstory/using/pytest).
+* [Or via a short CLI like this](https://github.com/hitchdev/hitchstory/blob/master/examples/website/hitch/key.py#L33).
 
 
 ## Example
@@ -188,6 +188,7 @@ Design decisions are justified here:
 - [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](https://hitchdev.com/hitchstory/why/interesting-to-the-business)
 - [Why does hitchstory not have a command line interface?](https://hitchdev.com/hitchstory/why/no-cli)
 - [Principles](https://hitchdev.com/hitchstory/why/principles)
+- [Why does HitchStory have no CLI runner - only a pure python API?](https://hitchdev.com/hitchstory/why/pure-python-no-cli)
 - [Why programatically rewrite stories?](https://hitchdev.com/hitchstory/why/rewrite)
 - [Why does HitchStory use StrictYAML?](https://hitchdev.com/hitchstory/why/strictyaml)
 

@@ -11,6 +11,7 @@ controversial design decisions. These are justified here.
 - [Why does hitchstory not have an opinion on what counts as interesting to "the business"?](interesting-to-the-business)
 - [Why does hitchstory not have a command line interface?](no-cli)
 - [Principles](principles)
+- [Why does HitchStory have no CLI runner - only a pure python API?](pure-python-no-cli)
 - [Why programatically rewrite stories?](rewrite)
 - [Why does HitchStory use StrictYAML?](strictyaml)
 
