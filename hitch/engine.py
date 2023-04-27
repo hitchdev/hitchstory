@@ -19,10 +19,6 @@ class Engine(BaseEngine):
             MapPattern(Str(), Str()),
             inherit_via=GivenProperty.OVERRIDE,
         ),
-        core_files=GivenProperty(
-            MapPattern(Str(), Str()),
-            inherit_via=GivenProperty.OVERRIDE,
-        ),
         python_version=GivenProperty(Str()),
         setup=GivenProperty(Str()),
     )
@@ -58,12 +54,6 @@ class Engine(BaseEngine):
 
         for filename, contents in list(self.given.get("files", {}).items()):
             self.path.state.joinpath(filename).write_text(self.given["files"][filename])
-            self._included_files.append(self.path.state.joinpath(filename))
-
-        for filename, contents in list(self.given.get("core files", {}).items()):
-            self.path.state.joinpath(filename).write_text(
-                self.given["core files"][filename]
-            )
             self._included_files.append(self.path.state.joinpath(filename))
 
         for filename in self.path.key.joinpath("mockcode").listdir():
