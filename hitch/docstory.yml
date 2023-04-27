@@ -44,13 +44,6 @@ info:
         This feature is in alpha. The API may change on a minor version increment.
     {% endraw %}{% endif %}
 given:
-  core_files: |
-    {% for filename, contents in core_files.items() %}
-    {{ filename }}:
-
-    ```{% if filename.endswith("py") %}python{% else %}yaml{% endif %}
-    {{ contents }}```
-    {%- endfor %}
   files: |
     {% for filename, contents in files.items() %}
     {{ filename }}:
