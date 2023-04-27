@@ -55,13 +55,13 @@ case "$1" in
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/python hitch/key.py build"
+                hitchrun "/gen/venv/bin/python hitch/runner.py build"
                 ;;
             "gen")
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/python hitch/key.py build"
+                hitchrun "/gen/venv/bin/python hitch/runner.py build"
                 ;;
             "hitchreqs")
                 hitchrun "/gen/venv/bin/pip-compile hitch/hitchreqs.in -o hitch/hitchreqs.txt"
@@ -76,7 +76,7 @@ case "$1" in
         hitchrun "bash"
         ;;
     *)
-        hitchrun "/gen/venv/bin/python hitch/key.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
+        hitchrun "/gen/venv/bin/python hitch/runner.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
         ;; 
 esac
 
