@@ -6,7 +6,7 @@ Handling failing tests:
     * A snippet of the YAML where the story failed with the failing step highlighted.
     * A stack trace from engine.py where the exception was raised.
   given:
-    core files:
+    files:
       example.story: |
         Failing story:
           steps:
@@ -62,20 +62,16 @@ Handling failing tests:
           will output: |-
             RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
-                  steps:
-                  - Passing step
-                  - Failing step
-                  - Not executed step
 
 
-            [1]: function 'failing_step'
+            [1]: function 'set_up'
               /path/to/working/engine.py
 
 
+                    3 : class Engine(BaseEngine):
+                    4 :     def set_up(self):
+                --> 5 :         raise_example_exception()
                     6 :
-                    7 :     def failing_step(self):
-                --> 8 :         raise_example_exception("Towel not located")
-                    9 :
 
 
 
@@ -95,8 +91,6 @@ Handling failing tests:
                 This is a demonstration exception docstring.
 
                 It spreads across multiple lines.
-
-            Towel not located
 
     Failure printed by default:
       steps:
