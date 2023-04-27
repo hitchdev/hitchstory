@@ -135,6 +135,7 @@ def build():
 
 @cli.command()
 def cleanpyenv():
+    from hitchpylibrarytoolkit import pyenv
     pyenv.Pyenv(DIR.gen / "pyenv").clean()
 
 
@@ -147,8 +148,8 @@ def cleandevenv():
 @argument("strategy_name", nargs=1)
 def envirotest(strategy_name):
     """Run tests on package / python version combinations."""
-    import envirotest
-    import pyenv
+    from hitchpylibrarytoolkit import envirotest
+    from hitchpylibrarytoolkit import pyenv
 
     test_package = pyenv.PythonRequirements(
         [
@@ -169,6 +170,8 @@ def envirotest(strategy_name):
         pyenv.PythonRequirements(
             [
                 "ensure",
+                "click",
+                "pytest",
             ]
         ),
     ]

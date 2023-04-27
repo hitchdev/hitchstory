@@ -1,6 +1,6 @@
 from hitchstory import StoryCollection, BaseEngine, validate
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from strictyaml import Str, Map, Optional, Enum, MapPattern
+from strictyaml import Str, Map, Optional, Enum, MapPattern, Bool
 from hitchstory import no_stacktrace_for
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from commandlib import Command
@@ -88,9 +88,11 @@ class Engine(BaseEngine):
             [
                 line.rstrip()
                 for line in output.replace(colorama.Fore.RED, "[[ RED ]]")
+                .replace(colorama.Fore.BLUE, "[[ BLUE ]]")
                 .replace(colorama.Fore.GREEN, "[[ GREEN ]]")
                 .replace(colorama.Style.BRIGHT, "[[ BRIGHT ]]")
                 .replace(colorama.Style.DIM, "[[ DIM ]]")
+                .replace(colorama.Style.NORMAL, "[[ NORMAL ]]")
                 .replace(colorama.Fore.RESET, "[[ RESET FORE ]]")
                 .replace(colorama.Style.RESET_ALL, "[[ RESET ALL ]]")
                 .replace(self.path.state, "/path/to")
@@ -223,13 +225,15 @@ class Engine(BaseEngine):
                 self.current_step.update(will_output=actual_output)
             else:
                 raise
-
-    def pytest(self, args, will_output):
-        result_output = (
-            self.python("-m", "pytest", *shlex.split(args))
+    
+    @validate(expect_failure=Bool())
+    def pytest(self, args, will_output, expect_failure=False):
+        command = self.python("-m", "pytest", *shlex.split(args))\
             .in_dir(self.path.state)
-            .output()
-        )
+    
+        if expect_failure:
+            command = command.ignore_errors()
+        result_output = command.output()
 
         actual_output = self._story_friendly_output(result_output)
 

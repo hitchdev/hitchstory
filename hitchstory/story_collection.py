@@ -7,6 +7,7 @@ from hitchstory import exceptions
 from slugify import slugify
 from path import Path
 from copy import copy
+import io
 import sys
 
 
@@ -45,6 +46,7 @@ class StoryCollection(object):
         self._output_handle = sys.stdout
         self._flakecheck_times = None
         self._doc_templates = None
+        self._external_test_runner = False
 
     @property
     def engine(self):
@@ -185,6 +187,12 @@ class StoryCollection(object):
         doc_template = DocTemplate(self.engine, yaml_documentation, extra)
         doc_template.parse()
         new_collection._doc_templates = doc_template
+        return new_collection
+
+    def with_external_test_runner(self):
+        new_collection = self.copy()
+        new_collection._output_handle = io.StringIO()
+        new_collection._external_test_runner = True
         return new_collection
 
     def copy(self):

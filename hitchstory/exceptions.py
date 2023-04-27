@@ -5,6 +5,14 @@ class HitchStoryException(Exception):
     pass
 
 
+class StoryFailure(Exception):
+    """
+    A story ran and failed.
+    """
+
+    pass
+
+
 class CannotMixKeywordArgs(HitchStoryException):
     """
     **kwargs and regular args cannot be mixed in story step methods.

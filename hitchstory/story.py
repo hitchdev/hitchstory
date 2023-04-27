@@ -311,6 +311,9 @@ class Story(object):
             )
 
         self._run_special_method(self.engine.tear_down, exceptions.TearDownException)
+
+        if not passed and self._collection._external_test_runner:
+            raise exceptions.StoryFailure(self._collection._output_handle.getvalue())
         return result
 
     def documentation(self):
