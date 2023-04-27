@@ -97,8 +97,6 @@ index.jinja2:
 {{ story.documentation() }}
 {% endfor %}
 ```
-
-
 document.yaml:
 
 ```yaml

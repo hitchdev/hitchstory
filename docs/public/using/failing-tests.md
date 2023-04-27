@@ -93,20 +93,16 @@ Will output:
 ```
 RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 seconds.
 
-      steps:
-      - Passing step
-      - Failing step
-      - Not executed step
 
 
-[1]: function 'failing_step'
+[1]: function 'set_up'
   /path/to/working/engine.py
 
 
+        3 : class Engine(BaseEngine):
+        4 :     def set_up(self):
+    --> 5 :         raise_example_exception()
         6 :
-        7 :     def failing_step(self):
-    --> 8 :         raise_example_exception("Towel not located")
-        9 :
 
 
 
@@ -126,8 +122,6 @@ code_that_does_things.ExampleException
     This is a demonstration exception docstring.
 
     It spreads across multiple lines.
-
-Towel not located
 ```
 
 
