@@ -17,7 +17,7 @@ Exception in special methods:
     Only exceptions in set_up or steps are considered
     normal.
   given:
-    core files:
+    files:
       example.story: |
         Do thing:
           steps:

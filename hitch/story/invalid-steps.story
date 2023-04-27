@@ -1,6 +1,6 @@
 Invalid story:
   given:
-    core files:
+    files:
       example.story: |
         Create files:
           steps:
@@ -130,7 +130,7 @@ Invalid story:
 
     Cannot use single argument:
       given:
-        core files:
+        files:
           example.story: |
             Create files:
               steps:
@@ -151,7 +151,7 @@ Invalid story:
 
     Found argument when there should be none:
       given:
-        core files:
+        files:
           example.story: |
             Create files:
               steps:
@@ -173,7 +173,7 @@ Invalid story:
 
     Access key on self.given that does not exist:
       given:
-        core files:
+        files:
           example.story: |
             Create files:
               steps:

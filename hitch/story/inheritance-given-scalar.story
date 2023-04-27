@@ -7,7 +7,7 @@ Story inheritance - override given scalar preconditions:
     when it is run the steps and the other preconditions
     will all remain the same.
   given:
-    core files:
+    files:
       example.story: |
         Login:
           given:

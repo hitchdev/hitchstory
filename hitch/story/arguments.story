@@ -7,7 +7,7 @@ Arguments to steps:
     - Named arguments (e.g. "How many times") are put in equivalent named variables (e.g. "how_many_times").
     - If the method has **kwargs then the key names of kwargs will match the named arguments exactly (i.e. no underscores).
   given:
-    core files:
+    files:
       engine.py: |
         from code_that_does_things import *
         from strictyaml import Int, Str, Bool

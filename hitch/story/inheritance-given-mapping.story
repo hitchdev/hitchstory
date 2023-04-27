@@ -12,7 +12,7 @@ Story inheritance - given mapping preconditions overridden:
     form of mappings will override parent given preconditions.
 
   given:
-    core files:
+    files:
       example.story: |
         Login:
           given:

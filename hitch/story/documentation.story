@@ -1,6 +1,6 @@
 Base documentation:
   given:
-    core files:
+    files:
       example.story: |
         Login:
           about: Simple log in.
@@ -74,7 +74,6 @@ Base documentation:
         {% for story in story_list %}
         {{ story.documentation() }}
         {% endfor %}
-    files:
       document.yaml: |
         story: |
           # {{ name }}
