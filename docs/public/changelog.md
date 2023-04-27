@@ -1,6 +1,11 @@
 # Changelog
 
 
+### 0.17.0
+
+* FEATURE : Run tests inside an external test runner - like pytest.
+
+
 ### 0.16.0
 
 * FEATURE : Added this_step and this_story to step templates for generating documentation.

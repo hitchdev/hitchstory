@@ -49,7 +49,7 @@ Email sent:
 engine.py:
 
 ```python
-from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+from hitchstory import BaseEngine, GivenDefinition, GivenProperty, Failure
 from mockemailchecker import email_was_sent
 from mockselenium import Webdriver
 from strictyaml import Str
@@ -71,6 +71,9 @@ class Engine(BaseEngine):
 
     def clicked(self, name):
         self.driver.click(name)
+    
+    def failing_step(self):
+        raise Failure("This was not supposed to happen")
 
     def email_was_sent(self):
         email_was_sent()
