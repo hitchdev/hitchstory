@@ -13,6 +13,11 @@ without any plugins.
 This example demonstrates the stories from the
 README being run from inside pytest.
 
+HitchStory will intelligently display stacktraces.
+
+--tb=no is set when running these tests so that
+lines of hitchstory code are not displayed.
+
 
 
 
@@ -48,7 +53,7 @@ Email sent:
 engine.py:
 
 ```python
-from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+from hitchstory import BaseEngine, GivenDefinition, GivenProperty, Failure
 from mockemailchecker import email_was_sent
 from mockselenium import Webdriver
 from strictyaml import Str
@@ -70,9 +75,37 @@ class Engine(BaseEngine):
 
     def clicked(self, name):
         self.driver.click(name)
+    
+    def failing_step(self):
+        raise Failure("This was not supposed to happen")
 
     def email_was_sent(self):
         email_was_sent()
+```
+failure.story:
+
+```yaml
+Failing story:
+  given:
+    website: /login  # preconditions
+  steps:
+  - Failing step
+```
+test_failure.py:
+
+```python
+from hitchstory import StoryCollection
+from pathlib import Path
+from engine import Engine
+
+hs = StoryCollection(
+    # All *.story files in this test's directory
+    Path(__file__).parent.glob("*.story"), 
+    Engine()
+).with_external_test_runner()
+
+def test_failure():
+    hs.named("Failing story").play()
 ```
 test_integration.py:
 
@@ -85,7 +118,7 @@ hs = StoryCollection(
     # All *.story files in this test's directory
     Path(__file__).parent.glob("*.story"), 
     Engine()
-)
+).with_external_test_runner()
 
 def test_email_sent():
     hs.named("Email sent").play()
@@ -93,6 +126,12 @@ def test_email_sent():
 def test_logged_in():
     hs.named("Logged in").play()
 ```
+
+
+
+
+## Run all tests
+
 
 
 
@@ -111,6 +150,42 @@ test_integration.py ..                                                   [100%]
 
 ============================== 2 passed in 0.1s ===============================
 ```
+
+
+## Failing test
+
+
+
+
+
+
+Running: `pytest --tb=no test_failure.py`
+
+Outputs:
+```
+============================= test session starts ==============================
+platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
+rootdir: /path/to
+collected 1 item
+
+test_failure.py F                                                        [100%]
+
+=========================== short test summary info ============================
+FAILED test_failure.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+
+[[ BLUE ]]        website: /login  # preconditions
+      steps:
+    [[ BRIGHT ]]  - Failing step[[ NORMAL ]]
+    [[ RESET ALL ]]
+
+[[ RED ]][[ BRIGHT ]]hitchstory.exceptions.Failure[[ RESET ALL ]]
+  [[ DIM ]][[ RED ]]
+    Test failed.
+    [[ RESET ALL ]]
+[[ RED ]]This was not supposed to happen[[ RESET FORE ]]
+============================== 1 failed in 0.1s ===============================
+```
+
 
 
 
