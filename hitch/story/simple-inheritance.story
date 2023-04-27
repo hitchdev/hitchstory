@@ -22,7 +22,7 @@ Inherit one story from another simply:
     The steps of the parent stories, if they have any steps,
     will be executed before the child story steps.
   given:
-    core files:
+    files:
       example.story: |
         Login:
           about: Simple log in.

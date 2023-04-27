@@ -15,7 +15,7 @@ Gradual typing of story steps:
     specify validators that fail fast when YAML
     snippets with an invalid structure are used.
   given:
-    core files:
+    files:
       example.story: |
         Create files:
           given:

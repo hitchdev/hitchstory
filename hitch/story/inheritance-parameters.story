@@ -8,7 +8,7 @@ Story inheritance - parameters:
     
     NOTE: This feature has a bug, avoid using.
   given:
-    core files:
+    files:
       example.story: |
         Login:
           given:

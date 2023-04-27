@@ -7,7 +7,7 @@ Continue on failure when playing multiple stories:
     However, if your stories take a long time to run
     you may wish to continue after the first failure.
   given:
-    core files:
+    files:
       example1.story: |
         A Create file:
           steps:

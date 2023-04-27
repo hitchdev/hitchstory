@@ -10,7 +10,7 @@ Story inheritance - steps:
     If a parent story *does* have steps, child stories must specify either
     "following steps" or "replacement steps".
   given:
-    core files:
+    files:
       example.story: |
         Login:
           given:

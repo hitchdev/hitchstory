@@ -22,7 +22,7 @@ Flaky story detection:
     fails consistently is considered passed, whereas a story that is run 99 times and fails once
     is considered a failure.
   given:
-    core files:
+    files:
       example1.story: |
         Flaky story:
           steps:

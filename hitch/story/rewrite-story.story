@@ -25,7 +25,7 @@ Story that rewrites itself:
     for example, running all the stories on jenkins or when you are refactoring
     and *not* expecting textual output changes.
   given:
-    core files:
+    files:
       example.story: |
         Do things:
           steps:
