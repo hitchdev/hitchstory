@@ -8,7 +8,7 @@ Variations:
 
     Variations are simply inherited stories defined on the same story.
   given:
-    core files:
+    files:
       example.story: |
         Create files:
           given:

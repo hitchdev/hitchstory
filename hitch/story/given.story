@@ -16,7 +16,7 @@ Given preconditions:
     The following example shows a browser precondition being used to set up
     a mock selenium object.
   given:
-    core files:
+    files:
       example.story: |
         Load with chrome:
           given:

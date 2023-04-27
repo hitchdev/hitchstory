@@ -1,6 +1,6 @@
 Attempt inheritance from non-existent story:
   given:
-    core files:
+    files:
       example.story: |
         Write to file:
           based on: Create files

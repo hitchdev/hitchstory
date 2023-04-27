@@ -7,7 +7,7 @@ Upgrade breaking changes between v0.14 and v0.15:
 
     * If parent stories have steps, child stories must specify either "replacement steps" or "following steps" instead of "steps".
   given:
-    core files:
+    files:
       example.story: |
         Create files:
           given:
