@@ -33,6 +33,9 @@ class StoryStep(object):
     def update(self, **kwargs):
         self._story.update(self, kwargs)
 
+    def rewrite(self, *args):
+        return self._story.rewriter(self, args)
+
     @property
     def slug(self):
         return self.underscore_case_name()

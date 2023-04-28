@@ -127,6 +127,9 @@ class Story(object):
             for index, parsed_step in enumerate(self._yaml_steps)
         ]
 
+    def rewriter(self, step, args):
+        return self._story_file.rewriter(self, step, args)
+
     def update(self, step, kwargs):
         self._story_file.update(self, step, kwargs)
 

@@ -1,63 +1,44 @@
 Story that rewrites itself:
   docs: rewrite-story
   about: |
-    Hitch stories can be partially rewritten when the code
-    is changed when a step involves verifying a block of text.
+    Unlike every other integration testing framework, Hitch stories
+    are designed to be rewritten according to the detected output of
+    a program.
 
-    It is a time saver when you only want to make modifications to
-    messages output by a program and ensure that those modifications
-    are verified.
+    This lets you do rewrite acceptance test driven development (RATDD)
+    - where you change the code, autoregenerate the story and visually
+    inspect the new story to ensure it is correct.
 
-    Instead of manually constructing the exact output you are expecting
-    you can simply visually inspect the output to verify that it is
-    the desired output.
-
-    This example shows a story being run in "rewrite" mode - where
-    text strings are rewritten. This mode can be used when doing development
-    when you expect textual changes.
-
-    If the story passes then the file will be rewritten with the updated
-    contents. If the story fails for any reason then the file will not
-    be touched.
-
-    If rewrite=False is fed through to the story engine instead, the story
-    will always fail when seeing different text. This mode can be used when,
-    for example, running all the stories on jenkins or when you are refactoring
-    and *not* expecting textual output changes.
+    This example shows a story being run in "rewrite" mode (where
+    rewrite=True) is fed to the engine and in normal mode.
   given:
     files:
       example.story: |
-        Do things:
+        Append text to file:
           steps:
-            - Do thing: x
-            - Do thing: y
-            - Do thing: z
-            - Do other thing:
-                variable 1: a
-                variable_2: b
+            - Run: echo hello >> mytext.txt
+            - Run: echo hello >> mytext.txt
+            - Run: echo hello >> mytext.txt
 
           variations:
-            Do more things:
+            Output text to:
               following steps:
-                - Do thing: c
+                - Run and get output:
+                    command: cat mytext.txt
+                    will output: 
       engine.py: |
         from hitchstory import BaseEngine
 
         class Engine(BaseEngine):
             def __init__(self, rewrite=True):
                 self._rewrite = rewrite
+            
+            def run(self, command):
+                pass
 
-            def do_thing(self, variable):
+            def run_and_get_output(self, command, will_output):
                 if self._rewrite:
-                    self.current_step.update(
-                        variable="xxx:\nyyy"
-                    )
-
-            def do_other_thing(self, variable_1=None, variable_2=None):
-                if self._rewrite:
-                    self.current_step.update(
-                        variable_2="complicated:\nmultiline\nstring"
-                    )
+                    self.current_step.rewrite("will_output").to("hello\nhello")
 
     setup: |
       from hitchstory import StoryCollection
@@ -70,37 +51,26 @@ Story that rewrites itself:
           code: |
             StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).ordered_by_name().play()
           will output: |-
-            RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
-            RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+            RUNNING Append text to file in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+            RUNNING Append text to file/Output text to in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
 
       - File contents will be:
           filename: example.story
           contents: |-
-            Do things:
+            Append text to file:
               steps:
-              - Do thing: |-
-                  xxx:
-                  yyy
-              - Do thing: |-
-                  xxx:
-                  yyy
-              - Do thing: |-
-                  xxx:
-                  yyy
-              - Do other thing:
-                  variable 1: a
-                  variable_2: |-
-                    complicated:
-                    multiline
-                    string
-
+              - Run: echo hello >> mytext.txt
+              - Run: echo hello >> mytext.txt
+              - Run: echo hello >> mytext.txt
 
               variations:
-                Do more things:
+                Output text to:
                   following steps:
-                  - Do thing: |-
-                      xxx:
-                      yyy
+                  - Run and get output:
+                      command: cat mytext.txt
+                      will output: |-
+                        hello
+                        hello
 
     No changes:
       steps:
@@ -108,6 +78,6 @@ Story that rewrites itself:
           code: |
             StoryCollection(Path(".").glob("*.story"), Engine(rewrite=False)).ordered_by_name().play()
           will output: |-
-            RUNNING Do things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
-            RUNNING Do things/Do more things in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+            RUNNING Append text to file in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+            RUNNING Append text to file/Output text to in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
       - Example story unchanged

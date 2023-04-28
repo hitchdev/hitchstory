@@ -5,6 +5,61 @@ from path import Path
 import copy
 
 
+class Rewriter(object):
+    def __init__(self, story_file, story, step, args):
+        self._story_file = story_file
+        self._story = story
+        self._step = step
+        self._args = args
+        assert len(args) == 1
+
+    @property
+    def updated_yaml(self):
+        if self._story_file._updated_yaml is None:
+            self._story_file._updated_yaml = copy.deepcopy(
+                self._story_file._parsed_yaml
+            )
+        return self._story_file._updated_yaml
+
+    def to(self, text):
+        key_to_update = self._args[0]
+        if self._story.variation:
+            variations = self.updated_yaml[self._story.based_on]["variations"]
+
+            if self._step.child_index >= 0:
+                yaml_story = variations[self._story.child_name]
+
+                step_type = _step_type(yaml_story)
+
+                if self._step.arguments.single_argument:
+                    yaml_story[step_type][self._step.child_index][
+                        self._step.name
+                    ] = text
+                else:
+                    yaml_story[step_type][self._step.child_index][self._step.name][
+                        key_to_update
+                    ] = text
+            else:
+                yaml_story = variations[self._story.child_name]
+                step_type = _step_type(yaml_story)
+
+                if self._step.arguments.single_argument:
+                    yaml_story[step_type][self._step.index][self._step.name] = text
+                else:
+                    # import web_pdb ; web_pdb.set_trace()
+                    yaml_story[step_type][self._step.index][self._step.name][
+                        key_to_update
+                    ] = text
+        else:
+            yaml_story = self.updated_yaml[self._story.name]
+            step_to_update = yaml_story[_step_type(yaml_story)][self._step.index]
+
+            if self._step.arguments.single_argument:
+                step_to_update[self._step.name] = value
+            else:
+                step_to_update[self._step.name][key_to_update] = text
+
+
 def _step_type(yaml_story):
     """Determine the step type of a story YAML snippet."""
     if "steps" in yaml_story:
@@ -82,6 +137,14 @@ class StoryFile(object):
         """
         if self._updated_yaml is not None:
             self.path.write_text(self._updated_yaml.as_yaml())
+
+    def rewriter(self, story, step, args):
+        return Rewriter(
+            self,
+            story,
+            step,
+            args,
+        )
 
     def update(self, story, step, kwargs):
         """
