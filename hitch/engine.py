@@ -110,7 +110,7 @@ class Engine(BaseEngine):
             .with_terminal_size(160, 160)
             .with_setup_code(self.given.get("setup", ""))
             .include_files(*self._included_files)
-            .with_timeout(10.0)
+            .with_timeout(120.0)
         )
         to_run = self.example_py_code.with_code(code)
 

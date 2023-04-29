@@ -112,8 +112,12 @@ class StoryStep(object):
 
         return False
 
+    @property
+    def step_method_obj(self):
+        return StepMethod(self.step_method)
+
     def method(self):
-        return StepMethod(self.step_method).method(self.arguments)
+        return self.step_method_obj.method(self.arguments)
 
     @property
     def documentation(self):

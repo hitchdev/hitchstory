@@ -5,9 +5,17 @@ class HitchStoryException(Exception):
     pass
 
 
-class StoryFailure(Exception):
+class StoryFailure(HitchStoryException):
     """
     A story ran and failed.
+    """
+
+    pass
+
+
+class RewriteFailure(HitchStoryException):
+    """
+    An error occurred when trying to rewrite a story.
     """
 
     pass

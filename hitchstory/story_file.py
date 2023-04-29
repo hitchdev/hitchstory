@@ -46,7 +46,6 @@ class Rewriter(object):
                 if self._step.arguments.single_argument:
                     yaml_story[step_type][self._step.index][self._step.name] = text
                 else:
-                    # import web_pdb ; web_pdb.set_trace()
                     yaml_story[step_type][self._step.index][self._step.name][
                         key_to_update
                     ] = text
@@ -55,7 +54,10 @@ class Rewriter(object):
             step_to_update = yaml_story[_step_type(yaml_story)][self._step.index]
 
             if self._step.arguments.single_argument:
-                step_to_update[self._step.name] = value
+                if key_to_update == self._step.step_method_obj.single_argument_name:
+                    step_to_update[self._step.name] = text
+                else:
+                    raise exceptions.RewriteFailure("x")
             else:
                 step_to_update[self._step.name][key_to_update] = text
 
