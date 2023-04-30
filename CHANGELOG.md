@@ -1,6 +1,11 @@
 # Changelog
 
 
+### 0.18.0
+
+* BUGFIX : Newer and better way to do rewriting.
+
+
 ### 0.17.0
 
 * FEATURE : Run tests inside an external test runner - like pytest.
