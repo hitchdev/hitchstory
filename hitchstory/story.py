@@ -11,6 +11,9 @@ import colorama
 import time
 
 
+__tracebackhide__ = True    # If used from within pytest
+
+
 class StoryInfo:
     def __init__(self, info_definition, data):
         self._info = OrderedDict()

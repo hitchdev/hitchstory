@@ -10,9 +10,9 @@ Using hitchstory with pytest:
 
     This example demonstrates the stories from the
     README being run from inside pytest.
-    
+
     HitchStory will intelligently display stacktraces.
-    
+
     --tb=no is set when running these tests so that
     lines of hitchstory code are not displayed.
   given:
@@ -23,7 +23,7 @@ Using hitchstory with pytest:
             website: /login  # preconditions
           steps:
           - Failing step
-        
+
       test_failure.py: |
         from hitchstory import StoryCollection
         from pathlib import Path
@@ -34,7 +34,7 @@ Using hitchstory with pytest:
             Path(__file__).parent.glob("*.story"), 
             Engine()
         ).with_external_test_runner()
-        
+
         def test_failure():
             hs.named("Failing story").play()
 
@@ -60,19 +60,19 @@ Using hitchstory with pytest:
       - pytest:
           args: test_integration.py
           will output: |-
-              ============================= test session starts ==============================
-              platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
-              rootdir: /path/to
-              collected 2 items
+            ============================= test session starts ==============================
+            platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
+            rootdir: /path/to
+            collected 2 items
 
-              test_integration.py ..                                                   [100%]
+            test_integration.py ..                                                   [100%]
 
-              ============================== 2 passed in 0.1s ===============================
+            ============================== 2 passed in 0.1s ===============================
 
     Failing test:
       replacement steps:
       - pytest:
-          args: --tb=no test_failure.py
+          args: test_failure.py
           expect failure: yes
           will output: |-
             ============================= test session starts ==============================
@@ -82,6 +82,28 @@ Using hitchstory with pytest:
 
             test_failure.py F                                                        [100%]
 
+            =================================== FAILURES ===================================
+            _________________________________ test_failure _________________________________
+
+                def test_failure():
+            >       hs.named("Failing story").play()
+            E       hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+            E
+            E       [[ BLUE ]]        website: /login  # preconditions
+            E             steps:
+            E           [[ BRIGHT ]]  - Failing step[[ NORMAL ]]
+            E           [[ RESET ALL ]]
+            E
+            E       [[ RED ]][[ BRIGHT ]]hitchstory.exceptions.Failure[[ RESET ALL ]]
+            E         [[ DIM ]][[ RED ]]
+            E           Test failed.
+            E           [[ RESET ALL ]]
+            E       [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
+
+            test_failure.py:12: StoryFailure
+            ----------------------------- Captured stdout call -----------------------------
+
+            Visiting http://localhost:5000/login
             =========================== short test summary info ============================
             FAILED test_failure.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
 

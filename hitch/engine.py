@@ -1,6 +1,6 @@
 from hitchstory import StoryCollection, BaseEngine, validate
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from strictyaml import Str, Map, Optional, Enum, MapPattern, Bool
+from strictyaml import EmptyDict, Str, Map, Optional, Enum, MapPattern, Bool
 from hitchstory import no_stacktrace_for
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from commandlib import Command
@@ -130,7 +130,7 @@ class Engine(BaseEngine):
                 Templex(will_output).assert_match(actual_output)
             except AssertionError:
                 if self._rewrite:
-                    self.current_step.update(will_output=actual_output)
+                    self.current_step.rewrite("will_output").to(actual_output)
                 else:
                     raise
 
@@ -213,12 +213,12 @@ class Engine(BaseEngine):
             Templex(will_output).assert_match(actual_output)
         except AssertionError:
             if self._rewrite:
-                self.current_step.update(will_output=actual_output)
+                self.current_step.rewrite("will_output").to(actual_output)
             else:
                 raise
     
-    @validate(expect_failure=Bool())
-    def pytest(self, args, will_output, expect_failure=False):
+    @validate(expect_failure=Bool(), env=EmptyDict() | MapPattern(Str(), Str()))
+    def pytest(self, args, will_output, env=None, expect_failure=False):
         command = self.python("-m", "pytest", *shlex.split(args))\
             .in_dir(self.path.state)
     
@@ -232,7 +232,7 @@ class Engine(BaseEngine):
             Templex(will_output).assert_match(actual_output)
         except AssertionError:
             if self._rewrite:
-                self.current_step.update(will_output=actual_output)
+                self.current_step.rewrite("will_output").to(actual_output)
             else:
                 raise
 
