@@ -14,9 +14,16 @@ Add and retrieve todo:
 
   - enter text: 1
 
-  - enter text: Buy bread
+  - display: |-
+      To-do list:
+      Options:
+      1. Add item
+      2. Remove item
+      3. Quit
+      Enter your choice: 1
+      Enter a to-do item:
 
-  - expect: 1. Buy bread
+  - enter text: Buy bread
 
   - display: |-
       To-do list:
