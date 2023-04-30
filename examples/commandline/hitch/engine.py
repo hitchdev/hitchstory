@@ -29,7 +29,10 @@ class Engine(BaseEngine):
                 timeout=2,
             )
         except IProcessTimeout as error:
-            strings_match(expected_text, error.stripshot)
+            if self._rewrite:
+                self.current_step.rewrite("expected_text").to(error.stripshot)
+            else:
+                strings_match(expected_text, error.stripshot)
 
     def enter_text(self, text):
         self._iprocess.send_keys(f"{text}\n")
