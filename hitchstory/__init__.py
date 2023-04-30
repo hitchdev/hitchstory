@@ -9,6 +9,7 @@ from hitchstory.engine import GivenProperty
 from hitchstory.engine import BaseEngine
 from hitchstory.exceptions import HitchStoryException
 from hitchstory.exceptions import Failure
+from hitchstory.matchers import strings_match
 
 
 __version__ = "DEVELOPMENT_VERSION"
