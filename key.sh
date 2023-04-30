@@ -12,11 +12,11 @@ IMAGE_NAME=hitch-${FOLDER_HASH}-${PROJECT_NAME}
 
 hitchrun() {
     podman run --privileged -it --rm \
+        --network host \
         -v $PROJECT_DIR:/src \
         -v $GEN_VOLUME_NAME:/gen \
         -v ~/.ssh/id_rsa:/root/.ssh/id_rsa \
         -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
-        -p 5555:5555 \
         -e CI=$CI \
         --secret pypitoken,type=env,target=PYPITOKEN \
         --secret githubtoken,type=env,target=GITHUBTOKEN \
