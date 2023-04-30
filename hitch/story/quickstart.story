@@ -29,7 +29,8 @@ Quickstart:
           - Email was sent
 
       engine.py: |
-        from hitchstory import BaseEngine, GivenDefinition, GivenProperty, Failure
+        from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+        from hitchstory import Failure, strings_match
         from mockemailchecker import email_was_sent
         from mockselenium import Webdriver
         from strictyaml import Str
@@ -58,8 +59,13 @@ Quickstart:
             def failing_step(self):
                 raise Failure("This was not supposed to happen")
             
-            def error_message_displayed(self, message):
-                pass
+            def error_message_displayed(self, expected_message):
+                """Demonstrates steps that can rewrite themselves."""
+                actual_message = "error message!"
+                try:
+                    strings_match(expected_message, actual_message)
+                except Failure:
+                    self.current_step.rewrite("expected_message").to(actual_message)
 
             def email_was_sent(self):
                 email_was_sent()

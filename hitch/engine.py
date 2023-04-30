@@ -159,11 +159,14 @@ class Engine(BaseEngine):
         ), "example.story should have been unchanged but was changed"
 
     @no_stacktrace_for(AssertionError)
-    def file_contents_will_be(self, filename, contents):
+    @validate(folder=Enum(["working", "state"]))
+    def file_contents_will_be(self, filename, contents, folder="working"):
+        folderpath = self.path.working if folder == "working" \
+            else self.path.state
         file_contents = "\n".join(
             [
                 line.rstrip()
-                for line in self.path.working.joinpath(filename)
+                for line in folderpath.joinpath(filename)
                 .bytes()
                 .decode("utf8")
                 .strip()
