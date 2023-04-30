@@ -1,6 +1,13 @@
 # Changelog
 
 
+### 0.19.0
+
+* FEATURE : Added convenience method to match two strings.
+* FEATURE : Made hitchstory conceal useless stacktraces when running within pytest.
+* BUGFIX : Raise failure if rewrite can't work.
+
+
 ### 0.18.0
 
 * BUGFIX : Newer and better way to do rewriting.

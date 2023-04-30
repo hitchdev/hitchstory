@@ -158,6 +158,7 @@ $ pip install hitchstory
 - [Story inheritance - parameters](using/inheritance-parameters)
 - [Story inheritance - steps](using/inheritance-steps)
 - [Inherit one story from another simply](using/inheritance)
+- [Match two strings](using/match-two-strings)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/metadata)
 - [Story with parameters](using/parameterized-stories)
 - [Play multiple stories in sequence](using/play-multiple-stories)

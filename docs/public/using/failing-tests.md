@@ -24,7 +24,7 @@ Failing story:
 engine.py:
 
 ```python
-from hitchstory import BaseEngine, no_stacktrace_for, Failure
+from hitchstory import BaseEngine, no_stacktrace_for, Failure, strings_match
 from code_that_does_things import raise_example_exception, output, ExampleException
 
 class Engine(BaseEngine):
@@ -41,6 +41,10 @@ class Engine(BaseEngine):
     def raise_special_failure_exception(self):
         raise Failure("Special failure exception - no stacktrace printed!")
 
+    def fail_because_strings_dont_match(self):
+        strings_match("hello", "hello")   # matching
+        strings_match("hello", "goodbye") # nonmatching
+        
     def step_that_will_not_run(self):
         pass
         

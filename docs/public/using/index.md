@@ -19,6 +19,7 @@ How to:
 - [Story inheritance - parameters](inheritance-parameters)
 - [Story inheritance - steps](inheritance-steps)
 - [Inherit one story from another simply](inheritance)
+- [Match two strings](match-two-strings)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](metadata)
 - [Story with parameters](parameterized-stories)
 - [Play multiple stories in sequence](play-multiple-stories)

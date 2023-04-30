@@ -1,12 +1,18 @@
 ---
-title: Hiding stacktraces for expected exceptions
+title: Match two strings
 ---
 
 
 
-For common expected failures where you do not want
-to see the whole stacktrace, apply the "@no_stacktrace_for"
-decorator.
+Where two strings should match you can use
+should_match(expected, actual) to compare them.
+
+If they don't match, a Failure exception with
+the expected, actual and a diff between the two
+will be printed for debugging purposes.
+
+This makes it slightly more helpful than
+assert expected == actual.
 
 
 
@@ -16,7 +22,7 @@ example.story:
 ```yaml
 Failing story:
   steps:
-    - Failing step without stacktrace
+    - Fail because strings don't match
 ```
 engine.py:
 
@@ -78,16 +84,21 @@ RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 second
 
     Failing story:
       steps:
-      - Failing step without stacktrace
+      - Fail because strings don't match
 
 
-code_that_does_things.ExampleException
+hitchstory.exceptions.Failure
 
-    This is a demonstration exception docstring.
+    Test failed.
 
-    It spreads across multiple lines.
+ACTUAL:
+goodbye
 
-Expected exception
+EXPECTED:
+hello
+
+DIFF:
+- hello+ goodbye
 ```
 
 
@@ -101,6 +112,6 @@ Expected exception
 !!! note "Executable specification"
 
     Documentation automatically generated from 
-    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/expected-exceptions.story">expected-exceptions.story
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/matching-strings.story">matching-strings.story
     storytests.</a>
 
