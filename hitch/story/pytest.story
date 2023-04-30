@@ -5,16 +5,10 @@ Using hitchstory with pytest:
     If you already have pytest set up and a full
     suite of integration tests and would like to dip
     your toe in the water with hitchstory, you
-    can easily run stories directly from inside pytest
-    without any plugins.
+    can easily run stories directly from inside pytest.
 
-    This example demonstrates the stories from the
-    README being run from inside pytest.
-
-    HitchStory will intelligently display stacktraces.
-
-    --tb=no is set when running these tests so that
-    lines of hitchstory code are not displayed.
+    The following files - engine.py, the .story files
+    can all be put in the same folder.
   given:
     files:
       failure.story: |
@@ -28,11 +22,12 @@ Using hitchstory with pytest:
         from hitchstory import StoryCollection
         from pathlib import Path
         from engine import Engine
+        import os
 
         hs = StoryCollection(
             # All *.story files in this test's directory
             Path(__file__).parent.glob("*.story"), 
-            Engine()
+            Engine(rewrite=os.getenv("REWRITE", "") == "yes")
         ).with_external_test_runner()
 
         def test_failure():

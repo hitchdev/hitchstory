@@ -134,7 +134,7 @@ steps:
     {% endif %}
 
   pytest: |
-    Running: `pytest {{ args }}`
+    Running: `{% for key, value in env.items %}{{ key }}={{ value }} {% endfor %}pytest {{ args }}`
     
     Outputs:
     ```
