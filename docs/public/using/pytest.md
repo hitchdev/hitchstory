@@ -7,16 +7,10 @@ title: Using hitchstory with pytest
 If you already have pytest set up and a full
 suite of integration tests and would like to dip
 your toe in the water with hitchstory, you
-can easily run stories directly from inside pytest
-without any plugins.
+can easily run stories directly from inside pytest.
 
-This example demonstrates the stories from the
-README being run from inside pytest.
-
-HitchStory will intelligently display stacktraces.
-
---tb=no is set when running these tests so that
-lines of hitchstory code are not displayed.
+The following files - engine.py, the .story files
+can all be put in the same folder.
 
 
 
@@ -62,6 +56,9 @@ class Engine(BaseEngine):
     given_definition = GivenDefinition(
         website=GivenProperty(Str()),
     )
+    
+    def __init__(self, rewrite=False):
+        self._rewrite = rewrite
 
     def set_up(self):
         self.driver = Webdriver()
@@ -78,6 +75,9 @@ class Engine(BaseEngine):
     
     def failing_step(self):
         raise Failure("This was not supposed to happen")
+    
+    def error_message_displayed(self, message):
+        pass
 
     def email_was_sent(self):
         email_was_sent()
@@ -97,11 +97,12 @@ test_failure.py:
 from hitchstory import StoryCollection
 from pathlib import Path
 from engine import Engine
+import os
 
 hs = StoryCollection(
     # All *.story files in this test's directory
     Path(__file__).parent.glob("*.story"), 
-    Engine()
+    Engine(rewrite=os.getenv("REWRITE", "") == "yes")
 ).with_external_test_runner()
 
 def test_failure():
@@ -159,7 +160,7 @@ test_integration.py ..                                                   [100%]
 
 
 
-Running: `pytest --tb=no test_failure.py`
+Running: `pytest test_failure.py`
 
 Outputs:
 ```
@@ -170,6 +171,28 @@ collected 1 item
 
 test_failure.py F                                                        [100%]
 
+=================================== FAILURES ===================================
+_________________________________ test_failure _________________________________
+
+    def test_failure():
+>       hs.named("Failing story").play()
+E       hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+E
+E       [[ BLUE ]]        website: /login  # preconditions
+E             steps:
+E           [[ BRIGHT ]]  - Failing step[[ NORMAL ]]
+E           [[ RESET ALL ]]
+E
+E       [[ RED ]][[ BRIGHT ]]hitchstory.exceptions.Failure[[ RESET ALL ]]
+E         [[ DIM ]][[ RED ]]
+E           Test failed.
+E           [[ RESET ALL ]]
+E       [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
+
+test_failure.py:13: StoryFailure
+----------------------------- Captured stdout call -----------------------------
+
+Visiting http://localhost:5000/login
 =========================== short test summary info ============================
 FAILED test_failure.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
 

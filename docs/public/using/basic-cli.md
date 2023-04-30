@@ -58,6 +58,9 @@ class Engine(BaseEngine):
     given_definition = GivenDefinition(
         website=GivenProperty(Str()),
     )
+    
+    def __init__(self, rewrite=False):
+        self._rewrite = rewrite
 
     def set_up(self):
         self.driver = Webdriver()
@@ -74,6 +77,9 @@ class Engine(BaseEngine):
     
     def failing_step(self):
         raise Failure("This was not supposed to happen")
+    
+    def error_message_displayed(self, message):
+        pass
 
     def email_was_sent(self):
         email_was_sent()

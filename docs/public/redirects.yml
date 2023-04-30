@@ -1,6 +1,8 @@
 /approach/screenplay-principle: /hitchstory/separation-of-test-concerns
 /approach/stakeholder-collaboration: /approach/bdd
 /approach/specification-documentation-test-triality: /approach/triality
+/approach/recommended-environment: /approach/test-artefact-environment-isolation
+/approach/testing-and-living-documentation: /approach/executable-specifications
 /why/flaky-tests: /approach/flaky-tests
 /why/cucumber: /why-not/gherkin
 /why/why-not-unit-test: /why-not/unit-test

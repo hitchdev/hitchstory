@@ -72,6 +72,9 @@ class Engine(BaseEngine):
     given_definition = GivenDefinition(
         website=GivenProperty(Str()),
     )
+    
+    def __init__(self, rewrite=False):
+        self._rewrite = rewrite
 
     def set_up(self):
         self.driver = Webdriver()
@@ -88,6 +91,9 @@ class Engine(BaseEngine):
     
     def failing_step(self):
         raise Failure("This was not supposed to happen")
+    
+    def error_message_displayed(self, message):
+        pass
 
     def email_was_sent(self):
         email_was_sent()
@@ -174,14 +180,12 @@ Best practices, how the tool was meant to be used, etc.
 - [Executable specifications](approach/executable-specifications)
 - [Flaky Tests](approach/flaky-tests)
 - [Does hitchstory let "the business" write stories while you just write the code?](approach/human-writable)
-- [Recommended Environment](approach/recommended-environment)
 - [Separation of Test Concerns](approach/separation-of-test-concerns)
 - [Test Artefact Environment Isolation](approach/test-artefact-environment-isolation)
 - [Test concern leakage](approach/test-concern-leakage)
 - [Tests as an investment](approach/test-investment)
 - [What is the difference betweeen a test and a story?](approach/test-or-story)
 - [The importance of test realism](approach/test-realism)
-- [What is a testing and living documentation framework?](approach/testing-and-living-documentation)
 - [Testing non-deterministic code](approach/testing-nondeterministic-code)
 - [Specification Documentation Test Triality](approach/triality)
 
