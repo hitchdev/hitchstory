@@ -12,9 +12,9 @@ IMAGE_NAME=hitch-${FOLDER_HASH}-${PROJECT_NAME}
 
 hitchrun() {
     podman run --privileged -it --rm \
+        --network host \
         -v $PROJECT_DIR:/src \
         -v $GEN_VOLUME_NAME:/gen \
-        --network host \
         --workdir /src \
         $IMAGE_NAME \
         $1
