@@ -95,7 +95,7 @@ Using hitchstory with pytest:
             E           [[ RESET ALL ]]
             E       [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
 
-            test_failure.py:12: StoryFailure
+            test_failure.py:13: StoryFailure
             ----------------------------- Captured stdout call -----------------------------
 
             Visiting http://localhost:5000/login
