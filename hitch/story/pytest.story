@@ -24,6 +24,26 @@ Using hitchstory with pytest:
           steps:
           - Error message displayed: old message
 
+      test_integration.py: |
+        from hitchstory import StoryCollection
+        from pathlib import Path
+        from engine import Engine
+        import os
+
+        hs = StoryCollection(
+            # All *.story files in this test's directory
+            Path(__file__).parent.glob("*.story"),
+            
+            # Rewrite if REWRITE environment variable is set to yes
+            Engine(rewrite=os.getenv("REWRITE", "") == "yes")
+        ).with_external_test_runner()
+
+        def test_email_sent():
+            hs.named("Email sent").play()
+
+        def test_logged_in():
+            hs.named("Logged in").play()
+            
       test_other.py: |
         from hitchstory import StoryCollection
         from pathlib import Path
@@ -32,7 +52,9 @@ Using hitchstory with pytest:
 
         hs = StoryCollection(
             # All *.story files in this test's directory
-            Path(__file__).parent.glob("*.story"), 
+            Path(__file__).parent.glob("*.story"),
+
+            # Rewrite if REWRITE environment variable is set to yes
             Engine(rewrite=os.getenv("REWRITE", "") == "yes")
         ).with_external_test_runner()
 
@@ -42,25 +64,10 @@ Using hitchstory with pytest:
         def test_rewritable():
             hs.named("Rewritable story").play()
 
-      test_integration.py: |
-        from hitchstory import StoryCollection
-        from pathlib import Path
-        from engine import Engine
-        import os
-
-        hs = StoryCollection(
-            # All *.story files in this test's directory
-            Path(__file__).parent.glob("*.story"), 
-            Engine(rewrite=os.getenv("REWRITE", "") == "yes")
-        ).with_external_test_runner()
-
-        def test_email_sent():
-            hs.named("Email sent").play()
-
-        def test_logged_in():
-            hs.named("Logged in").play()
   variations:
-    Run all tests:
+    Run all passing tests:
+      about: |
+        This runs the two tests in test_integration.py.
       replacement steps:
       - pytest:
           args: test_integration.py
@@ -75,6 +82,12 @@ Using hitchstory with pytest:
             ============================== 2 passed in 0.1s ===============================
 
     Rewrite story:
+      about: |
+        By setting the environment variable REWRITE to "yes",
+        pytest can be configured to run tests in rewrite mode.
+        
+        The only story configured to rewrite itself currently
+        is test_rewritable in test_other.py:
       replacement steps:
       - pytest:
           env:
@@ -101,6 +114,18 @@ Using hitchstory with pytest:
               - Error message displayed: error message!
 
     Failing test:
+      about: |
+        Failing tests will result in a StoryFailure exception being
+        raised.
+        
+        The message within the exception will contain details of the
+        step where the test failed.
+        
+        For most exceptions (not this one), there will be a stack
+        trace displayed as well.
+        
+        Note that the [[ COLOR ]] will be replaced with actual colors
+        if this is run on the command line.
       replacement steps:
       - pytest:
           args: -k test_failure test_other.py
