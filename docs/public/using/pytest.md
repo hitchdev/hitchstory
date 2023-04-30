@@ -47,7 +47,8 @@ Email sent:
 engine.py:
 
 ```python
-from hitchstory import BaseEngine, GivenDefinition, GivenProperty, Failure
+from hitchstory import BaseEngine, GivenDefinition, GivenProperty
+from hitchstory import Failure, strings_match
 from mockemailchecker import email_was_sent
 from mockselenium import Webdriver
 from strictyaml import Str
@@ -76,8 +77,13 @@ class Engine(BaseEngine):
     def failing_step(self):
         raise Failure("This was not supposed to happen")
     
-    def error_message_displayed(self, message):
-        pass
+    def error_message_displayed(self, expected_message):
+        """Demonstrates steps that can rewrite themselves."""
+        actual_message = "error message!"
+        try:
+            strings_match(expected_message, actual_message)
+        except Failure:
+            self.current_step.rewrite("expected_message").to(actual_message)
 
     def email_was_sent(self):
         email_was_sent()
@@ -91,7 +97,16 @@ Failing story:
   steps:
   - Failing step
 ```
-test_failure.py:
+rewritable.story:
+
+```yaml
+Rewritable story:
+  given:
+    website: /error
+  steps:
+  - Error message displayed: old message
+```
+test_other.py:
 
 ```python
 from hitchstory import StoryCollection
@@ -107,6 +122,9 @@ hs = StoryCollection(
 
 def test_failure():
     hs.named("Failing story").play()
+
+def test_rewritable():
+    hs.named("Rewritable story").play()
 ```
 test_integration.py:
 
@@ -114,11 +132,12 @@ test_integration.py:
 from hitchstory import StoryCollection
 from pathlib import Path
 from engine import Engine
+import os
 
 hs = StoryCollection(
     # All *.story files in this test's directory
     Path(__file__).parent.glob("*.story"), 
-    Engine()
+    Engine(rewrite=os.getenv("REWRITE", "") == "yes")
 ).with_external_test_runner()
 
 def test_email_sent():
@@ -153,6 +172,38 @@ test_integration.py ..                                                   [100%]
 ```
 
 
+## Rewrite story
+
+
+
+
+
+
+Running: `REWRITE=yes pytest -k test_rewritable test_other.py`
+
+Outputs:
+```
+============================= test session starts ==============================
+platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
+rootdir: /path/to
+collected 2 items / 1 deselected / 1 selected
+
+test_other.py .                                                          [100%]
+
+======================= 1 passed, 1 deselected in 0.1s ========================
+```
+
+File rewritable.story should now contain:
+
+```
+Rewritable story:
+  given:
+    website: /error
+  steps:
+  - Error message displayed: error message!
+```
+
+
 ## Failing test
 
 
@@ -160,16 +211,16 @@ test_integration.py ..                                                   [100%]
 
 
 
-Running: `pytest test_failure.py`
+Running: `pytest -k test_failure test_other.py`
 
 Outputs:
 ```
 ============================= test session starts ==============================
 platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
 rootdir: /path/to
-collected 1 item
+collected 2 items / 1 deselected / 1 selected
 
-test_failure.py F                                                        [100%]
+test_other.py F                                                          [100%]
 
 =================================== FAILURES ===================================
 _________________________________ test_failure _________________________________
@@ -189,12 +240,12 @@ E           Test failed.
 E           [[ RESET ALL ]]
 E       [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
 
-test_failure.py:13: StoryFailure
+test_other.py:13: StoryFailure
 ----------------------------- Captured stdout call -----------------------------
 
 Visiting http://localhost:5000/login
 =========================== short test summary info ============================
-FAILED test_failure.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+FAILED test_other.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
 
 [[ BLUE ]]        website: /login  # preconditions
       steps:
@@ -206,7 +257,7 @@ FAILED test_failure.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNI
     Test failed.
     [[ RESET ALL ]]
 [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
-============================== 1 failed in 0.1s ===============================
+======================= 1 failed, 1 deselected in 0.1s ========================
 ```
 
 
