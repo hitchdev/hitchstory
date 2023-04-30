@@ -106,26 +106,6 @@ Rewritable story:
   steps:
   - Error message displayed: old message
 ```
-test_other.py:
-
-```python
-from hitchstory import StoryCollection
-from pathlib import Path
-from engine import Engine
-import os
-
-hs = StoryCollection(
-    # All *.story files in this test's directory
-    Path(__file__).parent.glob("*.story"), 
-    Engine(rewrite=os.getenv("REWRITE", "") == "yes")
-).with_external_test_runner()
-
-def test_failure():
-    hs.named("Failing story").play()
-
-def test_rewritable():
-    hs.named("Rewritable story").play()
-```
 test_integration.py:
 
 ```python
@@ -136,7 +116,9 @@ import os
 
 hs = StoryCollection(
     # All *.story files in this test's directory
-    Path(__file__).parent.glob("*.story"), 
+    Path(__file__).parent.glob("*.story"),
+    
+    # Rewrite if REWRITE environment variable is set to yes
     Engine(rewrite=os.getenv("REWRITE", "") == "yes")
 ).with_external_test_runner()
 
@@ -145,13 +127,37 @@ def test_email_sent():
 
 def test_logged_in():
     hs.named("Logged in").play()
+    
+```
+test_other.py:
+
+```python
+from hitchstory import StoryCollection
+from pathlib import Path
+from engine import Engine
+import os
+
+hs = StoryCollection(
+    # All *.story files in this test's directory
+    Path(__file__).parent.glob("*.story"),
+
+    # Rewrite if REWRITE environment variable is set to yes
+    Engine(rewrite=os.getenv("REWRITE", "") == "yes")
+).with_external_test_runner()
+
+def test_failure():
+    hs.named("Failing story").play()
+
+def test_rewritable():
+    hs.named("Rewritable story").play()
 ```
 
 
 
 
-## Run all tests
+## Run all passing tests
 
+This runs the two tests in test_integration.py.
 
 
 
@@ -174,6 +180,11 @@ test_integration.py ..                                                   [100%]
 
 ## Rewrite story
 
+By setting the environment variable REWRITE to "yes",
+pytest can be configured to run tests in rewrite mode.
+
+The only story configured to rewrite itself currently
+is test_rewritable in test_other.py:
 
 
 
@@ -206,6 +217,17 @@ Rewritable story:
 
 ## Failing test
 
+Failing tests will result in a StoryFailure exception being
+raised.
+
+The message within the exception will contain details of the
+step where the test failed.
+
+For most exceptions (not this one), there will be a stack
+trace displayed as well.
+
+Note that the [[ COLOR ]] will be replaced with actual colors
+if this is run on the command line.
 
 
 
