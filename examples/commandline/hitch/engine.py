@@ -1,13 +1,9 @@
-from hitchstory import BaseEngine, no_stacktrace_for
+from hitchstory import BaseEngine, Failure, no_stacktrace_for, strings_match
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from templex import Templex
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
-from path import Path
-from templex import Templex
+from icommandlib import ICommand, IProcessTimeout
 from commandlib import Command
-from icommandlib import ICommand
-import requests
-import time
+from path import Path
 
 
 class Engine(BaseEngine):
@@ -30,15 +26,10 @@ class Engine(BaseEngine):
         try:
             self._iprocess.wait_for_stripshot_to_match(
                 expected_text,
-                timeout=10,
+                timeout=2,
             )
-        except AssertionError:
-            if self._rewrite:
-                self.current_step.rewrite("expected_text").to(
-                    self._iprocess.stripshot()
-                )
-            else:
-                raise
+        except IProcessTimeout as error:
+            strings_match(expected_text, error.stripshot)
 
     def enter_text(self, text):
         self._iprocess.send_keys(f"{text}\n")
