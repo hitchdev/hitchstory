@@ -10,7 +10,8 @@ your toe in the water with hitchstory, you
 can easily run stories directly from inside pytest.
 
 The following files - engine.py, the .story files
-can all be put in the same folder.
+and the test_*.py files (pytest tests) can all be put
+in the same folder and they will run.
 
 
 

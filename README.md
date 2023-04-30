@@ -4,7 +4,7 @@
 
 HitchStory is a literate python testing framework where the tests can rewrite themselves and [write your docs](https://hitchdev.com/hitchstory/approach/triality).
 
-[![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](http://www.youtube.com/watch?v=Aqk5Sao27O0 "Test rewriting itself")
+[![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](https://vimeo.com/822561823 "Test rewriting itself")
 
 The executable specifications are written, using [StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) and
 can test and document applications of any kind.
