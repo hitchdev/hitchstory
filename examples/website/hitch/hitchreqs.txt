@@ -32,7 +32,7 @@ executing==1.2.0
     # via stack-data
 greenlet==2.0.1
     # via playwright
-hitchstory==0.16.0
+hitchstory==0.19.0
     # via -r hitch/hitchreqs.in
 icommandlib==0.6.1
     # via -r hitch/hitchreqs.in

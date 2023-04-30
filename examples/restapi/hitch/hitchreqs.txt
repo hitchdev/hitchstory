@@ -30,7 +30,7 @@ decorator==5.1.1
     # via ipython
 executing==1.2.0
     # via stack-data
-hitchstory==0.16.0
+hitchstory==0.19.0
     # via -r hitch/hitchreqs.in
 icommandlib==0.6.1
     # via -r hitch/hitchreqs.in

@@ -6,11 +6,10 @@ from hitchstory import (
     no_stacktrace_for,
 )
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from templex import Templex
+from hitchstory import Failure, strings_match
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
 from path import Path
 from shlex import split
-from templex import Templex
 from commandlib import Command
 import requests
 import time
@@ -77,10 +76,12 @@ class Engine(BaseEngine):
             )
 
         try:
-            Templex(response_content).assert_match(actual_response.text)
+            strings_match(response_content, actual_response.text)
         except AssertionError:
             if self._rewrite:
-                self.current_step.update(response_content=actual_response.text)
+                self.current_step.rewrite("response_content").to(
+                    actual_response.text
+                )
             else:
                 raise
 

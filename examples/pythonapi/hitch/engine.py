@@ -6,7 +6,7 @@ from hitchstory import (
     no_stacktrace_for,
 )
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from templex import Templex
+from hitchstory import Failure, strings_match
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
 from path import Path
 from shlex import split
@@ -51,8 +51,8 @@ class Engine(BaseEngine):
 
         if will_output is not None:
             try:
-                Templex(will_output).assert_match(actual_output)
-            except AssertionError:
+                strings_match(will_output, actual_output)
+            except Failure:
                 if self._rewrite:
                     self.current_step.update(will_output=actual_output)
                 else:

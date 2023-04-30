@@ -34,8 +34,9 @@ class Engine(BaseEngine):
             )
         except AssertionError:
             if self._rewrite:
-                time.sleep(10)
-                self.current_step.update(expected_text=self._iprocess.stripshot())
+                self.current_step.rewrite("expected_text").to(
+                    self._iprocess.stripshot()
+                )
             else:
                 raise
 
