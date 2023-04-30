@@ -9,7 +9,7 @@ Unlike other testing frameworks these terse, simple, type-safe stories can:
 
 ## Rewrite themselves based upon program output
 
-[![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](http://www.youtube.com/watch?v=Aqk5Sao27O0 "Test rewriting itself")
+[![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](https://vimeo.com/822561823 "Test rewriting itself")
 
 ## Generate documentation
 
