@@ -3,7 +3,6 @@ Add and retrieve todo:
     In this story we call the API to buy bread
     and then see that bread is on the list.
   steps:
-  #- expect: Enter your choice
 
   - display: |-
       To-do list:
@@ -14,8 +13,6 @@ Add and retrieve todo:
       Enter your choice:
 
   - enter text: 1
-
-  #- expect: Enter a to-do item
 
   - enter text: Buy bread
 
