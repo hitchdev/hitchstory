@@ -1,6 +1,5 @@
 Raising a Failure exception to conceal the stacktrace:
-  category: engine
-  docs: special-failure-exception
+  docs: engine/special-failure-exception
   about: |
     If you want to deliberately trigger a test failure, the default
     way is to raise a "Failure" exception.
