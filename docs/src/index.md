@@ -13,8 +13,8 @@ and run.
 
 The library is 100% pure python. The tests can be run:
 
-* [Inside pytest or similar](https://hitchdev.com/hitchstory/using/pytest)
-* [Or via a basic CLI runner](using/basic-cli)
+* [Inside pytest or similar](using/setup/pytest)
+* [Or via a basic CLI runner](using/setup/basic-cli)
 
 
 ## Example

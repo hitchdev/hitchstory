@@ -11,7 +11,7 @@ pytest -s -k tests/test_linking.py
 ```
 
 HitchStory provides just a pure python API, leaving the developer to re-use
-an existing command line runner or build their own.
+an existing command line runner like [the skeleton default documented here](../../using/setup/basic-cli) or build their own.
 
 There are three main reasons for this:
 
@@ -29,7 +29,7 @@ If you just want to dip your toe in the water - you can try writing a few
 tests with hitchstory which run within your existing testing framework
 (e.g. pytest) and reuse all of the tooling surrounding it.
 
-An example of this is [documented here](../../using/pytest).
+An example of this is [documented here](../../using/setup/pytest).
 
 
 ## 3. For complex testing the flexibility of a Python API is more valuable
