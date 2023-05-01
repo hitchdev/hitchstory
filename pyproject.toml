@@ -11,12 +11,11 @@ authors = [
     {name = "Colm O'Connor", email = "colm.oconnor.github@gmail.com"},
 ]
 description = "Type-safe YAML-based example specification driven development framework for python."
-license = {text = "MIT"}
+license = {file = "LICENSE.txt"}
 requires-python = ">=3.7.0"
 keywords = ["yaml", "hitchdev", "bdd", "tdd", "testing", "tests"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Topic :: Software Development :: Quality Assurance",
     "Topic :: Software Development :: Testing",
     "Topic :: Text Processing :: Markup",
