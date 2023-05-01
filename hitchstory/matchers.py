@@ -8,14 +8,9 @@ def strings_match(expected, actual):
     """
     if expected != actual:
         raise Failure(
-            u"ACTUAL:\n{0}\n\nEXPECTED:\n{1}\n\nDIFF:\n{2}".format(
+            "ACTUAL:\n{0}\n\nEXPECTED:\n{1}\n\nDIFF:\n{2}".format(
                 actual,
                 expected,
-                ''.join(ndiff(
-                    expected.splitlines(1),
-                    actual.splitlines(1)
-                )),
+                "".join(ndiff(expected.splitlines(1), actual.splitlines(1))),
             )
         )
-
-            

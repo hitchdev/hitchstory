@@ -11,7 +11,7 @@ import colorama
 import time
 
 
-__tracebackhide__ = True    # If used from within pytest
+__tracebackhide__ = True  # If used from within pytest
 
 
 class StoryInfo:
