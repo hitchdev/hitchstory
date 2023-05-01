@@ -54,7 +54,7 @@ for instance, is an evil antipattern.
 
 ## Where can I see this in action?
 
-If you check out the [hitchstory repo](https://github.com/hitchdev/hitchstory), you can try this out yourself on the three example TODO projects with integration tests:
+If you check out the [hitchstory repo](https://github.com/hitchdev/hitchstory), you can try this out yourself on the three example "to do" app projects with integration tests:
 
 * [An interactive command line app with tests that rewrite themselves](https://github.com/hitchdev/hitchstory/tree/master/examples/commandline)
 * [A REST API with tests that rewrite themselves](https://github.com/hitchdev/hitchstory/tree/master/examples/restapi)
