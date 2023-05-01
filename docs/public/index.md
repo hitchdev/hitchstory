@@ -161,13 +161,20 @@ $ pip install hitchstory
 - [Strong typing](using/engine/strong-typing)
 
 
+## Using HitchStory: Runner
+
+- [Continue on failure when playing multiple stories](using/runner/continue-on-failure)
+- [Flaky story detection](using/runner/flaky-story-detection)
+- [Play multiple stories in sequence](using/runner/play-multiple-stories-in-sequence)
+- [Run one story in collection](using/runner/run-just-one-story)
+- [Shortcut lookup for story names](using/runner/shortcut-lookup)
+
+
 ## Using HitchStory
 
 - [Abort a story with ctrl-C](using/aborting)
 - [Upgrade breaking changes between v0.14 and v0.15](using/breaking-changes-between-v014-and-v015)
-- [Continue on failure when playing multiple stories](using/continue-on-failure)
 - [Handling failing tests](using/failing-tests)
-- [Flaky story detection](using/flaky-story-detection)
 - [Generate documentation with extra variables and functions](using/generate-documentation)
 - [Story inheritance - given mapping preconditions overridden](using/inheritance-override-given-mapping)
 - [Story inheritance - override given scalar preconditions](using/inheritance-override-given-scalar)
@@ -175,9 +182,7 @@ $ pip install hitchstory
 - [Story inheritance - steps](using/inheritance-steps)
 - [Inherit one story from another simply](using/inheritance)
 - [Story with parameters](using/parameterized-stories)
-- [Play multiple stories in sequence](using/play-multiple-stories)
 - [Running a single named story successfully](using/run-single-named-story)
-- [Shortcut lookup for story names](using/shortcut-lookup)
 - [Variations](using/variations)
 
 

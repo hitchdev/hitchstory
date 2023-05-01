@@ -157,13 +157,20 @@ $ pip install hitchstory
 - [Strong typing](https://hitchdev.com/hitchstory/using/engine/strong-typing)
 
 
+## Using HitchStory: Runner
+
+- [Continue on failure when playing multiple stories](https://hitchdev.com/hitchstory/using/runner/continue-on-failure)
+- [Flaky story detection](https://hitchdev.com/hitchstory/using/runner/flaky-story-detection)
+- [Play multiple stories in sequence](https://hitchdev.com/hitchstory/using/runner/play-multiple-stories-in-sequence)
+- [Run one story in collection](https://hitchdev.com/hitchstory/using/runner/run-just-one-story)
+- [Shortcut lookup for story names](https://hitchdev.com/hitchstory/using/runner/shortcut-lookup)
+
+
 ## Using HitchStory
 
 - [Abort a story with ctrl-C](https://hitchdev.com/hitchstory/using/aborting)
 - [Upgrade breaking changes between v0.14 and v0.15](https://hitchdev.com/hitchstory/using/breaking-changes-between-v014-and-v015)
-- [Continue on failure when playing multiple stories](https://hitchdev.com/hitchstory/using/continue-on-failure)
 - [Handling failing tests](https://hitchdev.com/hitchstory/using/failing-tests)
-- [Flaky story detection](https://hitchdev.com/hitchstory/using/flaky-story-detection)
 - [Generate documentation with extra variables and functions](https://hitchdev.com/hitchstory/using/generate-documentation)
 - [Story inheritance - given mapping preconditions overridden](https://hitchdev.com/hitchstory/using/inheritance-override-given-mapping)
 - [Story inheritance - override given scalar preconditions](https://hitchdev.com/hitchstory/using/inheritance-override-given-scalar)
@@ -171,9 +178,7 @@ $ pip install hitchstory
 - [Story inheritance - steps](https://hitchdev.com/hitchstory/using/inheritance-steps)
 - [Inherit one story from another simply](https://hitchdev.com/hitchstory/using/inheritance)
 - [Story with parameters](https://hitchdev.com/hitchstory/using/parameterized-stories)
-- [Play multiple stories in sequence](https://hitchdev.com/hitchstory/using/play-multiple-stories)
 - [Running a single named story successfully](https://hitchdev.com/hitchstory/using/run-single-named-story)
-- [Shortcut lookup for story names](https://hitchdev.com/hitchstory/using/shortcut-lookup)
 - [Variations](https://hitchdev.com/hitchstory/using/variations)
 
 
