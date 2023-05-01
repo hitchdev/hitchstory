@@ -1,4 +1,5 @@
 Story with parameters:
+  category: parameterization
   docs: parameterized-stories
   about: |
     Parameterized stories are used to describe stories

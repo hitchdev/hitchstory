@@ -1,4 +1,5 @@
 Continue on failure when playing multiple stories:
+  category: runner
   docs: continue-on-failure
   about: |
     By default whenever stories are played in sequence,

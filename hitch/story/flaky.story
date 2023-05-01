@@ -1,4 +1,5 @@
 Flaky story detection:
+  category: runner
   docs: flaky-story-detection
   about: |
     Dealing with flaky stories, especially with higher level integration tests

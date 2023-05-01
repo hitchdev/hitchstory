@@ -1,4 +1,5 @@
 Raising a Failure exception for known errors:
+  category: engine
   docs: special-failure-exception
   about: |
     If you want to indicate a test failure, raise the

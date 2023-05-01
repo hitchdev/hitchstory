@@ -1,4 +1,5 @@
 Variations:
+  category: inheritance
   docs: variations
   about: |
     Some stories are very similar except for a few changed items. You

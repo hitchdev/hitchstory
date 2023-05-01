@@ -1,4 +1,5 @@
 Run one story in collection:
+  category: runner
   about: |
     If you have just one story in your collection,
     you can run it directly by using .one().

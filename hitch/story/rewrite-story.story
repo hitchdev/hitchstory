@@ -1,4 +1,5 @@
 Story that rewrites itself:
+  category: engine
   docs: rewrite-story
   about: |
     Unlike every other integration testing framework, Hitch stories

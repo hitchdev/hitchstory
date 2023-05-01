@@ -1,4 +1,5 @@
 Gradual typing of story steps:
+  category: engine
   docs: gradual-typing
   about: |
     In order to speed up prototyping and development

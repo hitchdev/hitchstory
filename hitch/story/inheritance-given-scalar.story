@@ -1,4 +1,5 @@
 Story inheritance - override given scalar preconditions:
+  category: inheritance
   docs: inheritance-override-given-scalar
   about: |
     Child stories can be based upon parent stories.

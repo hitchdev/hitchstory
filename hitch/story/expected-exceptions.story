@@ -1,4 +1,5 @@
 Hiding stacktraces for expected exceptions:
+  category: engine
   docs: expected-exceptions
   based on: handling failing tests
   about: |

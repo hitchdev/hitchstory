@@ -1,4 +1,5 @@
 Story inheritance - steps:
+  category: inheritance
   docs: inheritance-steps
   about: |
     Child stories can be based upon parent stories.

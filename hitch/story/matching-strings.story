@@ -1,4 +1,5 @@
 Match two strings:
+  category: engine
   docs: match-two-strings
   based on: handling failing tests
   about: |

@@ -1,4 +1,5 @@
 Play multiple stories in sequence:
+  category: runner
   docs: play-multiple-stories
   about: |
     Running multiple stories in sequence is necessary when

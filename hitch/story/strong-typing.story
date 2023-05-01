@@ -1,4 +1,5 @@
 Strong typing:
+  category: engine
   docs: strong-typing
   about: |
     By default all specified given properties and

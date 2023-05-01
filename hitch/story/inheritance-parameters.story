@@ -1,4 +1,5 @@
 Story inheritance - parameters:
+  category: inheritance
   docs: inheritance-parameters
   status: experimental
   about: |

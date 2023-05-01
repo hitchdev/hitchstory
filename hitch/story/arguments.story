@@ -1,4 +1,5 @@
 Arguments to steps:
+  category: engine
   docs: steps-and-step-arguments
   about: |
     Arguments are fed to steps in a way that is

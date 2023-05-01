@@ -1,4 +1,5 @@
 Using hitchstory with pytest:
+  category: setup
   docs: pytest
   based on: quickstart
   about: |
@@ -86,7 +87,7 @@ Using hitchstory with pytest:
       about: |
         By setting the environment variable REWRITE to "yes",
         pytest can be configured to run tests in rewrite mode.
-        
+
         The only story configured to rewrite itself currently
         is test_rewritable in test_other.py:
       replacement steps:
@@ -118,13 +119,13 @@ Using hitchstory with pytest:
       about: |
         Failing tests will result in a StoryFailure exception being
         raised.
-        
+
         The message within the exception will contain details of the
         step where the test failed.
-        
+
         For most exceptions (not this one), there will be a stack
         trace displayed as well.
-        
+
         Note that the [[ COLOR ]] will be replaced with actual colors
         if this is run on the command line.
       replacement steps:
@@ -157,7 +158,7 @@ Using hitchstory with pytest:
             E           [[ RESET ALL ]]
             E       [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
 
-            test_other.py:13: StoryFailure
+            test_other.py:15: StoryFailure
             ----------------------------- Captured stdout call -----------------------------
 
             Visiting http://localhost:5000/login

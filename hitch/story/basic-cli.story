@@ -1,4 +1,5 @@
 Creating a basic command line test runner:
+  category: setup
   docs: basic-cli
   based on: quickstart
   about: |

@@ -130,6 +130,7 @@ Base documentation:
       ).non_variations()
 
 Generate documentation from story:
+  category: documentation
   based on: base documentation
   docs: generate-documentation
   status: experimental
@@ -269,6 +270,7 @@ Generate documentation from story:
 
 Generate documentation with extra variables and functions:
   based on: base documentation
+  category: documentation
   docs: generate-documentation
   status: experimental
   about: |

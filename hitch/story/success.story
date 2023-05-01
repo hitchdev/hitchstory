@@ -1,4 +1,5 @@
 Running a single named story successfully:
+  category: runner
   docs: run-single-named-story
   about: |
     How a story runs when it is successful - i.e. when no exception

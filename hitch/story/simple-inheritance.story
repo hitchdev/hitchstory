@@ -1,4 +1,5 @@
 Inherit one story from another simply:
+  category: inheritance
   docs: inheritance
   about: |
     You can break most software down into a series of

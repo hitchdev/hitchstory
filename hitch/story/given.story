@@ -1,4 +1,5 @@
 Given preconditions:
+  category: engine
   docs: given
   about: |
     Stories are comprised of preconditions followed by steps.
