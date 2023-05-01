@@ -1,6 +1,5 @@
 Extra story metadata - e.g. adding JIRA ticket numbers to stories:
-  category: engine
-  docs: metadata
+  docs: engine/metadata
   about: |
     Each and every story is related to issues on issue trackers,
     specialist documentation, people, external resources and much more.

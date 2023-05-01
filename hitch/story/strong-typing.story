@@ -1,21 +1,21 @@
 Strong typing:
-  category: engine
-  docs: strong-typing
+  docs: engine/strong-typing
   about: |
-    By default all specified given properties and
-    step arguments accept any kind of YAML which
-    will always be parsed to a string or
-    a nested combination of lists, dicts and strings.
+    Unlike some other integration testing frameworks, HitchStory
+    can strictly validate all tests and fail before running
+    them if they do not adhere to the schema.
+
+    Without validators all step/given data will be parsed as
+    dict, list and string [as seen here](../gradual-typing).
 
     In order to restrict what kind of YAML is allowed
-    and/or to parse strings as something else (e.g.
+    and/or to parse strings into a different type (e.g.
     integers), you can use the **validator** decorator
-    on step methods or the **schema** parameter
+    on step methods and the **schema** parameter
     on the GivenProperty object.
-
-    The 'mini-schemas' you feed these objects should
-    be standard [StrictYAML validator](https://hitchdev.com/strictyaml/using/alpha/scalar)
-    objects.
+    
+    The validator decorator and schema parameters
+    take all valid [StrictYAML validators](../../../../strictyaml/using).
   given:
     files:
       example.story: |

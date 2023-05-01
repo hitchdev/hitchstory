@@ -32,6 +32,10 @@ $ pip install hitchstory
 
 {{{{ using-setup-contents.txt }}}}
 
+## Using HitchStory: Engine
+
+{{{{ using-engine-contents.txt }}}}
+
 ## Using HitchStory
 
 {{{{ using-contents.txt }}}}

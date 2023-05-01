@@ -1,11 +1,15 @@
 Hiding stacktraces for expected exceptions:
-  category: engine
-  docs: expected-exceptions
+  docs: engine/expected-exceptions
   based on: handling failing tests
   about: |
-    For common expected failures where you do not want
-    to see the whole stacktrace, apply the "@no_stacktrace_for"
-    decorator.
+    For common and expected exceptions where you do not want
+    the entire stacktrace to be spewed out in the error message,
+    you can apply the "@no_stacktrace_for" decorator to the step.
+    
+    See also:
+    
+    * [Raise a Failure exception](../special-failure-exception)
+    * [Compare two strings](../match-two-strings)
   given:
     files:
       example.story: |

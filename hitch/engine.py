@@ -25,12 +25,6 @@ class Engine(BaseEngine):
 
     info_definition = InfoDefinition(
         status=InfoProperty(schema=Enum(["experimental", "stable"])),
-        category=InfoProperty(
-            schema=Enum([
-                "setup", "runner", "engine", "documentation", "inheritance",
-                "parameterization", "behavior"
-            ])
-        ),
         docs=InfoProperty(schema=Str()),
     )
 

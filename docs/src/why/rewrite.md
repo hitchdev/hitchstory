@@ -26,4 +26,4 @@ test for you, by running the test in rewrite mode:
 4. Eyeball the test.
 5. Commit code and story and push and open a PR (which runs the tests in normal mode).
 
-See the [documentation on story rewriting for more details](../../using/rewrite-story).
+See the [documentation on story rewriting for more details](../../using/engine/rewrite-story).

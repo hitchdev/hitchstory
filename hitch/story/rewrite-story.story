@@ -1,10 +1,8 @@
 Story that rewrites itself:
-  category: engine
-  docs: rewrite-story
+  docs: engine/rewrite-story
   about: |
     Unlike every other integration testing framework, Hitch stories
-    are designed to be rewritten according to the detected output of
-    a program.
+    can be rewritten according to the actual output of a program.
 
     This lets you do rewrite acceptance test driven development (RATDD)
     - where you change the code, autoregenerate the story and visually

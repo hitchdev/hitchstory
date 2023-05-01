@@ -1,12 +1,23 @@
-Raising a Failure exception for known errors:
+Raising a Failure exception to conceal the stacktrace:
   category: engine
   docs: special-failure-exception
   about: |
-    If you want to indicate a test failure, raise the
-    "Failure" exception.
+    If you want to deliberately trigger a test failure, the default
+    way is to raise a "Failure" exception.
+    
+    This is considered an "expected exception".
+    
+    This means that the story failed on will be highlighted
+    but not the stack trace. This makes story failure
+    message a bit cleaner.
+    
+    Debugging information can be fed to the exception.
+    
+    See also:
+    
+    * [Treat other exceptions as expected](../expected-exceptions)
+    * [Compare two strings](../match-two-strings)
 
-    This is by default an expected exception, so no stack trace
-    will be printed if it is raised.
   given:
     files:
       engine.py: |
