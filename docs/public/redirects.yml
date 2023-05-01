@@ -36,3 +36,5 @@
 /using/alpha/variations: /using/variations
 /using/alpha/aborting: /using/aborting
 /using/alpha: /using
+/using/pytest: /using/setup/pytest
+/using/basic-cli: /using/setup/basic-cli
