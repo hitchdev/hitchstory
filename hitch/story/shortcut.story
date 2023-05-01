@@ -1,6 +1,5 @@
 Shortcut lookup for story names:
-  category: runner
-  docs: shortcut-lookup
+  docs: runner/shortcut-lookup
   about: |
     Hunting for and specifying particular story to run can be a pain.
 

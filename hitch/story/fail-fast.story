@@ -1,6 +1,5 @@
 Continue on failure when playing multiple stories:
-  category: runner
-  docs: continue-on-failure
+  docs: runner/continue-on-failure
   about: |
     By default whenever stories are played in sequence,
     they stop when the first failure is encountered.

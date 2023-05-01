@@ -1,6 +1,5 @@
 Play multiple stories in sequence:
-  category: runner
-  docs: play-multiple-stories
+  docs: runner/play-multiple-stories-in-sequence
   about: |
     Running multiple stories in sequence is necessary when
     you want to do a regression sweep to make sure nothing
