@@ -2,21 +2,16 @@
 
 [![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)
 
-HitchStory is a literate python testing framework where the tests can rewrite themselves and [write your docs](https://hitchdev.com/hitchstory/approach/triality).
+HitchStory is a [StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) based python integration testing framework where the tests can [rewrite themselves](https://hitchdev.com/hitchstory/why/rewrite) and [write your docs](https://hitchdev.com/hitchstory/approach/triality).
 
 [![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](https://vimeo.com/822561823 "Test rewriting itself")
 
-The executable specifications are written, using [StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) and
-can test and document applications of any kind.
+It can be used to quickly and easily integration test and generate docs for any kind of app. Examples:
 
-Fully fleshed out examples (a website, an interactive CLI, a REST API and Python API) with self rewriting tests and generated docs can be seen
-[in the examples folder](https://github.com/hitchdev/hitchstory/tree/master/examples)
-and run.
-
-The library is 100% pure python. The tests can be run:
-
-* [Inside pytest or similar](https://hitchdev.com/hitchstory/using/setup/pytest)
-* [Or via a basic CLI runner](https://hitchdev.com/hitchstory/using/setup/basic-cli)
+* [A website](https://github.com/hitchdev/hitchstory/tree/master/examples/website)
+* [An interactive command line app](https://github.com/hitchdev/hitchstory/tree/master/examples/commandline)
+* [A REST API](https://github.com/hitchdev/hitchstory/tree/master/examples/restapi)
+* [A Python API](https://github.com/hitchdev/hitchstory/tree/master/examples/pythonapi)
 
 
 ## Example
@@ -212,7 +207,7 @@ Design decisions are justified here:
 - [Why does hitchstory not have a command line interface?](https://hitchdev.com/hitchstory/why/no-cli)
 - [Principles](https://hitchdev.com/hitchstory/why/principles)
 - [Why does HitchStory have no CLI runner - only a pure python API?](https://hitchdev.com/hitchstory/why/pure-python-no-cli)
-- [Why programatically rewrite stories?](https://hitchdev.com/hitchstory/why/rewrite)
+- [Why Rewritable Test Driven Development (RTDD)?](https://hitchdev.com/hitchstory/why/rewrite)
 - [Why does HitchStory use StrictYAML?](https://hitchdev.com/hitchstory/why/strictyaml)
 
 

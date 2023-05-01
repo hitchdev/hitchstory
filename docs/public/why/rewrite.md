@@ -1,29 +1,58 @@
 ---
-title: Why programatically rewrite stories?
+title: Why Rewritable Test Driven Development (RTDD)?
 ---
 
-Programmatic rewriting of stories is a feature that evolved out of
-dogfooding the library with stories [like this one](https://github.com/hitchdev/hitchstory/blob/master/hitch/story/fail-fast.story).
+Rewritable test driven development is a form of test driven development
+where the developer changes some code, runs a test in rewrite mode
+and the test runner *rewrites* the test to match the changed output.
 
-Note that the will output section is fairly complicated, but it is possible
-to tell at a glance that it is correct.
+A hitchstory test rewriting itself after a code change:
 
-A normal "approved" TDD approach would be:
+1. The test is run with the old text - "To-do list" and *passes*.
+2. The code is tweaked to say "My to-do list".
+3. The test is run in normal mode and FAILS.
+5. The test is run in rewrite mode and *PASSES*, rewriting the test.
+6. The test is changed and PASSES when run in normal mode.
 
-1. Write the test first.
-2. Write the code that makes it pass.
-3. Go to 1.
+[![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](https://vimeo.com/822561823 "Test rewriting itself")
 
-Ascertaining precisely how that output *should* look when running the code
-in advance is not only tedious as hell, it's prone to error.
+!!! note "Some coding"
 
-With hitchstory, you can write tests where hitchstory finishes off the
-test for you, by running the test in rewrite mode:
+    The video also demonstrates how to adjust the engine to make the test rewrite.
 
-1. Write an incomplete test excluding the output.
-2. Write the code that generates the output.
-3. Run the test in rewrite mode which changes parts of the story.
-4. Eyeball the test.
-5. Commit code and story and push and open a PR (which runs the tests in normal mode).
+## Why do it?
 
-See the [documentation on story rewriting for more details](../../using/engine/rewrite-story).
+Traditional test driven development implores you to construct a test first
+and write the code that makes it pass after.
+
+Where a desired output is trivial to validate at a glance but tedious
+to construct, this is a waste of time. It is far better to let the
+testing framework take care of it for you and to read the rewritten
+test before committing.
+
+This technique is particularly useful for integration tests that validate:
+
+* Exact messages displayed on a website.
+* REST API responses
+* The output of command line applications
+
+
+## When *not* to use it?
+
+This technique must ONLY be used where you can validate the output is correct
+at a glance.
+
+Rewrite test driven development on a calculation with a non-obvious result,
+for instance, is an antipattern.
+
+
+## Where can I easily try it out for myself?
+
+* [An interactive command line app with tests that rewrite themselves](https://github.com/hitchdev/hitchstory/tree/master/examples/commandline)
+* [A REST API with tests that rewrite themselves](https://github.com/hitchdev/hitchstory/tree/master/examples/restapi)
+* [A Python API with tests that rewrite themselves](https://github.com/hitchdev/hitchstory/tree/master/examples/pythonapi)
+
+
+## How do I do this?
+
+* [HitchStory Rewritable Story Docs](../../using/engine/rewrite-story).

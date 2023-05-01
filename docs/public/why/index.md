@@ -12,7 +12,7 @@ controversial design decisions. These are justified here.
 - [Why does hitchstory not have a command line interface?](no-cli)
 - [Principles](principles)
 - [Why does HitchStory have no CLI runner - only a pure python API?](pure-python-no-cli)
-- [Why programatically rewrite stories?](rewrite)
+- [Why Rewritable Test Driven Development (RTDD)?](rewrite)
 - [Why does HitchStory use StrictYAML?](strictyaml)
 
 

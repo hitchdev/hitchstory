@@ -6,21 +6,16 @@ title: HitchStory
 
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
 
-HitchStory is a literate python testing framework where the tests can rewrite themselves and [write your docs](approach/triality).
+HitchStory is a [StrictYAML](why/strictyaml) based python integration testing framework where the tests can [rewrite themselves](why/rewrite) and [write your docs](approach/triality).
 
 [![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](https://vimeo.com/822561823 "Test rewriting itself")
 
-The executable specifications are written, using [StrictYAML](why/strictyaml) and
-can test and document applications of any kind.
+It can be used to quickly and easily integration test and generate docs for any kind of app. Examples:
 
-Fully fleshed out examples (a website, an interactive CLI, a REST API and Python API) with self rewriting tests and generated docs can be seen
-[in the examples folder](https://github.com/hitchdev/hitchstory/tree/master/examples)
-and run.
-
-The library is 100% pure python. The tests can be run:
-
-* [Inside pytest or similar](using/setup/pytest)
-* [Or via a basic CLI runner](using/setup/basic-cli)
+* [A website](https://github.com/hitchdev/hitchstory/tree/master/examples/website)
+* [An interactive command line app](https://github.com/hitchdev/hitchstory/tree/master/examples/commandline)
+* [A REST API](https://github.com/hitchdev/hitchstory/tree/master/examples/restapi)
+* [A Python API](https://github.com/hitchdev/hitchstory/tree/master/examples/pythonapi)
 
 
 ## Example
@@ -216,7 +211,7 @@ Design decisions are justified here:
 - [Why does hitchstory not have a command line interface?](why/no-cli)
 - [Principles](why/principles)
 - [Why does HitchStory have no CLI runner - only a pure python API?](why/pure-python-no-cli)
-- [Why programatically rewrite stories?](why/rewrite)
+- [Why Rewritable Test Driven Development (RTDD)?](why/rewrite)
 - [Why does HitchStory use StrictYAML?](why/strictyaml)
 
 
