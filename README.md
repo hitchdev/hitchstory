@@ -143,10 +143,15 @@ SUCCESS in 0.1 seconds.
 $ pip install hitchstory
 ```
 
+## Using HitchStory: Setup
+
+- [Creating a basic command line test runner](https://hitchdev.com/hitchstory/using/setup/basic-cli)
+- [Using hitchstory with pytest](https://hitchdev.com/hitchstory/using/setup/pytest)
+
+
 ## Using HitchStory
 
 - [Abort a story with ctrl-C](https://hitchdev.com/hitchstory/using/aborting)
-- [Creating a basic command line test runner](https://hitchdev.com/hitchstory/using/basic-cli)
 - [Upgrade breaking changes between v0.14 and v0.15](https://hitchdev.com/hitchstory/using/breaking-changes-between-v014-and-v015)
 - [Continue on failure when playing multiple stories](https://hitchdev.com/hitchstory/using/continue-on-failure)
 - [Hiding stacktraces for expected exceptions](https://hitchdev.com/hitchstory/using/expected-exceptions)
@@ -164,7 +169,6 @@ $ pip install hitchstory
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/metadata)
 - [Story with parameters](https://hitchdev.com/hitchstory/using/parameterized-stories)
 - [Play multiple stories in sequence](https://hitchdev.com/hitchstory/using/play-multiple-stories)
-- [Using hitchstory with pytest](https://hitchdev.com/hitchstory/using/pytest)
 - [Story that rewrites itself](https://hitchdev.com/hitchstory/using/rewrite-story)
 - [Running a single named story successfully](https://hitchdev.com/hitchstory/using/run-single-named-story)
 - [Shortcut lookup for story names](https://hitchdev.com/hitchstory/using/shortcut-lookup)

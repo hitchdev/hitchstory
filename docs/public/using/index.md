@@ -5,7 +5,6 @@ title: Using HitchStory
 How to:
 
 - [Abort a story with ctrl-C](aborting)
-- [Creating a basic command line test runner](basic-cli)
 - [Upgrade breaking changes between v0.14 and v0.15](breaking-changes-between-v014-and-v015)
 - [Continue on failure when playing multiple stories](continue-on-failure)
 - [Hiding stacktraces for expected exceptions](expected-exceptions)
@@ -23,7 +22,6 @@ How to:
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](metadata)
 - [Story with parameters](parameterized-stories)
 - [Play multiple stories in sequence](play-multiple-stories)
-- [Using hitchstory with pytest](pytest)
 - [Story that rewrites itself](rewrite-story)
 - [Running a single named story successfully](run-single-named-story)
 - [Shortcut lookup for story names](shortcut-lookup)

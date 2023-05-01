@@ -147,10 +147,15 @@ SUCCESS in 0.1 seconds.
 $ pip install hitchstory
 ```
 
+## Using HitchStory: Setup
+
+- [Creating a basic command line test runner](using/setup/basic-cli)
+- [Using hitchstory with pytest](using/setup/pytest)
+
+
 ## Using HitchStory
 
 - [Abort a story with ctrl-C](using/aborting)
-- [Creating a basic command line test runner](using/basic-cli)
 - [Upgrade breaking changes between v0.14 and v0.15](using/breaking-changes-between-v014-and-v015)
 - [Continue on failure when playing multiple stories](using/continue-on-failure)
 - [Hiding stacktraces for expected exceptions](using/expected-exceptions)
@@ -168,7 +173,6 @@ $ pip install hitchstory
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/metadata)
 - [Story with parameters](using/parameterized-stories)
 - [Play multiple stories in sequence](using/play-multiple-stories)
-- [Using hitchstory with pytest](using/pytest)
 - [Story that rewrites itself](using/rewrite-story)
 - [Running a single named story successfully](using/run-single-named-story)
 - [Shortcut lookup for story names](using/shortcut-lookup)

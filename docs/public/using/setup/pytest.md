@@ -263,7 +263,7 @@ E           Test failed.
 E           [[ RESET ALL ]]
 E       [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
 
-test_other.py:13: StoryFailure
+test_other.py:15: StoryFailure
 ----------------------------- Captured stdout call -----------------------------
 
 Visiting http://localhost:5000/login
