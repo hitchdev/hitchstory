@@ -1,6 +1,5 @@
 Creating a basic command line test runner:
-  category: setup
-  docs: basic-cli
+  docs: setup/basic-cli
   based on: quickstart
   about: |
     This example demonstrates the stories in the README

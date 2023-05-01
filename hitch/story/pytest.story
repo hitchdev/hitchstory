@@ -1,6 +1,5 @@
 Using hitchstory with pytest:
-  category: setup
-  docs: pytest
+  docs: setup/pytest
   based on: quickstart
   about: |
     If you already have pytest set up and a full

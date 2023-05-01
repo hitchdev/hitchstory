@@ -28,6 +28,10 @@ The library is 100% pure python. The tests can be run:
 $ pip install hitchstory
 ```
 
+## Using HitchStory: Setup
+
+{{{{ using-setup-contents.txt }}}}
+
 ## Using HitchStory
 
 {{{{ using-contents.txt }}}}
