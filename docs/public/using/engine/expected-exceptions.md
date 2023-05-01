@@ -1,22 +1,32 @@
 ---
-title: Raising a Failure exception for known errors
+title: Hiding stacktraces for expected exceptions
 ---
 
 
 
-If you want to indicate a test failure, raise the
-"Failure" exception.
+For common and expected exceptions where you do not want
+the entire stacktrace to be spewed out in the error message,
+you can apply the "@no_stacktrace_for" decorator to the step.
 
-This is by default an expected exception, so no stack trace
-will be printed if it is raised.
+See also:
+
+* [Raise a Failure exception](../special-failure-exception)
+* [Compare two strings](../match-two-strings)
 
 
 
 
+example.story:
+
+```yaml
+Failing story:
+  steps:
+    - Failing step without stacktrace
+```
 engine.py:
 
 ```python
-from hitchstory import BaseEngine, no_stacktrace_for, Failure
+from hitchstory import BaseEngine, no_stacktrace_for, Failure, strings_match
 from code_that_does_things import raise_example_exception, output, ExampleException
 
 class Engine(BaseEngine):
@@ -33,6 +43,10 @@ class Engine(BaseEngine):
     def raise_special_failure_exception(self):
         raise Failure("Special failure exception - no stacktrace printed!")
 
+    def fail_because_strings_dont_match(self):
+        strings_match("hello", "hello")   # matching
+        strings_match("hello", "goodbye") # nonmatching
+        
     def step_that_will_not_run(self):
         pass
         
@@ -41,15 +55,6 @@ class Engine(BaseEngine):
 
     def not_executed_step(self):
         pass
-```
-example.story:
-
-```yaml
-Failing story:
-  steps:
-    - Raise special failure exception
-    - Step that will not run
-    - Step that will not run
 ```
 
 With code:
@@ -78,15 +83,16 @@ RUNNING Failing story in /path/to/working/example.story ... FAILED in 0.1 second
 
     Failing story:
       steps:
-      - Raise special failure exception
-      - Step that will not run
-      - Step that will not run
+      - Failing step without stacktrace
 
-hitchstory.exceptions.Failure
 
-    Test failed.
+code_that_does_things.ExampleException
 
-Special failure exception - no stacktrace printed!
+    This is a demonstration exception docstring.
+
+    It spreads across multiple lines.
+
+Expected exception
 ```
 
 
@@ -100,6 +106,6 @@ Special failure exception - no stacktrace printed!
 !!! note "Executable specification"
 
     Documentation automatically generated from 
-    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/special-failure-exception.story">special-failure-exception.story
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/expected-exceptions.story">expected-exceptions.story
     storytests.</a>
 

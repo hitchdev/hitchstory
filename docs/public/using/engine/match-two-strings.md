@@ -1,18 +1,17 @@
 ---
-title: Match two strings
+title: Match two strings and show diff on failure
 ---
 
 
 
-Where two strings should match you can use
-should_match(expected, actual) to compare them.
+While you could use `assert expected == actual` to match
+two strings in a story step, if you use `should_match(expected, actual)`
+instead then when it fails:
 
-If they don't match, a Failure exception with
-the expected, actual and a diff between the two
-will be printed for debugging purposes.
+* It will show the actual string, expected string *and the diff*.
+* It will raise a Failure exception and avoid polluting the error message with the full stacktrace.
 
-This makes it slightly more helpful than
-assert expected == actual.
+An example is shown below:
 
 
 

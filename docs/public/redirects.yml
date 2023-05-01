@@ -3,6 +3,7 @@
 /approach/specification-documentation-test-triality: /approach/triality
 /approach/recommended-environment: /approach/test-artefact-environment-isolation
 /approach/testing-and-living-documentation: /approach/executable-specifications
+
 /why/flaky-tests: /approach/flaky-tests
 /why/cucumber: /why-not/gherkin
 /why/why-not-unit-test: /why-not/unit-test
@@ -16,6 +17,7 @@
 /why/triality: /approach/triality
 /why/cucumbers-mistakes: /why-not/gherkin
 /why/2-unit-tests-0-integration-tests: /
+
 /using/alpha/continue-on-failure: /using/continue-on-failure
 /using/alpha/expected-exceptions: /using/expected-exceptions
 /using/alpha/failing-tests: /using/failing-tests
@@ -36,5 +38,15 @@
 /using/alpha/variations: /using/variations
 /using/alpha/aborting: /using/aborting
 /using/alpha: /using
+
 /using/pytest: /using/setup/pytest
 /using/basic-cli: /using/setup/basic-cli
+/using/metadata: /using/engine/metadata
+/using/match-two-strings: /using/engine/match-two-strings
+/using/steps-and-step-arguments: /using/engine/steps-and-step-arguments
+/using/special-failure-exception: /using/engine/special-failure-exception
+/using/given: /using/engine/given
+/using/rewrite-story: /using/engine/rewrite-story
+/using/expected-exceptions: /using/engine/expected-exceptions
+/using/gradual-typing: /using/engine/gradual-typing
+/using/strong-typing: /using/engine/strong-typing

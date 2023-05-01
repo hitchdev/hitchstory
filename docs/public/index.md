@@ -153,32 +153,36 @@ $ pip install hitchstory
 - [Using hitchstory with pytest](using/setup/pytest)
 
 
+## Using HitchStory: Engine
+
+- [Hiding stacktraces for expected exceptions](using/engine/expected-exceptions)
+- [Given preconditions](using/engine/given)
+- [Gradual typing of story steps](using/engine/gradual-typing)
+- [Match two strings and show diff on failure](using/engine/match-two-strings)
+- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/engine/metadata)
+- [Story that rewrites itself](using/engine/rewrite-story)
+- [Raising a Failure exception to conceal the stacktrace](using/engine/special-failure-exception)
+- [Arguments to steps](using/engine/steps-and-step-arguments)
+- [Strong typing](using/engine/strong-typing)
+
+
 ## Using HitchStory
 
 - [Abort a story with ctrl-C](using/aborting)
 - [Upgrade breaking changes between v0.14 and v0.15](using/breaking-changes-between-v014-and-v015)
 - [Continue on failure when playing multiple stories](using/continue-on-failure)
-- [Hiding stacktraces for expected exceptions](using/expected-exceptions)
 - [Handling failing tests](using/failing-tests)
 - [Flaky story detection](using/flaky-story-detection)
 - [Generate documentation with extra variables and functions](using/generate-documentation)
-- [Given preconditions](using/given)
-- [Gradual typing of story steps](using/gradual-typing)
 - [Story inheritance - given mapping preconditions overridden](using/inheritance-override-given-mapping)
 - [Story inheritance - override given scalar preconditions](using/inheritance-override-given-scalar)
 - [Story inheritance - parameters](using/inheritance-parameters)
 - [Story inheritance - steps](using/inheritance-steps)
 - [Inherit one story from another simply](using/inheritance)
-- [Match two strings](using/match-two-strings)
-- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/metadata)
 - [Story with parameters](using/parameterized-stories)
 - [Play multiple stories in sequence](using/play-multiple-stories)
-- [Story that rewrites itself](using/rewrite-story)
 - [Running a single named story successfully](using/run-single-named-story)
 - [Shortcut lookup for story names](using/shortcut-lookup)
-- [Raising a Failure exception for known errors](using/special-failure-exception)
-- [Arguments to steps](using/steps-and-step-arguments)
-- [Strong typing](using/strong-typing)
 - [Variations](using/variations)
 
 

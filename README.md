@@ -149,32 +149,36 @@ $ pip install hitchstory
 - [Using hitchstory with pytest](https://hitchdev.com/hitchstory/using/setup/pytest)
 
 
+## Using HitchStory: Engine
+
+- [Hiding stacktraces for expected exceptions](https://hitchdev.com/hitchstory/using/engine/expected-exceptions)
+- [Given preconditions](https://hitchdev.com/hitchstory/using/engine/given)
+- [Gradual typing of story steps](https://hitchdev.com/hitchstory/using/engine/gradual-typing)
+- [Match two strings and show diff on failure](https://hitchdev.com/hitchstory/using/engine/match-two-strings)
+- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/engine/metadata)
+- [Story that rewrites itself](https://hitchdev.com/hitchstory/using/engine/rewrite-story)
+- [Raising a Failure exception to conceal the stacktrace](https://hitchdev.com/hitchstory/using/engine/special-failure-exception)
+- [Arguments to steps](https://hitchdev.com/hitchstory/using/engine/steps-and-step-arguments)
+- [Strong typing](https://hitchdev.com/hitchstory/using/engine/strong-typing)
+
+
 ## Using HitchStory
 
 - [Abort a story with ctrl-C](https://hitchdev.com/hitchstory/using/aborting)
 - [Upgrade breaking changes between v0.14 and v0.15](https://hitchdev.com/hitchstory/using/breaking-changes-between-v014-and-v015)
 - [Continue on failure when playing multiple stories](https://hitchdev.com/hitchstory/using/continue-on-failure)
-- [Hiding stacktraces for expected exceptions](https://hitchdev.com/hitchstory/using/expected-exceptions)
 - [Handling failing tests](https://hitchdev.com/hitchstory/using/failing-tests)
 - [Flaky story detection](https://hitchdev.com/hitchstory/using/flaky-story-detection)
 - [Generate documentation with extra variables and functions](https://hitchdev.com/hitchstory/using/generate-documentation)
-- [Given preconditions](https://hitchdev.com/hitchstory/using/given)
-- [Gradual typing of story steps](https://hitchdev.com/hitchstory/using/gradual-typing)
 - [Story inheritance - given mapping preconditions overridden](https://hitchdev.com/hitchstory/using/inheritance-override-given-mapping)
 - [Story inheritance - override given scalar preconditions](https://hitchdev.com/hitchstory/using/inheritance-override-given-scalar)
 - [Story inheritance - parameters](https://hitchdev.com/hitchstory/using/inheritance-parameters)
 - [Story inheritance - steps](https://hitchdev.com/hitchstory/using/inheritance-steps)
 - [Inherit one story from another simply](https://hitchdev.com/hitchstory/using/inheritance)
-- [Match two strings](https://hitchdev.com/hitchstory/using/match-two-strings)
-- [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/metadata)
 - [Story with parameters](https://hitchdev.com/hitchstory/using/parameterized-stories)
 - [Play multiple stories in sequence](https://hitchdev.com/hitchstory/using/play-multiple-stories)
-- [Story that rewrites itself](https://hitchdev.com/hitchstory/using/rewrite-story)
 - [Running a single named story successfully](https://hitchdev.com/hitchstory/using/run-single-named-story)
 - [Shortcut lookup for story names](https://hitchdev.com/hitchstory/using/shortcut-lookup)
-- [Raising a Failure exception for known errors](https://hitchdev.com/hitchstory/using/special-failure-exception)
-- [Arguments to steps](https://hitchdev.com/hitchstory/using/steps-and-step-arguments)
-- [Strong typing](https://hitchdev.com/hitchstory/using/strong-typing)
 - [Variations](https://hitchdev.com/hitchstory/using/variations)
 
 

@@ -1,5 +1,5 @@
 ---
-title: Using HitchStory: Set up
+title: Using HitchStory - Set up
 ---
 
 How to:

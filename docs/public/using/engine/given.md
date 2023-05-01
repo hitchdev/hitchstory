@@ -4,20 +4,19 @@ title: Given preconditions
 
 
 
-Stories are comprised of preconditions followed by steps.
+All hitch stories are comprised of preconditions followed by steps.
 
-Hitchstory lets you define preconditions using the 'given' keyword
-in YAML and then use them using self.given['property name'].
+Hitchstory lets you define preconditions using the `given:` keyword
+in YAML and then refer to these preconditions in the `set_up` method
+or steps using `self.given['property name']`.
 
 The given property names need to first be specified in the engine
 using GivenDefinition and GivenProperty.
 
-By default, given properties will parse
-[without a StrictYAML schema](/strictyaml/using/alpha/howto/without-a-schema/),
-but you can also specify your own [StrictYAML schema](https://hitchdev.com/strictyaml).
+The schemas are specified using [StrictYAML validators](../../../../strictyaml/using).
 
 The following example shows a browser precondition being used to set up
-a mock selenium object.
+a mock selenium object for a test that uses a browser.
 
 
 

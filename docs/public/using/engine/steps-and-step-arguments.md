@@ -7,8 +7,12 @@ title: Arguments to steps
 Arguments are fed to steps in a way that is
 largely consistent with how python methods work:
 
-- Named arguments (e.g. "How many times") are put in equivalent named variables (e.g. "how_many_times").
-- If the method has **kwargs then the key names of kwargs will match the named arguments exactly (i.e. no underscores).
+- Named arguments are put in equivalent slugified variables (e.g. "How many times" -> "how_many_times") - demonstrated in the click step below.
+- If the method has **kwargs then the key names of kwargs will match the named arguments exactly - demonstrated in the fill_form step below.
+
+@validate is used with [StrictYAML validators](../../../../strictyaml/using)
+to validate the type of the steps. You can see more about this in
+[strong typing](../strong-typing).
 
 
 

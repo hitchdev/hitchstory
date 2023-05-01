@@ -7,16 +7,14 @@ title: Gradual typing of story steps
 In order to speed up prototyping and development
 of a story suite, the structure of your YAML data
 specified in preconditions, parameters and step
-arguments need not be specified in advance.
+arguments need not be strictly defined in advance.
 
-All data that is parsed without a validator
-is parsed either as a dict, list or string, as
-per the StrictYAML spec.
+All story data that is parsed without a validator
+is parsed either as a dict, list or string.
 
-When your story suite matures and the structure of
-your story files has solidified, you can
-specify validators that fail fast when YAML
-snippets with an invalid structure are used.
+It is nonetheless still recommended that you
+apply validators as soon as possible.
+[See more about that here](../strong-typing).
 
 
 
