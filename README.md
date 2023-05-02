@@ -157,6 +157,16 @@ $ pip install hitchstory
 - [Strong typing](https://hitchdev.com/hitchstory/using/engine/strong-typing)
 
 
+## Using HitchStory: Inheritance
+
+- [Inherit one story from another simply](https://hitchdev.com/hitchstory/using/inheritance/about)
+- [Story inheritance - given mapping preconditions overridden](https://hitchdev.com/hitchstory/using/inheritance/override-given-mapping)
+- [Story inheritance - override given scalar preconditions](https://hitchdev.com/hitchstory/using/inheritance/override-given-scalar)
+- [Story inheritance - parameters](https://hitchdev.com/hitchstory/using/inheritance/parameters)
+- [Story inheritance - steps](https://hitchdev.com/hitchstory/using/inheritance/steps)
+- [Variations](https://hitchdev.com/hitchstory/using/inheritance/variations)
+
+
 ## Using HitchStory: Runner
 
 - [Continue on failure when playing multiple stories](https://hitchdev.com/hitchstory/using/runner/continue-on-failure)
@@ -172,14 +182,8 @@ $ pip install hitchstory
 - [Upgrade breaking changes between v0.14 and v0.15](https://hitchdev.com/hitchstory/using/breaking-changes-between-v014-and-v015)
 - [Handling failing tests](https://hitchdev.com/hitchstory/using/failing-tests)
 - [Generate documentation with extra variables and functions](https://hitchdev.com/hitchstory/using/generate-documentation)
-- [Story inheritance - given mapping preconditions overridden](https://hitchdev.com/hitchstory/using/inheritance-override-given-mapping)
-- [Story inheritance - override given scalar preconditions](https://hitchdev.com/hitchstory/using/inheritance-override-given-scalar)
-- [Story inheritance - parameters](https://hitchdev.com/hitchstory/using/inheritance-parameters)
-- [Story inheritance - steps](https://hitchdev.com/hitchstory/using/inheritance-steps)
-- [Inherit one story from another simply](https://hitchdev.com/hitchstory/using/inheritance)
 - [Story with parameters](https://hitchdev.com/hitchstory/using/parameterized-stories)
 - [Running a single named story successfully](https://hitchdev.com/hitchstory/using/run-single-named-story)
-- [Variations](https://hitchdev.com/hitchstory/using/variations)
 
 
 ## Approach to using HitchStory

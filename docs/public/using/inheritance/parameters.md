@@ -12,9 +12,8 @@ title: Story inheritance - parameters
 
 Child stories can be based upon parent stories.
 
-Parameters will be overridden.
-
-NOTE: This feature has a bug, avoid using.
+NOTE: This feature has a bug, avoid using inheritance and
+parameterization together for now.
 
 
 
