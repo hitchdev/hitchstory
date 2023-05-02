@@ -1,13 +1,24 @@
 Variations:
-  category: inheritance
-  docs: variations
+  docs: inheritance/variations
   about: |
+    ```
+    My story:
+      ...
+      variations:
+        Substory:
+        ...
+    ```
+
     Some stories are very similar except for a few changed items. You
     can create substories within the same story in order to enumerate
     all of the possible permutations of preconditions and steps
     under a particular story.
 
-    Variations are simply inherited stories defined on the same story.
+    Variations are simply inherited stories defined in the same YAML
+    file.
+    
+    A story can have as many variations as you like, but a variation
+    cannot have variations.
   given:
     files:
       example.story: |

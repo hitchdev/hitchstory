@@ -1,27 +1,20 @@
 Inherit one story from another simply:
-  category: inheritance
-  docs: inheritance
+  docs: inheritance/about
   about: |
-    You can break most software down into a series of
-    individual linear behavioral stories.
+    ```yaml
+    Parent story:
+      ...
+    
+    Child story:
+      based on: Parent story
+      ...
+    ```
 
-    However, software stories naturally branch. In order to
-    send an email or delete an email you must first always log
-    in.
-
-    While it would be possible to write out each individual
-    story for every possible branch, this would result in a
-    story suite that is WET instead of DRY and that creates
-    a maintenance headache.
-
-    Story inheritance allows you to base stories on other stories.
-
-    The base story given preconditions and parameters will be
-    used while the child story given preconditions will override
-    them.
-
-    The steps of the parent stories, if they have any steps,
-    will be executed before the child story steps.
+    Story inheritance allows you to use parent stories as a template
+    for child stories and:
+    
+    * Change the given preconditions.
+    * Add new steps.
   given:
     files:
       example.story: |

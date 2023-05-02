@@ -1,15 +1,12 @@
 Story inheritance - steps:
-  category: inheritance
-  docs: inheritance-steps
+  docs: inheritance/steps
   about: |
-    Child stories can be based upon parent stories.
-
-    If a parent story has no steps, child stories can just specify their own.
-
-    If a child story has no steps and the parent does, the parent steps will be run.
-
-    If a parent story *does* have steps, child stories must specify either
-    "following steps" or "replacement steps".
+    Child stories that inherit from parent stories can have:
+    
+    * `following steps:`
+    * `replacement steps:`
+    * `steps:` (if the parent story has no steps of its own)
+    
   given:
     files:
       example.story: |

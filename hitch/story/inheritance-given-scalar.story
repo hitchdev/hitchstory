@@ -1,12 +1,15 @@
 Story inheritance - override given scalar preconditions:
-  category: inheritance
-  docs: inheritance-override-given-scalar
+  docs: inheritance/override-given-scalar
   about: |
     Child stories can be based upon parent stories.
 
     If you change one precondition in a child story,
     when it is run the steps and the other preconditions
     will all remain the same.
+    
+    In the following example the given url is changed from
+    /loginurl to /alternativeloginurl and the browser
+    remains as firefox.
   given:
     files:
       example.story: |
