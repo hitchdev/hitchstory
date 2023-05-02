@@ -161,6 +161,12 @@ $ pip install hitchstory
 - [Strong typing](using/engine/strong-typing)
 
 
+## Using HitchStory: Documentation Generation
+
+- [Generate documentation with extra variables and functions](using/documentation/extra)
+- [Generate documentation from story](using/documentation/generate)
+
+
 ## Using HitchStory: Inheritance
 
 - [Inherit one story from another simply](using/inheritance/about)
@@ -185,7 +191,6 @@ $ pip install hitchstory
 - [Abort a story with ctrl-C](using/aborting)
 - [Upgrade breaking changes between v0.14 and v0.15](using/breaking-changes-between-v014-and-v015)
 - [Handling failing tests](using/failing-tests)
-- [Generate documentation with extra variables and functions](using/generate-documentation)
 - [Story with parameters](using/parameterized-stories)
 - [Running a single named story successfully](using/run-single-named-story)
 

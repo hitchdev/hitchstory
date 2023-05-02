@@ -198,6 +198,6 @@ For stories that involve Trump.
 !!! note "Executable specification"
 
     Documentation automatically generated from 
-    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/documentation.story">documentation.story
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/documentation-extra-vars-and-functions.story">documentation-extra-vars-and-functions.story
     storytests.</a>
 
