@@ -31,10 +31,6 @@ Handling failing tests:
             def raise_special_failure_exception(self):
                 raise Failure("Special failure exception - no stacktrace printed!")
 
-            def fail_because_strings_dont_match(self):
-                strings_match("hello", "hello")   # matching
-                strings_match("hello", "goodbye") # nonmatching
-                
             def step_that_will_not_run(self):
                 pass
                 
