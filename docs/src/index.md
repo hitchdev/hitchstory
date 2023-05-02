@@ -31,6 +31,10 @@ $ pip install hitchstory
 
 {{{{ using-engine-contents.txt }}}}
 
+## Using HitchStory: Documentation Generation
+
+{{{{ using-documentation-contents.txt }}}}
+
 ## Using HitchStory: Inheritance
 
 {{{{ using-inheritance-contents.txt }}}}
