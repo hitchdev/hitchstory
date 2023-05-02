@@ -3,7 +3,7 @@ Match two strings and show diff on failure:
   based on: handling failing tests
   about: |
     While you could use `assert expected == actual` to match
-    two strings in a story step, if you use `should_match(expected, actual)`
+    two strings in a story step, if you use `strings_match(expected, actual)`
     instead then when it fails:
 
     * It will show the actual string, expected string *and a diff*.

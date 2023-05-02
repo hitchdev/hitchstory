@@ -10,6 +10,7 @@ from hitchstory.engine import BaseEngine
 from hitchstory.exceptions import HitchStoryException
 from hitchstory.exceptions import Failure
 from hitchstory.matchers import strings_match
+from hitchstory.matchers import json_match
 
 
 __version__ = "DEVELOPMENT_VERSION"
