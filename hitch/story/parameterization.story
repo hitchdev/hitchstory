@@ -1,6 +1,7 @@
 Story with parameters:
+  status: experimental
   category: parameterization
-  docs: parameterized-stories
+  docs: engine/parameterized-stories
   about: |
     Parameterized stories are used to describe stories
     which are essentially the same except for one or more

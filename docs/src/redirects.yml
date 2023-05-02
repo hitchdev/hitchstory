@@ -50,6 +50,7 @@
 /using/expected-exceptions: /using/engine/expected-exceptions
 /using/gradual-typing: /using/engine/gradual-typing
 /using/strong-typing: /using/engine/strong-typing
+/using/parameterized-stories: /using/engine/parameterized-stories
 
 /using/play-multiple-stories: /using/runner/play-multiple-stories-in-sequence
 /using/shortcut-lookup: /using/runner/shortcut-lookup
@@ -63,3 +64,7 @@
 /using/variations: /using/inheritance/variations
 
 /using/generate-documentation: /using/documentation/generate
+
+/using/breaking-changes-between-v014-and-v015: /using/behavior/breaking-changes-between-v014-and-v015
+/using/run-single-named-story: /using/behavior/run-single-named-story
+/using/failing-tests: /using/behavior/failing-tests

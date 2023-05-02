@@ -25,27 +25,33 @@ $ pip install hitchstory
 
 ## Using HitchStory: Setup
 
+Skeleton set up with example stories:
+
 {{{{ using-setup-contents.txt }}}}
 
 ## Using HitchStory: Engine
+
+How to use the different features of the story engine:
 
 {{{{ using-engine-contents.txt }}}}
 
 ## Using HitchStory: Documentation Generation
 
+How to autogenerate documentation from your tests:
+
 {{{{ using-documentation-contents.txt }}}}
 
 ## Using HitchStory: Inheritance
+
+Inheriting stories from each other:
 
 {{{{ using-inheritance-contents.txt }}}}
 
 ## Using HitchStory: Runner
 
+Running the stories in different ways:
+
 {{{{ using-runner-contents.txt }}}}
-
-## Using HitchStory
-
-{{{{ using-contents.txt }}}}
 
 ## Approach to using HitchStory
 
@@ -61,6 +67,13 @@ Design decisions are justified here:
 
 ## Why not X instead?
 
-There are several tools you can use instead, this is why you should use this one instead:
+HitchStory is not the only integration testing framework.
+This is how it compares with the others:
 
 {{{{ why-not-contents.txt }}}}
+
+## Using HitchStory: Behavior
+
+Miscellaneous docs about behavior of the framework:
+
+{{{{ using-behavior-contents.txt }}}}

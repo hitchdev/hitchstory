@@ -1,6 +1,5 @@
 Handling failing tests:
-  category: behavior
-  docs: failing-tests
+  docs: behavior/failing-tests
   about: |
     By default, a failing story will show:
 

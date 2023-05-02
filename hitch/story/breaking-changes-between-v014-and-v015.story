@@ -1,6 +1,5 @@
 Upgrade breaking changes between v0.14 and v0.15:
-  category: behavior
-  docs: breaking-changes-between-v014-and-v015
+  docs: behavior/breaking-changes-between-v014-and-v015
   about: |  
     Version 0.15 contains two important breaking changes:
 

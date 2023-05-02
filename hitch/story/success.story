@@ -1,6 +1,5 @@
 Running a single named story successfully:
-  category: behavior
-  docs: run-single-named-story
+  docs: behavior/run-single-named-story
   about: |
     How a story runs when it is successful - i.e. when no exception
     is raised during its run.

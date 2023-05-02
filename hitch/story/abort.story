@@ -1,6 +1,5 @@
 Abort a story with ctrl-C:
-  category: behavior
-  docs: aborting
+  docs: behavior/aborting
   about: |
     When an in-progress story is hit with any of the
     following termination signals:
