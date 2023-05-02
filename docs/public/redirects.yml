@@ -55,7 +55,6 @@
 /using/shortcut-lookup: /using/runner/shortcut-lookup
 /using/flaky-story-detection: /using/runner/flaky-story-detection
 /using/continue-on-failure: /using/runner/continue-on-failure
-/using/play-multiple-stories: /using/runner/play-multiple-stories-in-sequence
 
 /using/inheritance-override-given-mapping: /using/inheritance/override-given-mapping
 /using/inheritance-override-given-scalar: /using/inheritance/override-given-scalar
