@@ -31,8 +31,6 @@ Quickstart:
       engine.py: |
         from hitchstory import BaseEngine, GivenDefinition, GivenProperty
         from hitchstory import Failure, strings_match
-        from mockemailchecker import email_was_sent
-        from mockselenium import Webdriver
         from strictyaml import Str
 
         class Engine(BaseEngine):
@@ -44,17 +42,14 @@ Quickstart:
                 self._rewrite = rewrite
 
             def set_up(self):
-                self.driver = Webdriver()
-                self.driver.visit(
-                    "http://localhost:5000{0}".format(self.given['website'])
-                )
+                print(f"Load web page at {self.given['website']}")
 
             def form_filled(self, **textboxes):
                 for name, contents in sorted(textboxes.items()):
-                    self.driver.fill_form(name, contents)
+                    print(f"Put {contents} in name")
 
             def clicked(self, name):
-                self.driver.click(name)
+                print(f"Click on {name}")
             
             def failing_step(self):
                 raise Failure("This was not supposed to happen")
@@ -65,10 +60,13 @@ Quickstart:
                 try:
                     strings_match(expected_message, actual_message)
                 except Failure:
-                    self.current_step.rewrite("expected_message").to(actual_message)
+                    if self._rewrite:
+                        self.current_step.rewrite("expected_message").to(actual_message)
+                    else:
+                        raise
 
             def email_was_sent(self):
-                email_was_sent()
+                print("Check email was sent!")
 
   steps:
   - Run:
@@ -79,19 +77,16 @@ Quickstart:
 
         StoryCollection(Path(".").glob("*.story"), Engine()).named("Email sent").play()
       will output: |-
-        RUNNING Email sent in /path/to/working/example.story ...
-        Visiting http://localhost:5000/login
-        Entering text hunter2 in password
-        Entering text AzureDiamond in username
-        Clicking on login
-        Clicking on new email
-        In contents entering text:
-        Hey guys,
+        RUNNING Email sent in /path/to/working/example.story ... Load web page at /login
+        Put hunter2 in name
+        Put AzureDiamond in name
+        Click on login
+        Click on new email
+        Put Hey guys,
 
         I think I got hacked!
-
-
-        Entering text Cthon98@aol.com in to
-        Clicking on send email
-        Email was sent
+         in name
+        Put Cthon98@aol.com in name
+        Click on send email
+        Check email was sent!
         SUCCESS in 0.1 seconds.

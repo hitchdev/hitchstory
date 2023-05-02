@@ -226,6 +226,9 @@ class Engine(BaseEngine):
         command = self.python("-m", "pytest", *shlex.split(args))\
             .in_dir(self.path.state)
     
+        if env:
+            command = command.with_env(**env)
+    
         if expect_failure:
             command = command.ignore_errors()
         result_output = command.output()

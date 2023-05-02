@@ -159,8 +159,7 @@ Using hitchstory with pytest:
 
             test_other.py:15: StoryFailure
             ----------------------------- Captured stdout call -----------------------------
-
-            Visiting http://localhost:5000/login
+            Load web page at /login
             =========================== short test summary info ============================
             FAILED test_other.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
 
