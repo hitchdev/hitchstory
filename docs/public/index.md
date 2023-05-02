@@ -152,6 +152,7 @@ How to use the different features of the story engine:
 - [Hiding stacktraces for expected exceptions](using/engine/expected-exceptions)
 - [Given preconditions](using/engine/given)
 - [Gradual typing of story steps](using/engine/gradual-typing)
+- [Match two JSON snippets](using/engine/match-json)
 - [Match two strings and show diff on failure](using/engine/match-two-strings)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/engine/metadata)
 - [Story with parameters](using/engine/parameterized-stories)

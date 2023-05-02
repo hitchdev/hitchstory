@@ -148,6 +148,7 @@ How to use the different features of the story engine:
 - [Hiding stacktraces for expected exceptions](https://hitchdev.com/hitchstory/using/engine/expected-exceptions)
 - [Given preconditions](https://hitchdev.com/hitchstory/using/engine/given)
 - [Gradual typing of story steps](https://hitchdev.com/hitchstory/using/engine/gradual-typing)
+- [Match two JSON snippets](https://hitchdev.com/hitchstory/using/engine/match-json)
 - [Match two strings and show diff on failure](https://hitchdev.com/hitchstory/using/engine/match-two-strings)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/engine/metadata)
 - [Story with parameters](https://hitchdev.com/hitchstory/using/engine/parameterized-stories)
