@@ -9,7 +9,7 @@ The specific complaint was that it was being used as an integration testing
 framework rather than a tool for "communicating with the business" and that everything
 except the high level "business requirements" should be abstracted away.
 
-Hitchstory takes a different approach and recommends using it as an integration testing framework *primarily* and use [documentation generation tools](../../using/generate-documentation) to produce documentation from that, where necessary, that is of an appropriate level of detail for stakeholders.
+Hitchstory takes a different approach and recommends using it as an integration testing framework *primarily* and use [documentation generation tools](../../using/documentation/generate) to produce documentation from that, where necessary, that is of an appropriate level of detail for stakeholders.
 
 This is because:
 
@@ -25,6 +25,4 @@ This is because:
 
 Nonetheless, despite all of this, the Cucumber people were on to something - there is a tight relationship between documentation and specification.
 
-HitchStory takes the view that all behavior should be specified by a user story, along with any appropriate metadata. It takes the 
-approach that documentation that is fit for stakeholders should be *generated* and the specifics and the levels of detail in that
-documentation should be up to the developer.
+HitchStory takes the view that all behavior should be specified by a user story, along with any appropriate metadata and that documentation should be generated.
