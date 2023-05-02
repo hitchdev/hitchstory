@@ -140,17 +140,22 @@ $ pip install hitchstory
 
 ## Using HitchStory: Setup
 
+Skeleton set up with example stories:
+
 - [Creating a basic command line test runner](https://hitchdev.com/hitchstory/using/setup/basic-cli)
 - [Using hitchstory with pytest](https://hitchdev.com/hitchstory/using/setup/pytest)
 
 
 ## Using HitchStory: Engine
 
+How to use the different features of the story engine:
+
 - [Hiding stacktraces for expected exceptions](https://hitchdev.com/hitchstory/using/engine/expected-exceptions)
 - [Given preconditions](https://hitchdev.com/hitchstory/using/engine/given)
 - [Gradual typing of story steps](https://hitchdev.com/hitchstory/using/engine/gradual-typing)
 - [Match two strings and show diff on failure](https://hitchdev.com/hitchstory/using/engine/match-two-strings)
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/engine/metadata)
+- [Story with parameters](https://hitchdev.com/hitchstory/using/engine/parameterized-stories)
 - [Story that rewrites itself](https://hitchdev.com/hitchstory/using/engine/rewrite-story)
 - [Raising a Failure exception to conceal the stacktrace](https://hitchdev.com/hitchstory/using/engine/special-failure-exception)
 - [Arguments to steps](https://hitchdev.com/hitchstory/using/engine/steps-and-step-arguments)
@@ -159,11 +164,15 @@ $ pip install hitchstory
 
 ## Using HitchStory: Documentation Generation
 
+How to autogenerate documentation from your tests:
+
 - [Generate documentation with extra variables and functions](https://hitchdev.com/hitchstory/using/documentation/extra)
 - [Generate documentation from story](https://hitchdev.com/hitchstory/using/documentation/generate)
 
 
 ## Using HitchStory: Inheritance
+
+Inheriting stories from each other:
 
 - [Inherit one story from another simply](https://hitchdev.com/hitchstory/using/inheritance/about)
 - [Story inheritance - given mapping preconditions overridden](https://hitchdev.com/hitchstory/using/inheritance/override-given-mapping)
@@ -175,20 +184,13 @@ $ pip install hitchstory
 
 ## Using HitchStory: Runner
 
+Running the stories in different ways:
+
 - [Continue on failure when playing multiple stories](https://hitchdev.com/hitchstory/using/runner/continue-on-failure)
 - [Flaky story detection](https://hitchdev.com/hitchstory/using/runner/flaky-story-detection)
 - [Play multiple stories in sequence](https://hitchdev.com/hitchstory/using/runner/play-multiple-stories-in-sequence)
 - [Run one story in collection](https://hitchdev.com/hitchstory/using/runner/run-just-one-story)
 - [Shortcut lookup for story names](https://hitchdev.com/hitchstory/using/runner/shortcut-lookup)
-
-
-## Using HitchStory
-
-- [Abort a story with ctrl-C](https://hitchdev.com/hitchstory/using/aborting)
-- [Upgrade breaking changes between v0.14 and v0.15](https://hitchdev.com/hitchstory/using/breaking-changes-between-v014-and-v015)
-- [Handling failing tests](https://hitchdev.com/hitchstory/using/failing-tests)
-- [Story with parameters](https://hitchdev.com/hitchstory/using/parameterized-stories)
-- [Running a single named story successfully](https://hitchdev.com/hitchstory/using/run-single-named-story)
 
 
 ## Approach to using HitchStory
@@ -227,9 +229,20 @@ Design decisions are justified here:
 
 ## Why not X instead?
 
-There are several tools you can use instead, this is why you should use this one instead:
+HitchStory is not the only integration testing framework.
+This is how it compares with the others:
 
 - [Why use Hitchstory instead of Behave, Lettuce or Cucumber (Gherkin)?](https://hitchdev.com/hitchstory/why-not/gherkin)
 - [Why not use the Robot Framework?](https://hitchdev.com/hitchstory/why-not/robot)
 - [Why use hitchstory instead of a unit testing framework?](https://hitchdev.com/hitchstory/why-not/unit-test)
+
+
+## Using HitchStory: Behavior
+
+Miscellaneous docs about behavior of the framework:
+
+- [Abort a story with ctrl-C](https://hitchdev.com/hitchstory/using/behavior/aborting)
+- [Upgrade breaking changes between v0.14 and v0.15](https://hitchdev.com/hitchstory/using/behavior/breaking-changes-between-v014-and-v015)
+- [Handling failing tests](https://hitchdev.com/hitchstory/using/behavior/failing-tests)
+- [Running a single named story successfully](https://hitchdev.com/hitchstory/using/behavior/run-single-named-story)
 

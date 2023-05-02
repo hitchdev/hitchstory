@@ -3,6 +3,12 @@ title: Story with parameters
 ---
 
 
+!!! warning "Experimental"
+
+    This feature is in alpha. The API may change on a minor version increment.
+
+
+
 
 Parameterized stories are used to describe stories
 which are essentially the same except for one or more
