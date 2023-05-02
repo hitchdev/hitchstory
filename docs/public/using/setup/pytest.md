@@ -50,8 +50,6 @@ engine.py:
 ```python
 from hitchstory import BaseEngine, GivenDefinition, GivenProperty
 from hitchstory import Failure, strings_match
-from mockemailchecker import email_was_sent
-from mockselenium import Webdriver
 from strictyaml import Str
 
 class Engine(BaseEngine):
@@ -63,17 +61,14 @@ class Engine(BaseEngine):
         self._rewrite = rewrite
 
     def set_up(self):
-        self.driver = Webdriver()
-        self.driver.visit(
-            "http://localhost:5000{0}".format(self.given['website'])
-        )
+        print(f"Load web page at {self.given['website']}")
 
     def form_filled(self, **textboxes):
         for name, contents in sorted(textboxes.items()):
-            self.driver.fill_form(name, contents)
+            print(f"Put {contents} in name")
 
     def clicked(self, name):
-        self.driver.click(name)
+        print(f"Click on {name}")
     
     def failing_step(self):
         raise Failure("This was not supposed to happen")
@@ -84,10 +79,13 @@ class Engine(BaseEngine):
         try:
             strings_match(expected_message, actual_message)
         except Failure:
-            self.current_step.rewrite("expected_message").to(actual_message)
+            if self._rewrite:
+                self.current_step.rewrite("expected_message").to(actual_message)
+            else:
+                raise
 
     def email_was_sent(self):
-        email_was_sent()
+        print("Check email was sent!")
 ```
 failure.story:
 
@@ -265,8 +263,7 @@ E       [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
 
 test_other.py:15: StoryFailure
 ----------------------------- Captured stdout call -----------------------------
-
-Visiting http://localhost:5000/login
+Load web page at /login
 =========================== short test summary info ============================
 FAILED test_other.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
 
