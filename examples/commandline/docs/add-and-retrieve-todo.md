@@ -5,8 +5,6 @@ and then see that bread is on the list.
 
 
 
-* When `Enter your choice` appears.
-
 Should display:
 
 ```
@@ -20,11 +18,19 @@ Enter your choice:
 
 * When `1` is entered.
 
-* When `Enter a to-do item` appears.
+Should display:
+
+```
+To-do list:
+Options:
+1. Add item
+2. Remove item
+3. Quit
+Enter your choice: 1
+Enter a to-do item:
+```
 
 * When `Buy bread` is entered.
-
-* When `Buy bread` appears.
 
 Should display:
 

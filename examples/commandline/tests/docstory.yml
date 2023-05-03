@@ -14,7 +14,7 @@ steps:
     Should display:
   
     ```
-    {{ text }}
+    {{ expected_text }}
     ```
   enter text: |
     * When `{{ text }}` is entered.

@@ -8,8 +8,6 @@ instead of adding it to the to do list.
 
 
 
-* When `Enter your choice` appears.
-
 Should display:
 
 ```
@@ -23,13 +21,33 @@ Enter your choice:
 
 * When `1` is entered.
 
-* When `Enter a to-do item` appears.
+Should display:
+
+```
+To-do list:
+Options:
+1. Add item
+2. Remove item
+3. Quit
+Enter your choice: 1
+Enter a to-do item:
+```
 
 * When `biuy breod` is entered.
 
-* When `Did you mean "buy bread"?` appears.
+Should display:
 
-* When `Enter Y to confirm` appears.
+```
+To-do list:
+Options:
+1. Add item
+2. Remove item
+3. Quit
+Enter your choice: 1
+Enter a to-do item: biuy breod
+Did you mean "buy bread"?
+Enter Y to confirm, or any other key to re-enter:
+```
 
 * When `Y` is entered.
 
