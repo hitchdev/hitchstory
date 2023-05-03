@@ -1,5 +1,4 @@
-Dip your toe in the water with pytest:
-  docs: pytest/dip-your-toe-hitchstory
+Quickstart:
   about: |
     If you would like to dip your toe into the water
     with hitchstory integration tests, you can `pip install hitchstory`

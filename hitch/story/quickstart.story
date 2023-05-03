@@ -1,4 +1,4 @@
-Quickstart:
+Old quickstart:
   given:
     files:
       example.story: |
