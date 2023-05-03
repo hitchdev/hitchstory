@@ -24,12 +24,6 @@ It can be used to quickly and easily integration test and generate docs for any 
 $ pip install hitchstory
 ```
 
-## Using HitchStory: Setup
-
-Skeleton set up with example stories:
-
-{{{{ using-setup-contents.txt }}}}
-
 ## Using HitchStory: With Pytest
 
 If you already have pytest set up and running integration
@@ -79,6 +73,12 @@ HitchStory is not the only integration testing framework.
 This is how it compares with the others:
 
 {{{{ why-not-contents.txt }}}}
+
+## Using HitchStory: Setup on its own
+
+If you want to use HitchStory without pytest:
+
+{{{{ using-setup-contents.txt }}}}
 
 ## Using HitchStory: Behavior
 
