@@ -1,5 +1,6 @@
 *.kate-swp
 *.pyc
+.pytest_cache
 build/
 dist/
 hitchstory.egg-info/
