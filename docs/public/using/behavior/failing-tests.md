@@ -10,6 +10,8 @@ By default, a failing story will show:
 * A stack trace from engine.py where the exception was raised.
 
 
+# Example
+
 
 
 example.story:

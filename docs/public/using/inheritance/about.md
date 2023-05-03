@@ -20,6 +20,8 @@ for child stories and:
 * Add new steps.
 
 
+# Example
+
 
 
 example.story:

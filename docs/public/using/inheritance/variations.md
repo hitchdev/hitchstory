@@ -24,6 +24,8 @@ A story can have as many variations as you like, but a variation
 cannot have variations.
 
 
+# Example
+
 
 
 example.story:

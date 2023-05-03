@@ -15,6 +15,8 @@ It uses the popular [click](https://click.palletsprojects.com/)
 package to interpret command line arguments.
 
 
+# Example
+
 
 
 example.story:

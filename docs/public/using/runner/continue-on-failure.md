@@ -11,6 +11,8 @@ However, if your stories take a long time to run
 you may wish to continue after the first failure.
 
 
+# Example
+
 
 
 example1.story:

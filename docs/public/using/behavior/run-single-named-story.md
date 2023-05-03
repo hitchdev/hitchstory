@@ -8,6 +8,8 @@ How a story runs when it is successful - i.e. when no exception
 is raised during its run.
 
 
+# Example
+
 
 
 example.story:

@@ -8,6 +8,8 @@ If you have just one story in your collection,
 you can run it directly by using .one().
 
 
+# Example
+
 
 
 example.story:

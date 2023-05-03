@@ -1,18 +1,12 @@
 ---
-title: Using hitchstory with pytest
+title: Self rewriting tests with pytest and hitchstory
 ---
 
 
 
-If you already have pytest set up and a full
-suite of integration tests and would like to dip
-your toe in the water with hitchstory, you
-can easily run stories directly from inside pytest.
 
-The following files - engine.py, the .story files
-and the test_*.py files (pytest tests) can all be put
-in the same folder and they will run.
 
+# Example
 
 
 
@@ -289,6 +283,6 @@ FAILED test_other.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING
 !!! note "Executable specification"
 
     Documentation automatically generated from 
-    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/pytest.story">pytest.story
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/pytest-rewrite.story">pytest-rewrite.story
     storytests.</a>
 

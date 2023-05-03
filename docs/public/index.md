@@ -24,6 +24,8 @@ It can be used to quickly and easily integration test and generate docs for any 
 
 
 
+# Example
+
 
 
 example.story:
@@ -142,7 +144,15 @@ $ pip install hitchstory
 Skeleton set up with example stories:
 
 - [Creating a basic command line test runner](using/setup/basic-cli)
-- [Using hitchstory with pytest](using/setup/pytest)
+
+
+## Using HitchStory: With Pytest
+
+If you already have pytest set up and running integration
+tests, you can use it with hitchstory:
+
+- [Dip your toe in the water with pytest](using/pytest/dip-your-toe-hitchstory)
+- [Self rewriting tests with pytest and hitchstory](using/pytest/rewrite)
 
 
 ## Using HitchStory: Engine

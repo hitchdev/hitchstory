@@ -14,6 +14,8 @@ Using extra=, you can use additional functions and variables
 defined outside of the template.
 
 
+# Example
+
 
 
 example.story:

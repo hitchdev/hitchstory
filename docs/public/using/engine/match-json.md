@@ -13,6 +13,8 @@ instead then when it fails:
 * It will raise a Failure exception and avoid polluting the error message with the full stacktrace.
 
 
+# Example
+
 
 
 example.story:

@@ -16,6 +16,8 @@ NOTE: This feature has a bug, avoid using inheritance and
 parameterization together for now.
 
 
+# Example
+
 
 
 example.story:

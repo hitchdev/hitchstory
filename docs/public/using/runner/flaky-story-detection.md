@@ -26,6 +26,8 @@ fails consistently is considered passed, whereas a story that is run 99 times an
 is considered a failure.
 
 
+# Example
+
 
 
 example1.story:

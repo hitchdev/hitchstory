@@ -21,6 +21,8 @@ and feature names as metadata on a story and filter stories
 to play by JIRA ticket number.
 
 
+# Example
+
 
 
 example.story:
