@@ -70,4 +70,5 @@
 /using/failing-tests: /using/behavior/failing-tests
 /using/aborting: /using/behavior/aborting
 
-/using/setup/pytest: /using/pytest/dip-your-toe-hitchstory
+/using/setup/pytest: /using/pytest/
+/using/pytest/dip-your-toe-hitchstory: /using/pytest
