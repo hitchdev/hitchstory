@@ -10,6 +10,8 @@ story: |
 
   {{ about }}
 
+  # Example
+
   {% for name, property in given.items() %}
   {{ property.documentation() }}
   {% endfor %}
@@ -140,3 +142,6 @@ steps:
     ```
     {{ will_output }}
     ```
+
+  run python: |
+    

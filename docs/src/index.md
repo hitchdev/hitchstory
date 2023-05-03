@@ -29,6 +29,13 @@ Skeleton set up with example stories:
 
 {{{{ using-setup-contents.txt }}}}
 
+## Using HitchStory: With Pytest
+
+If you already have pytest set up and running integration
+tests, you can use it with hitchstory:
+
+{{{{ using-pytest-contents.txt }}}}
+
 ## Using HitchStory: Engine
 
 How to use the different features of the story engine:
