@@ -30,48 +30,6 @@ See James' analytics:
   following steps:
   - Click: analytics
 ```
-engine.py:
-
-```python
-from hitchstory import BaseEngine, GivenDefinition, GivenProperty
-from hitchstory import Failure, strings_match
-from strictyaml import Str
-
-class Engine(BaseEngine):
-    given_definition = GivenDefinition(
-        website=GivenProperty(Str()),
-    )
-    
-    def __init__(self, rewrite=False):
-        self._rewrite = rewrite
-
-    def set_up(self):
-        print(f"Load web page at {self.given['website']}")
-
-    def form_filled(self, **textboxes):
-        for name, contents in sorted(textboxes.items()):
-            print(f"Put {contents} in name")
-
-    def clicked(self, name):
-        print(f"Click on {name}")
-    
-    def failing_step(self):
-        raise Failure("This was not supposed to happen")
-    
-    def error_message_displayed(self, expected_message):
-        """Demonstrates steps that can rewrite themselves."""
-        actual_message = "error message!"
-        try:
-            strings_match(expected_message, actual_message)
-        except Failure:
-            if self._rewrite:
-                self.current_step.rewrite("expected_message").to(actual_message)
-            else:
-                raise
-
-    def email_was_sent(self):
-        print("Check email was sent!")
-```
 test_hitchstory.py:
 
 ```python
@@ -217,6 +175,6 @@ FAILED test_hitchstory.py::test_see_james_analytics - hitchstory.exceptions.Stor
 !!! note "Executable specification"
 
     Documentation automatically generated from 
-    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/pytest.story">pytest.story
+    <a href="https://github.com/hitchdev/hitchstory/blob/master/hitch/story/pytest-dip-toe.story">pytest-dip-toe.story
     storytests.</a>
 
