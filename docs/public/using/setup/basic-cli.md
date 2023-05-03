@@ -9,7 +9,7 @@ being run via a command line runner. It can be directly
 copied and pasted.
 
 If you prefer to run tests from within an existing testing
-framework (e.g. pytest), see more on [how to do that here](../pytest).
+framework (e.g. pytest), see more on [how to do that here](../../pytest/dip-your-toe-hitchstory).
 
 It uses the popular [click](https://click.palletsprojects.com/)
 package to interpret command line arguments.
