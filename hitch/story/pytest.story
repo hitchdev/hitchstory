@@ -1,5 +1,5 @@
 Dip your toe in the water with pytest:
-  docs: setup/pytest/dip-your-toe-hitchstory
+  docs: pytest/dip-your-toe-hitchstory
   based on: quickstart
   about: |
     If you would like to dip your toe into the water
