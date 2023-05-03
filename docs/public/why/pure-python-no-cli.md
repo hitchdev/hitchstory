@@ -2,9 +2,8 @@
 title: Why does HitchStory have no CLI runner - only a pure python API?
 ---
 
-Most testing frameworks bundle a command line runner. For example,
-with pytest you run the "pytest" command on the command line
-followed by a set of switches. E.g.
+HitchStory aims to be usable as both as a self-contained library running
+within pytest or on its own.
 
 ```bash
 pytest -s -k tests/test_linking.py
@@ -29,7 +28,7 @@ If you just want to dip your toe in the water - you can try writing a few
 tests with hitchstory which run within your existing testing framework
 (e.g. pytest) and reuse all of the tooling surrounding it.
 
-An example of this is [documented here](../../using/setup/pytest).
+An example of this is [documented here](../../using/pytest/dip-your-toe-hitchstory).
 
 
 ## 3. For complex testing the flexibility of a Python API is more valuable

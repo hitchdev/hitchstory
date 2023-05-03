@@ -69,3 +69,5 @@
 /using/run-single-named-story: /using/behavior/run-single-named-story
 /using/failing-tests: /using/behavior/failing-tests
 /using/aborting: /using/behavior/aborting
+
+/using/setup/pytest: /using/pytest/dip-your-toe-hitchstory
