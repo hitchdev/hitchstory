@@ -3,35 +3,23 @@ title: Why does HitchStory have no CLI runner - only a pure python API?
 ---
 
 HitchStory aims to be usable as both as a self-contained library running
-within pytest or on its own.
+within pytest or on its own via a custom made runner.
 
-```bash
-pytest -s -k tests/test_linking.py
-```
-
-HitchStory provides just a pure python API, leaving the developer to re-use
-an existing command line runner like [the skeleton default documented here](../../using/setup/basic-cli) or build their own.
-
-There are three main reasons for this:
+There are three reasons for this:
 
 
-## 1. A command runner can still be copy and pasted
+## 1. Easy integration with pytest
 
-If you want a simple command line template to run hitchstory
-tests you can copy and paste the example.
+Most people already use pytest as a test runner. The pure python
+API makes it easy to integrate hitchstory with it.
 
+## 2. It's still easy to create a command line runner if you like
 
-
-## 2. Trivial to embed within existing test framework
-
-If you just want to dip your toe in the water - you can try writing a few
-tests with hitchstory which run within your existing testing framework
-(e.g. pytest) and reuse all of the tooling surrounding it.
-
-An example of this is [documented here](../../using/pytest/dip-your-toe-hitchstory).
+The [the skeleton runner is documented here](../../using/setup/basic-cli)
+if you'd prefer not to use pytest.
 
 
-## 3. For complex testing the flexibility of a Python API is more valuable
+## 2. For complex test strategies the flexibility of a Python API is very valuable
 
 After dogfooding this framework for a long while, I have come to realize that
 the requirements for running tests vary significantly and usually require
@@ -43,5 +31,5 @@ unique customization on a project specific basis. Examples include:
 * Orchestrating the tests from a different machine to the machine that the tests are run on, for parallelization purposes.
 
 Some of these things can be achieved by writing bash scripts or plugins,
-but the freedom 
+but python still gives you more options to customize.
 
