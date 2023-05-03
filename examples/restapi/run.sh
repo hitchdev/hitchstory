@@ -39,7 +39,7 @@ case "$1" in
                 podman volume create $GEN_VOLUME_NAME
                 ;;
             *)
-                echo "Invalid clean target. ./key.sh clean [all]"
+                echo "Invalid clean target. ./run.sh clean [all]"
                 exit 1
                 ;;
         esac
@@ -67,7 +67,7 @@ case "$1" in
                 hitchrun "/gen/venv/bin/pip-compile hitch/hitchreqs.in -o hitch/hitchreqs.txt"
                 ;;
             *)
-                echo "Invalid make target. ./key.sh make [all|gen|pylibrarytoolkit]"
+                echo "Invalid make target. ./run.sh make [all|gen|pylibrarytoolkit]"
                 exit 1
                 ;;
             esac
