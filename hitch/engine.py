@@ -1,11 +1,10 @@
-from hitchstory import StoryCollection, BaseEngine, validate
+from hitchstory import StoryCollection, BaseEngine, validate, Failure
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
 from strictyaml import EmptyDict, Str, Map, Optional, Enum, MapPattern, Bool
-from hitchstory import no_stacktrace_for
+from hitchstory import no_stacktrace_for, strings_match
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from commandlib import Command
 from commandlib.exceptions import CommandExitError
-from templex import Templex
 from path import Path
 import colorama
 import shlex
@@ -129,8 +128,8 @@ class Engine(BaseEngine):
 
         if will_output is not None:
             try:
-                Templex(will_output).assert_match(actual_output)
-            except AssertionError:
+                strings_match(will_output, actual_output)
+            except Failure:
                 if self._rewrite:
                     self.current_step.rewrite("will_output").to(actual_output)
                 else:
@@ -145,8 +144,8 @@ class Engine(BaseEngine):
                 exception_message = self._story_friendly_output(
                     result.exception.message
                 )
-                Templex(message).assert_match(exception_message)
-            except AssertionError:
+                strings_match(message, exception_message)
+            except Failure:
                 if self._rewrite:
                     new_raises = raises.copy()
                     new_raises["message"] = exception_message
@@ -176,8 +175,8 @@ class Engine(BaseEngine):
             ]
         )
         try:
-            Templex(contents.strip()).assert_match(file_contents)
-        except AssertionError:
+            strings_match(contents.strip(), file_contents)
+        except Failure:
             if self._rewrite:
                 self.current_step.update(contents=file_contents)
             else:
@@ -190,7 +189,8 @@ class Engine(BaseEngine):
 
     @no_stacktrace_for(FileNotFoundError)
     def output_is(self, expected_contents):
-        Templex(self.path.working.joinpath("output.txt").text()).assert_match(
+        strings_match(
+            self.path.working.joinpath("output.txt").text(),
             expected_contents
         )
         self.path.working.joinpath("output.txt").remove()
@@ -215,8 +215,8 @@ class Engine(BaseEngine):
         actual_output = self._story_friendly_output(result_output)
 
         try:
-            Templex(will_output).assert_match(actual_output)
-        except AssertionError:
+            strings_match(will_output, actual_output)
+        except Failure:
             if self._rewrite:
                 self.current_step.rewrite("will_output").to(actual_output)
             else:
@@ -238,8 +238,8 @@ class Engine(BaseEngine):
         actual_output = self._story_friendly_output(result_output)
 
         try:
-            Templex(will_output).assert_match(actual_output)
-        except AssertionError:
+            strings_match(will_output, actual_output)
+        except Failure:
             if self._rewrite:
                 self.current_step.rewrite("will_output").to(actual_output)
             else:
