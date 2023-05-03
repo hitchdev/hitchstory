@@ -78,9 +78,7 @@ Quickstart:
   variations:
     Run log in as James test:
       about: |
-        This runs "test_log_in_as_james", a pytestified version of "Log in as James".
-        
-        -s allows you to see the printed output.
+        This runs "test_log_in_as_james", a pytestified version of "Log in as James" while -s (don't capture output) lets you see the results of running the steps.
       steps:
       - pytest:
           args: -s test_hitchstory.py -k test_log_in_as_james
@@ -100,7 +98,7 @@ Quickstart:
 
     Run failing test:
       about: |
-        Failing tests look like this but with highlighting and more colorful.
+        Failing tests have highlighting and colors when run for real.
       steps:
       - pytest:
           expect failure: yes
