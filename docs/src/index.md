@@ -1,6 +1,9 @@
 {{{{ intro.txt }}}}
 
-HitchStory is a [StrictYAML](why/strictyaml) based python integration testing framework where the tests can [rewrite themselves](why/rewrite) and [write your docs](approach/triality).
+HitchStory is a [StrictYAML](why/strictyaml) based python integration testing library
+that runs in pytest.
+
+With it, you can write [integration tests that rewrite themselves](why/rewrite) and [tests that write your docs](approach/triality):
 
 [![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](https://vimeo.com/822561823 "Test rewriting itself")
 
@@ -11,8 +14,6 @@ It can be used to quickly and easily integration test and generate docs for any 
 * [A REST API](https://github.com/hitchdev/hitchstory/tree/master/examples/restapi)
 * [A Python API](https://github.com/hitchdev/hitchstory/tree/master/examples/pythonapi)
 
-
-## Example
 
 {{{{ quickstart.txt }}}}
 
