@@ -217,13 +217,6 @@ button analytics not found
 $ pip install hitchstory
 ```
 
-## Using HitchStory: Setup
-
-Skeleton set up with example stories:
-
-- [Creating a basic command line test runner](using/setup/basic-cli)
-
-
 ## Using HitchStory: With Pytest
 
 If you already have pytest set up and running integration
@@ -322,6 +315,13 @@ This is how it compares with the others:
 - [Why use Hitchstory instead of Behave, Lettuce or Cucumber (Gherkin)?](why-not/gherkin)
 - [Why not use the Robot Framework?](why-not/robot)
 - [Why use hitchstory instead of a unit testing framework?](why-not/unit-test)
+
+
+## Using HitchStory: Setup on its own
+
+If you want to use HitchStory without pytest:
+
+- [Creating a basic command line test runner](using/setup/basic-cli)
 
 
 ## Using HitchStory: Behavior
