@@ -54,7 +54,7 @@ jobs:
       - name: regression test commandline
         run: |
           cd examples/commandline
-          ./run.sh regression
+          ./run.sh pytest
 
           
       # TIntegration test Python API
