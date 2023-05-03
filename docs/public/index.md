@@ -115,15 +115,13 @@ collection.with_external_test_runner().ordered_by_name().add_pytests_to(
 
 ## Run log in as James test
 
-This runs "test_log_in_as_james", a pytestified version of "Log in as James".
-
--s allows you to see the printed output.
+This runs "test_log_in_as_james", a pytestified version of "Log in as James" while -s (don't capture output) lets you see the results of running the steps.
 
 
 
 
 
-Running: `pytest -s test_hitchstory.py -k test_log_in_as_james`
+`pytest -s test_hitchstory.py -k test_log_in_as_james`
 
 Outputs:
 ```
@@ -144,13 +142,13 @@ Click on log in
 
 ## Run failing test
 
-Failing tests look like this but with highlighting and more colorful.
+Failing tests have highlighting and colors when run for real.
 
 
 
 
 
-Running: `pytest -k test_see_james_analytics test_hitchstory.py`
+`pytest -k test_see_james_analytics test_hitchstory.py`
 
 Outputs:
 ```

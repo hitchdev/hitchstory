@@ -156,7 +156,7 @@ This runs the two tests in test_integration.py.
 
 
 
-Running: `pytest test_integration.py`
+`pytest test_integration.py`
 
 Outputs:
 ```
@@ -183,7 +183,7 @@ is test_rewritable in test_other.py:
 
 
 
-Running: `REWRITE=yes pytest -k test_rewritable test_other.py`
+`REWRITE=yes pytest -k test_rewritable test_other.py`
 
 Outputs:
 ```
@@ -226,7 +226,7 @@ if this is run on the command line.
 
 
 
-Running: `pytest -k test_failure test_other.py`
+`pytest -k test_failure test_other.py`
 
 Outputs:
 ```
