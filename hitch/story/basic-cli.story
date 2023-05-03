@@ -7,7 +7,7 @@ Creating a basic command line test runner:
     copied and pasted.
 
     If you prefer to run tests from within an existing testing
-    framework (e.g. pytest), see more on [how to do that here](../pytest).
+    framework (e.g. pytest), see more on [how to do that here](../../pytest/dip-your-toe-hitchstory).
 
     It uses the popular [click](https://click.palletsprojects.com/)
     package to interpret command line arguments.
