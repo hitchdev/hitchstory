@@ -25,45 +25,45 @@ jobs:
       - name: build restapi
         run: |
           cd examples/restapi
-          ./key.sh make
+          ./run.sh make
 
       - name: regression test restapi
         run: |
           cd examples/restapi
-          ./key.sh regression
+          ./run.sh regression
 
 
       # Integration test Website
       - name: build website
         run: |
           cd examples/website
-          ./key.sh make
+          ./run.sh make
 
       - name: regression test website
         run: |
           cd examples/website
-          ./key.sh regression
+          ./run.sh regression
 
 
       # Integration test interactive Command Line
       - name: build command line
         run: |
           cd examples/commandline
-          ./key.sh make
+          ./run.sh make
 
       - name: regression test commandline
         run: |
           cd examples/commandline
-          ./key.sh regression
+          ./run.sh regression
 
           
       # TIntegration test Python API
       - name: build python api
         run: |
           cd examples/pythonapi
-          ./key.sh make
+          ./run.sh make
 
       - name: regression test python api
         run: |
           cd examples/pythonapi
-          ./key.sh regression
+          ./run.sh regression
