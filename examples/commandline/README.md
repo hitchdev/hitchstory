@@ -22,16 +22,15 @@ tests need to run in an isolated environment for each of the respective projects
 ## Run all tests
 
 ```
-$ ./run.sh regression
+$ ./run.sh pytest
 ```
 
 ## Run a single test
 
-This command can be used to craft a new feature and do
-acceptance test driven development on it:
+This runs "Add and retrieve todo" from `story/add-todo.story`:
 
 ```
-$ ./run.sh atdd correct
+$ ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
 "correct" is a unique keyword used in the name of one of the stories.
@@ -39,10 +38,10 @@ $ ./run.sh atdd correct
 ## Run singular test in rewrite mode
 
 If you tweak the wordings in the command line app and run this, it will
-update the story accordingly.
+update the story:
 
 ```
-$ ./run.sh ratdd correct
+$ REWRITE=yes ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
 ## Generate documentation from stories

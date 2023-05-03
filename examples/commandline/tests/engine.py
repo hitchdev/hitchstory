@@ -3,17 +3,18 @@ from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoPrope
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
 from icommandlib import ICommand, IProcessTimeout
 from commandlib import Command
-from path import Path
+from pathlib import Path
+
+PROJECT_DIRECTORY = Path(__file__).absolute().parents[0].parent
 
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
 
-    def __init__(self, paths, rewrite=False):
-        self._path = paths
+    def __init__(self, rewrite=False):
         self._cmd = Command(
             "podman", "run", "-it", "-v", "/src/app:/app", "app"
-        ).in_dir(self._path.project)
+        ).in_dir(PROJECT_DIRECTORY)
         self._rewrite = rewrite
 
     def set_up(self):

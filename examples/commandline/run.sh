@@ -15,6 +15,7 @@ hitchrun() {
         --network host \
         -v $PROJECT_DIR:/src \
         -v $GEN_VOLUME_NAME:/gen \
+        -e REWRITE=$REWRITE \
         --workdir /src \
         $IMAGE_NAME \
         $1
@@ -53,7 +54,7 @@ case "$1" in
                 fi
                 podman build -f hitch/Dockerfile-hitch -t $IMAGE_NAME $PROJECT_DIR
                 hitchrun "virtualenv --python=python3 /gen/venv"
-                hitchrun "/gen/venv/bin/pip install setuptools-rust"
+                #hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
                 hitchrun "/gen/venv/bin/python hitch/runner.py build"
                 ;;
@@ -72,11 +73,18 @@ case "$1" in
                 ;;
             esac
         ;;
+    "pytest")
+        hitchrun "/gen/venv/bin/pytest $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "docgen")
+        hitchrun "/gen/venv/bin/python tests/docgen.py"
+        ;;
     "bash")
         hitchrun "bash"
         ;;
     *)
-        hitchrun "/gen/venv/bin/python hitch/runner.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
+        echo "Invalid command"
+        exit 1
         ;; 
 esac
 
