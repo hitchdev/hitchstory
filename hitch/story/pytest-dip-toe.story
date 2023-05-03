@@ -17,7 +17,7 @@ Dip your toe in the water with pytest:
               password: password
           - Click: log in
           
-        See James' analytics:
+        See James analytics:
           based on: log in as james  # inheritance
           following steps:
           - Click: analytics
@@ -25,9 +25,9 @@ Dip your toe in the water with pytest:
         from hitchstory import BaseEngine, GivenDefinition, GivenProperty
         from hitchstory import Failure, strings_match
         from hitchstory import StoryCollection
-        from pathlib import Path
         from strictyaml import Str
-        import os
+        from pathlib import Path
+        from os import getenv
 
         class Engine(BaseEngine):
             """Interprets and validates the hitchstory stories."""
@@ -56,21 +56,29 @@ Dip your toe in the water with pytest:
                 pass
 
 
-        hs = StoryCollection(
+        collection = StoryCollection(
             # All *.story files in test_hitchstory.py's directory
             Path(__file__).parent.glob("*.story"),
             
             # If REWRITE environment variable is set to yes -> rewrite mode.
-            Engine(rewrite=os.getenv("REWRITE", "") == "yes")
-        ).with_external_test_runner()
+            Engine(rewrite=getenv("REWRITE", "no") == "yes")
+        )
 
-        def test_log_in_as_james():
-            hs.named("Log in as james").play()
+        #Create pytests that run stories manually:
+        #def test_log_in_as_james():
+        #    collection.named("Log in as james").play()
 
-        def test_see_james_analytics():
-            hs.named("See James' analytics").play()
+        #def test_see_james_analytics():
+        #    collection.named("See James analytics").play()
+
+        # Dynamically stories as tests.
+        # E.g. "Log in as James" -> "def test_login_in_as_james"
+        collection.with_external_test_runner().ordered_by_name().add_pytests_to(
+            module=__import__(__name__) # This module
+        )
   variations:
     The log in test passes:
+      about:
       replacement steps:
       - pytest:
           args: -k test_log_in_as_james test_hitchstory.py
@@ -100,9 +108,11 @@ Dip your toe in the water with pytest:
             =================================== FAILURES ===================================
             ___________________________ test_see_james_analytics ___________________________
 
-                def test_see_james_analytics():
-            >       hs.named("See James' analytics").play()
-            E       hitchstory.exceptions.StoryFailure: RUNNING See James' analytics in /path/to/example.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+            story = Story('see-james-analytics')
+
+                def hitchstory(story=story):
+            >       story.play()
+            E       hitchstory.exceptions.StoryFailure: RUNNING See James analytics in /path/to/example.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
             E
             E       [[ BLUE ]]      based on: log in as james  # inheritance
             E             following steps:
@@ -115,7 +125,7 @@ Dip your toe in the water with pytest:
             E           [[ RESET ALL ]]
             E       [[ RED ]]button analytics not found[[ RESET FORE ]]
 
-            test_hitchstory.py:47: StoryFailure
+            /src/hitchstory/story_list.py:46: StoryFailure
             ----------------------------- Captured stdout call -----------------------------
             Using browser firefox
             Enter james in username
@@ -123,7 +133,7 @@ Dip your toe in the water with pytest:
             Click on log in
             Click on analytics
             =========================== short test summary info ============================
-            FAILED test_hitchstory.py::test_see_james_analytics - hitchstory.exceptions.StoryFailure: RUNNING See James' analytics in /path/to/example.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+            FAILED test_hitchstory.py::test_see_james_analytics - hitchstory.exceptions.StoryFailure: RUNNING See James analytics in /path/to/example.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
 
             [[ BLUE ]]      based on: log in as james  # inheritance
                   following steps:

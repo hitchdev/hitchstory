@@ -320,7 +320,9 @@ class Story(object):
 
         if not passed and self._collection._external_test_runner:
             raise exceptions.StoryFailure(self._collection._output_handle.getvalue())
-        return result
+
+        if not self._collection._external_test_runner:
+            return result
 
     def documentation(self):
         """Generate textual documentation from story."""

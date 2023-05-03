@@ -4,6 +4,7 @@ from strictyaml import EmptyDict, Str, Map, Optional, Enum, MapPattern, Bool
 from hitchstory import no_stacktrace_for
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
 from commandlib import Command
+from commandlib.exceptions import CommandExitError
 from templex import Templex
 from path import Path
 import colorama
@@ -221,6 +222,7 @@ class Engine(BaseEngine):
             else:
                 raise
     
+    @no_stacktrace_for(CommandExitError)
     @validate(expect_failure=Bool(), env=EmptyDict() | MapPattern(Str(), Str()))
     def pytest(self, args, will_output, env=None, expect_failure=False):
         command = self.python("-m", "pytest", *shlex.split(args))\

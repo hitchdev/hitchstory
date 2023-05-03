@@ -35,6 +35,24 @@ class StoryList(object):
             print("No stories found")
         return results
 
+    def add_pytests_to(self, module):
+        # Add check that module is indeed a module
+
+        if len(self._stories) > 0:
+            for story in self._stories:
+                pytest_name = "test_{}".format(story.slug.replace("-", "_"))
+
+                def hitchstory(story=story):
+                    story.play()
+
+                setattr(
+                    module,
+                    pytest_name,
+                    hitchstory,
+                )
+        else:
+            raise NotImplementedError("When there are zero stories")
+
     def __len__(self):
         return len(self._stories)
 
