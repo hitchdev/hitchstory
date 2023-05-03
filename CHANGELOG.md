@@ -1,6 +1,16 @@
 # Changelog
 
 
+### 0.20.1
+
+* FEATURE : Matchers have better validation.
+
+
+### 0.20.0
+
+* FEATURE : Match JSON snippets.
+
+
 ### 0.19.0
 
 * FEATURE : Added convenience method to match two strings.
