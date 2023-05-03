@@ -1,5 +1,6 @@
 from hitchstory.result import ResultList
 from hitchstory.story import Story
+from types import ModuleType
 from copy import copy
 
 
@@ -36,7 +37,10 @@ class StoryList(object):
         return results
 
     def add_pytests_to(self, module):
-        # Add check that module is indeed a module
+        if not isinstance(module, ModuleType):
+            raise exceptions.HitchStoryException(
+                "add_pytests_to must be used with a module."
+            )
 
         if len(self._stories) > 0:
             for story in self._stories:
@@ -51,7 +55,10 @@ class StoryList(object):
                     hitchstory,
                 )
         else:
-            raise NotImplementedError("When there are zero stories")
+            raise exceptions.HitchStoryException((
+                "The StoryList you are trying to turn into pytest tests "
+                "has zero stories in it."
+            ))
 
     def __len__(self):
         return len(self._stories)

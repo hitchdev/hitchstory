@@ -125,7 +125,7 @@ Dip your toe in the water with pytest:
             E           [[ RESET ALL ]]
             E       [[ RED ]]button analytics not found[[ RESET FORE ]]
 
-            /src/hitchstory/story_list.py:46: StoryFailure
+            /src/hitchstory/story_list.py:50: StoryFailure
             ----------------------------- Captured stdout call -----------------------------
             Using browser firefox
             Enter james in username
