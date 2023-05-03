@@ -1,9 +1,4 @@
 Quickstart:
-  about: |
-    If you would like to dip your toe into the water
-    with hitchstory integration tests, you can `pip install hitchstory`
-    and copy and paste the following two files below into a test folder:
-
   given:
     files:
       example.story: |
@@ -32,7 +27,10 @@ Quickstart:
             """Interprets and validates the hitchstory stories."""
 
             given_definition = GivenDefinition(
-                browser=GivenProperty(Str()),
+                browser=GivenProperty(
+                    # Available validators: https://hitchdev.com/strictyaml/using/
+                    Str()
+                ),
             )
             
             def __init__(self, rewrite=False):
@@ -56,43 +54,54 @@ Quickstart:
 
 
         collection = StoryCollection(
-            # All *.story files in test_hitchstory.py's directory
+            # All .story files in this file's directory.
             Path(__file__).parent.glob("*.story"),
-            
-            # If REWRITE environment variable is set to yes -> rewrite mode.
-            Engine(rewrite=getenv("REWRITE", "no") == "yes")
+
+            Engine(
+                # If REWRITE environment variable is set to yes -> rewrite mode.
+                rewrite=getenv("REWRITE", "no") == "yes"
+            )
         )
 
-        #Create pytests that run stories manually:
+        #Manually run stories within pytest tests
         #def test_log_in_as_james():
         #    collection.named("Log in as james").play()
 
         #def test_see_james_analytics():
         #    collection.named("See James analytics").play()
 
-        # Dynamically stories as tests.
+        # Automagically add all stories as tests.
         # E.g. "Log in as James" -> "def test_login_in_as_james"
         collection.with_external_test_runner().ordered_by_name().add_pytests_to(
             module=__import__(__name__) # This module
         )
   variations:
-    The log in test passes:
-      about:
-      replacement steps:
+    Run log in as James test:
+      about: |
+        This runs "test_log_in_as_james", a pytestified version of "Log in as James".
+        
+        -s allows you to see the printed output.
+      steps:
       - pytest:
-          args: -k test_log_in_as_james test_hitchstory.py
+          args: -s test_hitchstory.py -k test_log_in_as_james
           will output: |-
             ============================= test session starts ==============================
             platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
             rootdir: /path/to
             collected 2 items / 1 deselected / 1 selected
 
-            test_hitchstory.py .                                                     [100%]
+            test_hitchstory.py Using browser firefox
+            Enter james in username
+            Enter password in password
+            Click on log in
+            .
 
             ======================= 1 passed, 1 deselected in 0.1s ========================
 
-    See James' analytics test fails:
-      replacement steps:
+    Run failing test:
+      about: |
+        Failing tests look like this but with highlighting and more colorful.
+      steps:
       - pytest:
           expect failure: yes
           args: -k test_see_james_analytics test_hitchstory.py
@@ -111,18 +120,18 @@ Quickstart:
 
                 def hitchstory(story=story):
             >       story.play()
-            E       hitchstory.exceptions.StoryFailure: RUNNING See James analytics in /path/to/example.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+            E       hitchstory.exceptions.StoryFailure: RUNNING See James analytics in /path/to/example.story ... FAILED in 0.1 seconds.
             E
-            E       [[ BLUE ]]      based on: log in as james  # inheritance
+            E             based on: log in as james  # inheritance
             E             following steps:
-            E           [[ BRIGHT ]]  - Click: analytics[[ NORMAL ]]
-            E           [[ RESET ALL ]]
+            E             - Click: analytics
             E
-            E       [[ RED ]][[ BRIGHT ]]hitchstory.exceptions.Failure[[ RESET ALL ]]
-            E         [[ DIM ]][[ RED ]]
+            E
+            E       hitchstory.exceptions.Failure
+            E
             E           Test failed.
-            E           [[ RESET ALL ]]
-            E       [[ RED ]]button analytics not found[[ RESET FORE ]]
+            E
+            E       button analytics not found
 
             /src/hitchstory/story_list.py:50: StoryFailure
             ----------------------------- Captured stdout call -----------------------------
@@ -132,16 +141,16 @@ Quickstart:
             Click on log in
             Click on analytics
             =========================== short test summary info ============================
-            FAILED test_hitchstory.py::test_see_james_analytics - hitchstory.exceptions.StoryFailure: RUNNING See James analytics in /path/to/example.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+            FAILED test_hitchstory.py::test_see_james_analytics - hitchstory.exceptions.StoryFailure: RUNNING See James analytics in /path/to/example.story ... FAILED in 0.1 seconds.
 
-            [[ BLUE ]]      based on: log in as james  # inheritance
+                  based on: log in as james  # inheritance
                   following steps:
-                [[ BRIGHT ]]  - Click: analytics[[ NORMAL ]]
-                [[ RESET ALL ]]
+                  - Click: analytics
 
-            [[ RED ]][[ BRIGHT ]]hitchstory.exceptions.Failure[[ RESET ALL ]]
-              [[ DIM ]][[ RED ]]
+
+            hitchstory.exceptions.Failure
+
                 Test failed.
-                [[ RESET ALL ]]
-            [[ RED ]]button analytics not found[[ RESET FORE ]]
+
+            button analytics not found
             ======================= 1 failed, 1 deselected in 0.1s ========================

@@ -54,35 +54,33 @@ Exception in special methods:
             message: |-
               Stacktrace:
 
-              [1]: function '[[ BRIGHT ]]on_success[[ RESET ALL ]]'
+              [1]: function 'on_success'
                 /path/to/working/engine.py
 
 
                       6 :
                       7 :     def on_success(self):
-                  --> [[ BRIGHT ]]8[[ RESET ALL ]] :         raise_example_exception()
+                  --> 8 :         raise_example_exception()
                       9 :
 
 
 
-              [2]: function '[[ BRIGHT ]]raise_example_exception[[ RESET ALL ]]'
+              [2]: function 'raise_example_exception'
                 /path/to/working/code_that_does_things.py
 
 
                       21 :
                       22 : def raise_example_exception(text=""):
-                  --> [[ BRIGHT ]]23[[ RESET ALL ]] :     raise ExampleException(text)
+                  --> 23 :     raise ExampleException(text)
                       24 :
 
 
 
-              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
-                [[ DIM ]][[ RED ]]
+              code_that_does_things.ExampleException
+
                   This is a demonstration exception docstring.
 
                   It spreads across multiple lines.
-                  [[ RESET ALL ]]
-              [[ RED ]][[ RESET FORE ]]
       - Tear down was run
 
     in on_failure:
@@ -109,35 +107,33 @@ Exception in special methods:
             message: |-
               Stacktrace:
 
-              [1]: function '[[ BRIGHT ]]on_failure[[ RESET ALL ]]'
+              [1]: function 'on_failure'
                 /path/to/working/engine.py
 
 
                       6 :
                       7 :     def on_failure(self, result):
-                  --> [[ BRIGHT ]]8[[ RESET ALL ]] :         raise_example_exception()
+                  --> 8 :         raise_example_exception()
                       9 :
 
 
 
-              [2]: function '[[ BRIGHT ]]raise_example_exception[[ RESET ALL ]]'
+              [2]: function 'raise_example_exception'
                 /path/to/working/code_that_does_things.py
 
 
                       21 :
                       22 : def raise_example_exception(text=""):
-                  --> [[ BRIGHT ]]23[[ RESET ALL ]] :     raise ExampleException(text)
+                  --> 23 :     raise ExampleException(text)
                       24 :
 
 
 
-              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
-                [[ DIM ]][[ RED ]]
+              code_that_does_things.ExampleException
+
                   This is a demonstration exception docstring.
 
                   It spreads across multiple lines.
-                  [[ RESET ALL ]]
-              [[ RED ]][[ RESET FORE ]]
       - Tear down was run
 
     in tear_down:
@@ -161,32 +157,30 @@ Exception in special methods:
             message: |-
               Stacktrace:
 
-              [1]: function '[[ BRIGHT ]]tear_down[[ RESET ALL ]]'
+              [1]: function 'tear_down'
                 /path/to/working/engine.py
 
 
                       6 :
                       7 :     def tear_down(self):
-                  --> [[ BRIGHT ]]8[[ RESET ALL ]] :         raise_example_exception()
+                  --> 8 :         raise_example_exception()
                       9 :
 
 
 
-              [2]: function '[[ BRIGHT ]]raise_example_exception[[ RESET ALL ]]'
+              [2]: function 'raise_example_exception'
                 /path/to/working/code_that_does_things.py
 
 
                       21 :
                       22 : def raise_example_exception(text=""):
-                  --> [[ BRIGHT ]]23[[ RESET ALL ]] :     raise ExampleException(text)
+                  --> 23 :     raise ExampleException(text)
                       24 :
 
 
 
-              [[ RED ]][[ BRIGHT ]]code_that_does_things.ExampleException[[ RESET ALL ]]
-                [[ DIM ]][[ RED ]]
+              code_that_does_things.ExampleException
+
                   This is a demonstration exception docstring.
 
                   It spreads across multiple lines.
-                  [[ RESET ALL ]]
-              [[ RED ]][[ RESET FORE ]]

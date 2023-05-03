@@ -5,10 +5,10 @@ Creating a basic command line test runner:
     This example demonstrates the stories in the README
     being run via a command line runner. It can be directly
     copied and pasted.
-    
+
     This is useful if you want to run the tests outside of
     pytest.
-    
+
     It uses the popular [click](https://click.palletsprojects.com/)
     package to interpret command line arguments.
   given:
@@ -82,7 +82,7 @@ Creating a basic command line test runner:
             Put Cthon98@aol.com in name
             Click on send email
             Check email was sent!
-            [[ GREEN ]]SUCCESS[[ RESET ALL ]] in 0.1 seconds.
+            SUCCESS in 0.1 seconds.
 
     Rewrite ATDD:
       about: Run a single test in rewrite mode.
@@ -102,7 +102,7 @@ Creating a basic command line test runner:
             Put Cthon98@aol.com in name
             Click on send email
             Check email was sent!
-            [[ GREEN ]]SUCCESS[[ RESET ALL ]] in 0.1 seconds.
+            SUCCESS in 0.1 seconds.
 
     Regression:
       about: Run all tests.
@@ -122,4 +122,4 @@ Creating a basic command line test runner:
             Put Cthon98@aol.com in name
             Click on send email
             Check email was sent!
-            [[ GREEN ]]SUCCESS[[ RESET ALL ]] in 0.1 seconds.
+            SUCCESS in 0.1 seconds.

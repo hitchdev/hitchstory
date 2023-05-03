@@ -135,33 +135,33 @@ Self rewriting tests with pytest and hitchstory:
 
                 def test_failure():
             >       hs.named("Failing story").play()
-            E       hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+            E       hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... FAILED in 0.1 seconds.
             E
-            E       [[ BLUE ]]        website: /login  # preconditions
+            E               website: /login  # preconditions
             E             steps:
-            E           [[ BRIGHT ]]  - Failing step[[ NORMAL ]]
-            E           [[ RESET ALL ]]
+            E             - Failing step
             E
-            E       [[ RED ]][[ BRIGHT ]]hitchstory.exceptions.Failure[[ RESET ALL ]]
-            E         [[ DIM ]][[ RED ]]
+            E
+            E       hitchstory.exceptions.Failure
+            E
             E           Test failed.
-            E           [[ RESET ALL ]]
-            E       [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
+            E
+            E       This was not supposed to happen
 
             test_other.py:15: StoryFailure
             ----------------------------- Captured stdout call -----------------------------
             Load web page at /login
             =========================== short test summary info ============================
-            FAILED test_other.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... [[ RED ]][[ BRIGHT ]]FAILED in 0.1 seconds.[[ RESET ALL ]]
+            FAILED test_other.py::test_failure - hitchstory.exceptions.StoryFailure: RUNNING Failing story in /path/to/failure.story ... FAILED in 0.1 seconds.
 
-            [[ BLUE ]]        website: /login  # preconditions
+                    website: /login  # preconditions
                   steps:
-                [[ BRIGHT ]]  - Failing step[[ NORMAL ]]
-                [[ RESET ALL ]]
+                  - Failing step
 
-            [[ RED ]][[ BRIGHT ]]hitchstory.exceptions.Failure[[ RESET ALL ]]
-              [[ DIM ]][[ RED ]]
+
+            hitchstory.exceptions.Failure
+
                 Test failed.
-                [[ RESET ALL ]]
-            [[ RED ]]This was not supposed to happen[[ RESET FORE ]]
+
+            This was not supposed to happen
             ======================= 1 failed, 1 deselected in 0.1s ========================
