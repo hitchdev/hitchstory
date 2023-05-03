@@ -6,7 +6,7 @@ from hitchstory import (
     no_stacktrace_for,
 )
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from hitchstory import Failure, strings_match
+from hitchstory import Failure, json_match
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
 from path import Path
 from shlex import split
@@ -76,7 +76,7 @@ class Engine(BaseEngine):
             )
 
         try:
-            strings_match(response_content, actual_response.text)
+            json_match(response_content, actual_response.text)
         except AssertionError:
             if self._rewrite:
                 self.current_step.rewrite("response_content").to(

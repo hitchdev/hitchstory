@@ -1,8 +1,8 @@
 hitchstory
 click
 ipython
-templex
 commandlib
 icommandlib
 requests
 pip-tools
+pytest

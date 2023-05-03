@@ -6,3 +6,4 @@ templex
 commandlib
 requests
 pip-tools
+pytest

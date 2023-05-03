@@ -33,12 +33,14 @@ executing==1.2.0
     # via stack-data
 hitchrunpy==0.11.3
     # via -r hitch/hitchreqs.in
-hitchstory==0.19.0
+hitchstory==0.21.0
     # via -r hitch/hitchreqs.in
 icommandlib==0.6.1
     # via hitchrunpy
 idna==3.4
     # via requests
+iniconfig==2.0.0
+    # via pytest
 ipython==8.12.0
     # via -r hitch/hitchreqs.in
 jedi==0.18.2
@@ -53,7 +55,9 @@ markupsafe==2.1.2
 matplotlib-inline==0.1.6
     # via ipython
 packaging==23.1
-    # via build
+    # via
+    #   build
+    #   pytest
 parso==0.8.3
     # via jedi
 path==16.6.0
@@ -69,6 +73,8 @@ pickleshare==0.7.5
     # via ipython
 pip-tools==6.13.0
     # via -r hitch/hitchreqs.in
+pluggy==1.0.0
+    # via pytest
 prettystack==0.4.0
     # via
     #   hitchrunpy
@@ -91,6 +97,8 @@ pyproject-hooks==1.0.0
     # via build
 pyte==0.8.1
     # via icommandlib
+pytest==7.3.1
+    # via -r hitch/hitchreqs.in
 python-dateutil==2.8.2
     # via strictyaml
 python-slugify==8.0.1

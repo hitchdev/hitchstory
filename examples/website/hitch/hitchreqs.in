@@ -1,13 +1,11 @@
-# Only dependencies
-
 hitchstory
 click
 ipython
-templex
 commandlib
 icommandlib
 requests
 pip-tools
+pytest
 
 # make sure version matches Dockerfile-playwright
 playwright

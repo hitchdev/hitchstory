@@ -10,7 +10,6 @@ from hitchstory import Failure, strings_match
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
 from path import Path
 from shlex import split
-from templex import Templex
 from commandlib import Command
 from icommandlib import ICommand
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
@@ -28,7 +27,6 @@ class Engine(BaseEngine):
     def set_up(self):
         self.python = Command("/gen/devenv/bin/python")
 
-    @no_stacktrace_for(AssertionError)
     @no_stacktrace_for(HitchRunPyException)
     @validate(
         code=Str(),
@@ -54,7 +52,7 @@ class Engine(BaseEngine):
                 strings_match(will_output, actual_output)
             except Failure:
                 if self._rewrite:
-                    self.current_step.update(will_output=actual_output)
+                    self.current_step.rewrite("will_output").to(actual_output)
                 else:
                     raise
 
@@ -64,12 +62,12 @@ class Engine(BaseEngine):
 
             try:
                 result.exception_was_raised(exception_type)
-                exception_message = result.exception.message
-                Templex(message).assert_match(exception_message)
-            except AssertionError:
+                actual_exception_message = result.exception.message
+                strings_match(message, actual_exception_message)
+            except Failure:
                 if self._rewrite:
                     new_raises = raises.copy()
-                    new_raises["message"] = exception_message
+                    new_raises["message"] = actual_exception_message
                     self.current_step.update(raises=new_raises)
                 else:
                     raise
