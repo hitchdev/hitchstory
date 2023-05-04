@@ -72,6 +72,12 @@ case "$1" in
                 ;;
             esac
         ;;
+    "pytest")
+        hitchrun "/gen/venv/bin/pytest $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "docgen")
+        hitchrun "/gen/venv/bin/python tests/docgen.py"
+        ;;
     "bash")
         hitchrun "bash"
         ;;

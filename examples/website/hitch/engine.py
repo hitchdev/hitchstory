@@ -15,6 +15,7 @@ import time
 from playwright.sync_api import sync_playwright, expect
 from slugify import slugify
 from video import convert_to_slow_gif
+from pathlib import Path
 
 # This lets IPython.embed play well with playwright
 # since they both run an event loop
@@ -22,6 +23,9 @@ import nest_asyncio
 
 nest_asyncio.apply()
 # Use __import__('IPython').embed()
+
+
+PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
 class App:
@@ -98,13 +102,9 @@ class Engine(BaseEngine):
         context=InfoProperty(schema=Str()),
     )
 
-    def __init__(self, paths, rewrite=False, recordings=False):
-        self._path = paths
-        self._recordings = recordings
+    def __init__(self, rewrite=False):
         self._rewrite = rewrite
-
-        self._podman = Command("podman").in_dir(self._path.project)
-
+        self._podman = Command("podman").in_dir(PROJECT_DIR)
         self._app = App(self._podman)
         self._playwright_server = PlaywrightServer(self._podman)
 
@@ -128,9 +128,9 @@ class Engine(BaseEngine):
         self._page.get_by_test_id(slugify(on)).click()
 
     def _screenshot(self):
-        if self._recordings:
+        if self._rewrite:
             self._page.screenshot(
-                path=self._path.project
+                path=PROJECT_DIR
                 / "docs"
                 / "{}-{}-{}.png".format(
                     self.story.slug,
@@ -162,14 +162,14 @@ class Engine(BaseEngine):
         """Run before teardown, only on failure."""
         if hasattr(self, "_page"):
             self._page.screenshot(
-                path=self._path.project / "docs" / "failure.png"
+                path=PROJECT_DIR / "docs" / "failure.png"
             )
-            self._path.project.joinpath("docs", "failure.html").write_text(
+            PROJECT_DIR.joinpath("docs", "failure.html").write_text(
                 self._page.content()
             )
             self._page.close()
             self._page.video.save_as(
-                self._path.project / "docs" / "failure.webm"
+                PROJECT_DIR / "docs" / "failure.webm"
             )
         if hasattr(self, "_app"):
             self._app.logs()
@@ -178,10 +178,8 @@ class Engine(BaseEngine):
         """Run before teardown, only on success."""
         self._page.close()
 
-        if self._recordings:
-            webm_path = self._path.project / "docs" / f"{self.story.slug}.webm"
-            self._page.video.save_as(webm_path)
-            convert_to_slow_gif(webm_path)
-
         if self._rewrite:
             self.new_story.save()
+            webm_path = PROJECT_DIR / "docs" / f"{self.story.slug}.webm"
+            self._page.video.save_as(webm_path)
+            convert_to_slow_gif(webm_path)

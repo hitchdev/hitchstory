@@ -42,7 +42,7 @@ jobs:
       - name: regression test website
         run: |
           cd examples/website
-          ./run.sh regression
+          ./run.sh pytest
 
 
       # Integration test interactive Command Line
