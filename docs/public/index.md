@@ -11,7 +11,7 @@ that runs in pytest.
 
 With it, you can write [integration tests that rewrite themselves](why/rewrite) and [tests that write your docs](approach/triality):
 
-[![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](https://vimeo.com/822561823 "Test rewriting itself")
+![Test rewriting itself](https://hitchdev-videos.netlify.app/rewrite-demo.gif)
 
 It can be used to quickly and easily integration test and generate docs for any kind of app. Examples:
 
