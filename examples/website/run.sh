@@ -55,13 +55,15 @@ case "$1" in
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/python tests/runner.py build"
+                hitchrun "podman build . -t app"
+                hitchrun "podman build -f tests/Dockerfile-playwright -t playwright"
                 ;;
             "gen")
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/python tests/runner.py build"
+                hitchrun "podman build . -t app"
+                hitchrun "podman build -f tests/Dockerfile-playwright -t playwright"
                 ;;
             "hitchreqs")
                 hitchrun "/gen/venv/bin/pip-compile tests/hitchreqs.in -o tests/hitchreqs.txt"
