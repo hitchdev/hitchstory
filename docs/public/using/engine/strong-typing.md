@@ -21,7 +21,7 @@ The validator decorator and schema parameters
 take all valid [StrictYAML validators](../../../../strictyaml/using).
 
 
-# Example
+# Code Example
 
 
 

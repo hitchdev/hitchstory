@@ -20,7 +20,7 @@ for child stories and:
 * Add new steps.
 
 
-# Example
+# Code Example
 
 
 

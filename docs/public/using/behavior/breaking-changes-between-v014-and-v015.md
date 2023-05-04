@@ -11,7 +11,7 @@ Version 0.15 contains two important breaking changes:
 * If parent stories have steps, child stories must specify either "replacement steps" or "following steps" instead of "steps".
 
 
-# Example
+# Code Example
 
 
 

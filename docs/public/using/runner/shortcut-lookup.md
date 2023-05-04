@@ -14,7 +14,7 @@ If you specify key words that match no stories or more than one
 story, an error is raised.
 
 
-# Example
+# Code Example
 
 
 

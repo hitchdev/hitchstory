@@ -19,7 +19,7 @@ The following example shows a browser precondition being used to set up
 a mock selenium object for a test that uses a browser.
 
 
-# Example
+# Code Example
 
 
 

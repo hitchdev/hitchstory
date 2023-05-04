@@ -15,7 +15,7 @@ This example shows a story being run in "rewrite" mode (where
 rewrite=True) is fed to the engine and in normal mode.
 
 
-# Example
+# Code Example
 
 
 

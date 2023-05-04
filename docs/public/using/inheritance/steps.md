@@ -11,7 +11,7 @@ Child stories that inherit from parent stories can have:
 * `steps:` (if the parent story has no steps of its own)
 
 
-# Example
+# Code Example
 
 
 

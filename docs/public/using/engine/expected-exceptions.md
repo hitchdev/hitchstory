@@ -14,7 +14,7 @@ See also:
 * [Compare two strings](../match-two-strings)
 
 
-# Example
+# Code Example
 
 
 

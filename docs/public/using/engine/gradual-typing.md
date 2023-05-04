@@ -17,7 +17,7 @@ apply validators as soon as possible.
 [See more about that here](../strong-typing).
 
 
-# Example
+# Code Example
 
 
 

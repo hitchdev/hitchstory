@@ -22,7 +22,7 @@ Parameters can be used in preconditions and in steps
 by surrounding the parameter name with (( brackets )).
 
 
-# Example
+# Code Example
 
 
 

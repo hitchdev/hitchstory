@@ -25,7 +25,7 @@ Real life examples:
 
 
 
-# Example
+# Code Example
 
 
 

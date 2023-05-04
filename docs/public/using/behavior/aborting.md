@@ -20,7 +20,7 @@ a series of stories, Ctrl-C should halt current execution,
 run tear_down and then not run any more stories.
 
 
-# Example
+# Code Example
 
 
 

@@ -12,7 +12,7 @@ By default hitchstory will stop when it sees its first
 failure. This behavior can be changed though.
 
 
-# Example
+# Code Example
 
 
 

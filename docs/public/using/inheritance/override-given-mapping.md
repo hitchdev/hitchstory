@@ -15,7 +15,7 @@ child stories with partial given preconditions in the
 form of mappings will override parent given preconditions.
 
 
-# Example
+# Code Example
 
 
 

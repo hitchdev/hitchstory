@@ -29,7 +29,7 @@ While markdown is the example given, in principle, any kind of text markup
 can be generated with the stories.
 
 
-# Example
+# Code Example
 
 
 

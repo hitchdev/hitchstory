@@ -15,7 +15,7 @@ In the following example the given url is changed from
 remains as firefox.
 
 
-# Example
+# Code Example
 
 
 

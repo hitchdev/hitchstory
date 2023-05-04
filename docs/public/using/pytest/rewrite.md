@@ -6,7 +6,7 @@ title: Self rewriting tests with pytest and hitchstory
 
 
 
-# Example
+# Code Example
 
 
 
