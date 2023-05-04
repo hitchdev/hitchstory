@@ -6,7 +6,7 @@ story: |
   ## Video
   
   <img 
-     src="../screenshots/{{ slug }}.gif?raw=1"
+     src="{{ slug }}.gif?raw=1"
      height="250px"
   />
   
@@ -35,7 +35,7 @@ steps:
     * When the website is loaded
     
     <img 
-      src="../screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png?raw=1"
+      src="{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png?raw=1"
       height="250px"
     />
 
@@ -53,6 +53,6 @@ steps:
     {% endif %}
     
     <img 
-      src="../screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png?raw=1"
+      src="{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png?raw=1"
       height="250px"
     />

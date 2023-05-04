@@ -7,7 +7,7 @@ but the application tries to correct the spelling.
 ## Video
 
 <img 
-   src="../screenshots/correct-my-spelling.gif?raw=1"
+   src="correct-my-spelling.gif?raw=1"
    height="250px"
 />
 
@@ -17,7 +17,7 @@ but the application tries to correct the spelling.
 * When the website is loaded
 
 <img 
-  src="../screenshots/correct-my-spelling-0-load_website.png?raw=1"
+  src="correct-my-spelling-0-load_website.png?raw=1"
   height="250px"
 />
 
@@ -30,7 +30,7 @@ but the application tries to correct the spelling.
 
 
 <img 
-  src="../screenshots/correct-my-spelling-3-should_appear.png?raw=1"
+  src="correct-my-spelling-3-should_appear.png?raw=1"
   height="250px"
 />
 
