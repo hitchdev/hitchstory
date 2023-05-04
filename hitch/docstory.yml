@@ -10,7 +10,7 @@ story: |
 
   {{ about }}
 
-  # Example
+  # Code Example
 
   {% for name, property in given.items() %}
   {{ property.documentation() }}
