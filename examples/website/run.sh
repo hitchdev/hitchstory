@@ -51,20 +51,20 @@ case "$1" in
                 if ! podman volume exists $GEN_VOLUME_NAME; then
                     podman volume create $GEN_VOLUME_NAME
                 fi
-                podman build -f hitch/Dockerfile-hitch -t $IMAGE_NAME $PROJECT_DIR
+                podman build -f tests/Dockerfile-hitch -t $IMAGE_NAME $PROJECT_DIR
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
-                hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/python hitch/runner.py build"
+                hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
+                hitchrun "/gen/venv/bin/python tests/runner.py build"
                 ;;
             "gen")
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
-                hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/python hitch/runner.py build"
+                hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
+                hitchrun "/gen/venv/bin/python tests/runner.py build"
                 ;;
             "hitchreqs")
-                hitchrun "/gen/venv/bin/pip-compile hitch/hitchreqs.in -o hitch/hitchreqs.txt"
+                hitchrun "/gen/venv/bin/pip-compile tests/hitchreqs.in -o tests/hitchreqs.txt"
                 ;;
             *)
                 echo "Invalid make target. ./run.sh make [all|gen|pylibrarytoolkit]"
@@ -82,7 +82,7 @@ case "$1" in
         hitchrun "bash"
         ;;
     *)
-        hitchrun "/gen/venv/bin/python hitch/runner.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
+        hitchrun "/gen/venv/bin/python tests/runner.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
         ;; 
 esac
 
