@@ -131,7 +131,7 @@ class Engine(BaseEngine):
         if self._recordings:
             self._page.screenshot(
                 path=self._path.project
-                / "screenshots"
+                / "docs"
                 / "{}-{}-{}.png".format(
                     self.story.slug,
                     self.current_step.index,
@@ -162,14 +162,14 @@ class Engine(BaseEngine):
         """Run before teardown, only on failure."""
         if hasattr(self, "_page"):
             self._page.screenshot(
-                path=self._path.project / "screenshots" / "failure.png"
+                path=self._path.project / "docs" / "failure.png"
             )
-            self._path.project.joinpath("screenshots", "failure.html").write_text(
+            self._path.project.joinpath("docs", "failure.html").write_text(
                 self._page.content()
             )
             self._page.close()
             self._page.video.save_as(
-                self._path.project / "screenshots" / "failure.webm"
+                self._path.project / "docs" / "failure.webm"
             )
         if hasattr(self, "_app"):
             self._app.logs()
@@ -179,7 +179,7 @@ class Engine(BaseEngine):
         self._page.close()
 
         if self._recordings:
-            webm_path = self._path.project / "screenshots" / f"{self.story.slug}.webm"
+            webm_path = self._path.project / "docs" / f"{self.story.slug}.webm"
             self._page.video.save_as(webm_path)
             convert_to_slow_gif(webm_path)
 
