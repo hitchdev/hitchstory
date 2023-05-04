@@ -41,7 +41,7 @@ If you tweak the wordings in the command line app and run this, it will
 update the story:
 
 ```
-$ REWRITE=yes ./run.sh pytest -k test_add_and_retrieve_todo
+$ STORYMODE=rewrite ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
 ## Generate documentation from stories
@@ -54,8 +54,7 @@ $ ./run.sh docgen
 
 ## Clean up everything
 
-When ./run.sh make is run on any of these 4 project, it will create one podman image and one volume
-each. This command cleans them both up:
+When ./run.sh make is run, it will create one podman image and volume. This command cleans them both up:
 
 ```
 $ ./run.sh clean all

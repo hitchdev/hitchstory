@@ -15,7 +15,7 @@ hitchrun() {
         --network host \
         -v $PROJECT_DIR:/src \
         -v $GEN_VOLUME_NAME:/gen \
-        -e REWRITE=$REWRITE \
+        -e STORYMODE=$STORYMODE \
         --workdir /src \
         $IMAGE_NAME \
         $1
