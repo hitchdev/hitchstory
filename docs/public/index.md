@@ -6,20 +6,20 @@ title: HitchStory
 
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
 
-HitchStory is a [StrictYAML](why/strictyaml) based python integration testing library
-that runs in pytest.
+HitchStory is a [StrictYAML](why/strictyaml) based integration testing library
+that runs in pytest. With it you can build:
 
-With it you can write integration tests that rewrite themselves:
-
-![Test rewriting itself](https://hitchdev-videos.netlify.app/rewrite-demo.gif)
-
-And tests that write your docs:
+Type-safe integration tests that **write your docs**:
 
 ![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
 
-Real life examples:
+Type-safe integration tests that **rewrite themselves**:
 
-* [A website](https://github.com/hitchdev/hitchstory/tree/master/examples/website)
+![Test rewriting itself](https://hitchdev-videos.netlify.app/rewrite-demo.gif)
+
+Example projects tested with hitchstory and pytest:
+
+* [A website (with playwright)](https://github.com/hitchdev/hitchstory/tree/master/examples/website)
 * [An interactive command line app](https://github.com/hitchdev/hitchstory/tree/master/examples/commandline)
 * [A REST API](https://github.com/hitchdev/hitchstory/tree/master/examples/restapi)
 * [A Python API](https://github.com/hitchdev/hitchstory/tree/master/examples/pythonapi)
