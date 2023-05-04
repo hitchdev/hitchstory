@@ -9,11 +9,15 @@ title: HitchStory
 HitchStory is a [StrictYAML](why/strictyaml) based python integration testing library
 that runs in pytest.
 
-With it, you can write [integration tests that rewrite themselves](why/rewrite) and [tests that write your docs](approach/triality):
+With it you can write integration tests that rewrite themselves:
 
 ![Test rewriting itself](https://hitchdev-videos.netlify.app/rewrite-demo.gif)
 
-It can be used to quickly and easily integration test and generate docs for any kind of app. Examples:
+And tests that write your docs:
+
+![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
+
+Real life examples:
 
 * [A website](https://github.com/hitchdev/hitchstory/tree/master/examples/website)
 * [An interactive command line app](https://github.com/hitchdev/hitchstory/tree/master/examples/commandline)
@@ -115,7 +119,7 @@ collection.with_external_test_runner().ordered_by_name().add_pytests_to(
 
 ## Run log in as James test
 
-This runs "test_log_in_as_james", a pytestified version of "Log in as James" while -s (don't capture output) lets you see the results of running the steps.
+test_log_in_as_james is created from the "Log in as James" story.
 
 
 
@@ -142,7 +146,7 @@ Click on log in
 
 ## Run failing test
 
-Failing tests have highlighting and colors when run for real.
+Failing tests also have colors and highlighting when run for real.
 
 
 
