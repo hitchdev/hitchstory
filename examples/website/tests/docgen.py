@@ -1,5 +1,5 @@
 from hitchstory import StoryCollection
-from engine import Engine
+from test_integration import Engine
 from pathlib import Path
 
 PROJECTDIR = Path(__file__).absolute().parents[0].parent
