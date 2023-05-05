@@ -55,9 +55,29 @@ $ ./run.sh docgen
 
 ## Clean up everything
 
-When ./run.sh make is run on any of these 4 project, it will create one podman image and one volume
-each. This command cleans them both up:
+Everything runs in one podman container and volume. This deletes them:
 
 ```
 $ ./run.sh clean all
 ```
+
+# Github Actions
+
+These integration tests are run via github actions on every push. See here:
+
+* [Github actions YAML](https://github.com/hitchdev/hitchstory/blob/master/.github/workflows/examples.yml)
+* [Runner](https://github.com/hitchdev/hitchstory/actions/workflows/examples.yml)
+
+# Architecture
+
+The tests in this project are run from a podman container and the REST API is run in a container run *inside* that container:
+
+```mermaid
+graph TD;
+    TestContainer-->AppContainer;
+```
+
+
+# Future tweaks to this project
+
+- [ ] Handle a REST API response which returns a different UUID each time it is called.

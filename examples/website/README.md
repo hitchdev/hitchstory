@@ -38,7 +38,7 @@ $ ./run.sh pytest -k test_add_and_retrieve_todo
 ## Run singular test in rewrite mode
 
 If you tweak the wordings in the command line app and run this, it will
-re-take the screenshots and re-take the GIF video recordings:
+re-take the screenshots and GIF video recordings:
 
 ```
 $ STORYMODE=rewrite ./run.sh pytest -k test_add_and_retrieve_todo
@@ -54,8 +54,33 @@ $ ./run.sh docgen
 
 ## Clean up everything
 
-When ./run.sh make is run, it will create one podman image and volume. This command cleans them both up:
+Everything runs in one podman container and volume. This deletes them:
 
 ```
 $ ./run.sh clean all
 ```
+
+# Github Actions
+
+These integration tests are run via github actions on every push. See here:
+
+* [Github actions YAML](https://github.com/hitchdev/hitchstory/blob/master/.github/workflows/examples.yml)
+* [Runner](https://github.com/hitchdev/hitchstory/actions/workflows/examples.yml)
+
+# Architecture
+
+The tests in this project are run from a podman container and the both the playwright container and the website are run in a container run *inside* that container:
+
+
+```mermaid
+graph TD;
+    TestsContainer-->AppContainer;
+    TestsContainer-->PlaywrightContainer;
+```
+
+
+# Future tweaks to this project
+
+- [ ] Integrate containerized postgres running with all of the apps, seeded with [given preconditions](https://hitchdev.com/hitchstory/using/given/).
+- [ ] Mock the passage of time with a step - implement reminders into the to do apps.
+- [ ] Demonstrate story inheritance (e.g. logging in story -> add todo).
