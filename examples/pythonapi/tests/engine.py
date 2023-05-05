@@ -1,31 +1,29 @@
-from hitchstory import (
-    StoryCollection,
-    BaseEngine,
-    exceptions,
-    validate,
-    no_stacktrace_for,
-)
+from hitchstory import StoryCollection, BaseEngine
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from hitchstory import Failure, strings_match
+from hitchstory import Failure, strings_match, no_stacktrace_for
+from hitchstory import exceptions, validate
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
-from path import Path
-from shlex import split
-from commandlib import Command
-from icommandlib import ICommand
 from hitchrunpy import ExamplePythonCode, HitchRunPyException
+from icommandlib import ICommand
+from commandlib import Command
+from pathlib import Path
+from shlex import split
 import requests
 import time
+
+PROJECT_DIR = Path(__file__).absolute().parents[0].parent
+
+GEN_DIRECTORY = Path("/gen")
 
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
 
-    def __init__(self, paths, rewrite=False):
-        self._path = paths
+    def __init__(self, rewrite=False):
         self._rewrite = rewrite
 
     def set_up(self):
-        self.python = Command("/gen/devenv/bin/python")
+        self.python = Command(f"{GEN_DIRECTORY}/devenv/bin/python")
 
     @no_stacktrace_for(HitchRunPyException)
     @validate(
@@ -35,9 +33,9 @@ class Engine(BaseEngine):
     )
     def run(self, code, will_output=None, raises=None):
         self.example_py_code = (
-            ExamplePythonCode(self.python, self._path.gen)
+            ExamplePythonCode(self.python, GEN_DIRECTORY)
             .with_terminal_size(160, 160)
-            .include_files(*self._path.project.joinpath("app").glob("*.py"))
+            .include_files(*PROJECT_DIR.joinpath("app").glob("*.py"))
         )
         to_run = self.example_py_code.with_code(code)
 

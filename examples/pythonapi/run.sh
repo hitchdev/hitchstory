@@ -54,15 +54,15 @@ case "$1" in
                 fi
                 podman build -f tests/Dockerfile-hitch -t $IMAGE_NAME $PROJECT_DIR
                 hitchrun "virtualenv --python=python3 /gen/venv"
-                #hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
-                hitchrun "podman build . -t app"
+                hitchrun "virtualenv /gen/devenv"
+                hitchrun "/gen/devenv/bin/pip install -r /src/requirements.txt"
                 ;;
             "gen")
                 hitchrun "virtualenv --python=python3 /gen/venv"
-                #hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
-                hitchrun "podman build . -t app"
+                hitchrun "virtualenv /gen/devenv"
+                hitchrun "/gen/devenv/bin/pip install -r /src/requirements.txt"
                 ;;
             "hitchreqs")
                 hitchrun "/gen/venv/bin/pip-compile tests/hitchreqs.in -o tests/hitchreqs.txt"
