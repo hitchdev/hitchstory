@@ -30,7 +30,7 @@ jobs:
       - name: regression test restapi
         run: |
           cd examples/restapi
-          ./run.sh regression
+          ./run.sh pytest
 
 
       # Integration test Website
