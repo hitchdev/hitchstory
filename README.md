@@ -4,17 +4,13 @@
 
 Type-safe [StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) integration tests run from pytest. They can:
 
-## Rewrite themselves from program output
+## Rewrite themselves from program output (command line app)
 
 ![Test rewriting itself](https://hitchdev-videos.netlify.app/rewrite-demo.gif)
 
-(with a command line app)
-
-## Autogenerate documentation about the app
+## Autogenerate documentation about the app (website)
 
 ![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
-
-(with a website)
 
 
 ## Demo projects with integration tests
