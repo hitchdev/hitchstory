@@ -11,19 +11,7 @@ Type-safe [StrictYAML](why/strictyaml) integration tests run with pytest that ca
 ![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
 
 
-## Example projects:
-
-* :
-** Using playwright.
-** Rewrites how-to docs with screenshots and video (see gif above).
-
-** Rewrites the test based upon the command line output (see gif above).
-** Rewrites markdown how to docs.
-
-* [A REST API](https://github.com/hitchdev/hitchstory/tree/master/examples/restapi):
-** 
-* 
-
+## Example projects 
 
 Project | Storytests | Engine / runner code | Doc template | Docs
 ---|---|---|---|---
