@@ -2,7 +2,7 @@
 
 [![Main branch status](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/regression.yml)
 
-Type-safe [StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) integration tests run with pytest that can:
+Type-safe [StrictYAML](https://hitchdev.com/hitchstory/why/strictyaml) integration tests run from pytest.
 
 ## Rewrite themselves from program output
 

@@ -6,7 +6,7 @@ title: HitchStory
 
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/hitchdev/hitchstory?style=social"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/hitchstory">
 
-Type-safe [StrictYAML](why/strictyaml) integration tests run with pytest that can:
+Type-safe [StrictYAML](why/strictyaml) integration tests run from pytest.
 
 ## Rewrite themselves from program output
 
