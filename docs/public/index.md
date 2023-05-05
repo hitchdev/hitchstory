@@ -12,9 +12,13 @@ Type-safe [StrictYAML](why/strictyaml) integration tests run from pytest.
 
 ![Test rewriting itself](https://hitchdev-videos.netlify.app/rewrite-demo.gif)
 
+(with a command line app)
+
 ## Autogenerate documentation about the app
 
 ![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
+
+(with a website)
 
 
 ## Example projects 
