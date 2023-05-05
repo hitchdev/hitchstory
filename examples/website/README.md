@@ -15,9 +15,8 @@ $ cd hitchstory/examples/website
 $ ./run.sh make
 ```
 
-!!! note "Everything is isolated"
-
-    Everything runs solely one podman container and volume.
+> **Note**
+> Everything runs solely one podman container and volume.
 
 
 ## Run all the tests
@@ -80,6 +79,7 @@ graph TD;
 
 # Future improvements to this project
 
-- [ ] Integrate containerized postgres running with all of the apps, seeded with [given preconditions](https://hitchdev.com/hitchstory/using/given/).
-- [ ] Mock the passage of time with a step - implement reminders into the to do apps.
+- [ ] Integrate containerized postgres running with all of the apps, seeded with data from given.
+- [ ] Mock the passage of time with a step - e.g. implement reminders into the to do apps.
 - [ ] Demonstrate story inheritance (e.g. logging in story -> add todo).
+- [ ] Some weird selectors specified in the story (hidden in the docs).
