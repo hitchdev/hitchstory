@@ -8,11 +8,14 @@ from hitchstory import (
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
 from hitchstory import Failure, json_match
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
-from path import Path
+from pathlib import Path
 from shlex import split
 from commandlib import Command
 import requests
 import time
+
+
+PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
 class App:
@@ -38,9 +41,8 @@ class App:
 class Engine(BaseEngine):
     """Python engine for running tests."""
 
-    def __init__(self, paths, rewrite=False):
-        self._path = paths
-        self._app = App(Command("podman").in_dir(self._path.project))
+    def __init__(self, rewrite=False):
+        self._app = App(Command("podman").in_dir(PROJECT_DIR))
         self._rewrite = rewrite
 
     def set_up(self):
