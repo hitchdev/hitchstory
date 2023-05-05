@@ -6,7 +6,7 @@ story: |
   
   {{ about }}
   
-  {% if "jiras" in info %}* {{ info["jiras"].documentation() }}{% endif %}
+  {% if "jiras" in info %}* Related JIRAS: {{ info["jiras"].documentation() }}{% endif %}
   
   ## Video
   
