@@ -16,12 +16,12 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v2
 
-      #- name: make containers work running on arm
+      #- name: enable arm containers
         #run: |
           #sudo apt-get update
           #sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
 
-      # Integration test REST API
+      # REST API Integration Tests
       - name: build restapi
         run: |
           cd examples/restapi
@@ -33,7 +33,7 @@ jobs:
           ./run.sh pytest
 
 
-      # Integration test Website
+      # Website Integration Tests
       - name: build website
         run: |
           cd examples/website
@@ -45,7 +45,7 @@ jobs:
           ./run.sh pytest
 
 
-      # Integration test interactive Command Line
+      # Interactive Command Line Integration Tests
       - name: build command line
         run: |
           cd examples/commandline
@@ -57,7 +57,7 @@ jobs:
           ./run.sh pytest
 
           
-      # TIntegration test Python API
+      # Python API Integration Tests
       - name: build python api
         run: |
           cd examples/pythonapi
