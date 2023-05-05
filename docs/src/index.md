@@ -1,6 +1,6 @@
 {{{{ intro.txt }}}}
 
-Type-safe [StrictYAML](why/strictyaml) integration tests run with pytest that can:
+Type-safe [StrictYAML](why/strictyaml) integration tests run from pytest.
 
 ## Rewrite themselves from program output
 

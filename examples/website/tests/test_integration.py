@@ -1,14 +1,19 @@
-from hitchstory import StoryCollection, BaseEngine
-from hitchstory import exceptions, validate
-from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
-from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
-from playwright.sync_api import expect
-from commandlib import Command, CommandError
+"""
+This module contains the:
+
+* Code that translates all of the YAML stories into pytest tests.
+* Story Engine that interprets and validates the steps.
+"""
+from hitchstory import BaseEngine, InfoDefinition, InfoProperty, StoryCollection
+from strictyaml import CommaSeparated, Str
 from podman import PlaywrightServer, App
+from playwright.sync_api import expect
 from video import convert_to_slow_gif
+from commandlib import Command
 from slugify import slugify
 from pathlib import Path
 from os import getenv
+
 import nest_asyncio
 
 nest_asyncio.apply()
@@ -17,26 +22,31 @@ PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
 class Engine(BaseEngine):
-    """Python engine for running tests."""
+    """Python engine for interpreting and validating stories."""
 
+    # Metadata about the stories
     info_definition = InfoDefinition(
         context=InfoProperty(schema=Str()),
+        jiras=InfoProperty(schema=CommaSeparated(Str())),
     )
 
     def __init__(self, rewrite=False):
+        """Initialize the engine"""
         self._rewrite = rewrite
         self._podman = Command("podman").in_dir(PROJECT_DIR)
         self._app = App(self._podman)
         self._playwright_server = PlaywrightServer(self._podman)
 
     def set_up(self):
-        """Set up all tests."""
+        """Run before running the tests."""
         self._podman("container", "rm", "--all").output()
         self._app.start()
         self._playwright_server.start()
         self._app.wait_until_ready()
         self._playwright_server.wait_until_ready()
         self._page = self._playwright_server.new_page()
+
+    ## STEPS
 
     def load_website(self):
         self._page.goto("http://localhost:5000")
@@ -70,17 +80,18 @@ class Engine(BaseEngine):
         self._screenshot()
 
     def pause(self):
+        """Special step that pauses a test."""
         __import__("IPython").embed()
 
     def tear_down(self):
-        """Tear down all tests"""
+        """Tear down all test."""
         if hasattr(self, "_playwright_server"):
             self._playwright_server.stop()
         if hasattr(self, "_app"):
             self._app.stop()
 
     def on_failure(self, result):
-        """Run before teardown, only on failure."""
+        """Run before teardown - save HTML, screenshot and video to docs."""
         if hasattr(self, "_page"):
             self._page.screenshot(path=PROJECT_DIR / "docs" / "failure.png")
             PROJECT_DIR.joinpath("docs", "failure.html").write_text(
@@ -102,11 +113,13 @@ class Engine(BaseEngine):
             convert_to_slow_gif(webm_path)
 
 
+# Grab all of the YAML stories from al the files in this directory
 collection = StoryCollection(
     Path(__file__).parent.parent.joinpath("story").glob("*.story"),
     Engine(rewrite=getenv("STORYMODE", "") == "rewrite"),
 )
 
+# Turn them into pytest tests
 collection.with_external_test_runner().ordered_by_name().add_pytests_to(
     module=__import__(__name__)  # This module
 )
