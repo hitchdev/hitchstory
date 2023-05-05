@@ -10,3 +10,4 @@ docs/src/using/
 temp/
 hitch/devenv.yml
 hitchpylibrarytoolkit
+failure.*
