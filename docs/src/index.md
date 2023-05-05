@@ -1,17 +1,17 @@
 {{{{ intro.txt }}}}
 
-HitchStory is a [StrictYAML](why/strictyaml) based integration testing library
-that runs in pytest. With it you can build:
+Type-safe [StrictYAML](why/strictyaml) integration tests run inside pytest that can:
 
-## Integration tests which generate their own documentation
-
-![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
-
-## Integration tests that rewrite themselves
+## Rewrite themselves from program output
 
 ![Test rewriting itself](https://hitchdev-videos.netlify.app/rewrite-demo.gif)
 
-## Example projects:
+## Generate documentation about your app
+
+![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
+
+
+## Example projects tested with hitchstory:
 
 * [A website (with playwright)](https://github.com/hitchdev/hitchstory/tree/master/examples/website)
 * [An interactive command line app](https://github.com/hitchdev/hitchstory/tree/master/examples/commandline)
