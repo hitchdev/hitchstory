@@ -1,7 +1,12 @@
+# These jinja2 templates translate stories
+# and story metadata into markdown
+
 story: |
   # {{ name }}
   
   {{ about }}
+  
+  {% if "jiras" in info %}* {{ info["jiras"].documentation() }}{% endif %}
   
   ## Video
   
@@ -30,6 +35,11 @@ info:
     ## Background context
     
     {{ context }}
+  jiras: |
+    {% for jira in jiras -%}
+    [{{ jira }}](https://myproject.jira.com/{{ jira }})
+    {%- if not loop.last %}, {% endif %}
+    {%- endfor %}
 steps:
   load website: |
     * When the website is loaded

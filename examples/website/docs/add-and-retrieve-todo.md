@@ -4,6 +4,8 @@ The user adds "buy bread" to the to do list
 and sees it showing up.
 
 
+* [FEATURE-341](https://myproject.jira.com/FEATURE-341), [FEATURE-441](https://myproject.jira.com/FEATURE-441)
+
 ## Video
 
 <img 

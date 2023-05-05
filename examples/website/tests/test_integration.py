@@ -24,7 +24,7 @@ PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 class Engine(BaseEngine):
     """Python engine for interpreting and validating stories."""
 
-    # Metadata about the stories
+    # Custom metadata about the stories
     info_definition = InfoDefinition(
         context=InfoProperty(schema=Str()),
         jiras=InfoProperty(schema=CommaSeparated(Str())),
