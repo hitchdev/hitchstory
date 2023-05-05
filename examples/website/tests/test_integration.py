@@ -5,7 +5,8 @@ This module contains the:
 * Story Engine that interprets and validates the steps.
 """
 from hitchstory import BaseEngine, InfoDefinition, InfoProperty, StoryCollection
-from strictyaml import CommaSeparated, Str
+from hitchstory import GivenDefinition, GivenProperty
+from strictyaml import CommaSeparated, Enum, Str
 from podman import PlaywrightServer, App
 from playwright.sync_api import expect
 from video import convert_to_slow_gif
@@ -25,9 +26,16 @@ class Engine(BaseEngine):
     """Python engine for interpreting and validating stories."""
 
     # Custom metadata about the stories
+    # See docs: https://hitchdev.com/hitchstory/using/engine/metadata/
     info_definition = InfoDefinition(
         context=InfoProperty(schema=Str()),
         jiras=InfoProperty(schema=CommaSeparated(Str())),
+    )
+    
+    # Preconditions
+    # See docs: https://hitchdev.com/hitchstory/using/engine/given/
+    given_definition = GivenDefinition(
+        browser=GivenProperty(schema=Enum(["firefox", "chromium", "webkit"]))
     )
 
     def __init__(self, rewrite=False):
@@ -44,7 +52,9 @@ class Engine(BaseEngine):
         self._playwright_server.start()
         self._app.wait_until_ready()
         self._playwright_server.wait_until_ready()
-        self._page = self._playwright_server.new_page()
+        self._page = self._playwright_server.new_page(
+            browser_type=self.given["browser"]
+        )
 
     ## STEPS
 

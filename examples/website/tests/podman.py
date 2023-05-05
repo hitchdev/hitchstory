@@ -58,9 +58,11 @@ class PlaywrightServer:
         except CommandError:
             pass
 
-    def new_page(self):
+    def new_page(self, browser_type="chromium"):
         self._playwright = sync_playwright().start()
-        self._browser = self._playwright.chromium.connect(self._ws).new_context(
+        self._browser = getattr(
+            self._playwright, browser_type
+        ).connect(self._ws).new_context(
             record_video_dir="videos/"
         )
         self._page = self._browser.new_page()

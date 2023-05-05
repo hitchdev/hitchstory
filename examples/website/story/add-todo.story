@@ -3,6 +3,8 @@ Add and retrieve todo:
     The user adds "buy bread" to the to do list
     and sees it showing up.
   jiras: FEATURE-341, FEATURE-441    # custom metadata
+  given:
+    browser: chromium
   steps:
   - load website
 
