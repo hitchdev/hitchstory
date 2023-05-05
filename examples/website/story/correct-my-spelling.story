@@ -3,7 +3,7 @@ Correct my spelling:
     The user tries to add "biuy breod" to the to do list
     but the application tries to correct the spelling.
 
-  # This is a custom attribute of the story - defined in engine.py
+  # This is a custom attribute of the story - validated by engine.py, used by docstory.yml
   context: |
     The website uses TextBlob (https://textblob.readthedocs.io/en/dev/)
     to detect misspellings and replies to the API with a suggestion
