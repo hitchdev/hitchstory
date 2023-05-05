@@ -15,11 +15,12 @@ $ cd hitchstory/examples/website
 $ ./run.sh make
 ```
 
-`./run.sh make` downloads and builds the container and python packages the
-tests need to run in an isolated environment for each of the respective projects.
+!!! note "Everything is isolated"
+
+    Everything runs solely one podman container and volume.
 
 
-## Run all tests
+## Run all the tests
 
 ```
 $ ./run.sh pytest
@@ -33,11 +34,9 @@ This runs "Add and retrieve todo" from `story/add-todo.story`:
 $ ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
-"correct" is a unique keyword used in the name of one of the stories.
-
 ## Run singular test in rewrite mode
 
-If you tweak the wordings in the command line app and run this, it will
+If you change some wordings in the command line app and run this, it will
 re-take the screenshots and GIF video recordings:
 
 ```
@@ -69,7 +68,7 @@ These integration tests are run via github actions on every push. See here:
 
 # Architecture
 
-The tests in this project are run from a podman container and the both the playwright container and the website are run in a container run *inside* that container:
+The tests in this project are run from a single podman container. The playwright container and the website are run in a container run *inside* that container:
 
 
 ```mermaid
@@ -79,7 +78,7 @@ graph TD;
 ```
 
 
-# Future tweaks to this project
+# Future improvements to this project
 
 - [ ] Integrate containerized postgres running with all of the apps, seeded with [given preconditions](https://hitchdev.com/hitchstory/using/given/).
 - [ ] Mock the passage of time with a step - implement reminders into the to do apps.
