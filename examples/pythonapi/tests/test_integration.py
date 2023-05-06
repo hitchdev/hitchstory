@@ -13,18 +13,21 @@ import requests
 import time
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
+
+# Generated/downloaded folder for use by the test - including a virtualenv
 GEN_DIRECTORY = Path("/gen")
 PYTHON_PATH = f"{GEN_DIRECTORY}/devenv/bin/python"
 
 
 class Engine(BaseEngine):
-    """Python engine for running tests."""
+    """Python engine for running integration tests."""
 
     def __init__(self, rewrite=False):
         self._rewrite = rewrite
+        self.python = Command(PYTHON_PATH)
 
     def set_up(self):
-        self.python = Command(PYTHON_PATH)
+        pass
 
     @no_stacktrace_for(HitchRunPyException)
     @validate(
@@ -33,6 +36,12 @@ class Engine(BaseEngine):
         raises=Map({"type": Str(), "message": Str()}),
     )
     def run(self, code, will_output=None, raises=None):
+        """
+        This engine has one step which runs a snippet of
+        python code in a virtual terminal window and expects
+        either an output (e.g. from print) or an exception to be
+        raised.
+        """
         self.example_py_code = (
             ExamplePythonCode(self.python, GEN_DIRECTORY)
             .with_terminal_size(160, 160)
