@@ -1,15 +1,14 @@
 Story that rewrites itself:
   docs: engine/rewrite-story
   about: |
-    Unlike every other integration testing framework, Hitch stories
-    can be rewritten according to the actual output of a program.
-
-    This lets you do rewrite acceptance test driven development (RATDD)
-    - where you change the code, autoregenerate the story and visually
-    inspect the new story to ensure it is correct.
-
-    This example shows a story being run in "rewrite" mode (where
-    rewrite=True) is fed to the engine and in normal mode.
+    These examples show how to build stories that rewrite themselves
+    from program output (in-test snapshot testing). This can be done
+    with 
+    
+    ```
+    self.current_step.rewrite("argument").to("new output")
+    ```
+    
   given:
     files:
       example.story: |
@@ -24,7 +23,7 @@ Story that rewrites itself:
               following steps:
                 - Run and get output:
                     command: cat mytext.txt
-                    will output: 
+                    will output: old value
       engine.py: |
         from hitchstory import BaseEngine
 
@@ -44,7 +43,7 @@ Story that rewrites itself:
       from pathlib import Path
       from engine import Engine
   variations:
-    Rewritten:
+    Story is rewritten when rewrite=True is used:
       steps:
       - Run:
           code: |
@@ -71,7 +70,7 @@ Story that rewrites itself:
                         hello
                         hello
 
-    No changes:
+    Story remains unchanged when rewrite=False is used instead:
       steps:
       - Run:
           code: |

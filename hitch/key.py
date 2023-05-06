@@ -56,6 +56,17 @@ def bdd(keywords):
 
 
 @cli.command()
+@argument("keywords", nargs=-1)
+def debug(keywords):
+    """
+    Run story with name containing keywords in debugging mode - with long timeouts.
+    """
+    _storybook(python_path=_devenv().python_path, timeout=300.0).shortcut(
+        *keywords
+    ).play()
+
+
+@cli.command()
 @argument("filename")
 def regressfile(filename):
     """

@@ -1,5 +1,6 @@
 from hitchstory.result import ResultList
 from hitchstory.story import Story
+from hitchstory import exceptions
 from types import ModuleType
 from copy import copy
 
@@ -55,10 +56,12 @@ class StoryList(object):
                     hitchstory,
                 )
         else:
-            raise exceptions.HitchStoryException((
-                "The StoryList you are trying to turn into pytest tests "
-                "has zero stories in it."
-            ))
+            raise exceptions.HitchStoryException(
+                (
+                    "The StoryList you are trying to turn into pytest tests "
+                    "has zero stories in it."
+                )
+            )
 
     def __len__(self):
         return len(self._stories)

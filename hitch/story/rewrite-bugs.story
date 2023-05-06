@@ -94,10 +94,10 @@ Rewrite single argument incorrect:
           /src/hitchstory/story_file.py
 
 
-                57 :                     step_to_update[self._step.name] = text
-                58 :                 else:
-            --> 59 :                     raise exceptions.RewriteFailure("x")
-                60 :             else:
+                64 :                     step_to_update[self._step.name] = text
+                65 :                 else:
+            --> 66 :                     raise exceptions.RewriteFailure(
+                67 :                         f"{key_to_update} doesn't exist, only {single_argument_name} exists."
 
 
 
@@ -105,4 +105,4 @@ Rewrite single argument incorrect:
 
             An error occurred when trying to rewrite a story.
 
-        x
+        will_output doesn't exist, only command exists.

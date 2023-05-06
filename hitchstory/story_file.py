@@ -11,7 +11,7 @@ class Rewriter(object):
         self._story = story
         self._step = step
         self._args = args
-        assert len(args) == 1
+        # assert len(args) == 1
 
     @property
     def updated_yaml(self):
@@ -22,7 +22,7 @@ class Rewriter(object):
         return self._story_file._updated_yaml
 
     def to(self, text):
-        key_to_update = self._args[0]
+        key_to_update = self._args[-1]
         if self._story.variation:
             variations = self.updated_yaml[self._story.based_on]["variations"]
 
@@ -36,9 +36,14 @@ class Rewriter(object):
                         self._step.name
                     ] = text
                 else:
-                    yaml_story[step_type][self._step.child_index][self._step.name][
-                        key_to_update
-                    ] = text
+                    yaml_step = yaml_story[step_type][self._step.child_index][
+                        self._step.name
+                    ]
+
+                    for subkey in self._args[:-1]:
+                        yaml_step = yaml_step[subkey]
+
+                    yaml_step[key_to_update] = text
             else:
                 yaml_story = variations[self._story.child_name]
                 step_type = _step_type(yaml_story)
@@ -46,20 +51,31 @@ class Rewriter(object):
                 if self._step.arguments.single_argument:
                     yaml_story[step_type][self._step.index][self._step.name] = text
                 else:
-                    yaml_story[step_type][self._step.index][self._step.name][
-                        key_to_update
-                    ] = text
+                    yaml_step = yaml_story[step_type][self._step.index][self._step.name]
+
+                    for subkey in self._args[:-1]:
+                        yaml_step = yaml_step[subkey]
+
+                    yaml_step[key_to_update] = text
         else:
             yaml_story = self.updated_yaml[self._story.name]
             step_to_update = yaml_story[_step_type(yaml_story)][self._step.index]
 
             if self._step.arguments.single_argument:
-                if key_to_update == self._step.step_method_obj.single_argument_name:
+                single_argument_name = self._step.step_method_obj.single_argument_name
+                if key_to_update == single_argument_name:
                     step_to_update[self._step.name] = text
                 else:
-                    raise exceptions.RewriteFailure("x")
+                    raise exceptions.RewriteFailure(
+                        f"'{key_to_update}' doesn't exist, only '{single_argument_name}' exists."
+                    )
             else:
-                step_to_update[self._step.name][key_to_update] = text
+                yaml_step = step_to_update[self._step.name]
+
+                for subkey in self._args[:-1]:
+                    yaml_step = yaml_step[subkey]
+
+                yaml_step[key_to_update] = text
 
 
 def _step_type(yaml_story):

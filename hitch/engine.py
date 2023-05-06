@@ -29,11 +29,12 @@ class Engine(BaseEngine):
         docs=InfoProperty(schema=Str()),
     )
 
-    def __init__(self, paths, python_path, rewrite=False, cprofile=False):
+    def __init__(self, paths, python_path, rewrite=False, cprofile=False, timeout=5.0):
         self.path = paths
         self._rewrite = rewrite
         self._python_path = python_path
         self._cprofile = cprofile
+        self._timeout = timeout
 
     def set_up(self):
         """Set up the environment ready to run the stories."""
@@ -111,7 +112,7 @@ class Engine(BaseEngine):
             .with_terminal_size(160, 160)
             .with_setup_code(self.given.get("setup", ""))
             .include_files(*self._included_files)
-            .with_timeout(5.0)
+            .with_timeout(self._timeout)
         )
         to_run = self.example_py_code.with_code(code)
 
