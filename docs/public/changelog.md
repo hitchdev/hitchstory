@@ -1,6 +1,11 @@
 # Changelog
 
 
+### 0.22.0
+
+* FEATURE : Rewriting subkeys of arguments now possible.
+
+
 ### 0.21.0
 
 * FEATURE : Added cleaner exceptions for the add pytests.
