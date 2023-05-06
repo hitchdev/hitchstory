@@ -74,7 +74,9 @@ class Engine(BaseEngine):
                 strings_match(message, actual_exception_message)
             except Failure:
                 if self._rewrite:
-                    self.current_step.rewrite("raises", "message").to(new_raises)
+                    self.current_step.rewrite("raises", "message").to(
+                        result.exception.message
+                    )
                 else:
                     raise
 
