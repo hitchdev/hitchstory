@@ -12,6 +12,7 @@ How to:
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](metadata)
 - [Story with parameters](parameterized-stories)
 - [Story that rewrites itself](rewrite-story)
+- [Story that rewrites the sub key of an argument](rewrite-subkey-of-argument)
 - [Raising a Failure exception to conceal the stacktrace](special-failure-exception)
 - [Arguments to steps](steps-and-step-arguments)
 - [Strong typing](strong-typing)

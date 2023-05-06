@@ -243,6 +243,7 @@ How to use the different features of the story engine:
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](https://hitchdev.com/hitchstory/using/engine/metadata)
 - [Story with parameters](https://hitchdev.com/hitchstory/using/engine/parameterized-stories)
 - [Story that rewrites itself](https://hitchdev.com/hitchstory/using/engine/rewrite-story)
+- [Story that rewrites the sub key of an argument](https://hitchdev.com/hitchstory/using/engine/rewrite-subkey-of-argument)
 - [Raising a Failure exception to conceal the stacktrace](https://hitchdev.com/hitchstory/using/engine/special-failure-exception)
 - [Arguments to steps](https://hitchdev.com/hitchstory/using/engine/steps-and-step-arguments)
 - [Strong typing](https://hitchdev.com/hitchstory/using/engine/strong-typing)

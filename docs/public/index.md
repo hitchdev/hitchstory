@@ -247,6 +247,7 @@ How to use the different features of the story engine:
 - [Extra story metadata - e.g. adding JIRA ticket numbers to stories](using/engine/metadata)
 - [Story with parameters](using/engine/parameterized-stories)
 - [Story that rewrites itself](using/engine/rewrite-story)
+- [Story that rewrites the sub key of an argument](using/engine/rewrite-subkey-of-argument)
 - [Raising a Failure exception to conceal the stacktrace](using/engine/special-failure-exception)
 - [Arguments to steps](using/engine/steps-and-step-arguments)
 - [Strong typing](using/engine/strong-typing)
