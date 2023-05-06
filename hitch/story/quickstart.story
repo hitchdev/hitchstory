@@ -1,10 +1,13 @@
 Quickstart:
+  about: |
+    Minimal example (two files) demonstrating two short YAML tests and the 
+    python code necessary to run them from within a pytest file.
   given:
     files:
       example.story: |
         Log in as James:
           given:
-            browser: firefox  # preconditions
+            browser: firefox  # test preconditions
           steps:
           - Enter text:
               username: james
@@ -12,7 +15,7 @@ Quickstart:
           - Click: log in
           
         See James analytics:
-          based on: log in as james  # inheritance
+          based on: log in as james  # test inheritance
           following steps:
           - Click: analytics
       test_hitchstory.py: |
@@ -63,25 +66,25 @@ Quickstart:
             )
         )
 
-        #Manually run stories within pytest tests
+        #You can embed the stories in tests manually:
         #def test_log_in_as_james():
         #    collection.named("Log in as james").play()
 
         #def test_see_james_analytics():
         #    collection.named("See James analytics").play()
 
-        # Automagically add all stories as tests.
+        # Or autogenerate runnable tests from the YAML stories like so:
         # E.g. "Log in as James" -> "def test_login_in_as_james"
         collection.with_external_test_runner().ordered_by_name().add_pytests_to(
             module=__import__(__name__) # This module
         )
   variations:
-    Run log in as James test:
+    Run passing "log in as James" test:
       about: |
-        test_log_in_as_james is created from the "Log in as James" story.
+        Running test_log_in_as_james runs the "Log in as James" story.
       steps:
       - pytest:
-          args: -s test_hitchstory.py -k test_log_in_as_james
+          args: -s -k test_log_in_as_james
           will output: |-
             ============================= test session starts ==============================
             platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
@@ -96,13 +99,13 @@ Quickstart:
 
             ======================= 1 passed, 1 deselected in 0.1s ========================
 
-    Run failing test:
+    Run failing "see James' analytics" test:
       about: |
         Failing tests also have colors and highlighting when run for real.
       steps:
       - pytest:
           expect failure: yes
-          args: -k test_see_james_analytics test_hitchstory.py
+          args: -k test_see_james_analytics
           will output: |-
             ============================= test session starts ==============================
             platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
@@ -120,7 +123,7 @@ Quickstart:
             >       story.play()
             E       hitchstory.exceptions.StoryFailure: RUNNING See James analytics in /path/to/example.story ... FAILED in 0.1 seconds.
             E
-            E             based on: log in as james  # inheritance
+            E             based on: log in as james  # test inheritance
             E             following steps:
             E             - Click: analytics
             E
@@ -131,7 +134,7 @@ Quickstart:
             E
             E       button analytics not found
 
-            /src/hitchstory/story_list.py:50: StoryFailure
+            /src/hitchstory/story_list.py:51: StoryFailure
             ----------------------------- Captured stdout call -----------------------------
             Using browser firefox
             Enter james in username
@@ -141,7 +144,7 @@ Quickstart:
             =========================== short test summary info ============================
             FAILED test_hitchstory.py::test_see_james_analytics - hitchstory.exceptions.StoryFailure: RUNNING See James analytics in /path/to/example.story ... FAILED in 0.1 seconds.
 
-                  based on: log in as james  # inheritance
+                  based on: log in as james  # test inheritance
                   following steps:
                   - Click: analytics
 
