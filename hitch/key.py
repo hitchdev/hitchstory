@@ -9,7 +9,7 @@ toolkit = hitchpylibrarytoolkit.ProjectToolkitV2(
     "HitchStory",
     "hitchstory",
     "hitchdev/hitchstory",
-    image="![](sliced-cucumber.jpg)",
+    image="![](/images/hitchstory-splash.png)",
 )
 
 
