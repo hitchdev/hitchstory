@@ -65,7 +65,7 @@ You can then connect using your vnc client on `localhost:5901`.
 
 ## Kill test
 
-If a running test freezes, you can run this command to kill it:
+If a running test freezes, you can run this command to stop the container:
 
 ```
 $ ./run.sh kill

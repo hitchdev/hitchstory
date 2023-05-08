@@ -93,6 +93,10 @@ pyproject-hooks==1.0.0
 pyte==0.8.1
     # via icommandlib
 pytest==7.3.1
+    # via
+    #   -r tests/hitchreqs.in
+    #   pytest-split
+pytest-split==0.8.1
     # via -r tests/hitchreqs.in
 python-dateutil==2.8.2
     # via strictyaml

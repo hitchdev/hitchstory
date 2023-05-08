@@ -15,7 +15,6 @@ from playwright.sync_api import sync_playwright
 from slugify import slugify
 from pathlib import Path
 from os import getenv
-
 import nest_asyncio
 
 nest_asyncio.apply()
@@ -39,9 +38,10 @@ class Engine(BaseEngine):
         browser=GivenProperty(schema=Enum(["firefox", "chromium", "webkit"]))
     )
 
-    def __init__(self, rewrite=False, vnc=False):
+    def __init__(self, rewrite=False, vnc=False, timeout=10.0):
         """Initialize the engine"""
         self._rewrite = rewrite
+        self._timeout = int(timeout * 1000)
         self._compose = python_bin.podman_compose\
             .with_env(VNC="yes" if vnc else "no")\
             .in_dir(PROJECT_DIR)
@@ -56,10 +56,10 @@ class Engine(BaseEngine):
             record_video_dir="videos/"
         )
         self._page = self._browser.new_page()
-        self._page.set_default_navigation_timeout(10000)
-        self._page.set_default_timeout(10000)
+        self._page.set_default_navigation_timeout(self._timeout)
+        self._page.set_default_timeout(self._timeout)
 
-    ## STEPS
+    ## STEP METHODS
     def load_website(self):
         self._page.goto("http://localhost:5000")
         self._screenshot()
@@ -95,6 +95,7 @@ class Engine(BaseEngine):
         """Special step that pauses a test."""
         __import__("IPython").embed()
 
+    ## FINISHING UP
     def tear_down(self):
         """Tear down all test."""
         if hasattr(self, "_browser"):
@@ -126,12 +127,14 @@ class Engine(BaseEngine):
             convert_to_slow_gif(webm_path)
 
 
-# Grab all of the YAML stories from al the files in this directory
+
 collection = StoryCollection(
+    # Grab all *.story YAML files in this directory
     Path(__file__).parent.parent.joinpath("story").glob("*.story"),
     Engine(
         rewrite=getenv("STORYMODE", "") == "rewrite",
         vnc=getenv("STORYMODE", "") == "vnc",
+        timeout=10.0,
     ),
 )
 

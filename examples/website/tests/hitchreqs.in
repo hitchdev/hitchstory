@@ -4,6 +4,7 @@ commandlib
 icommandlib
 pip-tools
 pytest
+pytest-split
 podman-compose
 
 # Keep the same as the version in Dockerfile-playwright
