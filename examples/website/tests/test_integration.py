@@ -22,6 +22,22 @@ nest_asyncio.apply()
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
+class App:
+    def __init__(self, env):
+        self._podman = Command("podman").in_dir(PROJECT_DIR)
+        self._compose = python_bin.podman_compose.with_env(**env).in_dir(PROJECT_DIR)
+    
+    def start(self):
+        self._podman("volume", "rm", "src_db-data", "-f").output()
+        self._compose("run", "app", "migrate").output()
+        self._compose("up", "-d").output()
+    
+    def logs(self):
+        self._compose("logs").run()
+
+    def stop(self):
+        self._compose("down", "-t", "1").output()
+
 
 class Engine(BaseEngine):
     """
@@ -46,16 +62,16 @@ class Engine(BaseEngine):
         self._rewrite = rewrite
         self._vnc = vnc
         self._timeout = int(timeout * 1000)
-        self._compose = python_bin.podman_compose.with_env(
-            VNC="yes" if self._vnc else "no",
-            VNCSCREENSIZE=f"1024x768",
-            DBDATA="db-data",
-        ).in_dir(PROJECT_DIR)
+        self._app = App(
+            env={
+                "VNC": "yes" if self._vnc else "no",
+                "VNCSCREENSIZE": "1024x768",
+            }
+        )
 
     def set_up(self):
         """Run before running the tests."""
-        self._compose("run", "app", "migrate").output()
-        self._compose("up", "-d").output()
+        self._app.start()
         self._playwright = sync_playwright().start()
         self._browser = (
             getattr(self._playwright, self.given["browser"])
@@ -124,7 +140,7 @@ class Engine(BaseEngine):
             self._browser.close()
         if hasattr(self, "_playwright"):
             self._playwright.stop()
-        self._compose("down", "-t", "1").output()
+        self._app.stop()
 
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs on failure."""
@@ -137,8 +153,8 @@ class Engine(BaseEngine):
             )
             self._page.close()
             self._page.video.save_as(PROJECT_DIR / "docs" / "failure.webm")
-        if hasattr(self, "_compose"):
-            self._compose("logs").run()
+        if hasattr(self, "_app"):
+            self._app.logs()
 
     def on_success(self):
         """Run before teardown, only on success."""
