@@ -37,7 +37,7 @@ class PlaywrightServer:
     def __init__(self, podman, vnc=False):
         self._podman = podman
         self._ws = None
-        self._vnc = False
+        self._vnc = vnc
 
     def start(self):
         cmd = [
