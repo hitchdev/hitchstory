@@ -14,3 +14,5 @@ services:
       dockerfile: Dockerfile
     image: app
     network_mode: host
+    volumes:
+    - /src/app:/app

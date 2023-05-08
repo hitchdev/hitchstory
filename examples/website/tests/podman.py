@@ -1,5 +1,27 @@
-from commandlib import CommandError
+from commandlib import CommandError, Command, python_bin
 from playwright.sync_api import sync_playwright
+from pathlib import Path
+
+PROJECT_DIR = Path(__file__).absolute().parents[0].parent
+
+
+class Compose:
+    """Run and interact with services."""
+    def __init__(self):
+        self._cmd = python_bin.podman_compose.in_dir(PROJECT_DIR)
+    
+    def start(self):
+        self._cmd("up", "-d").run()
+    
+    def logs(self):
+        try:
+            self._cmd("logs").run()
+        except CommandError:
+            pass
+    
+    def stop(self):
+        self._cmd("down", "-t", "1").run()
+    
 
 
 class App:
