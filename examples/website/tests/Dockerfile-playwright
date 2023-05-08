@@ -3,7 +3,7 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tightvncserver netcat
 WORKDIR /root
 RUN npm install playwright@1.32.0 && ./node_modules/.bin/playwright install
-COPY playwright-entrypoint.sh /entrypoint.sh
+COPY tests/playwright-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 CMD ["/entrypoint.sh"]

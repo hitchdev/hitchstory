@@ -1,7 +1,8 @@
 FROM python:3.8-slim-buster
 
-RUN pip install flask textblob
+RUN pip install django
 
 ADD app/ /app
+WORKDIR /app
 
-ENTRYPOINT ["python", "/app/api.py"]
+ENTRYPOINT ["python", "manage.py"]

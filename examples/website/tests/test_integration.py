@@ -49,10 +49,12 @@ class Engine(BaseEngine):
         self._compose = python_bin.podman_compose.with_env(
             VNC="yes" if self._vnc else "no",
             VNCSCREENSIZE=f"1024x768",
+            DBDATA="db-data",
         ).in_dir(PROJECT_DIR)
 
     def set_up(self):
         """Run before running the tests."""
+        self._compose("run", "app", "migrate").output()
         self._compose("up", "-d").output()
         self._playwright = sync_playwright().start()
         self._browser = (
@@ -69,7 +71,7 @@ class Engine(BaseEngine):
 
     ## STEP METHODS
     def load_website(self):
-        self._page.goto("http://localhost:5000")
+        self._page.goto("http://localhost:8000")
         self._screenshot()
 
     def enter(self, on, text):

@@ -2,18 +2,24 @@ version: '3.8'
 
 services:
   playwright:
+    network_mode: host
     build:
       dockerfile: tests/Dockerfile-playwright
     image: playwright
-    network_mode: host
     environment:
       VNC: ${VNC}
       VNCSCREENSIZE: ${VNCSCREENSIZE}
 
   app:
+    network_mode: host
     build:
       dockerfile: Dockerfile
+    command: runserver
     image: app
-    network_mode: host
     volumes:
+    - db-data:/data
     - /src/app:/app
+    
+
+volumes:
+  db-data:
