@@ -4,7 +4,7 @@ Add and retrieve todo:
     and sees it showing up.
   jiras: FEATURE-341, FEATURE-441    # custom metadata
   given:
-    browser: chromium
+    browser: webkit
     data:
       todos.todo:
         10:
