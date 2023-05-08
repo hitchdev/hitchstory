@@ -42,9 +42,10 @@ class Engine(BaseEngine):
     def __init__(self, rewrite=False, vnc=False, timeout=10.0):
         """Initialize the engine"""
         self._rewrite = rewrite
+        self._vnc = vnc
         self._timeout = int(timeout * 1000)
         self._compose = python_bin.podman_compose\
-            .with_env(VNC="yes" if vnc else "no")\
+            .with_env(VNC="yes" if self._vnc else "no")\
             .in_dir(PROJECT_DIR)
 
     def set_up(self):
@@ -54,7 +55,8 @@ class Engine(BaseEngine):
         self._browser = getattr(
             self._playwright, self.given["browser"]
         ).connect("ws://127.0.0.1:3605").new_context(
-            record_video_dir="videos/"
+            record_video_dir="videos/",
+            no_viewport=True,
         )
         self._page = self._browser.new_page()
         self._page.set_default_navigation_timeout(self._timeout)
@@ -108,6 +110,8 @@ class Engine(BaseEngine):
 
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs."""
+        if self._vnc:
+            self.pause()
         if hasattr(self, "_page"):
             self._page.screenshot(path=PROJECT_DIR / "docs" / "failure.png")
             PROJECT_DIR.joinpath("docs", "failure.html").write_text(
@@ -120,6 +124,9 @@ class Engine(BaseEngine):
 
     def on_success(self):
         """Run before teardown, only on success."""
+        if self._vnc:
+            self.pause()
+
         self._page.close()
 
         if self._rewrite:

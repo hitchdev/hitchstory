@@ -18,5 +18,3 @@ Add and retrieve todo:
       text: Add bread
       on: todo list item
       which: first
-
-  #- pause
