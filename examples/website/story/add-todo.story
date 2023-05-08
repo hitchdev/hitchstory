@@ -19,7 +19,7 @@ Add and retrieve todo:
           isCompleted: yes
           
   steps:
-  - load website
+  - load website: todos
 
   - enter:
       on: todo text

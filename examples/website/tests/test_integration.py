@@ -133,8 +133,8 @@ class Engine(BaseEngine):
         self._page.set_default_timeout(self._timeout)
 
     ## STEP METHODS
-    def load_website(self):
-        self._page.goto("http://localhost:8000")
+    def load_website(self, url):
+        self._page.goto(f"http://localhost:8000/{url}")
         self._screenshot()
 
     def enter(self, on, text):
