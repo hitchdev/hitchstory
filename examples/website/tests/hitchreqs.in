@@ -1,14 +1,13 @@
 hitchstory
-click
 ipython
 commandlib
 icommandlib
-requests
 pip-tools
 pytest
+podman-compose
 
-# make sure version matches Dockerfile-playwright
-playwright
+# Keep the same as the version in Dockerfile-playwright
+playwright==1.32.0
 
 # For getting ipython to play nicely with playwright
 nest_asyncio

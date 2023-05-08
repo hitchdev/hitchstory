@@ -19,4 +19,4 @@ Add and retrieve todo:
       on: todo list item
       which: first
 
-  - pause
+  #- pause
