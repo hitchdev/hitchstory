@@ -1,6 +1,6 @@
 #! /bin/bash
-if [[ "$VNC" == "yes" ]]; then                                                       
-  USER=root Xvnc -geometry 1024x768 -depth 24 :1 &   
+if [[ "$VNC" == "yes" ]]; then
+  USER=root Xvnc -geometry ${VNCSCREENSIZE:-1024x768} -depth 24 :1 &   
   
   # Wait for port to be ready
   while ! nc -z localhost 5901; do   

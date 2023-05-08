@@ -8,6 +8,7 @@ services:
     network_mode: host
     environment:
       VNC: ${VNC}
+      VNCSCREENSIZE: ${VNCSCREENSIZE}
 
   app:
     build:

@@ -45,7 +45,10 @@ class Engine(BaseEngine):
         self._vnc = vnc
         self._timeout = int(timeout * 1000)
         self._compose = python_bin.podman_compose\
-            .with_env(VNC="yes" if self._vnc else "no")\
+            .with_env(
+                VNC="yes" if self._vnc else "no",
+                VNCSCREENSIZE=f"1024x768",
+            )\
             .in_dir(PROJECT_DIR)
 
     def set_up(self):
