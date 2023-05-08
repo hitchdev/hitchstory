@@ -10,7 +10,8 @@ from strictyaml import CommaSeparated, Enum, Str
 from podman import PlaywrightServer, App
 from playwright.sync_api import expect
 from video import convert_to_slow_gif
-from commandlib import Command
+from commandlib import Command, python_bin
+from playwright.sync_api import sync_playwright
 from slugify import slugify
 from pathlib import Path
 from os import getenv
@@ -41,23 +42,22 @@ class Engine(BaseEngine):
     def __init__(self, rewrite=False, vnc=False):
         """Initialize the engine"""
         self._rewrite = rewrite
-        self._podman = Command("podman").in_dir(PROJECT_DIR)
-        self._app = App(self._podman)
-        self._playwright_server = PlaywrightServer(
-            self._podman,
-            vnc=vnc,
-        )
+        self._compose = python_bin.podman_compose\
+            .with_env(VNC="yes" if vnc else "no")\
+            .in_dir(PROJECT_DIR)
 
     def set_up(self):
         """Run before running the tests."""
-        self._podman("container", "rm", "--all").output()
-        self._app.start()
-        self._playwright_server.start()
-        self._app.wait_until_ready()
-        self._playwright_server.wait_until_ready()
-        self._page = self._playwright_server.new_page(
-            browser_type=self.given["browser"]
+        self._compose("up", "-d").output()
+        self._playwright = sync_playwright().start()
+        self._browser = getattr(
+            self._playwright, self.given["browser"]
+        ).connect("ws://127.0.0.1:3605").new_context(
+            record_video_dir="videos/"
         )
+        self._page = self._browser.new_page()
+        self._page.set_default_navigation_timeout(10000)
+        self._page.set_default_timeout(10000)
 
     ## STEPS
     def load_website(self):
@@ -97,10 +97,11 @@ class Engine(BaseEngine):
 
     def tear_down(self):
         """Tear down all test."""
-        if hasattr(self, "_playwright_server"):
-            self._playwright_server.stop()
-        if hasattr(self, "_app"):
-            self._app.stop()
+        if hasattr(self, "_browser"):
+            self._browser.close()
+        if hasattr(self, "_playwright"):
+            self._playwright.stop()
+        self._compose("down", "-t", "1").output()
 
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs."""
@@ -111,8 +112,8 @@ class Engine(BaseEngine):
             )
             self._page.close()
             self._page.video.save_as(PROJECT_DIR / "docs" / "failure.webm")
-        if hasattr(self, "_app"):
-            self._app.logs()
+        if hasattr(self, "_compose"):
+            self._compose("logs").run()
 
     def on_success(self):
         """Run before teardown, only on success."""

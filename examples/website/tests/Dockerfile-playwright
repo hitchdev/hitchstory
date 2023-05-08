@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/playwright:v1.32.0-focal
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tightvncserver
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tightvncserver netcat
 WORKDIR /root
 RUN npm install playwright@1.32.0 && ./node_modules/.bin/playwright install
 COPY playwright-entrypoint.sh /entrypoint.sh

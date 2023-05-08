@@ -1,5 +1,10 @@
 # HitchStory Website Tests Example
 
+## Features of this project
+
+* Can run playwright in headless mode (faster) or with VNC.
+* Everything isolated within one podman container and one podman volume.
+
 ## Run them yourself
 
 **Podman must be installed on your system first.**
@@ -57,6 +62,14 @@ $ STORYMODE=vnc ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
 You can then connect using your vnc client on `localhost:5901`.
+
+## Kill test
+
+If a running test freezes, you can run this command to kill it:
+
+```
+$ ./run.sh kill
+```
 
 ## Generate documentation from stories
 
