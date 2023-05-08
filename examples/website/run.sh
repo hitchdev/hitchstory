@@ -66,6 +66,10 @@ case "$1" in
                 hitchrun "podman build . -t app"
                 hitchrun "podman build -f tests/Dockerfile-playwright -t playwright"
                 ;;
+            "podman")
+                hitchrun "podman build . -t app"
+                hitchrun "podman build -f tests/Dockerfile-playwright -t playwright"
+                ;;
             "hitchreqs")
                 hitchrun "/gen/venv/bin/pip-compile tests/hitchreqs.in -o tests/hitchreqs.txt"
                 ;;

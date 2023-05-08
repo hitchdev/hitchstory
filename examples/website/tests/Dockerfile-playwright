@@ -1,21 +1,9 @@
 FROM mcr.microsoft.com/playwright:v1.32.0-focal
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tightvncserver
-
 WORKDIR /root
 RUN npm install playwright@1.32.0 && ./node_modules/.bin/playwright install
+COPY playwright-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-#RUN echo "#!/bin/sh" >> /entrypoint.sh
-#RUN echo "USER=root Xvnc -geometry 1280x800 -depth 24 :1 &" >> /entrypoint.sh
-#RUN echo "DISPLAY=:1 ./node_modules/.bin/playwright run-server --port 3605" >> /entrypoint.sh
-
-RUN echo "#!/bin/sh" >> /entrypoint.sh && echo "\
-set -e                                                           \n\
-USER=root Xvnc -geometry 1280x800 -depth 24 :1 &                 \n\
-DISPLAY=:1 ./node_modules/.bin/playwright run-server --port 3605 \n\
-" >> /entrypoint.sh && chmod +x /entrypoint.sh
-
-
-#RUN chmod +x /entrypoint.sh
-
-cmd ["/entrypoint.sh"]
+CMD ["/entrypoint.sh"]

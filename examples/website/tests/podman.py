@@ -48,7 +48,7 @@ class PlaywrightServer:
         if self._vnc:
             cmd = cmd + [
                 "-e",
-                "PWDEBUG=console",
+                "VNC=yes",
             ]
         cmd = cmd + ["--name", "playwright", "playwright"]
         self._podman(*cmd).output()
