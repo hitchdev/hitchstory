@@ -16,6 +16,7 @@ from slugify import slugify
 from pathlib import Path
 from os import getenv
 import nest_asyncio
+import sys
 
 nest_asyncio.apply()
 
@@ -93,7 +94,8 @@ class Engine(BaseEngine):
 
     def pause(self):
         """Special step that pauses a test."""
-        __import__("IPython").embed()
+        if sys.stdout.isatty():
+            __import__("IPython").embed()
 
     ## FINISHING UP
     def tear_down(self):
