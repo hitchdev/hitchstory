@@ -85,7 +85,8 @@ case "$1" in
         hitchrun "bash"
         ;;
     *)
-        hitchrun "/gen/venv/bin/python tests/runner.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
+        echo "Command '$1' not found"
+        exit 1
         ;; 
 esac
 
