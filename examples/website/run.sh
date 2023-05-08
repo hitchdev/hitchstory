@@ -88,6 +88,12 @@ case "$1" in
     "bash")
         hitchrun "bash"
         ;;
+    "podman-compose")
+        hitchrun "/gen/venv/bin/podman-compose $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "podman")
+        hitchrun "podman $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
     *)
         echo "Command '$1' not found"
         exit 1

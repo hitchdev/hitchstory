@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  playwright:
+    build:
+      dockerfile: tests/Dockerfile-playwright
+    image: playwright
+    network_mode: host
+    environment:
+      VNC: ${VNC}
+
+  app:
+    build:
+      dockerfile: Dockerfile
+    image: app
+    network_mode: host
