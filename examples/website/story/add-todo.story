@@ -17,9 +17,9 @@ Add and retrieve todo:
           created_at: 2023-05-08T16:29:41.595Z
           update_at: 2023-05-08T16:29:41.595Z
           isCompleted: yes
-          
+
   steps:
-  - load website: todos
+  - load website: todos/
 
   - enter:
       on: todo text
