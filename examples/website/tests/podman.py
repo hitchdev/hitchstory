@@ -34,12 +34,24 @@ class PlaywrightServer:
     Runs the server, grab a new page.
     """
 
-    def __init__(self, podman):
+    def __init__(self, podman, vnc=False):
         self._podman = podman
         self._ws = None
+        self._vnc = False
 
     def start(self):
-        self._podman("run", "--rm", "-d", "--name", "playwright", "playwright").output()
+        cmd = [
+            "run",
+            "--rm",
+            "-d",
+        ]
+        if self._vnc:
+            cmd = cmd + [
+                "-e",
+                "PWDEBUG=console",
+            ]
+        cmd = cmd + ["--name", "playwright", "playwright"]
+        self._podman(*cmd).output()
 
     def wait_until_ready(self):
         """Wait for logs to print out port."""
@@ -47,6 +59,10 @@ class PlaywrightServer:
         logs.wait_until_output_contains("Listening on")
         self._ws = logs.stripshot().replace("Listening on", "").strip()
         logs.kill()
+        import time
+
+        time.sleep(5)
+        self._ws = "ws://127.0.0.1:3605"
 
     def stop(self):
         if hasattr(self, "_browser"):
@@ -60,11 +76,11 @@ class PlaywrightServer:
 
     def new_page(self, browser_type="chromium"):
         self._playwright = sync_playwright().start()
-        self._browser = getattr(
-            self._playwright, browser_type
-        ).connect(self._ws).new_context(
-            record_video_dir="videos/"
-        )
+        self._browser = getattr(self._playwright, browser_type).connect(self._ws)
+
+        # .new_context(
+        # record_video_dir="videos/"
+        # )
         self._page = self._browser.new_page()
         self._page.set_default_navigation_timeout(10000)
         self._page.set_default_timeout(10000)

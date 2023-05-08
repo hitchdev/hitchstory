@@ -33,7 +33,7 @@ This runs "Add and retrieve todo" from `story/add-todo.story`:
 $ ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
-## Run singular test in rewrite mode
+## Run test in rewrite mode
 
 If you change some wordings in the command line app and run this, it will
 re-take the screenshots and GIF video recordings:
@@ -41,6 +41,22 @@ re-take the screenshots and GIF video recordings:
 ```
 $ STORYMODE=rewrite ./run.sh pytest -k test_add_and_retrieve_todo
 ```
+
+
+## Run test in vnc mode
+
+This can be useful for debugging a test, doing some manual inspection
+or some exploratory QA at any point in the story.
+
+You will want to first put a `- pause` step into the story.
+
+Then run:
+
+```
+$ STORYMODE=vnc ./run.sh pytest -k test_add_and_retrieve_todo
+```
+
+You can then connect using your vnc client on `localhost:5901`.
 
 ## Generate documentation from stories
 

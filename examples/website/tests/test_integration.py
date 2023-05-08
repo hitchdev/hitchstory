@@ -31,19 +31,22 @@ class Engine(BaseEngine):
         context=InfoProperty(schema=Str()),
         jiras=InfoProperty(schema=CommaSeparated(Str())),
     )
-    
+
     # Preconditions
     # See docs: https://hitchdev.com/hitchstory/using/engine/given/
     given_definition = GivenDefinition(
         browser=GivenProperty(schema=Enum(["firefox", "chromium", "webkit"]))
     )
 
-    def __init__(self, rewrite=False):
+    def __init__(self, rewrite=False, vnc=False):
         """Initialize the engine"""
         self._rewrite = rewrite
         self._podman = Command("podman").in_dir(PROJECT_DIR)
         self._app = App(self._podman)
-        self._playwright_server = PlaywrightServer(self._podman)
+        self._playwright_server = PlaywrightServer(
+            self._podman,
+            vnc=vnc,
+        )
 
     def set_up(self):
         """Run before running the tests."""
@@ -57,7 +60,6 @@ class Engine(BaseEngine):
         )
 
     ## STEPS
-
     def load_website(self):
         self._page.goto("http://localhost:5000")
         self._screenshot()
@@ -126,7 +128,10 @@ class Engine(BaseEngine):
 # Grab all of the YAML stories from al the files in this directory
 collection = StoryCollection(
     Path(__file__).parent.parent.joinpath("story").glob("*.story"),
-    Engine(rewrite=getenv("STORYMODE", "") == "rewrite"),
+    Engine(
+        rewrite=getenv("STORYMODE", "") == "rewrite",
+        vnc=getenv("STORYMODE", "") == "vnc",
+    ),
 )
 
 # Turn them into pytest tests
