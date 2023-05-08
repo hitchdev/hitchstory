@@ -24,7 +24,9 @@ PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
 class Engine(BaseEngine):
-    """Python engine for interpreting and validating stories."""
+    """
+    Python engine for validating, running and debugging YAML stories.
+    """
 
     # Custom metadata about the stories
     # See docs: https://hitchdev.com/hitchstory/using/engine/metadata/
