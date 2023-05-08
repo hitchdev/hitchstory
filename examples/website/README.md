@@ -73,10 +73,10 @@ $ ./run.sh kill
 
 ## Generate documentation from stories
 
-This will regenerate all of the markdown docs for the project:
+This will regenerate all of the markdown docs for the project from the stories:
 
 ```
-$ ./run.sh docgen
+$ ./run.sh python docgen
 ```
 
 ## Clean up everything
