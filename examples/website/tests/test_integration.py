@@ -5,8 +5,8 @@ This module contains the:
 * Story Engine that interprets and validates the steps.
 """
 from hitchstory import BaseEngine, InfoDefinition, InfoProperty, StoryCollection
-from hitchstory import GivenDefinition, GivenProperty
-from strictyaml import CommaSeparated, Enum, Str
+from hitchstory import GivenDefinition, GivenProperty, validate
+from strictyaml import CommaSeparated, Enum, Int, Str
 from podman import PlaywrightServer, App
 from playwright.sync_api import expect
 from video import convert_to_slow_gif
@@ -44,22 +44,22 @@ class Engine(BaseEngine):
         self._rewrite = rewrite
         self._vnc = vnc
         self._timeout = int(timeout * 1000)
-        self._compose = python_bin.podman_compose\
-            .with_env(
-                VNC="yes" if self._vnc else "no",
-                VNCSCREENSIZE=f"1024x768",
-            )\
-            .in_dir(PROJECT_DIR)
+        self._compose = python_bin.podman_compose.with_env(
+            VNC="yes" if self._vnc else "no",
+            VNCSCREENSIZE=f"1024x768",
+        ).in_dir(PROJECT_DIR)
 
     def set_up(self):
         """Run before running the tests."""
         self._compose("up", "-d").output()
         self._playwright = sync_playwright().start()
-        self._browser = getattr(
-            self._playwright, self.given["browser"]
-        ).connect("ws://127.0.0.1:3605").new_context(
-            record_video_dir="videos/",
-            no_viewport=True,
+        self._browser = (
+            getattr(self._playwright, self.given["browser"])
+            .connect("ws://127.0.0.1:3605")
+            .new_context(
+                record_video_dir="videos/",
+                no_viewport=True,
+            )
         )
         self._page = self._browser.new_page()
         self._page.set_default_navigation_timeout(self._timeout)
@@ -76,7 +76,26 @@ class Engine(BaseEngine):
     def click(self, on):
         self._page.get_by_test_id(slugify(on)).click()
 
+    @validate(which=Int())
+    def should_appear(self, on, text, which=None):
+        expect(self._locate(on, which)).to_contain_text(text)
+        self._screenshot()
+
+    def pause(self):
+        """Special step that pauses a test and launches a REPL."""
+        if sys.stdout.isatty():
+            __import__("IPython").embed()
+
+    ## HELPER METHODS
+    def _locate(self, on, which):
+        if which is None:
+            item = self._page.get_by_test_id(slugify(on))
+        else:
+            item = self._page.locator(".test-{}".format(slugify(on))).nth(which)
+        return item
+
     def _screenshot(self):
+        """Take screenshot and save with current step index and name."""
         if self._rewrite:
             self._page.screenshot(
                 path=PROJECT_DIR
@@ -87,20 +106,6 @@ class Engine(BaseEngine):
                     self.current_step.slug,
                 )
             )
-
-    def should_appear(self, on, text, which=None):
-        if which is None:
-            item = self._page.get_by_test_id(slugify(on))
-        else:
-            which = 0 if which == "first" else int(which) - 1
-            item = self._page.locator(".test-{}".format(slugify(on))).nth(which)
-        expect(item).to_contain_text(text)
-        self._screenshot()
-
-    def pause(self):
-        """Special step that pauses a test."""
-        if sys.stdout.isatty():
-            __import__("IPython").embed()
 
     ## FINISHING UP
     def tear_down(self):
@@ -137,7 +142,6 @@ class Engine(BaseEngine):
             webm_path = PROJECT_DIR / "docs" / f"{self.story.slug}.webm"
             self._page.video.save_as(webm_path)
             convert_to_slow_gif(webm_path)
-
 
 
 collection = StoryCollection(

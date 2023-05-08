@@ -56,8 +56,8 @@ steps:
     * Click on `{{ on }}`.
     
   should appear: |
-    {% if which -%}
-    * Then text `{{ text }}` should appear on {{ which }} `{{ on }}`.
+    {% if which is not none -%}
+    * Then text `{{ text }}` should appear on {{ ordinal(which) }} `{{ on }}`.
     {% else %}
     * Then text `{{ text }}` should appear on `{{ on }}`.
     {% endif %}
