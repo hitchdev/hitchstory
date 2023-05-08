@@ -88,6 +88,12 @@ class Engine(BaseEngine):
 
     ## HELPER METHODS
     def _locate(self, on, which):
+        """
+        Use high level information to pick locators.
+        
+        If it is one from a list (i.e. which) -> use CSS selector .test-SLUGIFIED
+        If it is a single item -> use test ID with SLUGIFIED
+        """
         if which is None:
             item = self._page.get_by_test_id(slugify(on))
         else:
@@ -95,7 +101,7 @@ class Engine(BaseEngine):
         return item
 
     def _screenshot(self):
-        """Take screenshot and save with current step index and name."""
+        """Save screenshots associated with step for use in docs."""
         if self._rewrite:
             self._page.screenshot(
                 path=PROJECT_DIR
@@ -117,7 +123,7 @@ class Engine(BaseEngine):
         self._compose("down", "-t", "1").output()
 
     def on_failure(self, result):
-        """Run before teardown - save HTML, screenshot and video to docs."""
+        """Run before teardown - save HTML, screenshot and video to docs on failure."""
         if self._vnc:
             self.pause()
         if hasattr(self, "_page"):
