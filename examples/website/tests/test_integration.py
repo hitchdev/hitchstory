@@ -5,8 +5,9 @@ This module contains the:
 * Story Engine that interprets and validates the steps.
 """
 from hitchstory import BaseEngine, InfoDefinition, InfoProperty, StoryCollection
-from hitchstory import GivenDefinition, GivenProperty, validate
+from hitchstory import GivenDefinition, GivenProperty
 from strictyaml import CommaSeparated, Enum, Int, Str, MapPattern, Bool, Map, Int
+from hitchstory import no_stacktrace_for, validate
 from playwright.sync_api import expect
 from video import convert_to_slow_gif
 from commandlib import Command, python_bin
@@ -96,8 +97,19 @@ class Engine(BaseEngine):
         self._page.get_by_test_id(slugify(on)).click()
 
     @validate(which=Int())
+    @no_stacktrace_for(AssertionError)
     def should_appear(self, on, text, which=None):
-        expect(self._locate(on, which)).to_contain_text(text)
+        try:
+            expect(self._locate(on, which)).to_contain_text(text)
+        except AssertionError:
+            if self._rewrite:
+                self._locate(on, which).click() # does it even exist?
+                self.current_step.rewrite("text").to(
+                    self._locate(on, which).text_content().strip()
+                )
+            else:
+                raise
+            
         self._screenshot()
 
     def pause(self):
@@ -144,6 +156,7 @@ class Engine(BaseEngine):
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs on failure."""
         if self._vnc:
+            print(result.stacktrace)
             self.pause()
         if hasattr(self, "_page"):
             self._page.screenshot(path=PROJECT_DIR / "docs" / "failure.png")

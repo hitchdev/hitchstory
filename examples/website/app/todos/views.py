@@ -2,6 +2,23 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from .models import Todo
 from django.http import HttpResponseRedirect
+from textblob import TextBlob
+
+
+def correct_spelling(text):
+    blob = TextBlob(text)
+    corrected = str(blob.correct())
+    if corrected != text:
+        return suggest_spelling(text)
+    else:
+        return corrected
+
+
+def suggest_spelling(text):
+    blob = TextBlob(text)
+    suggestion = str(blob.correct())
+    return suggestion
+
 
 class IndexView(generic.ListView):
     template_name = 'todos/index.html'
@@ -13,9 +30,19 @@ class IndexView(generic.ListView):
 
 def add(request):
     title = request.POST['title']
-    Todo.objects.create(title=title)
-
-    return redirect('todos:index')
+    if correct_spelling(title) != title:
+        return render(
+            request,
+            'todos/index.html',
+            {
+                "error_message": "Did you mean '{}'?".format(
+                    correct_spelling(title)
+                )
+            },
+        )
+    else:
+        Todo.objects.create(title=title)
+        return redirect('todos:index')
 
 def delete(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)

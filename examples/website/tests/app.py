@@ -47,6 +47,9 @@ class App:
     
     def logs(self):
         self._compose("logs").run()
+        
+    def weblogs(self):
+        self._compose("logs", "app").run()
 
     def stop(self):
         self._compose("down", "-t", "1").output()
