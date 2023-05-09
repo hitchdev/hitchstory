@@ -34,6 +34,7 @@ class Engine(BaseEngine):
     info_definition = InfoDefinition(
         context=InfoProperty(schema=Str()),
         jiras=InfoProperty(schema=CommaSeparated(Str())),
+        docs=InfoProperty(schema=Bool()),
     )
 
     # Preconditions
@@ -45,16 +46,18 @@ class Engine(BaseEngine):
                 Enum(["todos.todo"]),
                 MapPattern(
                     Int(),
-                    Map({
-                        "title": Str(),
-                        "created_at": Str(),
-                        "update_at": Str(),
-                        "isCompleted": Bool(),
-                    }),
-                )
+                    Map(
+                        {
+                            "title": Str(),
+                            "created_at": Str(),
+                            "update_at": Str(),
+                            "isCompleted": Bool(),
+                        }
+                    ),
+                ),
             ),
             inherit_via=GivenProperty.OVERRIDE,
-        )
+        ),
     )
 
     def __init__(self, rewrite=False, vnc=False, timeout=10.0):
@@ -103,13 +106,13 @@ class Engine(BaseEngine):
             expect(self._locate(on, which)).to_contain_text(text)
         except AssertionError:
             if self._rewrite:
-                self._locate(on, which).click() # does it even exist?
+                self._locate(on, which).click()  # does it even exist?
                 self.current_step.rewrite("text").to(
                     self._locate(on, which).text_content().strip()
                 )
             else:
                 raise
-            
+
         self._screenshot()
 
     def pause(self):
@@ -121,7 +124,7 @@ class Engine(BaseEngine):
     def _locate(self, on, which):
         """
         Use high level information to pick locators.
-        
+
         If it is one from a list (i.e. which) -> use CSS selector .test-SLUGIFIED
         If it is a single item -> use test ID with SLUGIFIED
         """
@@ -193,6 +196,6 @@ collection = StoryCollection(
 )
 
 # Turn them into pytest tests
-collection.with_external_test_runner().ordered_by_name().add_pytests_to(
+collection.with_external_test_runner().only_uninherited().ordered_by_name().add_pytests_to(
     module=__import__(__name__)  # This module
 )

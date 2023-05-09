@@ -24,6 +24,7 @@ storydocs = (
         PROJECTDIR.joinpath("tests", "docstory.yml").read_text(),
         extra={"ordinal": ordinal},
     )
+    .filter(lambda story: story.info.get("document"))
     .ordered_by_file()
 )
 
