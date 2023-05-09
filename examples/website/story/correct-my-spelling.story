@@ -1,4 +1,3 @@
-# Temporarily commented out while we move this app to django
 #Correct my spelling:
   #about: |
     #The user tries to add "biuy breod" to the to do list
@@ -12,7 +11,7 @@
   #given:
     #browser: chromium
   #steps:
-  #- load website
+  #- load website: todos/
   
   #- enter:
       #on: todo text

@@ -70,7 +70,7 @@ class Engine(BaseEngine):
 
     def set_up(self):
         """Run before running the tests."""
-        self._app.start(data=self.given["data"])
+        self._app.start(data=self.given.get("data", {}))
         self._playwright = sync_playwright().start()
         self._browser = (
             getattr(self._playwright, self.given["browser"])
