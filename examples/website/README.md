@@ -1,31 +1,68 @@
-# HitchStory Website Tests Example
+# Self-Rewriting Documentation Writing Playwright Tests with HitchStory
 
-## This project demonstrates end to end tests where:
+![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
 
-* The tests will generate GIFs, screenshots and markdown documentation from the story.
-* Readable database fixtures are embedded within the test.
-* Tests can inherit from each other - including inheriting fixtures.
-* The browser tests can run in headless mode (faster) or with VNC (for debugging).
-* Everything runs using rootless podman-in-podman.
+## The storytests on this project are different. They:
+
+* Can rewrite themselves based upon program output.
+* Autogenerate markdown documentation with video and screenshots.
+
+Additional features on this repo:
+
+* The entire environment can be set up with one script and runs rootless inside one podman container and volume.
+* The browser tests can run in headless mode or with VNC.
+* The database fixtures can be written in-story.
+* Everything runs rootless using podman-in-podman.
+
+The app under test is built in Django, but it can in theory test any combination of services that can be run with a docker-compose.yaml file.
 
 
-## Run them yourself
+## 3 step set up
 
 **Podman must be installed on your system first.**
 
-All other functionality is automated and can be run via one of the 
-four run.sh scripts.
-
-To begin:
+Followed by:
 
 ```bash
 $ git clone https://github.com/hitchdev/hitchstory.git
 $ cd hitchstory/examples/website
-$ ./run.sh make
+$ ./run.sh make     # builds one local container and volume, with containers inside it
 ```
 
-> **Note**
-> Everything runs solely one podman container and volume.
+Once `./run.sh make` has completed successfully you can start running tests.
+
+## Run self rewriting test
+
+[in views.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/app/todos/views.py#L38).
+
+```python
+{
+    "error_message": "Did you mean '{}'?".format(
+        correct_spelling(title)
+    )
+},
+```
+
+You can change it and then run the test that covers it in rewrite mode:
+
+```
+$ STORYMODE=rewrite ./run.sh pytest -k test_correct_my_spelling
+```
+
+This will change the step in the "[correct my spelling](https://github.com/hitchdev/hitchstory/blob/master/examples/website/story/correct-my-spelling.story)" story:
+
+```
+  - should appear:
+      on: error
+      text: Did you mean 'buy bread'?
+```
+
+It will also re-record the story video and re-take the story screenshots.
+
+This is all achieved with about 10 lines of code and zero magic.
+
+The code that does the rewrite on this step is [in the should_appear method in test_integration.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/tests/test_integration.py#LL104C14-L104C14).
+
 
 
 ## Run all the tests
@@ -36,36 +73,23 @@ $ ./run.sh pytest
 
 ## Run a single test
 
-This runs "Add and retrieve todo" from `story/add-todo.story`:
+This runs "Add and retrieve todo" from `story/add-todo.story` in normal mode:
 
 ```
 $ ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
-## Run test in rewrite mode
 
-If you change some wordings in the command line app and run this, it will
-re-take the screenshots and GIF video recordings:
+## Run test in vnc mode on localhost:5901
 
-```
-$ STORYMODE=rewrite ./run.sh pytest -k test_add_and_retrieve_todo
-```
-
-
-## Run test in vnc mode
-
-This can be useful for debugging a test, doing some manual inspection
-or some exploratory QA at any point in the story.
-
-Then run:
+This can be useful for debugging a test, using right-click-inspect element
+or doing some exploratory QA at any point in the story:
 
 ```
 $ STORYMODE=vnc ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
-You can then connect using your vnc client on `localhost:5901`.
-
-It will pause and launch an ipython prompt when the test finishes.
+It will pause and launch an ipython prompt once the test passes or fails.
 
 ## Kill test
 
@@ -77,7 +101,7 @@ $ ./run.sh kill
 
 ## Generate documentation from stories
 
-This will regenerate all of the markdown docs for the project from the stories:
+This will regenerate all of the markdown docs for the project from the stories.
 
 ```
 $ ./run.sh python tests/docgen.py
@@ -109,8 +133,8 @@ The tests in this project are run from a single podman container. The playwright
 ```mermaid
 graph TD;
     TestsContainer-->PodmanCompose;
-    PodmanCompose->AppContainer;
-    PodmanCompose->PlaywrightContainer;
+    PodmanCompose-->AppContainer;
+    PodmanCompose-->PlaywrightContainer;
 ```
 
 This keeps the environment running the testing code completely consistent across
