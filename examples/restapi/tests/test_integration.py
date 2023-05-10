@@ -37,33 +37,36 @@ class Engine(BaseEngine):
                 "path": Str(),
                 "method": Str(),
                 Optional("headers"): MapPattern(Str(), Str()),
+                Optional("content"): Str(),
             }
         ),
         response=Map(
             {
-                "code": Int(),
+                Optional("code"): Int(),
+                "content": Str(),
             }
         ),
     )
-    def call_api(self, request, response=None, request_content="", response_content=""):
+    def call_api(self, request, response):
         actual_response = requests.request(
             request["method"],
             "http://127.0.0.1:5000/" + request["path"],
-            data=request_content,
+            data=request.get("content", ""),
             headers=request.get("headers", {}),
         )
 
-        if response is not None:
-            assert response["code"] == actual_response.status_code, (
-                f"Response code was {actual_response.status_code}, "
-                f"should be {response['code']}."
-            )
+        if "code" in response:
+            if actual_response.status_code != response["code"]:
+                raise Failure(
+                    f"Response code was {actual_response.status_code}, "
+                    f"should be {response['code']}"
+                )
 
         try:
-            json_match(response_content, actual_response.text)
+            json_match(response["content"], actual_response.text)
         except Failure:
             if self._rewrite:
-                self.current_step.rewrite("response_content").to(
+                self.current_step.rewrite("response", "content").to(
                     actual_response.text
                 )
             else:
