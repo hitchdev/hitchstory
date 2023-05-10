@@ -1,5 +1,7 @@
 # HitchStory Website Tests Example
 
+![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
+
 ## This project demonstrates end to end tests where:
 
 * The tests will generate GIFs, screenshots and markdown documentation from the story.
