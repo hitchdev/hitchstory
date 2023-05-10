@@ -6,24 +6,26 @@ Add and retrieve todo:
   - call api:
       request:
         method: POST
-        path: /todo
         headers:
           Content-Type: application/json
+        path: /todo
+        content: |
+          {
+              "item": "buy bread"
+          }
 
-      request content: |
-        {
-            "item": "buy bread"
-        }
-      response content: |
-        {
-          "message": "Item added successfully"
-        }
+      response:
+        content: |
+          {
+              "message": "Item added successfully"
+          }
 
   - call api:
       request:
         method: GET
         path: /todo
-      response content: |
-        [
-          "buy bread"
-        ]
+      response:
+        content: |
+          [
+            "buy bread"
+          ]

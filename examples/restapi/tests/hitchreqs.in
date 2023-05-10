@@ -1,4 +1,4 @@
-hitchstory
+hitchstory>=0.22.0
 click
 ipython
 commandlib

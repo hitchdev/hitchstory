@@ -12,24 +12,23 @@ Correct my spelling:
         path: /todo
         headers:
           Content-Type: application/json
-
-      request content: |
-        {
-            "item": "biuy breod"
-        }
+        content: |
+          {
+              "item": "biuy breod"
+          }
 
       response:
         code: 400
-
-      response content: |
-        {
-          "message": "buy bread"
-        }
+        content: |
+          {
+              "message": "buy bread"
+          }
       
 
   - call api:
       request:
         method: GET
         path: /todo
-      response content: |
-        []
+      response:
+        content: |
+          []
