@@ -1,33 +1,65 @@
-# HitchStory Website Tests Example
+# HitchStory Tests with Playwright on Example Django Project
 
 ![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
 
-## This project demonstrates end to end tests where:
+## The storytests on this project are different. They:
 
-* The tests will generate GIFs, screenshots and markdown documentation from the story.
-* Readable database fixtures are embedded within the test.
-* Tests can inherit from each other - including inheriting fixtures.
+* Autogenerate documentation.
+* Can rewrite themselves based upon program output.
+
+Additional features on this repo:
+
+* The tests autogenerate video and screenshots for use in the docs.
 * The browser tests can run in headless mode (faster) or with VNC (for debugging).
-* Everything runs using rootless podman-in-podman.
+* Everything runs rootless with podman-in-podman.
 
 
-## Run them yourself
+## 3 step set up
 
 **Podman must be installed on your system first.**
 
-All other functionality is automated and can be run via one of the 
-four run.sh scripts.
-
-To begin:
+Followed by:
 
 ```bash
 $ git clone https://github.com/hitchdev/hitchstory.git
 $ cd hitchstory/examples/website
-$ ./run.sh make
+$ ./run.sh make     # builds one local container and volume, with containers inside it
 ```
 
-> **Note**
-> Everything runs solely one podman container and volume.
+Once `./run.sh make` has completed successfully you can start running tests.
+
+## Run self rewriting test
+
+[in views.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/app/todos/views.py#L38).
+
+```python
+{
+    "error_message": "Did you mean '{}'?".format(
+        correct_spelling(title)
+    )
+},
+```
+
+You can change it and then run the test that covers it in rewrite mode:
+
+```
+$ STORYMODE=rewrite ./run.sh pytest -k test_correct_my_spelling
+```
+
+This will change the step in the "[correct my spelling](https://github.com/hitchdev/hitchstory/blob/master/examples/website/story/correct-my-spelling.story)" story:
+
+```
+  - should appear:
+      on: error
+      text: Did you mean 'buy bread'?
+```
+
+It will also re-record the story video and re-take the story screenshots.
+
+This is all done with about 10 lines of code and zero magic.
+
+The code that does the rewrite on this step is [in the should_appear method in test_integration.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/tests/test_integration.py#LL104C14-L104C14).
+
 
 
 ## Run all the tests
@@ -42,15 +74,6 @@ This runs "Add and retrieve todo" from `story/add-todo.story`:
 
 ```
 $ ./run.sh pytest -k test_add_and_retrieve_todo
-```
-
-## Run test in rewrite mode
-
-If you change some wordings in the command line app and run this, it will
-re-take the screenshots and GIF video recordings:
-
-```
-$ STORYMODE=rewrite ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
 
@@ -111,8 +134,8 @@ The tests in this project are run from a single podman container. The playwright
 ```mermaid
 graph TD;
     TestsContainer-->PodmanCompose;
-    PodmanCompose->AppContainer;
-    PodmanCompose->PlaywrightContainer;
+    PodmanCompose-->AppContainer;
+    PodmanCompose-->PlaywrightContainer;
 ```
 
 This keeps the environment running the testing code completely consistent across
