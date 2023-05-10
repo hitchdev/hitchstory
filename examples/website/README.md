@@ -23,11 +23,33 @@ Once `./run.sh make` has completed successfully you can start running tests.
 
 ## Run example self rewriting, self-documenting test
 
+The [correct my spelling test](https://github.com/hitchdev/hitchstory/blob/master/examples/website/story/correct-my-spelling.story) checks that an error message appears:
+
+```yaml
+Correct my spelling:
+  ...
+  steps:
+  ...
+  - should appear:
+      text: Did you mean 'buy bread'?
+      on: error
+```
+
 If you try changing this error message [in views.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/app/todos/views.py#L38).
 
 ```python
 {
     "error_message": "Did you mean '{}'?".format(
+        correct_spelling(title)
+    )
+},
+```
+
+To this:
+
+```python
+{
+    "error_message": "Are you sure? Did you mean '{}'?".format(
         correct_spelling(title)
     )
 },
@@ -39,12 +61,12 @@ And run the [test](https://github.com/hitchdev/hitchstory/blob/master/examples/w
 $ STORYMODE=rewrite ./run.sh pytest -k test_correct_my_spelling
 ```
 
-This will update the following step in the storytest:
+This will update the text in the step. e.g.
 
 ```
   - should appear:
       on: error
-      text: Did you mean 'buy bread'?
+      text: Are you sure? Did you mean 'buy bread'?
 ```
 
 It will also re-record the story video and re-take the story screenshots and
