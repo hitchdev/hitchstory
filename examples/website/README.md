@@ -7,16 +7,6 @@
 * Can rewrite themselves based upon program output.
 * Autogenerate markdown documentation with video and screenshots.
 
-Additional features on this repo:
-
-* The entire environment can be set up with one script and runs rootless inside one podman container and volume.
-* The browser tests can run in headless mode or with VNC.
-* The database fixtures can be written in-story.
-* Everything runs rootless using podman-in-podman.
-
-The app under test is built in Django, but it can in theory test any combination of services that can be run with a docker-compose.yaml file.
-
-
 ## 3 step set up
 
 **Podman must be installed on your system first.**
@@ -31,9 +21,9 @@ $ ./run.sh make     # builds one local container and volume, with containers ins
 
 Once `./run.sh make` has completed successfully you can start running tests.
 
-## Run self rewriting test
+## Run example self rewriting, self-documenting test
 
-[in views.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/app/todos/views.py#L38).
+If you try changing this error message [in views.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/app/todos/views.py#L38).
 
 ```python
 {
@@ -43,13 +33,13 @@ Once `./run.sh make` has completed successfully you can start running tests.
 },
 ```
 
-You can change it and then run the test that covers it in rewrite mode:
+And run the [test](https://github.com/hitchdev/hitchstory/blob/master/examples/website/story/correct-my-spelling.story) that covers it in rewrite mode:
 
 ```
 $ STORYMODE=rewrite ./run.sh pytest -k test_correct_my_spelling
 ```
 
-This will change the step in the "[correct my spelling](https://github.com/hitchdev/hitchstory/blob/master/examples/website/story/correct-my-spelling.story)" story:
+This will update the following step in the storytest:
 
 ```
   - should appear:
@@ -57,12 +47,25 @@ This will change the step in the "[correct my spelling](https://github.com/hitch
       text: Did you mean 'buy bread'?
 ```
 
-It will also re-record the story video and re-take the story screenshots.
+It will also re-record the story video and re-take the story screenshots and
+regenerate [the corresponding markdown documentation](https://github.com/hitchdev/hitchstory/blob/master/examples/website/docs/correct-my-spelling.md).
 
-This is all achieved with about 10 lines of code and zero magic.
+## How?
 
-The code that does the rewrite on this step is [in the should_appear method in test_integration.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/tests/test_integration.py#LL104C14-L104C14).
+The code that rewrites the story is [in the should_appear method in test_integration.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/tests/test_integration.py#LL104C14-L104C14).
 
+The same class also contains code for recording video and
+
+
+## Additional features on this repo:
+
+* The entire environment can be set up with one script and runs rootless inside one podman container and volume.
+* The browser tests can run in headless mode or with VNC.
+* The database fixtures can be written in-story.
+* Everything runs rootless using podman-in-podman.
+* No magic but still a very small amount of code required.
+
+The app under test is built in Django, but it can in theory test any combination of services that can be run with a docker-compose.yaml file.
 
 
 ## Run all the tests
