@@ -35,7 +35,7 @@ Correct my spelling:
       on: error
 ```
 
-If you try changing this error message [in views.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/app/todos/views.py#L38).
+If you try changing this error message [in the code](https://github.com/hitchdev/hitchstory/blob/master/examples/website/app/todos/views.py#L38).
 
 ```python
 {
@@ -69,8 +69,8 @@ This will update the text in the step. e.g.
       text: Are you sure? Did you mean 'buy bread'?
 ```
 
-It will also re-record the story video and re-take the story screenshots and
-regenerate [the corresponding markdown documentation](https://github.com/hitchdev/hitchstory/blob/master/examples/website/docs/correct-my-spelling.md).
+It will also re-record the video, re-take the story screenshots and
+regenerate [the corresponding markdown documentation](https://github.com/hitchdev/hitchstory/blob/master/examples/website/docs/correct-my-spelling.md) for the story.
 
 ## How?
 
