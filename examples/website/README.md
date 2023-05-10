@@ -1,17 +1,20 @@
-# HitchStory Tests with Playwright on Example Django Project
+# Self-Rewriting Documentation Writing Playwright Tests with HitchStory
 
 ![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
 
 ## The storytests on this project are different. They:
 
-* Autogenerate documentation.
 * Can rewrite themselves based upon program output.
+* Autogenerate markdown documentation with video and screenshots.
 
 Additional features on this repo:
 
-* The tests autogenerate video and screenshots for use in the docs.
-* The browser tests can run in headless mode (faster) or with VNC (for debugging).
-* Everything runs rootless with podman-in-podman.
+* The entire environment can be set up with one script and runs rootless inside one podman container and volume.
+* The browser tests can run in headless mode or with VNC.
+* The database fixtures can be written in-story.
+* Everything runs rootless using podman-in-podman.
+
+The app under test is built in Django, but it can in theory test any combination of services that can be run with a docker-compose.yaml file.
 
 
 ## 3 step set up
@@ -56,7 +59,7 @@ This will change the step in the "[correct my spelling](https://github.com/hitch
 
 It will also re-record the story video and re-take the story screenshots.
 
-This is all done with about 10 lines of code and zero magic.
+This is all achieved with about 10 lines of code and zero magic.
 
 The code that does the rewrite on this step is [in the should_appear method in test_integration.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/tests/test_integration.py#LL104C14-L104C14).
 
@@ -70,27 +73,23 @@ $ ./run.sh pytest
 
 ## Run a single test
 
-This runs "Add and retrieve todo" from `story/add-todo.story`:
+This runs "Add and retrieve todo" from `story/add-todo.story` in normal mode:
 
 ```
 $ ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
 
-## Run test in vnc mode
+## Run test in vnc mode on localhost:5901
 
-This can be useful for debugging a test, doing some manual inspection
-or some exploratory QA at any point in the story.
-
-Then run:
+This can be useful for debugging a test, using right-click-inspect element
+or doing some exploratory QA at any point in the story:
 
 ```
 $ STORYMODE=vnc ./run.sh pytest -k test_add_and_retrieve_todo
 ```
 
-You can then connect using your vnc client on `localhost:5901`.
-
-It will pause and launch an ipython prompt when the test finishes.
+It will pause and launch an ipython prompt once the test passes or fails.
 
 ## Kill test
 
@@ -102,7 +101,7 @@ $ ./run.sh kill
 
 ## Generate documentation from stories
 
-This will regenerate all of the markdown docs for the project from the stories:
+This will regenerate all of the markdown docs for the project from the stories.
 
 ```
 $ ./run.sh python tests/docgen.py
