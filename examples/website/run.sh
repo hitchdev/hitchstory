@@ -73,6 +73,9 @@ case "$1" in
     "kill"):
         podman stop --latest -t 1
         ;;
+    "docgen"):
+        hitchrun "/gen/venv/bin/python tests/docgen.py"
+        ;;
     *)
         hitchrun "$1 $2 $3 $4 $5 $6 $7 $8 $9"
         ;; 

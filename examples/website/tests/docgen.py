@@ -17,16 +17,20 @@ def ordinal(num):
     else:
         return "{} last".format(IENG.number_to_words(IENG.ordinal(num * -1)))
 
-
-storydocs = (
-    StoryCollection(PROJECTDIR.joinpath("story").glob("*.story"), Engine())
-    .with_documentation(
-        PROJECTDIR.joinpath("tests", "docstory.yml").read_text(),
-        extra={"ordinal": ordinal},
+def generate_docs():
+    storydocs = (
+        StoryCollection(PROJECTDIR.joinpath("story").glob("*.story"), Engine())
+        .with_documentation(
+            PROJECTDIR.joinpath("tests", "docstory.yml").read_text(),
+            extra={"ordinal": ordinal},
+        )
+        .filter(lambda story: story.info.get("document"))
+        .ordered_by_file()
     )
-    .filter(lambda story: story.info.get("document"))
-    .ordered_by_file()
-)
 
-for story in storydocs:
-    PROJECTDIR.joinpath("docs", story.slug + ".md").write_text(story.documentation())
+    for story in storydocs:
+        PROJECTDIR.joinpath("docs", story.slug + ".md").write_text(story.documentation())
+
+
+if __name__ == "__main__":
+    run()
