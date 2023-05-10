@@ -24,7 +24,7 @@ def generate_docs():
             PROJECTDIR.joinpath("tests", "docstory.yml").read_text(),
             extra={"ordinal": ordinal},
         )
-        .filter(lambda story: story.info.get("document"))
+        .filter(lambda story: story.info.get("docs"))
         .ordered_by_file()
     )
 
@@ -33,4 +33,4 @@ def generate_docs():
 
 
 if __name__ == "__main__":
-    run()
+    generate_docs()
