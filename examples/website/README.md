@@ -149,8 +149,8 @@ be debugged.
 
 See here:
 
-* [Github actions YAML](https://github.com/hitchdev/hitchstory/blob/master/.github/workflows/examples.yml)
-* [Runner](https://github.com/hitchdev/hitchstory/actions/workflows/examples.yml)
+* [Github actions YAML](https://github.com/hitchdev/hitchstory/blob/master/.github/workflows/example-website.yml)
+* [Runner](https://github.com/hitchdev/hitchstory/actions/workflows/example-website.yml)
 
 # Architecture
 

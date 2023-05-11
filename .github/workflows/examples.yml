@@ -5,8 +5,11 @@ on:
     branches:
     - master
     paths:
-    - examples/**
-    
+    - examples/commandline/**
+    - examples/restapi/**
+    - examples/pythonapi/**
+    paths-ignore:
+    - **/README.md
 
 jobs:
   regression:
@@ -31,19 +34,6 @@ jobs:
         run: |
           cd examples/restapi
           ./run.sh pytest
-
-
-      # Website Integration Tests
-      - name: build website
-        run: |
-          cd examples/website
-          ./run.sh make
-
-      - name: regression test website
-        run: |
-          cd examples/website
-          ./run.sh pytest
-
 
       # Interactive Command Line Integration Tests
       - name: build command line

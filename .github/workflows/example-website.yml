@@ -1,0 +1,38 @@
+name: Example Website Tests Running on Github Actions
+
+on:
+  push:
+    branches:
+    - master
+    
+    # Only pay attention to the website folder
+    paths:
+    - examples/website/**
+    
+    # Don't trigger when README changed.
+    paths-ignore:
+    - **/README.md
+
+jobs:
+  regression:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      #- name: enable arm containers
+        #run: |
+          #sudo apt-get update
+          #sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
+
+      # Website Integration Tests
+      - name: build website
+        run: |
+          cd examples/website
+          ./run.sh make
+
+      - name: regression test website
+        run: |
+          cd examples/website
+          ./run.sh pytest
