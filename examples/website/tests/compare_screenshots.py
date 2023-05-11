@@ -31,8 +31,8 @@ def compare_screenshots(
     diff_pixels = pixelmatch(image, golden, threshold=threshold)
     
     # Currently failing in github actions
-    #if diff_pixels != 0:
-        #image_diff = Image.new("RGBA", image.size)
-        #pixelmatch(image, golden, image_diff, threshold=threshold)
-        #image_diff.save(diff_snapshot_path)
-        #raise Failure("Screenshot test failure")
+    if diff_pixels != 0:
+        image_diff = Image.new("RGBA", image.size)
+        pixelmatch(image, golden, image_diff, threshold=threshold)
+        image_diff.save(diff_snapshot_path)
+        raise Failure("Screenshot test failure")
