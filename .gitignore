@@ -11,3 +11,4 @@ temp/
 hitch/devenv.yml
 hitchpylibrarytoolkit
 failure.*
+examples/website/artefacts/

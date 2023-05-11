@@ -178,12 +178,12 @@ class Engine(BaseEngine):
             print(result.stacktrace)
             self.pause()
         if hasattr(self, "_page"):
-            self._page.screenshot(path=PROJECT_DIR / "docs" / "failure.png")
-            PROJECT_DIR.joinpath("docs", "failure.html").write_text(
+            self._page.screenshot(path=PROJECT_DIR / "artefacts" / "failure.png")
+            PROJECT_DIR.joinpath("artefacts", "failure.html").write_text(
                 self._page.content()
             )
             self._page.close()
-            self._page.video.save_as(PROJECT_DIR / "docs" / "failure.webm")
+            self._page.video.save_as(PROJECT_DIR / "artefacts" / "failure.webm")
         if hasattr(self, "_app"):
             self._app.logs()
 

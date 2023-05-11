@@ -8,8 +8,6 @@ on:
     - examples/commandline/**
     - examples/restapi/**
     - examples/pythonapi/**
-    paths-ignore:
-    - **/README.md
 
 jobs:
   regression:

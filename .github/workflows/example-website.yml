@@ -8,10 +8,6 @@ on:
     # Only pay attention to the website folder
     paths:
     - examples/website/**
-    
-    # Don't trigger when README changed.
-    paths-ignore:
-    - **/README.md
 
 jobs:
   regression:
@@ -27,12 +23,19 @@ jobs:
           #sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
 
       # Website Integration Tests
-      - name: build website
+      - name: build environment
         run: |
           cd examples/website
           ./run.sh make
 
-      - name: regression test website
+      - name: regression test
         run: |
           cd examples/website
           ./run.sh pytest
+
+      #- name: save regression test artefacts
+        #uses: actions/upload-artifact@v3
+        #with:
+          #name: regression-test-artefacts
+          #path: |
+            #examples/website/artefacts/**

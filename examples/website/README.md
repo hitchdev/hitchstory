@@ -133,6 +133,24 @@ This will regenerate all of the markdown docs for the project from the stories.
 $ ./run.sh python tests/docgen.py
 ```
 
+## Debugging the tests (e.g. step code)
+
+There are probably a few ways to do this. The one I find the most
+useful is to embed ipython in a step like so `__import__("IPython").embed()`.
+At this point everything on the Engine is accessible via self - e.g. `self.given['browser']`.
+
+You can also put a `- pause` step in any of the stories and it will do the same
+thing.
+
+You can use this to experiment with playwright until you've got the code you
+need to put into an actual step.
+
+## Debugging the code
+
+I find the easiest way with this set up is to `import web_pdb ; web_pdb.set_trace()` and then to view https://localhost:5555/ with a browser.
+
+
+
 ## Clean up everything
 
 Everything runs in one podman container and volume. This deletes them:
