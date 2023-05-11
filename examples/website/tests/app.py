@@ -19,6 +19,15 @@ import time
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
+def port_open(port_number: int, timeout: float) -> bool:
+    try:
+        with socket.create_connection(
+            ("localhost", port_number), timeout=timeout
+        ):
+            return True
+    except OSError:
+        return False
+
 class App:
     def __init__(self, env, ports=None, timeout=10.0):
         self._podman = Command("podman").in_dir(PROJECT_DIR)
@@ -27,6 +36,10 @@ class App:
         self._timeout = timeout
 
     def start(self, data=None):
+        for port in self._ports:
+            if port_open(port, self._timeout):
+                raise Failure(f"Port {port} in use. Is another test running?")
+
         fixture_data = []
 
         for model, model_data in data.items():
@@ -66,17 +79,14 @@ class App:
         for port in self._ports:
             start_time = time.perf_counter()
             while True:
-                try:
-                    with socket.create_connection(
-                        ("localhost", port), timeout=self._timeout
-                    ):
-                        break
-                except OSError:
+                if not port_open(port, self._timeout):
                     time.sleep(0.1)
                     if time.perf_counter() - start_time >= self._timeout:
                         raise Failure(
                             f"Port {port} on localhost not responding after {self._timeout} seconds."
                         )
+                else:
+                    break
 
     def logs(self):
         self._compose("logs").run()

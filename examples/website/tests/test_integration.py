@@ -18,6 +18,7 @@ from pathlib import Path
 from os import getenv
 from app import App
 import nest_asyncio
+import time
 import sys
 
 nest_asyncio.apply()
@@ -154,15 +155,18 @@ class Engine(BaseEngine):
             )
         )
 
+        time.sleep(1)
+
         if self._rewrite:
             self._page.screenshot(path=golden_snapshot)
         else:
-            compare_screenshots(
-                self._page.screenshot(),
-                golden_snapshot,
-                diff_snapshot_path=PROJECT_DIR / "artefacts" / "diff.png",
-                threshold=0.1,
-            )
+            if not self._vnc:
+                compare_screenshots(
+                    self._page.screenshot(),
+                    golden_snapshot,
+                    diff_snapshot_path=PROJECT_DIR / "artefacts" / "diff.png",
+                    threshold=0.1,
+                )
 
     ## FINISHING UP
     def tear_down(self):
