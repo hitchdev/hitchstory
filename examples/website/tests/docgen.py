@@ -17,6 +17,7 @@ def ordinal(num):
     else:
         return "{} last".format(IENG.number_to_words(IENG.ordinal(num * -1)))
 
+
 def generate_docs():
     storydocs = (
         StoryCollection(PROJECTDIR.joinpath("story").glob("*.story"), Engine())
@@ -29,7 +30,9 @@ def generate_docs():
     )
 
     for story in storydocs:
-        PROJECTDIR.joinpath("docs", story.slug + ".md").write_text(story.documentation())
+        PROJECTDIR.joinpath("docs", story.slug + ".md").write_text(
+            story.documentation()
+        )
 
 
 if __name__ == "__main__":

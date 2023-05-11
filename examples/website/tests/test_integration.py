@@ -25,7 +25,6 @@ nest_asyncio.apply()
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
-
 class Engine(BaseEngine):
     """
     Python engine for validating, running and debugging YAML stories.
@@ -66,17 +65,21 @@ class Engine(BaseEngine):
         """Initialize the engine"""
         self._rewrite = rewrite
         self._vnc = vnc
-        self._timeout = int(timeout * 1000)
+        self._timeout = timeout
         self._app = App(
             env={
                 "VNC": "yes" if self._vnc else "no",
                 "VNCSCREENSIZE": "1024x768",
-            }
+            },
+            ports=[3605, 8000],
+            timeout=timeout,
         )
 
     def set_up(self):
         """Run before running the tests."""
-        self._app.start(data=self.given.get("data", {}))
+        self._app.start(
+            data=self.given.get("data", {}),
+        )
         self._playwright = sync_playwright().start()
         self._browser = (
             getattr(self._playwright, self.given["browser"])
@@ -87,8 +90,8 @@ class Engine(BaseEngine):
             )
         )
         self._page = self._browser.new_page()
-        self._page.set_default_navigation_timeout(self._timeout)
-        self._page.set_default_timeout(self._timeout)
+        self._page.set_default_navigation_timeout(int(self._timeout * 1000))
+        self._page.set_default_timeout(int(self._timeout * 1000))
 
     ## STEP METHODS
     def load_website(self, url):
@@ -141,12 +144,16 @@ class Engine(BaseEngine):
         Save screenshots associated with step for use in docs and
         compare them.
         """
-        golden_snapshot = PROJECT_DIR / "docs" / "{}-{}-{}.png".format(
-            self.story.slug,
-            self.current_step.index,
-            self.current_step.slug,
+        golden_snapshot = (
+            PROJECT_DIR
+            / "docs"
+            / "{}-{}-{}.png".format(
+                self.story.slug,
+                self.current_step.index,
+                self.current_step.slug,
+            )
         )
-        
+
         if self._rewrite:
             self._page.screenshot(path=golden_snapshot)
         else:
@@ -208,4 +215,3 @@ collection = StoryCollection(
 collection.with_external_test_runner().only_uninherited().ordered_by_name().add_pytests_to(
     module=__import__(__name__)  # This module
 )
-
