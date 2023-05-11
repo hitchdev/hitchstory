@@ -83,6 +83,7 @@ The same class also contains code for recording video and
 
 * The entire environment can be set up with one script and runs rootless inside one podman container and volume.
 * The browser tests can run in headless mode or with VNC.
+* The tests generate screenshots which are used for snapshot testing (comparing pixel by pixel) and used in the markdown docs.
 * The database fixtures can be written in-story.
 * Everything runs rootless using podman-in-podman.
 * No magic but still a very small amount of code required.
