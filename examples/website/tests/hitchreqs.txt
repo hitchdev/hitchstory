@@ -64,7 +64,11 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
+pillow==9.5.0
+    # via -r tests/hitchreqs.in
 pip-tools==6.13.0
+    # via -r tests/hitchreqs.in
+pixelmatch==0.3.0
     # via -r tests/hitchreqs.in
 playwright==1.32.0
     # via -r tests/hitchreqs.in

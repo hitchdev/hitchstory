@@ -1,3 +1,12 @@
+"""
+Set up, run and interact with the application under test
+using podman-compose.yml.
+
+Potential improvements:
+
+* Handle creation of database fixture creation / caching in a database agnostic way.
+* More directed error handling (currently it dumps the output of all of the logs).
+"""
 from commandlib import python_bin, Command
 from pathlib import Path
 import hashlib

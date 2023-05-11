@@ -8,6 +8,8 @@ pytest
 pytest-split
 podman-compose
 inflect
+pillow
+pixelmatch
 
 # Keep the tied to the version in Dockerfile-playwright
 playwright==1.32.0

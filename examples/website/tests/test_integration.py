@@ -12,6 +12,7 @@ from playwright.sync_api import expect
 from video import convert_to_slow_gif
 from commandlib import Command, python_bin
 from playwright.sync_api import sync_playwright
+from compare_screenshots import compare_screenshots
 from slugify import slugify
 from pathlib import Path
 from os import getenv
@@ -136,16 +137,23 @@ class Engine(BaseEngine):
         return item
 
     def _screenshot(self):
-        """Save screenshots associated with step for use in docs."""
+        """
+        Save screenshots associated with step for use in docs and
+        compare them.
+        """
+        golden_snapshot = PROJECT_DIR / "docs" / "{}-{}-{}.png".format(
+            self.story.slug,
+            self.current_step.index,
+            self.current_step.slug,
+        )
+        
         if self._rewrite:
-            self._page.screenshot(
-                path=PROJECT_DIR
-                / "docs"
-                / "{}-{}-{}.png".format(
-                    self.story.slug,
-                    self.current_step.index,
-                    self.current_step.slug,
-                )
+            self._page.screenshot(path=golden_snapshot)
+        else:
+            compare_screenshots(
+                self._page.screenshot(),
+                golden_snapshot,
+                threshold=0.1,
             )
 
     ## FINISHING UP
