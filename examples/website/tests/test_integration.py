@@ -160,6 +160,7 @@ class Engine(BaseEngine):
             compare_screenshots(
                 self._page.screenshot(),
                 golden_snapshot,
+                diff_snapshot_path=PROJECT_DIR / "artefacts" / "diff.png",
                 threshold=0.1,
             )
 

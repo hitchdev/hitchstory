@@ -33,9 +33,9 @@ jobs:
           cd examples/website
           ./run.sh pytest
 
-      #- name: save regression test artefacts
-        #uses: actions/upload-artifact@v3
-        #with:
-          #name: regression-test-artefacts
-          #path: |
-            #examples/website/artefacts/**
+      - name: save regression test artefacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: regression-test-artefacts
+          path: |
+            examples/website/artefacts/**
