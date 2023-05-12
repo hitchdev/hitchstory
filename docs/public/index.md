@@ -225,7 +225,7 @@ $ pip install hitchstory
 
 ## Community
 
-Help is available if you ask questions in these places: [Github discussions](https://github.com/hitchdev/hitchstory/discussions) | [Github issues](https://github.com/hitchdev/hitchstory/issues) (not just for bugs)
+Help is available if you ask questions in these places: [Github discussions](https://github.com/hitchdev/hitchstory/discussions) | [Github issues](https://github.com/hitchdev/hitchstory/issues) (not just for bugs) | [Slack channel](https://join.slack.com/t/hitchstory/shared_invite/zt-1uvrtozlz-vK92y5HN4SETkriUbBIHUQ)
 
 ## Using HitchStory
 
