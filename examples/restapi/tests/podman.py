@@ -8,7 +8,7 @@ class App:
         self._podman = podman
 
     def start(self):
-        self._podman("run", "-d", "app").output()
+        self._podman("run", "-v", "/src/app:/app", "-d", "app").output()
 
     def wait_until_ready(self):
         # Really bad way to do it
