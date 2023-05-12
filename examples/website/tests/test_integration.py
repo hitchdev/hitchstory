@@ -13,10 +13,11 @@ from video import convert_to_slow_gif
 from commandlib import Command, python_bin
 from playwright.sync_api import sync_playwright
 from compare_screenshots import compare_screenshots
+from db_fixtures import FIXTURE_SCHEMA, DbFixture
 from slugify import slugify
 from pathlib import Path
 from os import getenv
-from app import App
+from app import Services
 import nest_asyncio
 import time
 import sys
@@ -44,20 +45,7 @@ class Engine(BaseEngine):
     given_definition = GivenDefinition(
         browser=GivenProperty(schema=Enum(["firefox", "chromium", "webkit"])),
         data=GivenProperty(
-            schema=MapPattern(
-                Enum(["todos.todo"]),
-                MapPattern(
-                    Int(),
-                    Map(
-                        {
-                            "title": Str(),
-                            "created_at": Str(),
-                            "update_at": Str(),
-                            "isCompleted": Bool(),
-                        }
-                    ),
-                ),
-            ),
+            schema=FIXTURE_SCHEMA,
             inherit_via=GivenProperty.OVERRIDE,
         ),
     )
@@ -67,7 +55,7 @@ class Engine(BaseEngine):
         self._rewrite = rewrite
         self._vnc = vnc
         self._timeout = timeout
-        self._app = App(
+        self._services = Services(
             env={
                 "VNC": "yes" if self._vnc else "no",
                 "VNCSCREENSIZE": "1024x768",
@@ -78,8 +66,8 @@ class Engine(BaseEngine):
 
     def set_up(self):
         """Run before running the tests."""
-        self._app.start(
-            data=self.given.get("data", {}),
+        self._services.start(
+            DbFixture(self.given.get("data", {})),
         )
         self._playwright = sync_playwright().start()
         self._browser = (
@@ -175,7 +163,7 @@ class Engine(BaseEngine):
             self._browser.close()
         if hasattr(self, "_playwright"):
             self._playwright.stop()
-        self._app.stop()
+        self._services.stop()
 
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs on failure."""
@@ -189,8 +177,8 @@ class Engine(BaseEngine):
             )
             self._page.close()
             self._page.video.save_as(PROJECT_DIR / "artefacts" / "failure.webm")
-        if hasattr(self, "_app"):
-            self._app.logs()
+        if hasattr(self, "_services"):
+            self._services.logs()
 
     def on_success(self):
         """Run before teardown, only on success."""
