@@ -1,4 +1,5 @@
 # Requirements for running the integration tests
+# This is compiled into pinned versions in the hitchreqs.txt file.
 # This is separate from the application requirements.txt / requirements.in
 # Run "./run.sh make hitchreqs" to rebuild hitchreqs.txt.
 
