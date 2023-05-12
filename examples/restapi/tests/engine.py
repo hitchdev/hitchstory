@@ -81,9 +81,7 @@ class Engine(BaseEngine):
             json_match(response_content, actual_response.text)
         except AssertionError:
             if self._rewrite:
-                self.current_step.rewrite("response_content").to(
-                    actual_response.text
-                )
+                self.current_step.rewrite("response_content").to(actual_response.text)
             else:
                 raise
 

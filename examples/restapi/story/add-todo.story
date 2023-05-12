@@ -17,8 +17,15 @@ Add and retrieve todo:
       response:
         content: |
           {
-              "message": "Item added successfully"
+            "data": {
+              "id": "243e6384-298b-4443-a9c9-0cb5d18b92be",
+              "timestamp": 1683888169
+            },
+            "message": "Item added successfully"
           }
+        varying:
+          data/id: uuid
+          data/timestamp: timestamp
 
   - call api:
       request:

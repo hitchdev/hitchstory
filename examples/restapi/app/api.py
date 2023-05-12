@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify, send_from_directory
 from textblob import TextBlob
+from datetime import datetime
+import time
 import json
+import uuid
 
 app = Flask(__name__)
 
@@ -48,8 +51,20 @@ def add_todo():
     if corrected_item != item:
         return jsonify({"message": corrected_item}), 400
     data.append(item)
+    new_id = uuid.uuid4()
     save_data(data)
-    return jsonify({"message": "Item added successfully"}), 201
+    return (
+        jsonify(
+            {
+                "message": "Item added successfully",
+                "data": {
+                    "id": new_id,
+                    "timestamp": int(datetime.now().timestamp()),
+                },
+            }
+        ),
+        201,
+    )
 
 
 @app.route("/todo/<int:index>", methods=["DELETE"])

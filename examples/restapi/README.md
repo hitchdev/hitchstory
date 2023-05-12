@@ -1,6 +1,17 @@
-# HitchStory REST API Tests Example
+# REST API Tests with HitchStory
 
-## Run them yourself
+This project contains a sample REST API project that demonstrates
+a few end to REST API end test best practices with hitchstory:
+
+* Rewritable stories: if the REST API response is modified in code, running the test in rewrite mode will rewrite the response in the test.
+* The handling of fields whose outputs vary upon each test run (UUID, timestamp).
+* Rewritable documentation: templated generation of readable markdown docs demonstrating user stories with API snippets (useful for BDD).
+* Absolute environmental consistency and portability via podman-in-podman (the test container orchestrates app container) and dependency pinning.
+* Every project task performable via one script (`./run.sh`).
+* One step build and set up (`./run.sh make`).
+* Simplified continuous integration.
+
+## Set up
 
 **Podman must be installed on your system first.**
 
@@ -12,46 +23,10 @@ To begin:
 ```bash
 $ git clone https://github.com/hitchdev/hitchstory.git
 $ cd hitchstory/examples/restapi
-$ ./run.sh make
+$ ./run.sh make  # builds one local container and volume, and one container inside it
 ```
 
-`./run.sh make` downloads and builds the container and python packages the
-tests need to run in an isolated environment for each of the respective projects.
 
-
-## Run all tests
-
-```
-$ ./run.sh regression
-```
-
-## Run a single test
-
-This command can be used to craft a new feature and do
-acceptance test driven development on it:
-
-```
-$ ./run.sh atdd correct
-```
-
-"correct" is a unique keyword used in the name of one of the stories.
-
-## Run singular test in rewrite mode
-
-If you tweak the wordings in the command line app and run this, it will
-update the story accordingly.
-
-```
-$ ./run.sh ratdd correct
-```
-
-## Generate documentation from stories
-
-This will regenerate all of the markdown docs for the project:
-
-```
-$ ./run.sh docgen
-```
 
 ## Clean up everything
 
@@ -63,7 +38,8 @@ $ ./run.sh clean all
 
 # Github Actions
 
-These integration tests are run via github actions on every push. See here:
+These integration tests are run via github actions on every push (along with the tests for 3 other projects). The steps are kept deliberately
+simple to prevent a CI debugging explosion.
 
 * [Github actions YAML](https://github.com/hitchdev/hitchstory/blob/master/.github/workflows/examples.yml)
 * [Runner](https://github.com/hitchdev/hitchstory/actions/workflows/examples.yml)
@@ -76,8 +52,3 @@ The tests in this project are run from a podman container and the REST API is ru
 graph TD;
     TestContainer-->AppContainer;
 ```
-
-
-# Future tweaks to this project
-
-- [ ] Handle a REST API response which returns a different UUID each time it is called.

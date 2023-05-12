@@ -15,6 +15,7 @@ from podman import App
 from commandlib import Command
 import requests
 import time
+import json
 
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
@@ -44,6 +45,7 @@ class Engine(BaseEngine):
             {
                 Optional("code"): Int(),
                 "content": Str(),
+                Optional("varying"): MapPattern(Str(), Enum(["uuid", "timestamp"])),
             }
         ),
     )
@@ -62,8 +64,25 @@ class Engine(BaseEngine):
                     f"should be {response['code']}"
                 )
 
+        json_actual_response = json.loads(actual_response.content)
+        json_expected_response = json.loads(response["content"])
+        for varying_key, varying_type in response.get("varying", {}).items():
+            *other_keys, last_key = varying_key.split("/")
+
+            actual_chunk = json_actual_response
+            expected_chunk = json_expected_response
+
+            for key in other_keys:
+                actual_chunk = actual_chunk[key]
+                expected_chunk = expected_chunk[key]
+
+            if last_key in actual_chunk:
+                expected_chunk[last_key] = actual_chunk[last_key]
+
+        expected = json.dumps(json_expected_response, indent=4, sort_keys=True)
+
         try:
-            json_match(response["content"], actual_response.text)
+            json_match(expected, actual_response.text)
         except Failure:
             if self._rewrite:
                 self.current_step.rewrite("response", "content").to(
@@ -81,7 +100,6 @@ class Engine(BaseEngine):
     def on_success(self):
         if self._rewrite:
             self.new_story.save()
-
 
 
 collection = StoryCollection(
