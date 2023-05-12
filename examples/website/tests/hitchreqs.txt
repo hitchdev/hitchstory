@@ -17,9 +17,7 @@ colorama==0.4.6
     #   hitchstory
     #   prettystack
 commandlib==0.3.5
-    # via
-    #   -r tests/hitchreqs.in
-    #   icommandlib
+    # via -r tests/hitchreqs.in
 decorator==5.1.1
     # via ipython
 executing==1.2.0
@@ -27,8 +25,6 @@ executing==1.2.0
 greenlet==2.0.1
     # via playwright
 hitchstory==0.21.0
-    # via -r tests/hitchreqs.in
-icommandlib==0.6.1
     # via -r tests/hitchreqs.in
 inflect==6.0.4
     # via -r tests/hitchreqs.in
@@ -81,13 +77,9 @@ prettystack==0.4.0
 prompt-toolkit==3.0.38
     # via ipython
 psutil==5.9.4
-    # via
-    #   hitchstory
-    #   icommandlib
+    # via hitchstory
 ptyprocess==0.7.0
-    # via
-    #   icommandlib
-    #   pexpect
+    # via pexpect
 pure-eval==0.2.2
     # via stack-data
 pydantic==1.10.7
@@ -98,8 +90,6 @@ pygments==2.15.0
     # via ipython
 pyproject-hooks==1.0.0
     # via build
-pyte==0.8.1
-    # via icommandlib
 pytest==7.3.1
     # via
     #   -r tests/hitchreqs.in
@@ -132,12 +122,8 @@ typing-extensions==4.5.0
     # via
     #   pydantic
     #   pyee
-uvloop==0.17.0
-    # via icommandlib
 wcwidth==0.2.6
-    # via
-    #   prompt-toolkit
-    #   pyte
+    # via prompt-toolkit
 wheel==0.40.0
     # via pip-tools
 

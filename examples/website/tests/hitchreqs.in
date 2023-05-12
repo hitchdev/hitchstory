@@ -1,15 +1,18 @@
-hitchstory
-ipython
-nest_asyncio
-commandlib
-icommandlib
-pip-tools
-pytest
-pytest-split
-podman-compose
-inflect
-pillow
-pixelmatch
+# Requirements for running the integration tests
+# This is separate from the application requirements.txt / requirements.in
+# Run "./run.sh make hitchreqs" to rebuild hitchreqs.txt.
 
-# Keep the tied to the version in Dockerfile-playwright
+pytest              # tests
+hitchstory          # for strictyaml story interpretation -> pytests
+ipython             # REPL for use in the test environment
+nest_asyncio        # To make ipython play well with playwright
+commandlib          # Syntactic sugar for running UNIX commands
+pip-tools           # For rebuilding hitchreqs.txt from this file.
+pytest-split        # For parallelizing test runs
+podman-compose      # For running services (equivalent of docker compose)
+inflect             # Helper functions for generating docs.
+pillow              # Image manipulation (for screenshots)
+pixelmatch          # For snapshot testing of screenshots
+
+# Keep this tied to the version in Dockerfile-playwright
 playwright==1.32.0
