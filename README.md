@@ -219,6 +219,10 @@ button analytics not found
 $ pip install hitchstory
 ```
 
+## Community
+
+Help is available if you ask questions in these places: [Github discussions](https://github.com/hitchdev/hitchstory/discussions) | [Github issues](https://github.com/hitchdev/hitchstory/issues) (not just for bugs)
+
 ## Using HitchStory
 
 Every feature of this library is documented and listed below.
