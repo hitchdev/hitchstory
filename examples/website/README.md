@@ -1,21 +1,22 @@
 # End to End Tests with Playwright, Pytest and Hitchstory
 
-This example project demonstrates a combination of what I'd consider best practices for end to end tests on websites:
+This example project demonstrates a combination best practices for end to end tests on websites:
 
 * Built in snapshot testing on screenshots.
-* Change "given a chromium browser" to "given a firefox browser" on the story and it should just work.
 * Absolute environmental consistency and portability (Mac/WSL/Linux) via containerization and dependency pinning.
-* Every project task performable via one script (`./run.sh`) - running tests, building, generating docs, whatever.
-* Browser tests that can be run in headless mode or with VNC - if you need to right click and inspect element.
-* Database fixtures can be trivially set up in-story.
-* Database fixtures are cached as podman volumes after the first test run.
 * One step set up: `./run.sh make`.
+* Browser tests that can be easily run in headless mode or with VNC so you can interact with a GUI.
+* Every project task doable via one script (`./run.sh`) - building, running tests, generating docs, re-pinning dependencies.
+* Database fixtures which can be trivially configured in-story.
+* Database fixtures from one story which can be re-used in another via story inheritance.
+* Database fixtures which are cached as podman volumes after being built - for faster tests.
+* Built-in multibrowser - "given a chromium browser" to "given a firefox browser" on the story and it should just work.
+* Ultra simple 2 step github actions config to run all of the tests.
 
-Along with some new best practices enabled by hitchstory:
+Along with some cool new features enabled by hitchstory:
 
-* Autogeneration of beautiful documentation based on tests and customized templates - complete with the aforementioned snapshot screenshots and mini gifs.
-* The tests can rewrite themselves from program output - e.g. change the text of an error message, run the test in rewrite mode and the step that validates the message updates itself.
-* Test inheritance - e.g. using test fixtures in one story as the basis for another.
+* Autogeneration of beautiful markdown documentation based on tests and customized templates - complete with screenshots and gifs.
+* The tests can rewrite themselves from program output - change the text of an error message, run the test in rewrite mode and the step that validates the message updates itself.
 
 ## 3 step set up
 
@@ -85,20 +86,6 @@ regenerate [the corresponding markdown documentation](https://github.com/hitchde
 ## How?
 
 The code that rewrites the story is [in the should_appear method in test_integration.py](https://github.com/hitchdev/hitchstory/blob/master/examples/website/tests/test_integration.py#LL104C14-L104C14).
-
-The same class also contains code for recording video and
-
-
-## Additional features on this repo:
-
-* The entire environment can be set up with one script and runs rootless inside one podman container and volume.
-* The browser tests can run in headless mode or with VNC.
-* The tests generate screenshots which are used for snapshot testing (comparing pixel by pixel) and used in the markdown docs.
-* The database fixtures can be written in-story.
-* Everything runs rootless using podman-in-podman.
-* No magic but still a very small amount of code required.
-
-The app under test is built in Django, but it can in theory test any combination of services that can be run with a docker-compose.yaml file.
 
 
 ## Run all the tests
