@@ -1,6 +1,11 @@
 # Changelog
 
 
+### 0.23.0
+
+* BUGFIX : Inheritance bug fixed.
+
+
 ### 0.22.0
 
 * FEATURE : Rewriting subkeys of arguments now possible.
