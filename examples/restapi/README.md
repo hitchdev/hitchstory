@@ -1,15 +1,27 @@
-# REST API Tests with HitchStory
+# REST API Tests with Pytest, HitchStory and Podman
 
-This project contains a sample REST API project that demonstrates
-a few end to REST API end test best practices with hitchstory:
+<div align="center">
+  <div style="display: flex;">
+    <img src="https://hitchdev.com/images/rest-api-story.png" style="vertical-align: top;" />
+    <img src="https://hitchdev.com/images/rest-api-docs.png" />
+  </div>
+</div>
 
-* Rewritable stories: if the REST API response is modified in code, running the test in rewrite mode will rewrite the response in the test.
+This example project demonstrates a combination of best practices and state of the art practices for isolated REST API tests:
+
+* One step set up: ./run.sh make.
+* Absolute and total environmental consistency and portability (Mac/WSL/Linux) via containerization and dependency pinning.
+* Every project task runnable via one script (./run.sh) - building, running tests, generating docs, re-pinning dependencies.
 * The handling of fields whose outputs vary upon each test run (UUID, timestamp).
+* Rewritable stories: if the REST API response is modified in code, running the test in rewrite mode will rewrite the response in the test.
 * Rewritable documentation: templated generation of readable markdown docs demonstrating user stories with API snippets (useful for BDD).
-* Absolute environmental consistency and portability via podman-in-podman (the test container orchestrates app container) and dependency pinning.
-* Every project task performable via one script (`./run.sh`).
-* One step build and set up (`./run.sh make`).
-* Simplified continuous integration.
+* Ultra simple 3 step github actions config to run all of the tests.
+
+It is a work in progress. These are some features I'll be adding soon:
+
+- [ ] Database fixtures - similar to how it works in the website example https://github.com/hitchdev/hitchstory/blob/master/examples/website/
+- [ ] Use of podman-compose - similiar to https://github.com/hitchdev/hitchstory/blob/master/examples/website/
+- [ ] Validation of UUID and timestamp (e.g. via regex).
 
 ## Set up
 
