@@ -40,6 +40,34 @@ $ ./run.sh make  # builds one local container and volume, and one container insi
 ```
 
 
+## Run tests
+
+Pytest can be run in the normal way. Run without args to run both tests:
+
+```
+$ ./run.sh pytest [ args ]
+```
+
+## Run tests in rewrite mode
+
+Try amending the REST API response in the code first. Then run this:
+
+```
+$ STORYMODE=rewrite ./run.sh pytest [ args ]
+```
+
+
+## Regenerate docs
+
+```
+./run.sh docgen
+```
+
+## Re-pin python test dependencies
+
+```
+./run.sh make hitchreqs
+```
 
 ## Clean up everything
 
