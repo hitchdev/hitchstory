@@ -12,13 +12,13 @@ steps:
     
     Request on {{ request["path"] }}
     
-    {% if request_content %}
+    {% if "content" in request %}
     ```json
-    {{ request_content }}
+    {{ request["content"] }}
     ```
     {% endif %}
     
     Will respond with:
     ```json
-    {{ response_content }}
+    {{ response["content"] }}
     ```

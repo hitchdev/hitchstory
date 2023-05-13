@@ -24,7 +24,7 @@ Request on /todo
 Will respond with:
 ```json
 {
-  "message": "buy bread"
+    "message": "buy bread"
 }
 
 ```
