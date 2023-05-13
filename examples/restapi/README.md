@@ -9,18 +9,18 @@
 
 This example project demonstrates a combination of best practices and state of the art practices for isolated REST API tests:
 
-* One step set up: ./run.sh make.
-* Absolute and total environmental consistency and portability (Mac/WSL/Linux) via containerization and dependency pinning.
+* One step set up: `./run.sh make`.
+* Absolute and total environmental consistency and portability (Mac/WSL/Linux) via containerization, dependency pinning and container-in-container (podman-in-podman).
 * Every project task runnable via one script (./run.sh) - building, running tests, generating docs, re-pinning dependencies.
-* The handling of fields whose outputs vary upon each test run (UUID, timestamp).
+* Handling of fields whose outputs change upon each test run (UUID, timestamp).
 * Rewritable stories: if the REST API response is modified in code, running the test in rewrite mode will rewrite the response in the test.
-* Rewritable documentation: templated generation of readable markdown docs demonstrating user stories with API snippets (useful for BDD).
-* Ultra simple 3 step github actions config to run all of the tests.
+* Rewritable documentation: [templated](https://github.com/hitchdev/hitchstory/blob/master/examples/restapi/tests/docstory.yml) generation of [readable markdown docs](https://github.com/hitchdev/hitchstory/blob/master/examples/restapi/docs/add-and-retrieve-todo.md) demonstrating user stories with API snippets (useful for BDD).
+* Ultra simple 2 step [github actions config](https://github.com/hitchdev/hitchstory/blob/master/.github/workflows/examples.yml) to run all of the tests.
 
 It is a work in progress. These are some features I'll be adding soon:
 
-- [ ] Database fixtures - similar to how it works in the website example https://github.com/hitchdev/hitchstory/blob/master/examples/website/
-- [ ] Use of podman-compose - similiar to https://github.com/hitchdev/hitchstory/blob/master/examples/website/
+- [ ] Database fixtures - copied from the website example https://github.com/hitchdev/hitchstory/blob/master/examples/website/
+- [ ] Use of podman-compose - also copied from  https://github.com/hitchdev/hitchstory/blob/master/examples/website/
 - [ ] Validation of UUID and timestamp (e.g. via regex).
 
 ## Set up
