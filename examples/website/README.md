@@ -1,11 +1,21 @@
-# Self-Rewriting Documentation Writing Playwright Tests with HitchStory
+# End to End Tests with Playwright, Pytest and Hitchstory
 
-![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
+This example project demonstrates a combination of what I'd consider best practices for end to end tests on websites:
 
-## The storytests on this project are different. They:
+* Built in snapshot testing on screenshots.
+* Change "given a chromium browser" to "given a firefox browser" on the story and it should just work.
+* Absolute environmental consistency and portability (Mac/WSL/Linux) via containerization and dependency pinning.
+* Every project task performable via one script (`./run.sh`) - running tests, building, generating docs, whatever.
+* Browser tests that can be run in headless mode or with VNC - if you need to right click and inspect element.
+* Database fixtures can be trivially set up in-story.
+* Database fixtures are cached as podman volumes after the first test run.
+* One step set up: `./run.sh make`.
 
-* Can rewrite themselves based upon program output.
-* Autogenerate markdown documentation with video and screenshots.
+Along with some new best practices enabled by hitchstory:
+
+* Autogeneration of beautiful documentation based on tests and customized templates - complete with the aforementioned snapshot screenshots and mini gifs.
+* The tests can rewrite themselves from program output - e.g. change the text of an error message, run the test in rewrite mode and the step that validates the message updates itself.
+* Test inheritance - e.g. using test fixtures in one story as the basis for another.
 
 ## 3 step set up
 
