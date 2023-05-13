@@ -19,7 +19,7 @@ def convert_to_slow_gif(webm_path: Path):
 
     # Cut first second - just blank loading
     ffmpeg(
-        "-i", webm_path, "-ss", "1", "-t", "1", "-fflags", "+genpts", webm_temp
+        "-i", webm_path, "-ss", "1", "-fflags", "+genpts", webm_temp
     ).output()
 
     # Convert to GIF

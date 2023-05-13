@@ -4,7 +4,7 @@
 # Run "./run.sh make hitchreqs" to rebuild hitchreqs.txt.
 
 pytest              # tests
-hitchstory          # for strictyaml story interpretation -> pytests
+hitchstory>=0.23.0  # for strictyaml story interpretation -> pytests
 ipython             # REPL for use in the test environment
 nest_asyncio        # To make ipython play well with playwright
 commandlib          # Syntactic sugar for running UNIX commands
