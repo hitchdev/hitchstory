@@ -1,6 +1,6 @@
 # End to End Tests with Playwright, Pytest and Hitchstory
 
-This example project demonstrates a combination best practices for end to end tests on websites:
+This example project demonstrates a combination of **best practices** for **end to end tests on websites**:
 
 * Built in snapshot testing on screenshots.
 * Absolute environmental consistency and portability (Mac/WSL/Linux) via containerization and dependency pinning.
