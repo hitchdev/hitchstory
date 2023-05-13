@@ -7,6 +7,7 @@ from hitchstory import docstory
 from hitchstory import utils
 from collections import OrderedDict
 from slugify import slugify
+import mergedeep
 import colorama
 import time
 
@@ -63,7 +64,11 @@ class Story(object):
                 if name not in precondition_dict:
                     precondition_dict[name] = precondition
                 else:
-                    precondition_dict[name].update(precondition)
+                    merged = mergedeep.merge(
+                        {}, precondition_dict[name], precondition
+                    )
+                    precondition_dict[name] = merged
+                
             else:
                 precondition_dict[name] = precondition
         return precondition_dict

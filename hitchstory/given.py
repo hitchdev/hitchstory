@@ -39,6 +39,7 @@ class Given(object):
         self, preconditions, child_preconditions=None, document_templates=None
     ):
         self._preconditions = preconditions
+        
         if child_preconditions is not None:
             self.child = Given(child_preconditions)
         else:
