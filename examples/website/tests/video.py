@@ -1,16 +1,18 @@
-from pathlib import Path
+"""
+Convert playwright's webm to a gif that plays at a reasonable
+speed with a file size that is reasonably small.
 
+GIFs are nice because the documentation can have a repeating
+video at the top of the docs demonstrating the feature, and it
+displays on github (provided you're not looking at it using the
+github app).
+"""
+
+from pathlib import Path
 from commandlib import Command
 
 
 def convert_to_slow_gif(webm_path: Path):
-    """
-    Convert playwright's webm to a gif that plays at a reasonable
-    speed with a file size that is reasonably small.
-
-    GIFs are necessary because github's markdown doesn't seem to
-    play anything else on loop.
-    """
     gif_path = webm_path.parent / f"{webm_path.stem}.gif"
     webm_temp = webm_path.parent / "webm_temp.webm"
     palette_path = webm_path.parent / "palette.png"

@@ -2,9 +2,17 @@
 Rudimentary screenshot testing done with the amazing
 https://github.com/whtsky/pixelmatch-py library.
 
-Potential improvements:
+On failure, it spits out a "diff" image.
 
-* Handle areas of the screenshot varying.
+Screenshot testing can be a bit flaky, especially on complex
+apps. I don't necessarily recommend it for all use cases.
+
+This flakiness can happen because of:
+
+* Playwright quirks.
+* Small differences in timings - e.g. icons loading fast on one environment and showing up and slower on another.
+* Nondeterministic rendering - e.g. lists displayed in a non-guaranteed order.
+* Time differences - e.g. if a date is displayed at the top of a page.
 """
 from pixelmatch.contrib.PIL import pixelmatch
 from hitchstory import Failure

@@ -1,3 +1,8 @@
+"""
+Generates the markdown docs in docs/ using docstory.yml
+and the YAML stories marked for documentation as the input.
+"""
+
 from pathlib import Path
 from hitchstory import StoryCollection
 from test_integration import Engine

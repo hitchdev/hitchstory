@@ -1,12 +1,10 @@
 """
 Code that manages the creation and loading of database fixtures.
 
-Currently it loads data into a database using Django only.
+Currently it loads data into a database using Django only, but with
+some tweaking you could use it to create a JSON file which any
+containerized database could load.
 
-Future work:
-
-* Automatically generate an SQL schema into a StrictYAML schema.
-* Automatically load data from that schema.
 """
 from strictyaml import Enum, Int, Str, MapPattern, Bool, Map, Int
 from pathlib import Path
@@ -36,7 +34,7 @@ class DbFixture:
     
     @property
     def datahash(self):
-        """Used to cache particular fixtures."""
+        """Used to cache built fixtures as podman volumes."""
         return hashlib.md5(json.dumps(self._data, sort_keys=True).encode()).hexdigest()[:10]
 
     def build(self, compose):
