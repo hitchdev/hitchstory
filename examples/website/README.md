@@ -18,7 +18,7 @@ Along with some cool new features enabled by hitchstory:
 * Autogeneration of beautiful markdown documentation based on tests and customized templates - complete with screenshots and gifs.
 * The tests can rewrite themselves from program output - change the text of an error message, run the test in rewrite mode and the step that validates the message updates itself.
 
-## 3 step set up
+## One step set up
 
 **Podman must be installed on your system first.**
 
