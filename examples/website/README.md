@@ -6,16 +6,16 @@ This example project demonstrates a combination of **best practices** and **stat
 * Built in snapshot testing on browser screenshots.
 * Absolute and total environmental consistency and portability (Mac/WSL/Linux) via containerization and dependency pinning.
 * Tests can be easily run in headless mode or with VNC so you can interact with a GUI.
-* Services under test all run via podman-compose-in-podman.
+* Services under test all run via podman-compose-in-podman (compatible with Dockerfiles/docker-compose files).
 * Every project task runnable via one script (`./run.sh`) - building, running tests, generating docs, re-pinning dependencies.
 * Database fixtures which can be trivially configured in-story.
 * Database fixtures which are cached as podman volumes after being built for faster test runs.
-* Built in multibrowser - use "given a chromium browser" to "given a firefox browser" on the story and both just work.
+* Multibrowser built in - use "given a chromium browser" to "given a firefox browser" on the story and both just work.
 * Integrated debugging: show all logs for the app under test as well as clear stack traces.
-* On test failures: save artefacts - a screenshot, a video of the failed test, the HTML at the point of failure and a "diff" screenshot if the test failed on a snapshot step.
+* On test failures: save artefacts - a screenshot, a video of the failed test, the HTML at the point of failure and a "diff" screenshot in the event of a snapshot failure.
 * Ultra simple 3 step github actions config to run all of the tests (& upload any artefacts).
-* Explicitly waiting for ports to open before kicking off the test (eliminates a common source of flakiness).
-* Easy in-test debugging (via ipython).
+* Explicitly waiting for ports to open before kicking off the test (eliminating a common source of flakiness).
+* Easy in-test REPL debugging (via ipython).
 
 Along with new state of the art features enabled by hitchstory:
 
