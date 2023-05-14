@@ -300,6 +300,7 @@ Best practices, how the tool was meant to be used, etc.
 - [Flaky Tests](approach/flaky-tests)
 - [Does hitchstory let "the business" write stories while you just write the code?](approach/human-writable)
 - [Separation of Test Concerns](approach/separation-of-test-concerns)
+- [Snapshot Test Driven Development](approach/snapshot-test-driven-development)
 - [Test Artefact Environment Isolation](approach/test-artefact-environment-isolation)
 - [Test concern leakage](approach/test-concern-leakage)
 - [Tests as an investment](approach/test-investment)

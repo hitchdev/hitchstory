@@ -10,6 +10,7 @@ HitchStory best practices are documented here:
 - [Flaky Tests](flaky-tests)
 - [Does hitchstory let "the business" write stories while you just write the code?](human-writable)
 - [Separation of Test Concerns](separation-of-test-concerns)
+- [Snapshot Test Driven Development](snapshot-test-driven-development)
 - [Test Artefact Environment Isolation](test-artefact-environment-isolation)
 - [Test concern leakage](test-concern-leakage)
 - [Tests as an investment](test-investment)

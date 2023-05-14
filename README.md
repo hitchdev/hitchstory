@@ -296,6 +296,7 @@ Best practices, how the tool was meant to be used, etc.
 - [Flaky Tests](https://hitchdev.com/hitchstory/approach/flaky-tests)
 - [Does hitchstory let "the business" write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)
 - [Separation of Test Concerns](https://hitchdev.com/hitchstory/approach/separation-of-test-concerns)
+- [Snapshot Test Driven Development](https://hitchdev.com/hitchstory/approach/snapshot-test-driven-development)
 - [Test Artefact Environment Isolation](https://hitchdev.com/hitchstory/approach/test-artefact-environment-isolation)
 - [Test concern leakage](https://hitchdev.com/hitchstory/approach/test-concern-leakage)
 - [Tests as an investment](https://hitchdev.com/hitchstory/approach/test-investment)
