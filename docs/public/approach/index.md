@@ -4,11 +4,11 @@ title: General Approach
 
 HitchStory best practices are documented here:
 
-- [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](bdd)
+- [Is HitchStory a BDD tool? How do I do BDD with hitchstory?](bdd)
 - [Complementary tools](complementary-tools)
 - [Executable specifications](executable-specifications)
 - [Flaky Tests](flaky-tests)
-- [Does hitchstory let "the business" write stories while you just write the code?](human-writable)
+- [ANTIPATTERN - Analysts writing stories for the developer](human-writable)
 - [Separation of Test Concerns](separation-of-test-concerns)
 - [Snapshot Test Driven Development](snapshot-test-driven-development)
 - [Test Artefact Environment Isolation](test-artefact-environment-isolation)
