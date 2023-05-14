@@ -1,8 +1,12 @@
 ---
-title: Does hitchstory let "the business" write stories while you just write the code?
+title: "The business" writing stories for the developer antipattern
 ---
 
-Having "analysts" write and read stories instead of programmers was an explicit goal of several BDD tools like Cucumber. However, the reality of these tools is that "the business" is rarely interested in reading these stories, let alone writing them.
+>Gherkin allows Business Analysts to document acceptance tests in a language developers, QA & the business can understand (i.e. the language of Gherkin). By having a common language to describe acceptance tests, it encourages collaboration and a common understanding of the tests being run. - [Gherkin for business analysts](https://www.modernanalyst.com/Resources/Articles/tabid/115/ID/3810/Gherkin-for-Business-Analysts.aspx)
+
+Having analysts write and read stories instead of programmers was an explicit goal of most BDD tools like Cucumber. This was an enticing prospect - the developer wouldn't have to write tests (what a chore!). The product owner 
+
+However, the reality of these tools is that stakeholders are interested in even reading these stories, let alone writing them.
 
 This is an explicit non-goal of hitchstory. The framework is designed such that
 it does not have loops, conditionals or other such accoutrements of a programming
