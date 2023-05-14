@@ -36,7 +36,7 @@ A language which can be used to execute tests *and* agree intended behavior with
 
 With Gherkin, I think it usually did.
 
-- Difficult to read scenario language. For example, if a program is largely tested with xUnit tests, even though the stakeholders will understand the scenarios they will usually not be able to read the tests.
+- If you used a difficult to read scenario language. For example, if a program is largely tested with xUnit tests, even though the stakeholders will understand the scenarios they will usually not be able to read the tests.
 
 - Inexpressive scenario language. A language that routinely abstracts away important details about the specification or ends up being very repetitive may be usable to write tests, but not to do do BDD. This is the most common failure mode with Gherkin/Cucumber tests due to their structure and syntax.
 
