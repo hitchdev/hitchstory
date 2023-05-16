@@ -55,6 +55,10 @@ class DbFixture:
                 )
 
         compose("up", "db", "-d").output()
+        
+        import time
+        time.sleep(5)
+        
         Path(PROJECT_DIR).joinpath("app", "given.json").write_text(
             json.dumps(fixture_data, indent=4)
         )
