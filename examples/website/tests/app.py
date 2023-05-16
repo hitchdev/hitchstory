@@ -19,11 +19,11 @@ import time
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
-
 class Services:
     """
     Sets up and runs the necessary services with podman-compose.
     """
+
     def __init__(self, env, ports=None, timeout=10.0):
         self._podman = Command("podman").in_dir(PROJECT_DIR)
         self._compose = python_bin.podman_compose.with_env(**env).in_dir(PROJECT_DIR)
@@ -35,11 +35,10 @@ class Services:
         for port in self._ports:
             if self._port_open(port):
                 raise Failure(f"Port {port} in use. Is another test running?")
-        
+
         self._set_up_database(db_fixture)
         self._compose("up", "-d").output()
         self._wait_for_ports()
-
 
     def _set_up_database(self, db_fixture: DbFixture):
         db_fixture.build(self._compose)
@@ -70,7 +69,7 @@ class Services:
                         )
                 else:
                     break
-                
+
     def _port_open(self, port_number: int) -> bool:
         """Is port_number port open?"""
         try:

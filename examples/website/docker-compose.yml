@@ -1,5 +1,7 @@
 version: '3.8'
 
+# N.B. ALWAYS ADD network_mode: host to ALL NEW SERVICES
+
 services:
   playwright:
     network_mode: host
@@ -19,7 +21,24 @@ services:
     volumes:
     - db-data:/data
     - /src/app:/app
-    
+    environment:
+    - SQL_ENGINE=django.db.backends.postgresql
+    - SQL_DATABASE=hello_django_dev
+    - SQL_USER=hello_django
+    - SQL_PASSWORD=hello_django
+    - SQL_HOST=localhost
+    - SQL_PORT=5432
+
+
+  db:
+    network_mode: host
+    image: postgres:13.0-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
 
 volumes:
   db-data:

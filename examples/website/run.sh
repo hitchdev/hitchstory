@@ -39,6 +39,9 @@ case "$1" in
                 fi
                 podman volume create $GEN_VOLUME_NAME
                 ;;
+            "dbcache")
+                hitchrun "find /gen -name datacache-*.tar -delete"
+                ;;
             *)
                 echo "Invalid clean target. ./run.sh clean [all]"
                 exit 1
