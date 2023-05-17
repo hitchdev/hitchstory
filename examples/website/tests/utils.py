@@ -19,7 +19,7 @@ def wait_for_port(port_number: int, timeout=10.0):
             time.sleep(0.05)
             if time.perf_counter() - start_time >= timeout:
                 raise Failure(
-                    f"Port {port} on localhost not responding after {timeout} seconds."
+                    f"Port {port_number} on localhost not responding after {timeout} seconds."
                 )
         else:
             break
