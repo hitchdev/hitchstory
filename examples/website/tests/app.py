@@ -7,6 +7,7 @@ Potential improvements:
 * More directed error handling (currently it dumps the output of all of the logs).
 """
 from commandlib import python_bin, Command
+from utils import port_open, wait_for_port
 from db_fixtures import DbFixture
 from hitchstory import Failure
 from pathlib import Path
@@ -33,7 +34,7 @@ class Services:
     def start(self, db_fixture: DbFixture):
         """Start the services."""
         for port in self._ports:
-            if self._port_open(port):
+            if port_open(port):
                 raise Failure(f"Port {port} in use. Is another test running?")
 
         self._set_up_database(db_fixture)
@@ -59,26 +60,7 @@ class Services:
     def _wait_for_ports(self):
         """Service readiness checker."""
         for port in self._ports:
-            start_time = time.perf_counter()
-            while True:
-                if not self._port_open(port):
-                    time.sleep(0.05)
-                    if time.perf_counter() - start_time >= self._timeout:
-                        raise Failure(
-                            f"Port {port} on localhost not responding after {self._timeout} seconds."
-                        )
-                else:
-                    break
-
-    def _port_open(self, port_number: int) -> bool:
-        """Is port_number port open?"""
-        try:
-            with socket.create_connection(
-                ("localhost", port_number), timeout=self._timeout
-            ):
-                return True
-        except OSError:
-            return False
+            wait_for_port(port, timeout=self._timeout)
 
     def logs(self):
         self._compose("logs").run()
