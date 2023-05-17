@@ -17,7 +17,7 @@ from db_fixtures import FIXTURE_SCHEMA, DbFixture
 from slugify import slugify
 from pathlib import Path
 from os import getenv
-from app import Services
+from services import Services
 import nest_asyncio
 import time
 import sys
