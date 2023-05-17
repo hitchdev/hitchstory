@@ -47,6 +47,7 @@ It is a work in progress. These are more things I'll be adding soon:
 - [ ] Aggressive caching on github actions while keeping the config as simple as possible.
 - [ ] Aggressive parallelization end to end test runs on github actions while keeping the config as simple as possible.
 - [ ] Proxied external API calls in live and recorded mode (via mitmproxy).
+- [ ] Fixtures that include arbitrary data from python's faker that can still be used for snapshot testing - e.g. "given: 10 arbitrary users".
 
 ## One step set up
 
