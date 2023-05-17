@@ -1,5 +1,8 @@
 # End to End Tests with Playwright, Pytest and Hitchstory
 
+[![Tests running on Github Actions](https://github.com/hitchdev/hitchstory/actions/workflows/example-website.yml/badge.svg)](https://github.com/hitchdev/hitchstory/actions/workflows/example-website.yml)
+
+
 This example project demonstrates a combination of **best practices** and **state of the art practices** for isolated **end to end web app testing**:
 
 Ease of set up and use:
