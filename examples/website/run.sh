@@ -42,6 +42,9 @@ case "$1" in
             "dbcache")
                 hitchrun "find /gen -name datacache-*.tar -delete"
                 ;;
+            "prune")
+                hitchrun "podman system prune --all"
+                ;;
             *)
                 echo "Invalid clean target. ./run.sh clean [all]"
                 exit 1
