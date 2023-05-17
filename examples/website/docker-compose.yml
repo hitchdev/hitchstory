@@ -4,7 +4,7 @@ version: '3.8'
 
 # ALWAYS ADD network_mode: host to ALL NEW SERVICES
 # ALWAYS add docker.io/ to the beginning of any images.
-# Otherwise, you can use it like you would any docker-compose.yml.
+# Otherwise, you can mostly use it like you would any docker-compose.yml.
 
 services:
   playwright:
@@ -32,11 +32,14 @@ services:
     - SQL_PASSWORD=hello_django
     - SQL_HOST=localhost
     - SQL_PORT=5432
+    depends_on: 
+      db:
+        condition: service_healthy
 
   db:
-    # fsync off should NEVER be used in prod but it speeds up tests
-    command: -c fsync=off
     network_mode: host
+    # unsafe, speeds up tests
+    command: -c fsync=off
     image: docker.io/postgres:13.0-alpine
     volumes:
       - db-data:/var/lib/postgresql/data/
@@ -44,6 +47,12 @@ services:
       - POSTGRES_USER=hello_django
       - POSTGRES_PASSWORD=hello_django
       - POSTGRES_DB=hello_django_dev
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 1s
+      timeout: 4s
+      retries: 3
+
 
 volumes:
   db-data:
