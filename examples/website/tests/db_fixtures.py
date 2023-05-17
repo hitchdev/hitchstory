@@ -42,6 +42,8 @@ class DbFixture:
 
     def build(self, compose):
         """Builds Django fixtures and runs the loaddata command."""
+        compose("up", "db", "-d").output()
+
         fixture_data = []
 
         for model, model_data in self._data.items():
@@ -54,12 +56,11 @@ class DbFixture:
                     }
                 )
 
-        compose("up", "db", "-d").output()
 
         given_json = Path(PROJECT_DIR).joinpath("app", "given.json")
         given_json.write_text(dumps(fixture_data, indent=4))
-
         wait_for_port(5432)
+
         compose("run", "app", "migrate", "--noinput").output()
         compose("run", "app", "loaddata", "-i", "given.json").output()
         given_json.unlink()
