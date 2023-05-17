@@ -42,7 +42,9 @@ services:
     command: -c fsync=off
     image: docker.io/postgres:13.0-alpine
     volumes:
-      - db-data:/var/lib/postgresql/data/
+      - type: volume
+        source: db-data
+        target: /var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=hello_django
       - POSTGRES_PASSWORD=hello_django
