@@ -18,7 +18,9 @@ PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 class Services:
     """
-    Sets up and runs the necessary services with podman-compose.
+    * Sets up and runs the necessary services with podman-compose.
+    * Calls out to set up the db fixtures beforehand.
+    * Waits for services to be ready before letting the rest of the test proceed.
     """
 
     def __init__(self, env, ports=None, timeout=10.0):
@@ -30,7 +32,7 @@ class Services:
     def start(self, db_fixture: DbFixture):
         """Start the services."""
         for port in self._ports:
-            if port_open(port):
+            if port_open(port, timeout=0.01):
                 raise Failure(f"Port {port} in use. Is another test running?")
 
         self._set_up_database(db_fixture)
@@ -38,8 +40,6 @@ class Services:
         self._wait_for_ports()
 
     def _set_up_database(self, db_fixture: DbFixture):
-        db_fixture.build(self._compose)
-
         cachepath = Path("/gen/datacache-{}.tar".format(db_fixture.datahash))
         self._podman("volume", "rm", "src_db-data", "-f").output()
 
@@ -65,4 +65,4 @@ class Services:
         self._compose("logs", "app").run()
 
     def stop(self):
-        self._compose("down", "-t", "1").output()
+        self._compose("down", "--remove-orphans", "-t", "1").output()
