@@ -5,9 +5,7 @@ import socket
 
 def port_open(port_number: int, timeout=2.5):
     try:
-        with socket.create_connection(
-            ("localhost", port_number), timeout=timeout
-        ):
+        with socket.create_connection(("localhost", port_number), timeout=timeout):
             return True
     except OSError:
         return False
@@ -15,7 +13,7 @@ def port_open(port_number: int, timeout=2.5):
 
 def wait_for_port(port_number: int, timeout=10.0):
     start_time = time.perf_counter()
-    
+
     while True:
         if not port_open(port_number):
             time.sleep(0.05)

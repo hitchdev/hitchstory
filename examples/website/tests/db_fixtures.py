@@ -7,9 +7,11 @@ containerized database could load.
 
 """
 from strictyaml import Enum, Int, Str, MapPattern, Bool, Map, Int
+from utils import wait_for_port
 from pathlib import Path
-import hashlib
-import json
+from hashlib import md5
+from json import dumps
+
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
@@ -35,10 +37,8 @@ class DbFixture:
 
     @property
     def datahash(self):
-        """Used to cache built fixtures as podman volumes."""
-        return hashlib.md5(json.dumps(self._data, sort_keys=True).encode()).hexdigest()[
-            :10
-        ]
+        """Unique hash identifying a fixture - used for caching."""
+        return md5(dumps(self._data, sort_keys=True).encode()).hexdigest()[:10]
 
     def build(self, compose):
         """Builds Django fixtures and runs the loaddata command."""
@@ -55,15 +55,13 @@ class DbFixture:
                 )
 
         compose("up", "db", "-d").output()
-        
-        import time
-        time.sleep(5)
-        
-        Path(PROJECT_DIR).joinpath("app", "given.json").write_text(
-            json.dumps(fixture_data, indent=4)
-        )
 
+        given_json = Path(PROJECT_DIR).joinpath("app", "given.json")
+        given_json.write_text(dumps(fixture_data, indent=4))
+
+        wait_for_port(5432)
         compose("run", "app", "migrate", "--noinput").output()
         compose("run", "app", "loaddata", "-i", "given.json").output()
-        Path(PROJECT_DIR).joinpath("app", "given.json").unlink()
+        given_json.unlink()
+
         compose("down", "db").output()

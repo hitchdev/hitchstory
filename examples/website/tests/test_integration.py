@@ -22,6 +22,10 @@ import nest_asyncio
 import time
 import sys
 
+# This allows the IPython REPL to play nicely with Playwright,
+# since they both want an event loop.
+# To pause and debug any code at any point in these modules,
+# use __import__("IPython").embed()
 nest_asyncio.apply()
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
@@ -32,7 +36,7 @@ class Engine(BaseEngine):
     Python engine for validating, running and debugging YAML stories.
     """
 
-    # Custom metadata about the stories
+    # StrictYAML schemas for metadata about the stories
     # See docs: https://hitchdev.com/hitchstory/using/engine/metadata/
     info_definition = InfoDefinition(
         context=InfoProperty(schema=Str()),
@@ -40,18 +44,20 @@ class Engine(BaseEngine):
         docs=InfoProperty(schema=Bool()),
     )
 
-    # Preconditions
+    # StrictYAML schemas for given preconditions
     # See docs: https://hitchdev.com/hitchstory/using/engine/given/
     given_definition = GivenDefinition(
         browser=GivenProperty(schema=Enum(["firefox", "chromium", "webkit"])),
         data=GivenProperty(
             schema=FIXTURE_SCHEMA,
+            # This makes dict preconditions on child stories merge with the
+            # preconditions on parent stories.
             inherit_via=GivenProperty.OVERRIDE,
         ),
     )
 
     def __init__(self, rewrite=False, vnc=False, timeout=10.0):
-        """Initialize the engine"""
+        """Initialize the engine in the desired mode."""
         self._rewrite = rewrite
         self._vnc = vnc
         self._timeout = timeout
@@ -82,7 +88,7 @@ class Engine(BaseEngine):
         self._page.set_default_navigation_timeout(int(self._timeout * 1000))
         self._page.set_default_timeout(int(self._timeout * 1000))
 
-    ## STEP METHODS
+    ## STEP METHODS - see steps in *.story files in the story folder.
     def load_website(self, url):
         self._page.goto(f"http://localhost:8000/{url}")
         self._screenshot()
@@ -130,8 +136,10 @@ class Engine(BaseEngine):
 
     def _screenshot(self):
         """
-        Save screenshots associated with step for use in docs and
-        compare them.
+        Compare screenshot of current state against stored screenshot
+        or takes a new screenshot.
+
+        These screenshots are also displayed in the docs.
         """
         golden_snapshot = (
             PROJECT_DIR
@@ -178,6 +186,7 @@ class Engine(BaseEngine):
             self._page.close()
             self._page.video.save_as(PROJECT_DIR / "artefacts" / "failure.webm")
         if hasattr(self, "_services"):
+            # Display logs from app under test
             self._services.logs()
 
     def on_success(self):
@@ -195,7 +204,7 @@ class Engine(BaseEngine):
 
 
 collection = StoryCollection(
-    # Grab all *.story YAML files in this directory
+    # Grab all stories from all *.story files in the story directory.
     Path(__file__).parent.parent.joinpath("story").glob("*.story"),
     Engine(
         rewrite=getenv("STORYMODE", "") == "rewrite",
@@ -204,7 +213,7 @@ collection = StoryCollection(
     ),
 )
 
-# Turn them into pytest tests
+# Turn all stories into pytest tests
 collection.with_external_test_runner().only_uninherited().ordered_by_name().add_pytests_to(
     module=__import__(__name__)  # This module
 )

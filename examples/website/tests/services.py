@@ -11,10 +11,6 @@ from utils import port_open, wait_for_port
 from db_fixtures import DbFixture
 from hitchstory import Failure
 from pathlib import Path
-import hashlib
-import socket
-import json
-import time
 
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
