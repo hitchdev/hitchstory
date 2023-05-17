@@ -32,7 +32,7 @@ services:
 
   db:
     network_mode: host
-    image: postgres:13.0-alpine
+    image: docker.io/postgres:13.0-alpine
     volumes:
       - db-data:/var/lib/postgresql/data/
     environment:
