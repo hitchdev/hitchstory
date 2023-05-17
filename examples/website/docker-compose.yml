@@ -1,6 +1,10 @@
 version: '3.8'
 
-# N.B. ALWAYS ADD network_mode: host to ALL NEW SERVICES
+# !!! WARNING !!!
+
+# ALWAYS ADD network_mode: host to ALL NEW SERVICES
+# ALWAYS add docker.io/ to the beginning of any images.
+# Otherwise, you can use it like you would any docker-compose.yml.
 
 services:
   playwright:
@@ -29,8 +33,9 @@ services:
     - SQL_HOST=localhost
     - SQL_PORT=5432
 
-
   db:
+    # fsync off should NEVER be used in prod but it speeds up tests
+    command: -c fsync=off
     network_mode: host
     image: docker.io/postgres:13.0-alpine
     volumes:
