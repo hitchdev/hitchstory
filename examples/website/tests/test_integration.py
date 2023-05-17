@@ -66,7 +66,7 @@ class Engine(BaseEngine):
                 "VNC": "yes" if self._vnc else "no",
                 "VNCSCREENSIZE": "1024x768",
             },
-            ports=[3605, 8000],
+            ports=[3605, 8000, 5432],
             timeout=timeout,
         )
 
