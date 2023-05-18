@@ -3,7 +3,7 @@ title: Executable specifications
 ---
 
 An executable specification is an idea taken from
-[agile philosophy](http://www.agilemodeling.com/essays/executableSpecifications.htm):
+[agile philosophy](https://agilemodeling.com/essays/executablespecifications.html):
 
 >When trying to understand a class or operation most programmers will first look for sample code that already invokes it. Well-written unit/developers tests do exactly this – they provide a working specification of your functional code – and as a result unit tests effectively become a significant portion of your technical documentation. Similarly, acceptance tests can form an important part of your requirements documentation. This makes a lot of sense when you stop and think about it. Your acceptance tests define exactly what your stakeholders expect of your system, therefore they specify your critical requirements.
 
