@@ -32,7 +32,7 @@ FIXTURE_SCHEMA = MapPattern(
 
 
 class DbFixture:
-    VERSION = 1
+    VERSION = 2
 
     def __init__(self, data):
         self._data = data
@@ -65,6 +65,19 @@ class DbFixture:
         wait_for_port(5432)
 
         compose("run", "app", "migrate", "--noinput").output()
+        compose(
+            "run",
+            "-e",
+            "DJANGO_SUPERUSER_USERNAME=admin",
+            "-e",
+            "DJANGO_SUPERUSER_PASSWORD=password",
+            "-e",
+            "DJANGO_SUPERUSER_EMAIL=admin@admin.com",
+            "app",
+            "createsuperuser",
+            "--noinput",
+        ).output()
+
         compose("run", "app", "loaddata", "-i", "given.json").output()
         given_json.unlink()
 
