@@ -32,13 +32,17 @@ FIXTURE_SCHEMA = MapPattern(
 
 
 class DbFixture:
+    VERSION = 1
+
     def __init__(self, data):
         self._data = data
 
     @property
     def datahash(self):
         """Unique hash identifying a fixture - used for caching."""
-        return md5(dumps(self._data, sort_keys=True).encode()).hexdigest()[:10]
+        return md5(
+            bytes(self.VERSION) + dumps(self._data, sort_keys=True).encode()
+        ).hexdigest()[:10]
 
     def build(self, compose):
         """Builds Django fixtures and runs the loaddata command."""
@@ -55,7 +59,6 @@ class DbFixture:
                         "fields": fields,
                     }
                 )
-
 
         given_json = Path(PROJECT_DIR).joinpath("app", "given.json")
         given_json.write_text(dumps(fixture_data, indent=4))
