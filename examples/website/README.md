@@ -26,7 +26,7 @@ Database:
 * Database fixtures which can be trivially configured in-story.
 * Story inheritance with fixture merging to make it easy to build up relatively large database fixtures if you like.
 * Database fixtures are cached as podman volumes after being built for faster subsequent test runs.
-* High speed testing with postgres by turning fsync off (don't do this in prod!).
+* Faster testing with postgres by turning data safety features off (don't do this in prod!).
 
 Miscellaneous:
 

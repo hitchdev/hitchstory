@@ -38,7 +38,8 @@ services:
 
   db:
     network_mode: host
-    # unsafe, speeds up tests
+
+    # speeds up tests: https://www.endpointdev.com/blog/2012/06/speeding-up-integration-tests-postgresql/
     command: -c fsync=off -c synchronous_commit=off -c full_page_writes=off 
     image: docker.io/postgres:13.0-alpine
     volumes:
