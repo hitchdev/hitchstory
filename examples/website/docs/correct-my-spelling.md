@@ -23,6 +23,14 @@ but the application tries to correct the spelling.
   height="250px"
 />
 
+* Enter text `admin` on `username`.
+
+* Enter text `password` on `password`.
+
+* Click on `submit`.
+
+
+
 * Enter text `biuy breod` on `todo text`.
 
 * Click on `add`.
@@ -32,7 +40,7 @@ but the application tries to correct the spelling.
 
 
 <img 
-  src="correct-my-spelling-3-should_appear.png?raw=1"
+  src="correct-my-spelling-7-should_appear.png?raw=1"
   height="250px"
 />
 

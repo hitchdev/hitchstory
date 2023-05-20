@@ -56,7 +56,7 @@ class Engine(BaseEngine):
         ),
     )
 
-    def __init__(self, rewrite=False, vnc=False, timeout=10.0):
+    def __init__(self, rewrite=False, vnc=False, timeout=5.0):
         """Initialize the engine in the desired mode."""
         self._rewrite = rewrite
         self._vnc = vnc
@@ -84,9 +84,9 @@ class Engine(BaseEngine):
                 no_viewport=True,
             )
         )
+        self._browser.set_default_navigation_timeout(int(self._timeout * 1000))
+        self._browser.set_default_timeout(int(self._timeout * 1000))
         self._page = self._browser.new_page()
-        self._page.set_default_navigation_timeout(int(self._timeout * 1000))
-        self._page.set_default_timeout(int(self._timeout * 1000))
 
     ## STEP METHODS - see steps in *.story files in the story folder.
     def load_website(self, url):
@@ -114,6 +114,9 @@ class Engine(BaseEngine):
                 raise
 
         self._screenshot()
+    
+    def page_appears(self, page):
+        pass
 
     def pause(self):
         """Special step that pauses a test and launches a REPL."""
