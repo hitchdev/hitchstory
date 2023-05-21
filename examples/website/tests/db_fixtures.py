@@ -7,7 +7,6 @@ containerized database could load.
 
 """
 from strictyaml import Enum, Int, Str, MapPattern, Bool, Map, Int
-from utils import wait_for_port
 from pathlib import Path
 from hashlib import md5
 from json import dumps
@@ -62,7 +61,6 @@ class DbFixture:
 
         given_json = Path(PROJECT_DIR).joinpath("app", "given.json")
         given_json.write_text(dumps(fixture_data, indent=4))
-        wait_for_port(5432)
 
         compose("run", "app", "migrate", "--noinput").output()
         compose(

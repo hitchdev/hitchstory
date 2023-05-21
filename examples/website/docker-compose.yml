@@ -4,6 +4,7 @@ version: '3.8'
 
 # ALWAYS ADD network_mode: host to ALL NEW SERVICES
 # ALWAYS add docker.io/ to the beginning of any images.
+# ALWAYS add a healthcheck
 # Otherwise, you can mostly use it like you would any docker-compose.yml.
 
 services:
@@ -15,6 +16,11 @@ services:
     environment:
       VNC: ${VNC}
       VNCSCREENSIZE: ${VNCSCREENSIZE}
+    healthcheck:
+      test: netstat -an | grep 3605 > /dev/null; if [ 0 != $? ]; then exit 1; fi;
+      interval: 1s
+      timeout: 3s
+      retries: 2
 
   app:
     network_mode: host
@@ -23,7 +29,6 @@ services:
     command: runserver
     image: app
     volumes:
-    - db-data:/data
     - /src/app:/app
     environment:
     - SQL_ENGINE=django.db.backends.postgresql
@@ -35,6 +40,12 @@ services:
     depends_on: 
       db:
         condition: service_healthy
+    
+    healthcheck:
+      test: netstat -an | grep 8000 > /dev/null; if [ 0 != $? ]; then exit 1; fi;
+      interval: 1s
+      timeout: 4s
+      retries: 2
 
   db:
     network_mode: host
@@ -53,8 +64,8 @@ services:
     healthcheck:
       test: pg_isready -U postgres
       interval: 1s
-      timeout: 4s
-      retries: 3
+      timeout: 3s
+      retries: 2
 
 
 volumes:

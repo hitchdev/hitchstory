@@ -7,7 +7,7 @@ Potential improvements:
 * More directed error handling (currently it dumps the output of all of the logs).
 """
 from commandlib import python_bin, Command
-from utils import port_open, wait_for_port
+from utils import port_open
 from db_fixtures import DbFixture
 from hitchstory import Failure
 from pathlib import Path
@@ -37,7 +37,6 @@ class Services:
 
         self._set_up_database(db_fixture)
         self._compose("up", "-d").output()
-        self._wait_for_ports()
 
     def _set_up_database(self, db_fixture: DbFixture):
         cachepath = Path("/gen/datacache-{}.tar".format(db_fixture.datahash))
@@ -52,11 +51,6 @@ class Services:
             if cachepath.exists():
                 cachepath.unlink()
             self._podman("volume", "export", "src_db-data", "-o", cachepath).run()
-
-    def _wait_for_ports(self):
-        """Service readiness checker."""
-        for port in self._ports:
-            wait_for_port(port, timeout=self._timeout)
 
     def logs(self):
         self._compose("logs").run()

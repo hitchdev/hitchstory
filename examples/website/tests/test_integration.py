@@ -91,6 +91,7 @@ class Engine(BaseEngine):
     ## STEP METHODS - see steps in *.story files in the story folder.
     def load_website(self, url):
         self._page.goto(f"http://localhost:8000/{url}")
+        self._page.wait_for_load_state("networkidle")
         self._screenshot()
 
     def enter(self, on, text):
