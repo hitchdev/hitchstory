@@ -9,6 +9,7 @@ from hitchstory import GivenDefinition, GivenProperty
 from strictyaml import CommaSeparated, Enum, Int, Str, MapPattern, Bool, Map, Int
 from hitchstory import no_stacktrace_for, validate
 from playwright.sync_api import expect
+from playwright._impl._api_types import Error as PlaywrightError
 from video import convert_to_slow_gif
 from commandlib import Command, python_bin
 from playwright.sync_api import sync_playwright
@@ -89,6 +90,7 @@ class Engine(BaseEngine):
         self._page = self._browser.new_page()
 
     ## STEP METHODS - see steps in *.story files in the story folder.
+    @no_stacktrace_for(PlaywrightError)
     def load_website(self, url):
         self._page.goto(f"http://localhost:8000/{url}")
         self._page.wait_for_load_state("networkidle")
@@ -179,6 +181,9 @@ class Engine(BaseEngine):
 
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs on failure."""
+        if hasattr(self, "_services"):
+            # Display logs from app under test
+            self._services.logs()
         if self._vnc:
             print(result.stacktrace)
             self.pause()
@@ -189,9 +194,6 @@ class Engine(BaseEngine):
             )
             self._page.close()
             self._page.video.save_as(PROJECT_DIR / "artefacts" / "failure.webm")
-        if hasattr(self, "_services"):
-            # Display logs from app under test
-            self._services.logs()
 
     def on_success(self):
         """Run before teardown, only on success."""
