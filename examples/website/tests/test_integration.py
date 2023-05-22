@@ -20,6 +20,7 @@ from pathlib import Path
 from os import getenv
 from services import Services
 import nest_asyncio
+import shutil
 import time
 import sys
 
@@ -62,6 +63,8 @@ class Engine(BaseEngine):
         self._rewrite = rewrite
         self._vnc = vnc
         self._timeout = timeout
+        self._coverage_file = PROJECT_DIR / "app" / ".coverage"
+        self._artefacts_dir = PROJECT_DIR / "artefacts"
         self._services = Services(
             env={
                 "VNC": "yes" if self._vnc else "no",
@@ -73,6 +76,9 @@ class Engine(BaseEngine):
 
     def set_up(self):
         """Run before running the tests."""
+        if self._coverage_file.exists():
+            self._coverage_file.unlink()
+
         self._services.start(
             DbFixture(self.given.get("data", {})),
         )
@@ -166,7 +172,7 @@ class Engine(BaseEngine):
                 compare_screenshots(
                     self._page.screenshot(),
                     golden_snapshot,
-                    diff_snapshot_path=PROJECT_DIR / "artefacts" / "diff.png",
+                    diff_snapshot_path=self._artefacts_dir / "diff.png",
                     threshold=0.1,
                 )
 
@@ -177,6 +183,11 @@ class Engine(BaseEngine):
             self._browser.close()
         if hasattr(self, "_playwright"):
             self._playwright.stop()
+        if self._coverage_file.exists():
+            shutil.copy(
+                self._coverage_file,
+                self._artefacts_dir / f"{self.story.slug}.coverage"
+            )
         self._services.stop()
 
     def on_failure(self, result):
@@ -188,12 +199,12 @@ class Engine(BaseEngine):
             print(result.stacktrace)
             self.pause()
         if hasattr(self, "_page"):
-            self._page.screenshot(path=PROJECT_DIR / "artefacts" / "failure.png")
-            PROJECT_DIR.joinpath("artefacts", "failure.html").write_text(
+            self._page.screenshot(path=self._artefacts_dir / "failure.png")
+            self._artefacts_dir.joinpath("failure.html").write_text(
                 self._page.content()
             )
             self._page.close()
-            self._page.video.save_as(PROJECT_DIR / "artefacts" / "failure.webm")
+            self._page.video.save_as(self._artefacts_dir / "failure.webm")
 
     def on_success(self):
         """Run before teardown, only on success."""

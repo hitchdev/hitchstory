@@ -32,6 +32,7 @@ Miscellaneous:
 
 * Ultra simple 3 step github actions config to run all of the tests (& upload any artefacts).
 * Explicitly waiting for ports to open before kicking off the test (eliminates a common source of flakiness).
+* Code coverage of each story with coverage.py.
 
 Along with new state of the art features enabled by hitchstory:
 
@@ -205,12 +206,12 @@ The tests in this project are run from a single podman container. The playwright
 ```mermaid
 graph TD;
     TestsContainer-->PodmanCompose;
-    PodmanCompose-->AppContainer;
+    PodmanCompose-->WebappContainer;
     PodmanCompose-->PlaywrightContainer;
+    PodmanCompose-->PostgresContainer;
 ```
 
-This keeps the environment running the testing code completely consistent across
-environments and enables some sophisticated caching to speed up builds.
+This keeps the environment running the testing code completely consistent across environments and enables some sophisticated caching to speed up builds.
 
 
 

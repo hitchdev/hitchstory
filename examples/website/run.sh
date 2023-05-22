@@ -64,7 +64,7 @@ case "$1" in
                 hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
                 hitchrun "/gen/venv/bin/podman-compose build"
                 ;;
-            "podman")
+            "compose")
                 hitchrun "/gen/venv/bin/podman-compose build"
                 ;;
             "hitchreqs")
