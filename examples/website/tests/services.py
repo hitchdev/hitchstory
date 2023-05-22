@@ -7,10 +7,13 @@ Potential improvements:
 * More directed error handling (currently it dumps the output of all of the logs).
 """
 from commandlib import python_bin, Command
+from commandlib.exceptions import CommandExitError
 from utils import port_open
 from db_fixtures import DbFixture
 from hitchstory import Failure
 from pathlib import Path
+import json
+import time
 
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
@@ -36,7 +39,29 @@ class Services:
                 raise Failure(f"Port {port} in use. Is another test running?")
 
         self._set_up_database(db_fixture)
-        self._compose("up", "-d").output()
+        self._compose("up", "--remove-orphans", "-d").output()
+        self._healthcheck_all_services()
+    
+    
+    def _healthcheck(self, container_id, times=3, interval=1.0):
+        for _ in range(times):
+            try:
+                self._podman("healthcheck", "run", container_id).output()
+                return True
+            except CommandExitError:
+                pass
+            time.sleep(interval)
+        return False
+    
+    def _healthcheck_all_services(self):
+        for container_id in self._podman("ps", "-q").output().strip().split("\n"):
+            if not self._healthcheck(container_id):
+                raise Failure(
+                    "Service '{}' failed:\n\n{}".format(
+                        json.loads(self._podman("inspect", container_id).output())[0]["ImageName"],
+                        self._podman("logs", container_id).output()
+                    )
+                )
 
     def _set_up_database(self, db_fixture: DbFixture):
         cachepath = Path("/gen/datacache-{}.tar".format(db_fixture.datahash))

@@ -25,8 +25,8 @@ import sys
 
 # This allows the IPython REPL to play nicely with Playwright,
 # since they both want an event loop.
-# To pause and debug any code at any point in these modules,
-# use __import__("IPython").embed()
+# To pause and debug any code at any point in these modules, use
+# __import__("IPython").embed()
 nest_asyncio.apply()
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent

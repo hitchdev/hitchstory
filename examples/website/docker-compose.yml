@@ -43,9 +43,9 @@ services:
     
     healthcheck:
       test: netcat -vz localhost 8000
-      interval: 2s
-      timeout: 4s
-      retries: 2
+      interval: 3s
+      timeout: 2s
+      retries: 3
 
   db:
     network_mode: host
