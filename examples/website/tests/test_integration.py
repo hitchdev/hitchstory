@@ -58,18 +58,26 @@ class Engine(BaseEngine):
         ),
     )
 
-    def __init__(self, rewrite=False, vnc=False, timeout=5.0):
+    def __init__(self, rewrite=False, vnc=False, coverage=False, timeout=5.0):
         """Initialize the engine in the desired mode."""
         self._rewrite = rewrite
         self._vnc = vnc
+        self._coverage = coverage
         self._timeout = timeout
-        self._coverage_file = PROJECT_DIR / "app" / ".coverage"
+        self._coverage_file = PROJECT_DIR / "app" / "single.coverage"
         self._artefacts_dir = PROJECT_DIR / "artefacts"
+
+        env = {
+            "VNC": "yes" if self._vnc else "no",
+            "VNCSCREENSIZE": "1024x768",
+        }
+
+        if coverage:
+            env["APPENTRYPOINT"] = "coverage run --rcfile=.coveragerc manage.py"
+            env["APPCMD"] = "runserver --noreload"
+
         self._services = Services(
-            env={
-                "VNC": "yes" if self._vnc else "no",
-                "VNCSCREENSIZE": "1024x768",
-            },
+            env=env,
             ports=[3605, 8000, 5432],
             timeout=timeout,
         )
@@ -100,6 +108,7 @@ class Engine(BaseEngine):
     def load_website(self, url):
         self._page.goto(f"http://localhost:8000/{url}")
         self._page.wait_for_load_state("networkidle")
+        self._page.wait_for_load_state("domcontentloaded")
         self._screenshot()
 
     def enter(self, on, text):
@@ -123,7 +132,7 @@ class Engine(BaseEngine):
                 raise
 
         self._screenshot()
-    
+
     def page_appears(self, page):
         pass
 
@@ -163,7 +172,8 @@ class Engine(BaseEngine):
             )
         )
 
-        time.sleep(1)
+        self._page.wait_for_load_state("networkidle")
+        self._page.wait_for_load_state("domcontentloaded")
 
         if self._rewrite:
             self._page.screenshot(path=golden_snapshot)
@@ -183,12 +193,11 @@ class Engine(BaseEngine):
             self._browser.close()
         if hasattr(self, "_playwright"):
             self._playwright.stop()
-        if self._coverage_file.exists():
-            shutil.copy(
-                self._coverage_file,
-                self._artefacts_dir / f"{self.story.slug}.coverage"
-            )
         self._services.stop()
+        if self._coverage:
+            shutil.copy(
+                self._coverage_file, self._artefacts_dir / f"{self.story.slug}.coverage"
+            )
 
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs on failure."""
@@ -226,6 +235,7 @@ collection = StoryCollection(
     Engine(
         rewrite=getenv("STORYMODE", "") == "rewrite",
         vnc=getenv("STORYMODE", "") == "vnc",
+        coverage=getenv("STORYMODE", "") == "coverage",
         timeout=10.0,
     ),
 )

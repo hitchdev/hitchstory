@@ -43,18 +43,18 @@ class Services:
         self._compose("up", "--remove-orphans", "-d").output()
         self._healthcheck_all_services()
 
-    def _healthcheck_all_services(self, interval=0.2, retries=3):
+    def _healthcheck_all_services(self, interval=0.3, retries=5):
         """
         Run healthchecks on all services and fail if any of them don't come up.
-        
+
         This ought to really be done automatically by podman-compose, but
         it seems to lack the functionality right now:
-        
+
         https://github.com/containers/podman-compose/discussions/697
         """
         container_ids = self._podman("ps", "-q").output().strip().split("\n")
         healthy_containers = []
-        
+
         for _ in range(retries):
             for container_id in container_ids:
                 if container_id not in healthy_containers:
@@ -63,19 +63,20 @@ class Services:
                         healthy_containers.append(container_id)
                     except CommandExitError:
                         pass
-                       
-            
+
             if len(healthy_containers) == len(container_ids):
                 return
 
             time.sleep(interval)
-            
+
         for container_id in container_ids:
             if container_id not in healthy_containers:
                 raise Failure(
                     "Service '{}' failed:\n\n{}".format(
-                        json.loads(self._podman("inspect", container_id).output())[0]["ImageName"],
-                        self._podman("logs", container_id).output()
+                        json.loads(self._podman("inspect", container_id).output())[0][
+                            "ImageName"
+                        ],
+                        self._podman("logs", container_id).output(),
                     )
                 )
 
@@ -101,4 +102,4 @@ class Services:
         self._compose("logs", "app").run()
 
     def stop(self):
-        self._compose("down", "--remove-orphans", "-t", "1").output()
+        self._compose("down", "--remove-orphans", "-t", "5").output()

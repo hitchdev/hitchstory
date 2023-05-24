@@ -146,6 +146,16 @@ $ STORYMODE=vnc ./run.sh pytest -k test_add_and_retrieve_todo
 
 It will pause and launch an ipython prompt once the test passes or fails.
 
+
+## Run tests and generate code coverage reports
+
+This will generate XML and HTML reports in the artefacts directory.
+
+```
+$ STORYMODE=coverage ./run.sh pytest
+```
+
+
 ## Kill test
 
 If a running test freezes and ctrl-C doesn't work, you can run this command to stop the container:

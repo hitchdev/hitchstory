@@ -26,7 +26,9 @@ services:
     network_mode: host
     build:
       dockerfile: Dockerfile
-    command: runserver
+    command: ${APPCMD:-runserver}
+    entrypoint: ${APPENTRYPOINT:-python manage.py}
+    stop_signal: SIGINT
     image: app
     volumes:
     - /src/app:/app
