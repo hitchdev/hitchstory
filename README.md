@@ -290,11 +290,11 @@ Running the stories in different ways:
 
 Best practices, how the tool was meant to be used, etc.
 
-- [Can I do BDD with hitchstory? How do I do BDD with hitchstory?](https://hitchdev.com/hitchstory/approach/bdd)
+- [Is HitchStory a BDD tool? How do I do BDD with hitchstory?](https://hitchdev.com/hitchstory/approach/bdd)
 - [Complementary tools](https://hitchdev.com/hitchstory/approach/complementary-tools)
 - [Executable specifications](https://hitchdev.com/hitchstory/approach/executable-specifications)
 - [Flaky Tests](https://hitchdev.com/hitchstory/approach/flaky-tests)
-- [Does hitchstory let "the business" write stories while you just write the code?](https://hitchdev.com/hitchstory/approach/human-writable)
+- [ANTIPATTERN - Analysts writing stories for the developer](https://hitchdev.com/hitchstory/approach/human-writable)
 - [Separation of Test Concerns](https://hitchdev.com/hitchstory/approach/separation-of-test-concerns)
 - [Snapshot Test Driven Development](https://hitchdev.com/hitchstory/approach/snapshot-test-driven-development)
 - [Test Artefact Environment Isolation](https://hitchdev.com/hitchstory/approach/test-artefact-environment-isolation)

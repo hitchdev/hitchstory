@@ -9,6 +9,7 @@ from hitchstory import GivenDefinition, GivenProperty
 from strictyaml import CommaSeparated, Enum, Int, Str, MapPattern, Bool, Map, Int
 from hitchstory import no_stacktrace_for, validate
 from playwright.sync_api import expect
+from playwright._impl._api_types import Error as PlaywrightError
 from video import convert_to_slow_gif
 from commandlib import Command, python_bin
 from playwright.sync_api import sync_playwright
@@ -17,11 +18,16 @@ from db_fixtures import FIXTURE_SCHEMA, DbFixture
 from slugify import slugify
 from pathlib import Path
 from os import getenv
-from app import Services
+from services import Services
 import nest_asyncio
+import shutil
 import time
 import sys
 
+# This allows the IPython REPL to play nicely with Playwright,
+# since they both want an event loop.
+# To pause and debug any code at any point in these modules, use
+# __import__("IPython").embed()
 nest_asyncio.apply()
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
@@ -32,7 +38,7 @@ class Engine(BaseEngine):
     Python engine for validating, running and debugging YAML stories.
     """
 
-    # Custom metadata about the stories
+    # StrictYAML schemas for metadata about the stories
     # See docs: https://hitchdev.com/hitchstory/using/engine/metadata/
     info_definition = InfoDefinition(
         context=InfoProperty(schema=Str()),
@@ -40,32 +46,39 @@ class Engine(BaseEngine):
         docs=InfoProperty(schema=Bool()),
     )
 
-    # Preconditions
+    # StrictYAML schemas for given preconditions
     # See docs: https://hitchdev.com/hitchstory/using/engine/given/
     given_definition = GivenDefinition(
         browser=GivenProperty(schema=Enum(["firefox", "chromium", "webkit"])),
         data=GivenProperty(
             schema=FIXTURE_SCHEMA,
+            # This makes dict preconditions on child stories merge with the
+            # preconditions on parent stories.
             inherit_via=GivenProperty.OVERRIDE,
         ),
     )
 
-    def __init__(self, rewrite=False, vnc=False, timeout=10.0):
-        """Initialize the engine"""
+    def __init__(self, rewrite=False, vnc=False, timeout=5.0):
+        """Initialize the engine in the desired mode."""
         self._rewrite = rewrite
         self._vnc = vnc
         self._timeout = timeout
+        self._coverage_file = PROJECT_DIR / "app" / ".coverage"
+        self._artefacts_dir = PROJECT_DIR / "artefacts"
         self._services = Services(
             env={
                 "VNC": "yes" if self._vnc else "no",
                 "VNCSCREENSIZE": "1024x768",
             },
-            ports=[3605, 8000],
+            ports=[3605, 8000, 5432],
             timeout=timeout,
         )
 
     def set_up(self):
         """Run before running the tests."""
+        if self._coverage_file.exists():
+            self._coverage_file.unlink()
+
         self._services.start(
             DbFixture(self.given.get("data", {})),
         )
@@ -78,13 +91,15 @@ class Engine(BaseEngine):
                 no_viewport=True,
             )
         )
+        self._browser.set_default_navigation_timeout(int(self._timeout * 1000))
+        self._browser.set_default_timeout(int(self._timeout * 1000))
         self._page = self._browser.new_page()
-        self._page.set_default_navigation_timeout(int(self._timeout * 1000))
-        self._page.set_default_timeout(int(self._timeout * 1000))
 
-    ## STEP METHODS
+    ## STEP METHODS - see steps in *.story files in the story folder.
+    @no_stacktrace_for(PlaywrightError)
     def load_website(self, url):
         self._page.goto(f"http://localhost:8000/{url}")
+        self._page.wait_for_load_state("networkidle")
         self._screenshot()
 
     def enter(self, on, text):
@@ -108,6 +123,9 @@ class Engine(BaseEngine):
                 raise
 
         self._screenshot()
+    
+    def page_appears(self, page):
+        pass
 
     def pause(self):
         """Special step that pauses a test and launches a REPL."""
@@ -130,8 +148,10 @@ class Engine(BaseEngine):
 
     def _screenshot(self):
         """
-        Save screenshots associated with step for use in docs and
-        compare them.
+        Compare screenshot of current state against stored screenshot
+        or takes a new screenshot.
+
+        These screenshots are also displayed in the docs.
         """
         golden_snapshot = (
             PROJECT_DIR
@@ -152,7 +172,7 @@ class Engine(BaseEngine):
                 compare_screenshots(
                     self._page.screenshot(),
                     golden_snapshot,
-                    diff_snapshot_path=PROJECT_DIR / "artefacts" / "diff.png",
+                    diff_snapshot_path=self._artefacts_dir / "diff.png",
                     threshold=0.1,
                 )
 
@@ -163,22 +183,28 @@ class Engine(BaseEngine):
             self._browser.close()
         if hasattr(self, "_playwright"):
             self._playwright.stop()
+        if self._coverage_file.exists():
+            shutil.copy(
+                self._coverage_file,
+                self._artefacts_dir / f"{self.story.slug}.coverage"
+            )
         self._services.stop()
 
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs on failure."""
+        if hasattr(self, "_services"):
+            # Display logs from app under test
+            self._services.logs()
         if self._vnc:
             print(result.stacktrace)
             self.pause()
         if hasattr(self, "_page"):
-            self._page.screenshot(path=PROJECT_DIR / "artefacts" / "failure.png")
-            PROJECT_DIR.joinpath("artefacts", "failure.html").write_text(
+            self._page.screenshot(path=self._artefacts_dir / "failure.png")
+            self._artefacts_dir.joinpath("failure.html").write_text(
                 self._page.content()
             )
             self._page.close()
-            self._page.video.save_as(PROJECT_DIR / "artefacts" / "failure.webm")
-        if hasattr(self, "_services"):
-            self._services.logs()
+            self._page.video.save_as(self._artefacts_dir / "failure.webm")
 
     def on_success(self):
         """Run before teardown, only on success."""
@@ -195,7 +221,7 @@ class Engine(BaseEngine):
 
 
 collection = StoryCollection(
-    # Grab all *.story YAML files in this directory
+    # Grab all stories from all *.story files in the story directory.
     Path(__file__).parent.parent.joinpath("story").glob("*.story"),
     Engine(
         rewrite=getenv("STORYMODE", "") == "rewrite",
@@ -204,7 +230,7 @@ collection = StoryCollection(
     ),
 )
 
-# Turn them into pytest tests
+# Turn all stories into pytest tests
 collection.with_external_test_runner().only_uninherited().ordered_by_name().add_pytests_to(
     module=__import__(__name__)  # This module
 )

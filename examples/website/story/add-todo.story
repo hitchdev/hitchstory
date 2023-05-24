@@ -1,23 +1,3 @@
-Existing todos:
-  about: |
-    This story doesn't have any steps and won't run,
-    but it provides some todos which child stories
-    that are "based upon" it can use.
-  given:
-    data:
-      todos.todo:
-        10:
-          title: Buy peppers
-          created_at: 2023-05-08T16:29:41.595Z
-          update_at: 2023-05-08T16:29:41.595Z
-          isCompleted: no
-        11:
-          title: Buy cereal
-          created_at: 2023-05-08T16:29:41.595Z
-          update_at: 2023-05-08T16:29:41.595Z
-          isCompleted: yes
-
-
 Add and retrieve todo:
   about: |
     The user adds "buy bread" to the to do list
@@ -25,23 +5,23 @@ Add and retrieve todo:
     
   # custom metadata
   jiras: FEATURE-341, FEATURE-441
-  docs: yes # for interesting stories
+  docs: yes # turn this story into markdown docs
   
-  based on: existing todos  # all of the other data
+  # inherit from login story in accounts.story
+  based on: login
+
   given:
     browser: webkit
     data:
       todos.todo:
-        # Also includes peppers and cereal
+        # Also includes peppers and cereal from "Login"
         12:
           title: Buy a toaster
           created_at: 2023-05-08T16:29:41.595Z
           update_at: 2023-05-08T16:29:41.595Z
           isCompleted: yes
 
-  steps:
-  - load website: todos/
-
+  following steps:
   - enter:
       on: todo text
       text: Add bread

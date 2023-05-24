@@ -1,5 +1,12 @@
 version: '3.8'
 
+# !!! WARNING !!!
+
+# ALWAYS ADD network_mode: host to ALL NEW SERVICES
+# ALWAYS add docker.io/ to the beginning of any images.
+# ALWAYS add a healthcheck
+# Otherwise, you can mostly use it like you would any docker-compose.yml.
+
 services:
   playwright:
     network_mode: host
@@ -9,6 +16,11 @@ services:
     environment:
       VNC: ${VNC}
       VNCSCREENSIZE: ${VNCSCREENSIZE}
+    healthcheck:
+      test: netcat -vz localhost 3605
+      interval: 2s
+      timeout: 3s
+      retries: 2
 
   app:
     network_mode: host
@@ -17,9 +29,44 @@ services:
     command: runserver
     image: app
     volumes:
-    - db-data:/data
     - /src/app:/app
+    environment:
+    - SQL_ENGINE=django.db.backends.postgresql
+    - SQL_DATABASE=hello_django_dev
+    - SQL_USER=hello_django
+    - SQL_PASSWORD=hello_django
+    - SQL_HOST=localhost
+    - SQL_PORT=5432
+    depends_on: 
+      db:
+        condition: service_healthy
     
+    healthcheck:
+      test: netcat -vz localhost 8000
+      interval: 3s
+      timeout: 2s
+      retries: 3
+
+  db:
+    network_mode: host
+
+    # speeds up tests: https://www.endpointdev.com/blog/2012/06/speeding-up-integration-tests-postgresql/
+    command: -c fsync=off -c synchronous_commit=off -c full_page_writes=off 
+    image: docker.io/postgres:13.0-alpine
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 2s
+      timeout: 4s
+      retries: 2
+
 
 volumes:
   db-data:

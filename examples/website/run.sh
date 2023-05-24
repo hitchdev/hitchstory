@@ -39,6 +39,12 @@ case "$1" in
                 fi
                 podman volume create $GEN_VOLUME_NAME
                 ;;
+            "dbcache")
+                hitchrun "find /gen -name datacache-*.tar -delete"
+                ;;
+            "prune")
+                hitchrun "podman system prune --all"
+                ;;
             *)
                 echo "Invalid clean target. ./run.sh clean [all]"
                 exit 1
@@ -58,7 +64,7 @@ case "$1" in
                 hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
                 hitchrun "/gen/venv/bin/podman-compose build"
                 ;;
-            "podman")
+            "compose")
                 hitchrun "/gen/venv/bin/podman-compose build"
                 ;;
             "hitchreqs")

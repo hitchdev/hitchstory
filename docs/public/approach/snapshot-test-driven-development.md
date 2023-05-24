@@ -3,7 +3,7 @@ title: Snapshot Test Driven Development
 ---
 # Snapshot Test Driven Development
 
-Snapshot test driven development is a combination of test driven development and snapshot testing that hitchstory was defined for.
+Snapshot test driven development is a combination of test driven development and snapshot testing.
 
 The developer writes a test that sets up a scenario that produces an output that is inexactly defined - e.g. a GUI, a command line output.
 

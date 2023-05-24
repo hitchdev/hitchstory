@@ -1,0 +1,19 @@
+{% extends 'todos/base.html' %}
+
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="offset-md-2 col-lg-9">
+      <div class="page-header">
+        <h2>Log In</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button data-testid="submit" type="submit">Log In</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

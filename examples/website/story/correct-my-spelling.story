@@ -10,11 +10,9 @@ Correct my spelling:
     to detect misspellings and replies to the API with a suggestion
     instead of adding it to the to do list.
 
-  given:
-    browser: chromium
-  steps:
-  - load website: todos/
+  based on: login
 
+  following steps:
   - enter:
       on: todo text
       text: biuy breod

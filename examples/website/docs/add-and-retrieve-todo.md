@@ -23,6 +23,14 @@ and sees it showing up.
   height="250px"
 />
 
+* Enter text `admin` on `username`.
+
+* Enter text `password` on `password`.
+
+* Click on `submit`.
+
+
+
 * Enter text `Add bread` on `todo text`.
 
 * Click on `add`.
@@ -31,7 +39,7 @@ and sees it showing up.
 
 
 <img 
-  src="add-and-retrieve-todo-3-should_appear.png?raw=1"
+  src="add-and-retrieve-todo-7-should_appear.png?raw=1"
   height="250px"
 />
 
