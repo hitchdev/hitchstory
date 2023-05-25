@@ -1,4 +1,14 @@
+# If you remove .only_uninherited() at the end
+# of test_integration.py this story will be turned
+# into a test - "test_login" just like all the 
+# other stories are.
+
+# Because it is used in other tests, it's assumed
+# that it doesn't need to be run by itself.
+
 Login:
+  about: |
+    Login as admin user.
   given:
     browser: chromium
     data:
@@ -26,4 +36,6 @@ Login:
 
   - click: submit
   
-  - page appears: main page
+  - should appear:
+      on: title
+      text: Todo List

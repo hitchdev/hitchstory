@@ -37,7 +37,7 @@ def convert_to_slow_gif(webm_path: Path):
     ).output()
 
     # Slow down GIF
-    Command("convert", "-delay", "50x100", gif_path, gif_path).run()
+    Command("convert", "-delay", "10x100", gif_path, gif_path).run()
 
     # Clean up
     webm_path.unlink()
