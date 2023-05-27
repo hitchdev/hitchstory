@@ -8,6 +8,7 @@ HitchStory best practices are documented here:
 - [Complementary tools](complementary-tools)
 - [Executable specifications](executable-specifications)
 - [Flaky Tests](flaky-tests)
+- [The Hermetic End to End Testing Pattern](hermetic-end-to-end-test)
 - [ANTIPATTERN - Analysts writing stories for the developer](human-writable)
 - [Separation of Test Concerns](separation-of-test-concerns)
 - [Snapshot Test Driven Development (STDD)](snapshot-test-driven-development-stdd)
