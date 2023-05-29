@@ -23,8 +23,8 @@ def test_add_and_retrieve_todo(my_website):
     my_website.set_up()
     page = my_website._page
 
-    # Arrange
     try:
+        # Arrange
         page.goto("http://localhost:8000/login")
         page.get_by_test_id("username").fill("admin")
         page.get_by_test_id("password").fill("password")
