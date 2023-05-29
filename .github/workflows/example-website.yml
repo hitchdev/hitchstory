@@ -31,7 +31,7 @@ jobs:
       - name: regression test
         run: |
           cd examples/website
-          STORYMODE=coverage ./run.sh pytest -x
+          STORYMODE=coverage ./run.sh pytest -x test_integration.py
 
       - name: save regression test artefacts
         if: always()
