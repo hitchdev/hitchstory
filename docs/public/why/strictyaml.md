@@ -12,7 +12,7 @@ HitchStory storytests are written using StrictYAML for three reasons:
 
 **None of these features are worthwhile**, however, if the storytests are interpreted using a normal YAML parser.
 
-When I first built hitchstory I ran face first into ALL these problems when I tried to build it with pyyaml - strings randomly turning into numbers, confusing errors caused by mis-indentation. My job experienced what I later dubbed [the Norway problem](strictyaml/why/implicit-typing-removed/). I felt the YAML hate.
+When I first built hitchstory I ran face first into ALL these problems when I tried to build it with pyyaml - strings randomly turning into numbers, confusing errors caused by mis-indentation. My job experienced what I later dubbed [the Norway problem](/strictyaml/why/implicit-typing-removed/). I felt the YAML hate.
 
 However, I still liked how YAML looked. The core of YAML is still a very clean, beautiful format to look at. It just had some *horrible* unnecessary features and was in dire need of type-safety.
 
