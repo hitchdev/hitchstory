@@ -11,9 +11,9 @@ title: Domain Appropriate Scenario Language (DASL)
 
 A domain appropriate scenario language is a formal declarative DSL which can be used to define behavioral scenarios **clearly**, **unambiguously**, **concisely** and **precisely**.
 
-With a DASL, BDD 
+With a DASL, BDD becomes vastly more effective. Sometimes BDD is only possible with a DASL -  communication around especially complex scenarios and domains breaks down without it.
 
-Example:
+Example scenario written with a DASL:
 
 ```yaml
 Add employee record:
@@ -72,11 +72,9 @@ Add employee record:
         }
 ```
 
-While spoken and written English can describe behavioral scenarios at a high level (as is done with the "about" section), if an entire test is described this way it will be prone to the kind of ambiguity that a DASL is not susceptible to.
+While spoken and written English can describe behavioral scenarios at a high level (as is done with the "about" section), if an entire scenario is described this way it will typically be prone to the kind of ambiguity that a DASL is not susceptible to.
 
-Gherkin, by dint of trying to express Englishy requirements, is not a domain appropriate scenario language. This usually manifests in missing context.
-
-Example equivalent Cucumber scenario (drawn from Cucumber training materials):
+Gherkin, by dint of trying to express Englishy requirements, is usually not a domain appropriate scenario language. This usually manifests in missing context about the spec which is concealed within step code. For example (drawn from Cucumber training materials):
 
 ```gherkin
   Scenario: Create a new person
@@ -85,7 +83,9 @@ Example equivalent Cucumber scenario (drawn from Cucumber training materials):
     And API: I check that POST call status code is 200
 ```
 
-This story omits several key details relevant to the scenario. For instance, *how* is a new person created? What kind of POST request is made? What response comes back with the 200 code?
+This story omits several key details relevant to the scenario. *How* is a new person created? What *kind* of POST request is made? What response comes back with the 200 code?
+
+Moreover, it is misleading - not every attempt to create a new person will result in a 200. Some kinds of request will fail.
 
 If this were adjusted to be a bug report ("API returns 500 error when creating new person"), the missing context would be starkly obvious.
 
