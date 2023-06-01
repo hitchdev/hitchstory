@@ -10,4 +10,4 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["coverage", "run", "manage.py"]
+ENTRYPOINT ["python", "manage.py"]

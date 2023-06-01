@@ -30,6 +30,13 @@ and sees it showing up.
 * Click on `submit`.
 
 
+* Then text `Todo List` should appear on `title`.
+
+
+<img 
+  src="add-and-retrieve-todo-4-should_appear.png?raw=1"
+  height="250px"
+/>
 
 * Enter text `Add bread` on `todo text`.
 

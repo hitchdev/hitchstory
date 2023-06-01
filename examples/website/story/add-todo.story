@@ -11,7 +11,7 @@ Add and retrieve todo:
   based on: login
 
   given:
-    browser: webkit
+    browser: chromium
     data:
       todos.todo:
         # Also includes peppers and cereal from "Login"

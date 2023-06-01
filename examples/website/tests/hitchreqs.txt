@@ -18,6 +18,8 @@ colorama==0.4.6
     #   prettystack
 commandlib==0.3.5
     # via -r tests/hitchreqs.in
+coverage==7.2.6
+    # via -r tests/hitchreqs.in
 decorator==5.1.1
     # via ipython
 executing==1.2.0
