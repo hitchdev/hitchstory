@@ -9,11 +9,53 @@ title: Domain Appropriate Scenario Language (DASL)
     "Strictly considered, writing about music is as illogical as singing about economics" - 1918 February 9, The New Republic, The Unseen World by H. K. M.
 
 
-A domain appropriate scenario language is a formal declarative DSL which can be used to define behavioral scenarios **clearly**, **unambiguously**, **concisely** and **precisely**.
+A domain appropriate scenario language is a formal, declarative DSL which can, for a particular application, define behavioral scenarios **clearly**, **unambiguously**, **concisely** and **precisely**.
 
-With a DASL, BDD becomes vastly more effective. Sometimes BDD is only possible with a DASL -  communication around especially complex scenarios and domains breaks down without it.
+A DASL is a key tool for the practice of carnivorous BDD.
 
-Example scenario written with a DASL:
+While a DASL is not strictly *necessary* for writing code, without one it is easier for specification bugs to creep in. For example:
+
+- Scenario descriptions that are unclear - ambiguous and missing key details ("missing meat").
+- Scenario descriptions that are too verbose to be useful.
+- Scenario descriptions that contain noise - extraneous information not relevant to the scenario description (e.g. implementation details).
+
+With a DASL, it is also usually straightforward to execute the specifications from the example scenarios as tests.
+
+
+## Gherkin is not good for DASLs
+
+Gherkin is not useful for carnivorous BDD.
+
+Gherkin, by dint of trying to express "English-like" requirements, is usually *not* a domain appropriate scenario language. This usually manifests in missing context about the spec. For example, a canonical example drawn from Cucumber training materials exhibit's this problem:
+
+```gherkin
+  Scenario: Create a new person
+    Given API: I create a new person
+    Then API: I check that POST call body is "OK"
+    And API: I check that POST call status code is 200
+```
+
+This story omits several key details relevant to the scenario. *How* is a new person created? What *kind* of POST request is made? What response comes back with the 200 code?
+
+Worse, it is misleading - not every attempt to create a new person will result in a 200. If the age is left out maybe it is not *supposed* to result in a 200. Or it it?
+
+While Gherkin can in theory represent very precisely described scenarios, in practice stories will become overly verbose if you do. This is partly because Gherkin has no concept of inheritance.
+
+
+
+
+## English is not a DASL
+
+While spoken and written English can describe context and behavioral scenarios at a high level (as is done above with the "about" section), if an entire scenario is described this way then key information will often be lost.
+
+The rigidity of a DASL as compared to English helps ensure that the specification gaps are filled in.
+
+
+
+
+## HitchStory as a tool for creating DASLs
+
+The following is an example scenario written with a hitchstory StrictYAML DASL for describing the behavior of a REST API service:
 
 ```yaml
 Add employee record:
@@ -29,30 +71,24 @@ Add employee record:
         username: john
         method: POST
         path: /employee/add
-        # other relevant details of the API request may be added here
-
-      request data:
-        {
+        content: |
+          {
             "name": "Thomas Kettering",
             "age": 35,
             "address": "1 Example road, example drive"
-        }
+          }
     
       response:
         status: 200
-        # more data about the type of response can be added here if relevant
-
-      response data: |-
-        {
+        content: |-
+          {
             "code": 200,
             "id": "e30ffb2-bb50-4836-aefa-86c78af157cc",
             "status": "success"
-        }
-      
-      # In this above case, id is an example of an ID, not the
-      # one that will actually be returned
-      varying data:
-        - id: thomas kettering's user id
+          }
+
+        varying:
+          id: thomas kettering's user id
 
   - API call:
       request:
@@ -61,35 +97,17 @@ Add employee record:
         path: /employee/{{ thomas kettering's user id }}
       response:
         status: 200
-      
-      # desired outcome
-      response data: |-
-        {
+        content: |-
+          {
             "id": "e30ffb2-bb50-4836-aefa-86c78af157cc",
             "name": "Thomas Kettering",
             "age": 35,
             "address": "1 Example road, example drive"
-        }
+           }
+         varying:
+           id: thomas kettering's user id
+  
 ```
 
-While spoken and written English can describe behavioral scenarios at a high level (as is done with the "about" section), if an entire scenario is described this way it will typically be prone to the kind of ambiguity that a DASL is not susceptible to.
 
-Gherkin, by dint of trying to express Englishy requirements, is usually not a domain appropriate scenario language. This usually manifests in missing context about the spec which is concealed within step code. For example (drawn from Cucumber training materials):
-
-```gherkin
-  Scenario: Create a new person
-    Given API: I create a new person
-    Then API: I check that POST call body is "OK"
-    And API: I check that POST call status code is 200
-```
-
-This story omits several key details relevant to the scenario. *How* is a new person created? What *kind* of POST request is made? What response comes back with the 200 code?
-
-Moreover, it is misleading - not every attempt to create a new person will result in a 200. Some kinds of request will fail.
-
-If this were adjusted to be a bug report ("API returns 500 error when creating new person"), the missing context would be starkly obvious.
-
-The above scenario exhibits downward concern leakage - key details of the specification are buried in the step code.
-
-A DASL scenario will contain all relevant specification information for *any* stakeholder. E.g. in the above example it could include the consumers of the API consuming the mobile app.
 
