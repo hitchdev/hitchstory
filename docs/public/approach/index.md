@@ -6,6 +6,7 @@ HitchStory best practices are documented here:
 
 - [Is HitchStory a BDD tool? How do I do BDD with hitchstory?](bdd)
 - [Complementary tools](complementary-tools)
+- [Domain Appropriate Scenario Language (DASL)](domain-appropriate-scenario-language-dasl)
 - [Executable specifications](executable-specifications)
 - [Flaky Tests](flaky-tests)
 - [The Hermetic End to End Testing Pattern](hermetic-end-to-end-test)
