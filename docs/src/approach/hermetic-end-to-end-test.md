@@ -7,7 +7,7 @@ The hermetic end to end testing pattern is a pattern where:
 
 * The entire app is run as a cohesive whole.
 
-* The entire outside world for this app is run in a strictly controlled mock environment. For example, if it:
+* The entire "outside world" for this app is run in a strictly controlled mock environment. For example, if it:
 
 ** Calls an external sandbox REST API.
 ** Uses a staging database whose exact data isn't controlled.
@@ -25,11 +25,11 @@ Then it is hermetic.
 
 Hermetic tests are:
 
-* More consistent.
 * Faster.
+* More consistent.
 * Trivially parallelizable
 
-## Partial hermeticism mode
+## Partially hermetic end to end tests
 
 Partial hermeticism is when every part of the end to end test is mocked, but it can be run in a mode that partially interacts with the outside world.
 
