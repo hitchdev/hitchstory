@@ -299,7 +299,6 @@ Best practices, how the tool was meant to be used, etc.
 - [ANTIPATTERN - Analysts writing stories for the developer](https://hitchdev.com/hitchstory/approach/human-writable)
 - [Separation of Test Concerns](https://hitchdev.com/hitchstory/approach/separation-of-test-concerns)
 - [Snapshot Test Driven Development (STDD)](https://hitchdev.com/hitchstory/approach/snapshot-test-driven-development-stdd)
-- [Snapshot Test Driven Development](https://hitchdev.com/hitchstory/approach/snapshot-test-driven-development)
 - [Test Artefact Environment Isolation](https://hitchdev.com/hitchstory/approach/test-artefact-environment-isolation)
 - [Test concern leakage](https://hitchdev.com/hitchstory/approach/test-concern-leakage)
 - [Tests as an investment](https://hitchdev.com/hitchstory/approach/test-investment)

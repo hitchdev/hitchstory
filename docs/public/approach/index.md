@@ -13,7 +13,6 @@ HitchStory best practices are documented here:
 - [ANTIPATTERN - Analysts writing stories for the developer](human-writable)
 - [Separation of Test Concerns](separation-of-test-concerns)
 - [Snapshot Test Driven Development (STDD)](snapshot-test-driven-development-stdd)
-- [Snapshot Test Driven Development](snapshot-test-driven-development)
 - [Test Artefact Environment Isolation](test-artefact-environment-isolation)
 - [Test concern leakage](test-concern-leakage)
 - [Tests as an investment](test-investment)
