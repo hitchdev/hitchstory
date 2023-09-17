@@ -7,7 +7,7 @@ YAML is [routinely criticized](https://noyaml.com) and **rightly so**.
 HitchStory storytests are written using StrictYAML for three reasons:
 
 * It enforces a separation of concerns between your declarative specification and imperative testing code.
-* The storytests can be programmed to *rewrite themselves* from program output which makes [snapshot test driven development](../../approach/snapshot-test-driven-development/) easy.
+* The storytests can be programmed to *rewrite themselves* from program output which makes [snapshot test driven development](../../approach/snapshot-test-driven-development-stdd/) easy.
 * The storytests can be used as a template to generate beautiful markdown documentation - which makes documentation driven development easy.
 
 **None of these features are worthwhile**, however, if the storytests are interpreted using a normal YAML parser.

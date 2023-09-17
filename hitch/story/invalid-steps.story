@@ -210,10 +210,10 @@ Invalid story:
               /src/hitchstory/given.py
 
 
-                    55 :             return self._preconditions[slug]
-                    56 :         else:
-                --> 57 :             raise KeyError(
-                    58 :                 (
+                    56 :             return self._preconditions[slug]
+                    57 :         else:
+                --> 58 :             raise KeyError(
+                    59 :                 (
 
 
 
