@@ -22,7 +22,7 @@ The example project also makes use of playwright's video and
 screenshot generation to generate documentation that is more alive.
 
 Selectors can be abstracted using [hitchpage](/hitchpage) with the
-[page config model](/hitchpage/approach/page-config/model). This
+[page config model](/hitchpage/approach/page-config-model). This
 library was written for using hitchstory with playwright.
 
 
