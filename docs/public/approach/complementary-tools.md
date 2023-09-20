@@ -21,8 +21,15 @@ Little more needs to be said about it.
 The example project also makes use of playwright's video and
 screenshot generation to generate documentation that is more alive.
 
-While perhaps not ideal from a BDD the selectors can be specified
-in a YAML story.
+Selectors can be abstracted using [hitchpage](/hitchpage) with the
+[page config model](/hitchpage/approach/page-config/model). This
+library was written for using hitchstory with playwright.
+
+
+## [HitchDb](/hitchdb)
+
+Set up StrictYAML database fixtures. This library was written for using
+hitchstory with database driven applications. Currently postgres only.
 
 ## [Requests](https://requests.readthedocs.io/en/latest/)
 
