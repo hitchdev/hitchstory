@@ -5,6 +5,8 @@
 
 pytest              # tests
 hitchstory>=0.23.0  # for strictyaml story interpretation -> pytests
+hitchpage           # for using the page config pattern with playwright
+hitchdb             # for database fixtures
 ipython             # REPL for use in the test environment
 nest_asyncio        # To make ipython play well with playwright
 commandlib          # Syntactic sugar for running UNIX commands

@@ -26,6 +26,10 @@ executing==1.2.0
     # via stack-data
 greenlet==2.0.1
     # via playwright
+hitchdb==0.1.4
+    # via -r tests/hitchreqs.in
+hitchpage==0.3.0
+    # via -r tests/hitchreqs.in
 hitchstory==0.23.0
     # via -r tests/hitchreqs.in
 inflect==6.0.4
@@ -71,7 +75,9 @@ pip-tools==6.13.0
 pixelmatch==0.3.0
     # via -r tests/hitchreqs.in
 playwright==1.32.0
-    # via -r tests/hitchreqs.in
+    # via
+    #   -r tests/hitchreqs.in
+    #   hitchpage
 pluggy==1.0.0
     # via pytest
 podman-compose==1.0.6
@@ -105,7 +111,9 @@ python-dateutil==2.8.2
 python-dotenv==1.0.0
     # via podman-compose
 python-slugify==8.0.1
-    # via hitchstory
+    # via
+    #   hitchdb
+    #   hitchstory
 pyyaml==6.0
     # via podman-compose
 six==1.16.0
@@ -115,7 +123,10 @@ six==1.16.0
 stack-data==0.6.2
     # via ipython
 strictyaml==1.7.3
-    # via hitchstory
+    # via
+    #   hitchdb
+    #   hitchpage
+    #   hitchstory
 text-unidecode==1.3
     # via python-slugify
 traitlets==5.9.0
