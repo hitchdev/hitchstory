@@ -5,13 +5,14 @@ This module contains the:
 """
 from engine import Engine
 from hitchstory import StoryCollection
+from directories import DIR
 from os import getenv
 from pathlib import Path
 
 
 collection = StoryCollection(
     # Grab all stories from all *.story files in the story directory.
-    Path(__file__).parent.parent.joinpath("story").glob("*.story"),
+    DIR.STORY.glob("*.story"),
     Engine(
         rewrite=getenv("STORYMODE", "") == "rewrite",
         vnc=getenv("STORYMODE", "") == "vnc",

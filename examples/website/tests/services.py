@@ -12,12 +12,10 @@ from utils import port_open
 from db_fixtures import DbFixture
 from hitchstory import Failure
 from pathlib import Path
+from directories import DIR
 from copy import copy
 import json
 import time
-
-
-PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
 class Services:
@@ -28,8 +26,8 @@ class Services:
     """
 
     def __init__(self, env, ports=None, timeout=10.0):
-        self._podman = Command("podman").in_dir(PROJECT_DIR)
-        self._compose = python_bin.podman_compose.with_env(**env).in_dir(PROJECT_DIR)
+        self._podman = Command("podman").in_dir(DIR.PROJECT)
+        self._compose = python_bin.podman_compose.with_env(**env).in_dir(DIR.PROJECT)
         self._ports = ports
         self._timeout = timeout
 
@@ -82,7 +80,7 @@ class Services:
 
     def _set_up_database(self, db_fixture: DbFixture):
         """Build a database volume, or use existing cache if it was built before."""
-        cachepath = Path("/gen/datacache-{}.tar".format(db_fixture.datahash))
+        cachepath = DIR.DATACACHE / "datacache-{}.tar".format(db_fixture.datahash)
         self._podman("volume", "rm", "src_db-data", "-f").output()
 
         if cachepath.exists():

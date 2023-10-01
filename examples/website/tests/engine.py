@@ -15,6 +15,7 @@ from commandlib import Command, python_bin
 from playwright.sync_api import sync_playwright
 from compare_screenshots import compare_screenshots
 from db_fixtures import FIXTURE_SCHEMA, DbFixture
+from directories import DIR
 from slugify import slugify
 from pathlib import Path
 from services import Services
@@ -28,8 +29,6 @@ import sys
 # To pause and debug any code at any point in these modules, use
 # __import__("IPython").embed()
 nest_asyncio.apply()
-
-PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
 class Engine(BaseEngine):
@@ -63,8 +62,8 @@ class Engine(BaseEngine):
         self._vnc = vnc
         self._coverage = coverage
         self._timeout = timeout
-        self._coverage_file = PROJECT_DIR / "app" / "single.coverage"
-        self._artefacts_dir = PROJECT_DIR / "artefacts"
+        self._coverage_file = DIR.APP / "single.coverage"
+        self._artefacts_dir = DIR.ARTEFACTS
 
         env = {
             "VNC": "yes" if self._vnc else "no",
@@ -162,8 +161,7 @@ class Engine(BaseEngine):
         These screenshots are also displayed in the docs.
         """
         golden_snapshot = (
-            PROJECT_DIR
-            / "docs"
+            DIR.DOCS
             / "{}-{}-{}.png".format(
                 self.story.slug,
                 self.current_step.index,
@@ -194,9 +192,11 @@ class Engine(BaseEngine):
             self._playwright.stop()
         self._services.stop()
         if self._coverage:
-            shutil.copy(
-                self._coverage_file, self._artefacts_dir / f"{self.story.slug}.coverage"
-            )
+            if hasattr(self, "story"):
+                shutil.copy(
+                    self._coverage_file,
+                    self._artefacts_dir / f"{self.story.slug}.coverage"
+                )
 
     def on_failure(self, result):
         """Run before teardown - save HTML, screenshot and video to docs on failure."""
@@ -223,6 +223,6 @@ class Engine(BaseEngine):
 
         if self._rewrite:
             self.new_story.save()
-            webm_path = PROJECT_DIR / "docs" / f"{self.story.slug}.webm"
+            webm_path = DIR.DOCS / f"{self.story.slug}.webm"
             self._page.video.save_as(webm_path)
             convert_to_slow_gif(webm_path)
