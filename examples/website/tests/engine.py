@@ -15,6 +15,7 @@ from commandlib import Command, python_bin
 from playwright.sync_api import sync_playwright
 from compare_screenshots import compare_screenshots
 from db_fixtures import FIXTURE_SCHEMA, DbFixture
+from hitchpage import PlaywrightPageConfig
 from directories import DIR
 from slugify import slugify
 from pathlib import Path
@@ -100,6 +101,10 @@ class Engine(BaseEngine):
         self._browser.set_default_navigation_timeout(int(self._timeout * 1000))
         self._browser.set_default_timeout(int(self._timeout * 1000))
         self._page = self._browser.new_page()
+        self._pcm = PlaywrightPageConfig(
+            *DIR.SELECTORS.glob("*.yml"),
+            playwright_page=self._page,
+        )
 
     ## STEP METHODS - see steps in *.story files in the story folder.
     @no_stacktrace_for(PlaywrightError)
@@ -110,21 +115,23 @@ class Engine(BaseEngine):
         self._screenshot()
 
     def enter(self, on, text):
-        self._page.get_by_test_id(slugify(on)).fill(text)
+        self._pcm.element(on).fill(text)
+        #self._page.get_by_test_id(slugify(on)).fill(text)
 
     def click(self, on):
-        self._page.get_by_test_id(slugify(on)).click()
+        self._pcm.element(on).click()
+        #self._page.get_by_test_id(slugify(on)).click()
 
     @validate(which=Int())
     @no_stacktrace_for(AssertionError)
     def should_appear(self, on, text, which=None):
         try:
-            expect(self._locate(on, which)).to_contain_text(text)
+            expect(self._pcm.element(on)).to_contain_text(text)
         except AssertionError:
             if self._rewrite:
-                self._locate(on, which).click()  # does it even exist?
+                self._pcm.element(on).click()  # does it even exist?
                 self.current_step.rewrite("text").to(
-                    self._locate(on, which).text_content().strip()
+                    self._pcm.element(on).text_content().strip()
                 )
             else:
                 raise
@@ -132,27 +139,13 @@ class Engine(BaseEngine):
         self._screenshot()
 
     def page_appears(self, page):
-        pass
+        self._pcm.next_page(page)
 
     def pause(self):
         """Special step that pauses a test and launches a REPL."""
         if sys.stdout.isatty():
             __import__("IPython").embed()
-
-    ## HELPER METHODS
-    def _locate(self, on, which):
-        """
-        Use high level information to pick locators.
-
-        If it is one from a list (i.e. which) -> use CSS selector .test-SLUGIFIED
-        If it is a single item -> use test ID with SLUGIFIED
-        """
-        if which is None:
-            item = self._page.get_by_test_id(slugify(on))
-        else:
-            item = self._page.locator(".test-{}".format(slugify(on))).nth(which)
-        return item
-
+    
     def _screenshot(self):
         """
         Compare screenshot of current state against stored screenshot

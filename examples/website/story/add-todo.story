@@ -30,5 +30,4 @@ Add and retrieve todo:
 
   - should appear:
       text: Add bread
-      on: todo list item
-      which: 0
+      on: first todo list item

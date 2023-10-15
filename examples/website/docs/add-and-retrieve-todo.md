@@ -23,6 +23,8 @@ and sees it showing up.
   height="250px"
 />
 
+
+
 * Enter text `admin` on `username`.
 
 * Enter text `password` on `password`.
@@ -30,11 +32,13 @@ and sees it showing up.
 * Click on `submit`.
 
 
+
+
 * Then text `Todo List` should appear on `title`.
 
 
 <img 
-  src="add-and-retrieve-todo-4-should_appear.png?raw=1"
+  src="add-and-retrieve-todo-6-should_appear.png?raw=1"
   height="250px"
 />
 
@@ -42,11 +46,12 @@ and sees it showing up.
 
 * Click on `add`.
 
-* Then text `Add bread` should appear on first `todo list item`.
+
+* Then text `Add bread` should appear on `first todo list item`.
 
 
 <img 
-  src="add-and-retrieve-todo-7-should_appear.png?raw=1"
+  src="add-and-retrieve-todo-9-should_appear.png?raw=1"
   height="250px"
 />
 

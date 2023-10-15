@@ -1,0 +1,12 @@
+login:
+  element:
+    username: input[data-testid="username"]
+    password: input[data-testid="password"]
+    submit: button[data-testid="submit"]
+dashboard:
+  element:
+    first todo list item: .test-todo-list-item>>nth=0 
+    todo text: input[data-testid="todo-text"]
+    error: div[data-testid="error"]
+    title: h1[data-testid="title"]
+    add: button[data-testid="add"]

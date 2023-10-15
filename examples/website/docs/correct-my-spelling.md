@@ -23,6 +23,8 @@ but the application tries to correct the spelling.
   height="250px"
 />
 
+
+
 * Enter text `admin` on `username`.
 
 * Enter text `password` on `password`.
@@ -30,11 +32,13 @@ but the application tries to correct the spelling.
 * Click on `submit`.
 
 
+
+
 * Then text `Todo List` should appear on `title`.
 
 
 <img 
-  src="correct-my-spelling-4-should_appear.png?raw=1"
+  src="correct-my-spelling-6-should_appear.png?raw=1"
   height="250px"
 />
 
@@ -47,7 +51,7 @@ but the application tries to correct the spelling.
 
 
 <img 
-  src="correct-my-spelling-7-should_appear.png?raw=1"
+  src="correct-my-spelling-9-should_appear.png?raw=1"
   height="250px"
 />
 

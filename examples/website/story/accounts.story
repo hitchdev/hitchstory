@@ -26,6 +26,8 @@ Login:
   steps:
   - load website: login/
 
+  - page appears: login
+
   - enter:
       text: admin
       on: username
@@ -36,6 +38,9 @@ Login:
 
   - click: submit
   
+  - page appears: dashboard 
+  
   - should appear:
       on: title
       text: Todo List
+
