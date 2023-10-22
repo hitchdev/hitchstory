@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 PROJECT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-PROJECT_NAME=$(cat $PROJECT_DIR/PROJECT_NAME | tr -d '\n')
+PROJECT_NAME=$(cat $PROJECT_DIR/hitch/PROJECT_NAME | tr -d '\n')
 if [ -z "$PROJECT_NAME" ]; then
     echo "PROJECT_NAME file must be set with project name."
     exit 1
