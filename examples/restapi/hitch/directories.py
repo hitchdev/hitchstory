@@ -7,7 +7,7 @@ class DIR:
     PROJECT = ROOT
     APP = ROOT / "app"
     ARTEFACTS = ROOT / "artefacts"
-    DOCS = ROOT / "tests" / "docs"
-    STORY = ROOT / "tests" / "story"
+    DOCS = ROOT / "hitch" / "docs"
+    STORY = ROOT / "hitch" / "story"
     DATACACHE = Path("/gen")
-    TESTS = ROOT / "tests"
+    TESTS = ROOT / "hitch"
