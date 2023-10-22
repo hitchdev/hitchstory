@@ -31,7 +31,7 @@ jobs:
       - name: regression test restapi
         run: |
           cd examples/restapi
-          ./run.sh pytest
+          ./run.sh regression
 
       # Interactive Command Line Integration Tests
       - name: build command line

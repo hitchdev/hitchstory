@@ -82,6 +82,15 @@ case "$1" in
     "bash")
         hitchrun "bash"
         ;;
+    "bdd")
+        hitchrun "/gen/venv/bin/python tests/cli.py bdd $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "rbdd")
+        hitchrun "/gen/venv/bin/python tests/cli.py rbdd $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "regression")
+        hitchrun "/gen/venv/bin/python tests/cli.py regression"
+        ;;
     *)
         echo "Invalid command"
         exit 1
