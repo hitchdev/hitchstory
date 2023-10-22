@@ -1,0 +1,24 @@
+version: '3.8'
+
+# !!! WARNING !!!
+
+# ALWAYS ADD network_mode: host to ALL NEW SERVICES
+# ALWAYS add docker.io/ to the beginning of any images.
+# ALWAYS add a healthcheck
+# Otherwise, you can mostly use it like you would any docker-compose.yml.
+
+services:
+  app:
+    network_mode: host
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    stop_signal: SIGINT
+    image: app
+    volumes:
+    - /src/app:/app   
+    healthcheck:
+      test: netcat -vz localhost 5000
+      interval: 3s
+      timeout: 2s
+      retries: 3

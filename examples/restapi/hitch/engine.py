@@ -15,6 +15,7 @@ import time
 from podman import App
 import json
 from directories import DIR
+from services import Services
 
 
 class Engine(BaseEngine):
@@ -24,9 +25,14 @@ class Engine(BaseEngine):
         self._app = App(Command("podman").in_dir(DIR.PROJECT))
         self._rewrite = rewrite
 
+        self._services = Services(
+            env={},
+            ports=[5000],
+            timeout=3.0,
+        )
+
     def set_up(self):
-        self._app.start()
-        self._app.wait_until_ready()
+        self._services.start()
 
     @validate(
         request=Map(
@@ -88,10 +94,11 @@ class Engine(BaseEngine):
                 raise
 
     def tear_down(self):
-        self._app.stop()
+        if hasattr(self, "_services"):
+            self._services.stop()
 
     def on_failure(self, result):
-        self._app.logs()
+        self._services.logs()
 
     def on_success(self):
         if self._rewrite:

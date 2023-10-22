@@ -54,21 +54,22 @@ case "$1" in
                 fi
                 podman build -f hitch/Dockerfile-hitch -t $IMAGE_NAME $PROJECT_DIR
                 hitchrun "virtualenv --python=python3 /gen/venv"
-                #hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "podman build . -t app"
+                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml build"
                 ;;
             "gen")
                 hitchrun "virtualenv --python=python3 /gen/venv"
-                #hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "podman build . -t app"
+                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml build"
                 ;;
             "hitchreqs")
                 hitchrun "/gen/venv/bin/pip-compile hitch/hitchreqs.in -o hitch/hitchreqs.txt"
                 ;;
+            "compose")
+                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml build"
+                ;;
             *)
-                echo "Invalid make target. ./run.sh make [all|gen|hitchreqs|pylibrarytoolkit]"
+                echo "Invalid make target. ./run.sh make [all|gen|hitchreqs|compose|pylibrarytoolkit]"
                 exit 1
                 ;;
             esac

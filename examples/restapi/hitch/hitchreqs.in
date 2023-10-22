@@ -6,3 +6,4 @@ icommandlib
 requests
 pip-tools
 pytest
+podman-compose

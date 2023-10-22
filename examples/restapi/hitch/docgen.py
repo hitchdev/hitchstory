@@ -5,7 +5,7 @@ from directories import DIR
 
 storydocs = (
     StoryCollection(DIR.STORY.glob("*.story"), Engine())
-    .with_documentation(DIR.TESTS.joinpath("docstory.yml").read_text())
+    .with_documentation(DIR.HITCH.joinpath("docstory.yml").read_text())
     .ordered_by_file()
 )
 

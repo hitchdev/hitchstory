@@ -10,4 +10,4 @@ class DIR:
     DOCS = ROOT / "hitch" / "docs"
     STORY = ROOT / "hitch" / "story"
     DATACACHE = Path("/gen")
-    TESTS = ROOT / "hitch"
+    HITCH = ROOT / "hitch"
