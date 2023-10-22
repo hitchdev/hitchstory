@@ -13,36 +13,18 @@ from shlex import split
 from commandlib import Command
 import requests
 import time
-
+from podman import App
+import json
+from directories import DIR
 
 PROJECT_DIR = Path(__file__).absolute().parents[0].parent
-
-
-class App:
-    """Interact directly with the app via podman."""
-
-    def __init__(self, podman):
-        self._podman = podman
-
-    def start(self):
-        self._podman("run", "-d", "app").output()
-
-    def wait_until_ready(self):
-        # Really bad way to do it
-        time.sleep(1)
-
-    def stop(self):
-        self._podman("stop", "--latest", "--time", "1").output()
-
-    def logs(self):
-        self._podman("logs", "--latest").run()
 
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
 
     def __init__(self, rewrite=False):
-        self._app = App(Command("podman").in_dir(PROJECT_DIR))
+        self._app = App(Command("podman").in_dir(DIR.PROJECT))
         self._rewrite = rewrite
 
     def set_up(self):
@@ -55,33 +37,56 @@ class Engine(BaseEngine):
                 "path": Str(),
                 "method": Str(),
                 Optional("headers"): MapPattern(Str(), Str()),
+                Optional("content"): Str(),
             }
         ),
         response=Map(
             {
-                "code": Int(),
+                Optional("code"): Int(),
+                "content": Str(),
+                Optional("varying"): MapPattern(Str(), Enum(["uuid", "timestamp"])),
             }
         ),
     )
-    def call_api(self, request, response=None, request_content="", response_content=""):
+    def call_api(self, request, response):
         actual_response = requests.request(
             request["method"],
             "http://127.0.0.1:5000/" + request["path"],
-            data=request_content,
+            data=request.get("content", ""),
             headers=request.get("headers", {}),
         )
 
-        if response is not None:
-            assert response["code"] == actual_response.status_code, (
-                f"Response code was {actual_response.status_code}, "
-                f"should be {response['code']}."
-            )
+        if "code" in response:
+            if actual_response.status_code != response["code"]:
+                raise Failure(
+                    f"Response code was {actual_response.status_code}, "
+                    f"should be {response['code']}"
+                )
+
+        json_actual_response = json.loads(actual_response.content)
+        json_expected_response = json.loads(response["content"])
+        for varying_key, varying_type in response.get("varying", {}).items():
+            *other_keys, last_key = varying_key.split("/")
+
+            actual_chunk = json_actual_response
+            expected_chunk = json_expected_response
+
+            for key in other_keys:
+                actual_chunk = actual_chunk[key]
+                expected_chunk = expected_chunk[key]
+
+            if last_key in actual_chunk:
+                expected_chunk[last_key] = actual_chunk[last_key]
+
+        expected = json.dumps(json_expected_response, indent=4, sort_keys=True)
 
         try:
-            json_match(response_content, actual_response.text)
-        except AssertionError:
+            json_match(expected, actual_response.text)
+        except Failure:
             if self._rewrite:
-                self.current_step.rewrite("response_content").to(actual_response.text)
+                self.current_step.rewrite("response", "content").to(
+                    actual_response.text
+                )
             else:
                 raise
 
