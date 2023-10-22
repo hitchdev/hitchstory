@@ -1,9 +1,7 @@
 from hitchstory import StoryCollection
 from test_integration import Engine
 from directories import DIR
-from pathlib import Path
 
-PROJECTDIR = Path(__file__).absolute().parents[0].parent
 
 storydocs = (
     StoryCollection(DIR.STORY.glob("*.story"), Engine())

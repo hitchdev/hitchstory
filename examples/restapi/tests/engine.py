@@ -8,7 +8,6 @@ from hitchstory import (
 from hitchstory import GivenDefinition, GivenProperty, InfoDefinition, InfoProperty
 from hitchstory import Failure, json_match
 from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
-from pathlib import Path
 from shlex import split
 from commandlib import Command
 import requests
@@ -16,8 +15,6 @@ import time
 from podman import App
 import json
 from directories import DIR
-
-PROJECT_DIR = Path(__file__).absolute().parents[0].parent
 
 
 class Engine(BaseEngine):
