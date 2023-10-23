@@ -16,6 +16,7 @@ from podman import App
 import json
 from directories import DIR
 from services import Services
+import IPython
 
 
 class Engine(BaseEngine):
@@ -92,6 +93,9 @@ class Engine(BaseEngine):
                 )
             else:
                 raise
+
+    def pause(self):
+        IPython.embed()
 
     def tear_down(self):
         if hasattr(self, "_services"):
