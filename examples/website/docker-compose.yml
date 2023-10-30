@@ -11,7 +11,7 @@ services:
   playwright:
     network_mode: host
     build:
-      dockerfile: tests/Dockerfile-playwright
+      dockerfile: hitch/Dockerfile-playwright
     image: playwright
     environment:
       VNC: ${VNC}

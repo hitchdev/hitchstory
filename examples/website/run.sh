@@ -58,20 +58,20 @@ case "$1" in
                 if ! podman volume exists $GEN_VOLUME_NAME; then
                     podman volume create $GEN_VOLUME_NAME
                 fi
-                podman build -f tests/Dockerfile-hitch -t $IMAGE_NAME $PROJECT_DIR
+                podman build -f hitch/Dockerfile-hitch -t $IMAGE_NAME $PROJECT_DIR
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
-                hitchrun "/gen/venv/bin/pip install -r /src/tests/hitchreqs.txt"
+                hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
                 hitchrun "/gen/venv/bin/podman-compose build"
                 ;;
             "compose")
                 hitchrun "/gen/venv/bin/podman-compose build"
                 ;;
             "hitchreqs")
-                hitchrun "/gen/venv/bin/pip-compile tests/hitchreqs.in -o tests/hitchreqs.txt"
+                hitchrun "/gen/venv/bin/pip-compile hitch/hitchreqs.in -o hitch/hitchreqs.txt"
                 ;;
             *)
-                echo "Invalid make target. ./run.sh make [all|gen|pylibrarytoolkit]"
+                echo "Invalid make target. ./run.sh make [compose|hitchreqs]"
                 exit 1
                 ;;
             esac
@@ -79,8 +79,23 @@ case "$1" in
     "kill"):
         podman stop --latest -t 1
         ;;
-    "docgen"):
-        hitchrun "/gen/venv/bin/python tests/docgen.py"
+    "pytest")
+        hitchrun "/gen/venv/bin/pytest $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "docgen")
+        hitchrun "/gen/venv/bin/python hitch/docgen.py"
+        ;;
+    "bash")
+        hitchrun "bash"
+        ;;
+    "bdd")
+        hitchrun "/gen/venv/bin/python hitch/cli.py bdd $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "rbdd")
+        hitchrun "/gen/venv/bin/python hitch/cli.py rbdd $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "regression")
+        hitchrun "/gen/venv/bin/python hitch/cli.py regression"
         ;;
     *)
         hitchrun "$1 $2 $3 $4 $5 $6 $7 $8 $9"
