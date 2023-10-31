@@ -38,6 +38,15 @@ def bdd(keywords):
 
 
 @cli.command()
+@argument("keywords", nargs=-1)
+def vbdd(keywords):
+    """
+    Run story with name containing keywords.
+    """
+    _collection(vnc=True).shortcut(*keywords).play()
+
+
+@cli.command()
 def regression():
     """
     Continuos integration - lint and run all stories.

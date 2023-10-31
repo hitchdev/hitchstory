@@ -9,5 +9,6 @@ class DIR:
     ARTEFACTS = ROOT / "artefacts"
     DOCS = ROOT / "docs"
     STORY = ROOT / "story"
+    HITCH = ROOT / "hitch"
     SELECTORS = ROOT / "hitch" / "selectors"
     DATACACHE = Path("/gen")

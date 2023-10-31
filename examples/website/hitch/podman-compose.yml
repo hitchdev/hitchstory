@@ -11,7 +11,7 @@ services:
   playwright:
     network_mode: host
     build:
-      dockerfile: hitch/Dockerfile-playwright
+      dockerfile: Dockerfile-playwright
     image: playwright
     environment:
       VNC: ${VNC}
@@ -25,6 +25,7 @@ services:
   app:
     network_mode: host
     build:
+      context: ../
       dockerfile: Dockerfile
     command: ${APPCMD:-runserver}
     entrypoint: ${APPENTRYPOINT:-python manage.py}

@@ -27,7 +27,8 @@ class Services:
 
     def __init__(self, env, ports=None, timeout=10.0):
         self._podman = Command("podman").in_dir(DIR.PROJECT)
-        self._compose = python_bin.podman_compose.with_env(**env).in_dir(DIR.PROJECT)
+        #self._compose = python_bin.podman_compose.with_env(**env).in_dir(DIR.HITCH)
+        self._compose = python_bin.podman_compose("-f", "hitch/podman-compose.yml").with_env(**env).in_dir(DIR.PROJECT)
         self._ports = ports
         self._timeout = timeout
 
@@ -81,17 +82,17 @@ class Services:
     def _set_up_database(self, db_fixture: DbFixture):
         """Build a database volume, or use existing cache if it was built before."""
         cachepath = DIR.DATACACHE / "datacache-{}.tar".format(db_fixture.datahash)
-        self._podman("volume", "rm", "src_db-data", "-f").output()
+        self._podman("volume", "rm", "hitch_db-data", "-f").output()
 
         if cachepath.exists():
-            self._podman("volume", "create", "src_db-data").output()
-            self._podman("volume", "import", "src_db-data", cachepath).output()
+            self._podman("volume", "create", "hitch_db-data").output()
+            self._podman("volume", "import", "hitch_db-data", cachepath).output()
         else:
             db_fixture.build(self._compose)
 
             if cachepath.exists():
                 cachepath.unlink()
-            self._podman("volume", "export", "src_db-data", "-o", cachepath).run()
+            self._podman("volume", "export", "hitch_db-data", "-o", cachepath).run()
 
     def logs(self):
         self._compose("logs").run()

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 PROJECT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-PROJECT_NAME=$(cat $PROJECT_DIR/PROJECT_NAME | tr -d '\n')
+PROJECT_NAME=$(cat $PROJECT_DIR/hitch/PROJECT_NAME | tr -d '\n')
 if [ -z "$PROJECT_NAME" ]; then
     echo "PROJECT_NAME file must be set with project name."
     exit 1
@@ -62,10 +62,10 @@ case "$1" in
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/podman-compose build"
+                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml build"
                 ;;
             "compose")
-                hitchrun "/gen/venv/bin/podman-compose build"
+                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml build $3"
                 ;;
             "hitchreqs")
                 hitchrun "/gen/venv/bin/pip-compile hitch/hitchreqs.in -o hitch/hitchreqs.txt"
@@ -93,6 +93,9 @@ case "$1" in
         ;;
     "rbdd")
         hitchrun "/gen/venv/bin/python hitch/cli.py rbdd $2 $3 $4 $5 $6 $7 $8 $9"
+        ;;
+    "vbdd")
+        hitchrun "/gen/venv/bin/python hitch/cli.py vbdd $2 $3 $4 $5 $6 $7 $8 $9"
         ;;
     "regression")
         hitchrun "/gen/venv/bin/python hitch/cli.py regression"
