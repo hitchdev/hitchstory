@@ -11,5 +11,5 @@ temp/
 hitch/devenv.yml
 hitchpylibrarytoolkit
 failure.*
-examples/website/artefacts/
+examples/website/hitch/artefacts/
 *.coverage

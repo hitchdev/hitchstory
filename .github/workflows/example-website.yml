@@ -39,7 +39,7 @@ jobs:
         with:
           name: regression-test-artefacts
           path: |
-            examples/website/artefacts/**
+            examples/website/hitch/artefacts/**
 
       - name: Code Coverage Report
         uses: irongut/CodeCoverageSummary@v1.3.0
