@@ -1,4 +1,4 @@
-django==4.2.3
+django==4.2.7
 textblob
 web-pdb
 psycopg2-binary==2.9.1
