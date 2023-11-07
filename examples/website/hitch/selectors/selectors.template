@@ -1,0 +1,10 @@
+# Docs https://hitchdev.com/hitchpage
+
+#name of a page:
+#  element:
+#    user readable element: playwright selector
+
+#name of another page:
+#  element:
+#    name of element: playwright selector 
+

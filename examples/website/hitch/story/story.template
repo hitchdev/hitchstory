@@ -1,0 +1,26 @@
+#Name of your story:
+#  about: |
+#    Here you write context, description, justifications
+#    or anything else that belongs in the docs.
+#  given:
+#    browser: chromium
+#    data:
+#      table_name:
+#        id:
+#          string_column: value
+#          timestamp_column: 2023-05-08T16:29:41.595Z
+#          update_at: 2023-05-08T16:29:41.595Z
+#          bool_column: no
+#  steps:
+#  - load website: url/
+
+#  - page appears: from selectors.yml
+
+#  - enter:
+#      text: admin
+#      on: see selectors.yml
+      
+#  - should appear:
+#      on: see selectors.yml
+#      text: Todo List
+
