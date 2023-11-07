@@ -54,5 +54,22 @@ def regression():
     _collection().only_uninherited().ordered_by_name().play()
 
 
+@cli.command()
+def docdb():
+    """
+    Rebuild a current representation of the database.
+    """
+    from services import Services
+    from db_fixtures import DbFixture
+
+    services = Services(
+        env={"VNC": "no"},
+        ports=[5432],
+        timeout=5,
+    )
+    services.start(DbFixture({}))
+    services.stop()
+
+
 if __name__ == "__main__":
     cli()

@@ -86,9 +86,11 @@ class Engine(BaseEngine):
         if self._coverage_file.exists():
             self._coverage_file.unlink()
 
-        self._services.start(
-            DbFixture(self.given.get("data", {})),
+        self._db_fixture = DbFixture(
+            self.given.get("data", {}), self._services._compose
         )
+        self._db_fixture.setup()
+        self._services.start()
         self._playwright = sync_playwright().start()
         self._browser = (
             getattr(self._playwright, self.given["browser"])
@@ -116,11 +118,11 @@ class Engine(BaseEngine):
 
     def enter(self, on, text):
         self._pcm.element(on).fill(text)
-        #self._page.get_by_test_id(slugify(on)).fill(text)
+        # self._page.get_by_test_id(slugify(on)).fill(text)
 
     def click(self, on):
         self._pcm.element(on).click()
-        #self._page.get_by_test_id(slugify(on)).click()
+        # self._page.get_by_test_id(slugify(on)).click()
 
     @validate(which=Int())
     @no_stacktrace_for(AssertionError)
@@ -145,7 +147,7 @@ class Engine(BaseEngine):
         """Special step that pauses a test and launches a REPL."""
         if sys.stdout.isatty():
             __import__("IPython").embed()
-    
+
     def _screenshot(self):
         """
         Compare screenshot of current state against stored screenshot
@@ -153,13 +155,10 @@ class Engine(BaseEngine):
 
         These screenshots are also displayed in the docs.
         """
-        golden_snapshot = (
-            DIR.DOCS
-            / "{}-{}-{}.png".format(
-                self.story.slug,
-                self.current_step.index,
-                self.current_step.slug,
-            )
+        golden_snapshot = DIR.DOCS / "{}-{}-{}.png".format(
+            self.story.slug,
+            self.current_step.index,
+            self.current_step.slug,
         )
 
         self._page.wait_for_load_state("networkidle")
@@ -188,7 +187,7 @@ class Engine(BaseEngine):
             if hasattr(self, "story"):
                 shutil.copy(
                     self._coverage_file,
-                    self._artefacts_dir / f"{self.story.slug}.coverage"
+                    self._artefacts_dir / f"{self.story.slug}.coverage",
                 )
 
     def on_failure(self, result):

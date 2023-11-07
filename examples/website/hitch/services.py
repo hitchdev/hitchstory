@@ -9,7 +9,6 @@ Potential improvements:
 from commandlib import python_bin, Command
 from commandlib.exceptions import CommandExitError
 from utils import port_open
-from db_fixtures import DbFixture
 from hitchstory import Failure
 from pathlib import Path
 from directories import DIR
@@ -27,18 +26,20 @@ class Services:
 
     def __init__(self, env, ports=None, timeout=10.0):
         self._podman = Command("podman").in_dir(DIR.PROJECT)
-        #self._compose = python_bin.podman_compose.with_env(**env).in_dir(DIR.HITCH)
-        self._compose = python_bin.podman_compose("-f", "hitch/podman-compose.yml").with_env(**env).in_dir(DIR.PROJECT)
+        self._compose = (
+            python_bin.podman_compose("-f", "hitch/podman-compose.yml")
+            .with_env(**env)
+            .in_dir(DIR.PROJECT)
+        )
         self._ports = ports
         self._timeout = timeout
 
-    def start(self, db_fixture: DbFixture):
+    def start(self):
         """Start the services."""
         for port in self._ports:
             if port_open(port, timeout=0.01):
                 raise Failure(f"Port {port} in use. Is another test running?")
 
-        self._set_up_database(db_fixture)
         self._compose("up", "--remove-orphans", "-d").output()
         self._healthcheck_all_services()
 
@@ -79,20 +80,20 @@ class Services:
                     )
                 )
 
-    def _set_up_database(self, db_fixture: DbFixture):
-        """Build a database volume, or use existing cache if it was built before."""
-        cachepath = DIR.DATACACHE / "datacache-{}.tar".format(db_fixture.datahash)
-        self._podman("volume", "rm", "hitch_db-data", "-f").output()
+    # def _set_up_database(self, db_fixture: DbFixture):
+    #     """Build a database volume, or use existing cache if it was built before."""
+    #     cachepath = DIR.DATACACHE / "datacache-{}.tar".format(db_fixture.datahash)
+    #     self._podman("volume", "rm", "hitch_db-data", "-f").output()
 
-        if cachepath.exists():
-            self._podman("volume", "create", "hitch_db-data").output()
-            self._podman("volume", "import", "hitch_db-data", cachepath).output()
-        else:
-            db_fixture.build(self._compose)
+    #     if cachepath.exists():
+    #         self._podman("volume", "create", "hitch_db-data").output()
+    #         self._podman("volume", "import", "hitch_db-data", cachepath).output()
+    #     else:
+    #         db_fixture.build(self._compose)
 
-            if cachepath.exists():
-                cachepath.unlink()
-            self._podman("volume", "export", "hitch_db-data", "-o", cachepath).run()
+    #         if cachepath.exists():
+    #             cachepath.unlink()
+    #         self._podman("volume", "export", "hitch_db-data", "-o", cachepath).run()
 
     def logs(self):
         self._compose("logs").run()

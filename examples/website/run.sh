@@ -100,6 +100,9 @@ case "$1" in
     "regression")
         hitchrun "/gen/venv/bin/python hitch/cli.py regression"
         ;;
+    "docdb")
+        hitchrun "/gen/venv/bin/python hitch/cli.py docdb"
+        ;;
     *)
         hitchrun "$1 $2 $3 $4 $5 $6 $7 $8 $9"
         ;; 

@@ -10,6 +10,7 @@ from strictyaml import Enum, Int, Str, MapPattern, Bool, Map, Int
 from hashlib import md5
 from json import dumps
 from directories import DIR
+from commandlib import Command
 
 
 FIXTURE_SCHEMA = MapPattern(
@@ -31,8 +32,10 @@ FIXTURE_SCHEMA = MapPattern(
 class DbFixture:
     VERSION = 2
 
-    def __init__(self, data):
+    def __init__(self, data, compose):
         self._data = data
+        self._podman = Command("podman").in_dir(DIR.PROJECT)
+        self._compose = compose
 
     @property
     def datahash(self):
@@ -41,9 +44,9 @@ class DbFixture:
             bytes(self.VERSION) + dumps(self._data, sort_keys=True).encode()
         ).hexdigest()[:10]
 
-    def build(self, compose):
+    def build(self):
         """Builds Django fixtures and runs the loaddata command."""
-        compose("up", "db", "-d").output()
+        self._compose("up", "db", "-d").output()
 
         fixture_data = []
 
@@ -60,8 +63,8 @@ class DbFixture:
         given_json = DIR.APP / "given.json"
         given_json.write_text(dumps(fixture_data, indent=4))
 
-        compose("run", "app", "migrate", "--noinput").output()
-        compose(
+        self._compose("run", "app", "migrate", "--noinput").output()
+        self._compose(
             "run",
             "-e",
             "DJANGO_SUPERUSER_USERNAME=admin",
@@ -74,7 +77,21 @@ class DbFixture:
             "--noinput",
         ).output()
 
-        compose("run", "app", "loaddata", "-i", "given.json").output()
+        self._compose("run", "app", "loaddata", "-i", "given.json").output()
         given_json.unlink()
 
-        compose("down", "db").output()
+        self._compose("down", "db").output()
+
+    def setup(self):
+        cachepath = DIR.DATACACHE / "datacache-{}.tar".format(self.datahash)
+        self._podman("volume", "rm", "hitch_db-data", "-f").output()
+
+        if cachepath.exists():
+            self._podman("volume", "create", "hitch_db-data").output()
+            self._podman("volume", "import", "hitch_db-data", cachepath).output()
+        else:
+            self.build()
+
+            if cachepath.exists():
+                cachepath.unlink()
+            self._podman("volume", "export", "hitch_db-data", "-o", cachepath).run()
