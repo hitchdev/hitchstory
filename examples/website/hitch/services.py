@@ -20,8 +20,8 @@ import time
 class Services:
     """
     * Sets up and runs the necessary services with podman-compose.
-    * Calls out to set up the db fixtures beforehand.
     * Waits for services to be healthy before proceeding.
+    * Prints logs for the various services.
     """
 
     def __init__(self, env, ports=None, timeout=10.0):
@@ -80,22 +80,7 @@ class Services:
                     )
                 )
 
-    # def _set_up_database(self, db_fixture: DbFixture):
-    #     """Build a database volume, or use existing cache if it was built before."""
-    #     cachepath = DIR.DATACACHE / "datacache-{}.tar".format(db_fixture.datahash)
-    #     self._podman("volume", "rm", "hitch_db-data", "-f").output()
-
-    #     if cachepath.exists():
-    #         self._podman("volume", "create", "hitch_db-data").output()
-    #         self._podman("volume", "import", "hitch_db-data", cachepath).output()
-    #     else:
-    #         db_fixture.build(self._compose)
-
-    #         if cachepath.exists():
-    #             cachepath.unlink()
-    #         self._podman("volume", "export", "hitch_db-data", "-o", cachepath).run()
-
-    def logs(self):
+   def logs(self):
         self._compose("logs").run()
 
     def weblogs(self):
