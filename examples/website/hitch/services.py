@@ -80,7 +80,7 @@ class Services:
                     )
                 )
 
-   def logs(self):
+    def logs(self):
         self._compose("logs").run()
 
     def weblogs(self):
