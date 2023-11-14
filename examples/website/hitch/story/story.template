@@ -2,6 +2,7 @@
 #  about: |
 #    Here you write context, description, justifications
 #    or anything else that belongs in the docs.
+#  docs: yes
 #  given:
 #    browser: chromium
 #    data:

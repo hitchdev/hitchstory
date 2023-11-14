@@ -25,7 +25,7 @@ def ordinal(num):
 
 def generate_docs():
     storydocs = (
-        StoryCollection(PROJECTDIR.joinpath("story").glob("*.story"), Engine())
+        StoryCollection(PROJECTDIR.joinpath("hitch" / "story").glob("*.story"), Engine())
         .with_documentation(
             PROJECTDIR.joinpath("hitch", "docstory.yml").read_text(),
             extra={"ordinal": ordinal},
@@ -35,7 +35,7 @@ def generate_docs():
     )
 
     for story in storydocs:
-        PROJECTDIR.joinpath("docs", story.slug + ".md").write_text(
+        PROJECTDIR.joinpath("hitch" / "docs", story.slug + ".md").write_text(
             story.documentation()
         )
 
