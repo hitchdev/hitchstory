@@ -27,7 +27,7 @@ def generate_docs():
     storydocs = (
         StoryCollection(PROJECTDIR.joinpath("story").glob("*.story"), Engine())
         .with_documentation(
-            PROJECTDIR.joinpath("tests", "docstory.yml").read_text(),
+            PROJECTDIR.joinpath("hitch", "docstory.yml").read_text(),
             extra={"ordinal": ordinal},
         )
         .filter(lambda story: story.info.get("docs"))
