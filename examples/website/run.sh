@@ -42,6 +42,9 @@ case "$1" in
             "dbcache")
                 hitchrun "find /gen -name datacache-*.tar -delete"
                 ;;
+            "compose")
+                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml down --remove-orphans"
+                ;;
             "prune")
                 hitchrun "podman system prune --all"
                 ;;
