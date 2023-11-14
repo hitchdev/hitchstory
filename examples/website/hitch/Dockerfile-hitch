@@ -1,4 +1,4 @@
-FROM quay.io/podman/stable:v3
+FROM quay.io/podman/stable:v4.6.1
 
 RUN yum install \
     zlib zlib-devel bzip2 bzip2-devel xz xz-devel \
