@@ -87,4 +87,4 @@ class Services:
         self._compose("logs", "app").run()
 
     def stop(self):
-        self._compose("down", "--remove-orphans", "-t", "5").output()
+        self._compose("down", "--remove-orphans", "-t", "1").output()
