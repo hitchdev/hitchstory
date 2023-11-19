@@ -1,10 +1,10 @@
-FROM quay.io/podman/stable:v4.6.1
+FROM quay.io/podman/stable
 
 RUN yum install \
     zlib zlib-devel bzip2 bzip2-devel xz xz-devel \
     openssl openssl-devel sqlite sqlite-devel readline-devel \
     python-devel libuv-devel ncurses-devel libffi-devel \
-    python3-virtualenv gcc git curl make vim podman \
+    python3-virtualenv gcc git curl make vim podman podman-compose \
     -y && yum clean all
 
 # To process playwright videos

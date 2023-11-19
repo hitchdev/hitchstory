@@ -27,7 +27,7 @@ class Services:
     def __init__(self, env, ports=None, timeout=10.0):
         self._podman = Command("podman").in_dir(DIR.PROJECT)
         self._compose = (
-            python_bin.podman_compose("-f", "hitch/podman-compose.yml")
+            Command("podman-compose", "-f", "hitch/podman-compose.yml")
             .with_env(**env)
             .in_dir(DIR.PROJECT)
         )
@@ -43,7 +43,7 @@ class Services:
         self._compose("up", "--remove-orphans", "-d").output()
         self._healthcheck_all_services()
 
-    def _healthcheck_all_services(self, interval=0.3, retries=5):
+    def _healthcheck_all_services(self, interval=0.2, retries=10):
         """
         Run healthchecks on all services and fail if any of them don't come up.
 

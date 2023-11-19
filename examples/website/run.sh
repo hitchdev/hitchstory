@@ -43,7 +43,7 @@ case "$1" in
                 hitchrun "find /gen -name datacache-*.tar -delete"
                 ;;
             "compose")
-                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml down --remove-orphans"
+                hitchrun "podman-compose -f hitch/podman-compose.yml down --remove-orphans"
                 ;;
             "prune")
                 hitchrun "podman system prune --all"
@@ -65,10 +65,10 @@ case "$1" in
                 hitchrun "virtualenv --python=python3 /gen/venv"
                 hitchrun "/gen/venv/bin/pip install setuptools-rust"
                 hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml build"
+                hitchrun "podman-compose -f hitch/podman-compose.yml build"
                 ;;
             "compose")
-                hitchrun "/gen/venv/bin/podman-compose -f hitch/podman-compose.yml build $3"
+                hitchrun "podman-compose -f hitch/podman-compose.yml build $3"
                 ;;
             "hitchreqs")
                 hitchrun "/gen/venv/bin/pip-compile hitch/hitchreqs.in -o hitch/hitchreqs.txt"

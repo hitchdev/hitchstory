@@ -12,7 +12,6 @@ nest_asyncio        # To make ipython play well with playwright
 commandlib          # Syntactic sugar for running UNIX commands
 pip-tools           # For rebuilding hitchreqs.txt from this file.
 pytest-split        # For parallelizing test runs
-podman-compose      # For running services (equivalent of docker compose)
 inflect             # Helper functions for generating docs.
 pillow              # Image manipulation (for screenshots)
 pixelmatch          # For snapshot testing of screenshots
