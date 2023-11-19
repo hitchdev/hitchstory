@@ -31,7 +31,7 @@ jobs:
       - name: regression test
         run: |
           cd examples/website
-          STORYMODE=./run.sh regression
+          ./run.sh regression
 
       - name: save regression test artefacts
         if: always()
