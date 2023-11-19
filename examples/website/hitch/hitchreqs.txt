@@ -24,7 +24,7 @@ decorator==5.1.1
     # via ipython
 executing==1.2.0
     # via stack-data
-greenlet==2.0.1
+greenlet==3.0.0
     # via playwright
 hitchdb==0.1.4
     # via -r hitch/hitchreqs.in
@@ -74,7 +74,7 @@ pip-tools==6.13.0
     # via -r hitch/hitchreqs.in
 pixelmatch==0.3.0
     # via -r hitch/hitchreqs.in
-playwright==1.32.0
+playwright==1.39.0
     # via
     #   -r hitch/hitchreqs.in
     #   hitchpage
@@ -92,7 +92,7 @@ pure-eval==0.2.2
     # via stack-data
 pydantic==1.10.7
     # via inflect
-pyee==9.0.4
+pyee==11.0.1
     # via playwright
 pygments==2.15.0
     # via ipython
