@@ -18,4 +18,4 @@ pixelmatch          # For snapshot testing of screenshots
 coverage            # For code coverage
 
 # Keep this tied to the version in Dockerfile-playwright
-playwright==1.32.0
+playwright==1.39.0

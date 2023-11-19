@@ -1,6 +1,6 @@
 # If you bump this version, change the version in hitchreqs.in also and
 # run ./run.sh make hitchreqs
-ARG PLAYWRIGHT_VERSION=1.32.0
+ARG PLAYWRIGHT_VERSION=1.39.0
 
 FROM mcr.microsoft.com/playwright:v$PLAYWRIGHT_VERSION-focal
 RUN apt-get update
