@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 from pathlib import Path
+import sys
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -74,17 +75,24 @@ WSGI_APPLICATION = "todoApp.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": os.environ["SQL_ENGINE"],
-        "NAME": os.environ["SQL_DATABASE"],
-        "USER": os.environ["SQL_USER"],
-        "PASSWORD": os.environ["SQL_PASSWORD"],
-        "HOST": os.environ["SQL_HOST"],
-        "PORT": os.environ["SQL_PORT"],
+if 'test' in sys.argv:  # For unit tests
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": "mydatabase"
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": os.environ["SQL_ENGINE"],
+            "NAME": os.environ["SQL_DATABASE"],
+            "USER": os.environ["SQL_USER"],
+            "PASSWORD": os.environ["SQL_PASSWORD"],
+            "HOST": os.environ["SQL_HOST"],
+            "PORT": os.environ["SQL_PORT"],
+        }
+    }
 
 
 # Password validation
