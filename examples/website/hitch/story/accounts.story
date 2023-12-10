@@ -15,13 +15,13 @@ Login:
       todos.todo:
         10:
           title: Buy peppers
-          created_at: 2023-05-08T16:29:41.595Z
-          update_at: 2023-05-08T16:29:41.595Z
+          created_at: 2023-01-01T00:00:00.000Z
+          update_at: 2023-01-01T00:00:00.000Z
           isCompleted: no
         11:
           title: Buy cereal
-          created_at: 2023-05-08T16:29:41.595Z
-          update_at: 2023-05-08T16:29:41.595Z
+          created_at: 2023-01-01T00:00:00.000Z
+          update_at: 2023-01-01T00:00:00.000Z
           isCompleted: yes
   steps:
   - load website: login/

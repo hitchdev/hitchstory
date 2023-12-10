@@ -17,8 +17,8 @@ Add and retrieve todo:
         # Also includes peppers and cereal from "Login"
         12:
           title: Buy a toaster
-          created_at: 2023-05-08T16:29:41.595Z
-          update_at: 2023-05-08T16:29:41.595Z
+          created_at: 2023-01-01T00:00:00.000Z
+          update_at: 2023-01-01T00:00:00.000Z
           isCompleted: yes
 
   following steps:
