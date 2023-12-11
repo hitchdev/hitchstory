@@ -2,11 +2,11 @@
 # run ./run.sh make hitchreqs
 ARG PLAYWRIGHT_VERSION=1.39.0
 
-FROM mcr.microsoft.com/playwright:v$PLAYWRIGHT_VERSION-focal
+FROM mcr.microsoft.com/playwright:v1.39.0-focal
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tightvncserver netcat
 WORKDIR /root
-RUN npm install playwright@$PLAYWRIGHT_VERSION && ./node_modules/.bin/playwright install
+RUN npm install playwright@1.39.0 && ./node_modules/.bin/playwright install
 COPY playwright-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
