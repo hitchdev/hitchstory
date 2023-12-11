@@ -25,7 +25,7 @@ def rbdd(keywords):
     """
     Run story with name containing keywords and rewrite.
     """
-    _collection().shortcut(*keywords).play()
+    _collection(rewrite=True).shortcut(*keywords).play()
 
 
 @cli.command()
@@ -34,7 +34,7 @@ def bdd(keywords):
     """
     Run story with name containing keywords.
     """
-    _collection(rewrite=True).shortcut(*keywords).play()
+    _collection().shortcut(*keywords).play()
 
 
 @cli.command()
