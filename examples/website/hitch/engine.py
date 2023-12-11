@@ -118,11 +118,9 @@ class Engine(BaseEngine):
 
     def enter(self, on, text):
         self._pcm.element(on).fill(text)
-        # self._page.get_by_test_id(slugify(on)).fill(text)
 
     def click(self, on):
         self._pcm.element(on).click()
-        # self._page.get_by_test_id(slugify(on)).click()
 
     @validate(which=Int())
     @no_stacktrace_for(AssertionError)
