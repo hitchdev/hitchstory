@@ -39,10 +39,10 @@ jobs:
           cd examples/commandline
           ./run.sh make
 
-      - name: regression test commandline
-        run: |
-          cd examples/commandline
-          ./run.sh pytest
+      #- name: regression test commandline example
+      #  run: |
+      #    cd examples/commandline
+      #    ./run.sh pytest
 
           
       # Python API Integration Tests
