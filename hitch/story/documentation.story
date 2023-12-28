@@ -155,9 +155,9 @@ Generate documentation from story:
   - run:
       code: |
         print(
-            jenv.from_string(Path("index.jinja2").text()).render(
+            jenv.from_string(Path("index.jinja2").read_text()).render(
                 story_list=story_collection.with_documentation(
-                    Path("document.yaml").text(),
+                    Path("document.yaml").read_text(),
                 ).ordered_by_file()
             )
         )
