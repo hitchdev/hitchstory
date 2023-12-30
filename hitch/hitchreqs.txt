@@ -52,7 +52,7 @@ gitpython==3.1.31
     # via hitchpylibrarytoolkit
 hitchbuild==0.6.3
     # via hitchpylibrarytoolkit
-hitchpylibrarytoolkit==0.6.20
+hitchpylibrarytoolkit==0.6.23
     # via -r hitch/hitchreqs.in
 hitchrunpy==0.11.3
     # via hitchpylibrarytoolkit
