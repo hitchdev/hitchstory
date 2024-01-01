@@ -216,7 +216,7 @@ variation: |
 ```python
 print(
     story_collection.with_documentation(
-        Path("docstory.yml").text()
+        Path("docstory.yml").read_text()
     ).named("Create files").documentation()
 )
 
