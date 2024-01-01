@@ -22,3 +22,33 @@ Re-use of with_documentation fails:
             )
         )
 
+Rewrite step in inherited story:
+  based on: Story that rewrites itself
+  given:
+    files:
+      inherited.story: |
+        Following steps:
+          based on: Append text to file
+          following steps:
+          - run and get output:
+              command: cat mytext.txt
+              will output: old value
+
+  replacement steps:
+  - Run:
+      code: |
+        StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).named("Following steps").play()
+      will output: x
+        
+
+  - File contents will be:
+      filename: inherited.story
+      contents: |-
+        Following steps:
+          based on: Append text to file
+          following steps:
+          - run and get output:
+              command: cat mytext.txt
+              will output: old value
+
+
