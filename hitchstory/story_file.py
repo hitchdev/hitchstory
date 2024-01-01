@@ -59,7 +59,13 @@ class Rewriter(object):
                     yaml_step[key_to_update] = text
         else:
             yaml_story = self.updated_yaml[self._story.name]
-            step_to_update = yaml_story[_step_type(yaml_story)][self._step.index]
+
+            if "following_steps" in yaml_story:
+                step_to_update = yaml_story[_step_type(yaml_story)][
+                    self._step.child_index
+                ]
+            else:
+                step_to_update = yaml_story[_step_type(yaml_story)][self._step.index]
 
             if self._step.arguments.single_argument:
                 single_argument_name = self._step.step_method_obj.single_argument_name

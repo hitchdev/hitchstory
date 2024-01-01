@@ -38,8 +38,9 @@ Rewrite step in inherited story:
   - Run:
       code: |
         StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).named("Following steps").play()
-      will output: x
-        
+      will output: RUNNING Following steps in /path/to/working/inherited.story ...
+        SUCCESS in 0.1 seconds.
+
 
   - File contents will be:
       filename: inherited.story
@@ -49,6 +50,8 @@ Rewrite step in inherited story:
           following steps:
           - run and get output:
               command: cat mytext.txt
-              will output: old value
+              will output: |-
+                hello
+                hello
 
 

@@ -64,11 +64,9 @@ class Story(object):
                 if name not in precondition_dict:
                     precondition_dict[name] = precondition
                 else:
-                    merged = mergedeep.merge(
-                        {}, precondition_dict[name], precondition
-                    )
+                    merged = mergedeep.merge({}, precondition_dict[name], precondition)
                     precondition_dict[name] = merged
-                
+
             else:
                 precondition_dict[name] = precondition
         return precondition_dict
