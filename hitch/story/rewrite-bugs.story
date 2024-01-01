@@ -94,10 +94,10 @@ Rewrite single argument incorrect:
           /src/hitchstory/story_file.py
 
 
-                66 :                     step_to_update[self._step.name] = text
-                67 :                 else:
-            --> 68 :                     raise exceptions.RewriteFailure(
-                69 :                         f"'{key_to_update}' doesn't exist, only '{single_argument_name}' exists."
+                72 :                     step_to_update[self._step.name] = text
+                73 :                 else:
+            --> 74 :                     raise exceptions.RewriteFailure(
+                75 :                         f"'{key_to_update}' doesn't exist, only '{single_argument_name}' exists."
 
 
 
