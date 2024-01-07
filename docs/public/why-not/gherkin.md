@@ -149,7 +149,7 @@ Type safety is a critical feature of programming languages. While type systems c
 
 At the other end of the spectrum is "stringly typed" code - the weakest of type systems, where everything is a string. Bash and Makefiles are both stringly typed and while it can be ok for short, simple scripts, it will make debugging painful when these scripts grow very large.
 
-Gherkin is [stringly typed](https://www.techopedia.com/definition/31876/stringly-typed). Steps are parsed (often with regexes) and strings are pulled out and fed into step code.
+Gherkin is [stringly typed](https://www.hanselman.com/blog/stringly-typed-vs-strongly-typed). Steps are parsed (often with regexes) and strings are pulled out and fed into step code.
 
 HitchStory, on the other hand, is based upon StrictYAML and bakes in schema based parsing.
 
