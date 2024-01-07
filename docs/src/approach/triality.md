@@ -17,11 +17,11 @@ This form of automation helps fix three common problems:
 
 One feature I added to this app was the ability to convert the org mode markup - links, bold, italics, etc. into markdown.
 
-This feature is documented with a [a simple how to page](https://hitchdev.com/orji/using/markdown/). The web page is static HTML, generated using the excellent [mkdocs](https://www.mkdocs.org/) from [a markdown document](https://github.com/crdoconnor/orji/blob/main/docs/public/using/markdown.md) using the mkdos flavor of markdown.
+This feature is documented with a [a simple how to page](https://hitchdev.com/orji/using/markdown/). The web page is static HTML, generated using the excellent [mkdocs](https://www.mkdocs.org/) from [a markdown document](https://github.com/crdoconnor/orji/blob/master/docs/public/using/markdown.md) using the mkdos flavor of markdown.
 
 So far, so normal - lots of projects have how to documentation like this.
 
-This markdown document was generated, however, using a combination of [custom jinja2 templates](https://github.com/crdoconnor/orji/blob/main/hitch/docstory.yml) and the [executable specification for this feature](https://github.com/crdoconnor/orji/blob/main/hitch/story/markdown.story) both defined with declarative, type safe YAML.
+This markdown document was generated, however, using a combination of [custom jinja2 templates](https://github.com/crdoconnor/orji/blob/master/hitch/docstory.yml) and the [executable specification for this feature](https://github.com/crdoconnor/orji/blob/master/hitch/story/markdown.story) both defined with declarative, type safe YAML.
 ## Isnt this what Cucumber tried to do?
 
 No.
