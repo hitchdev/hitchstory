@@ -96,6 +96,8 @@ def regression():
     # toolkit.lint(exclude=["__init__.py"])
     StoryCollection(
         pathquery(DIR.key).ext("story"), Engine(DIR, python_path=_devenv().python_path)
+    ).filter(
+        lambda story: story.info.get("status") != "unimplemented"
     ).only_uninherited().ordered_by_name().play()
 
 

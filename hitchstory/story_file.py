@@ -1,17 +1,17 @@
 from strictyaml import load, Map, Str, Seq, Optional, MapPattern, Any, YAMLError
 from hitchstory import exceptions, utils
 from hitchstory.story import Story
+from hitchstory.given import Given
 from path import Path
 import copy
 
 
 class Rewriter(object):
-    def __init__(self, story_file, story, step, args):
+    def __init__(self, story_file, story, given_or_step, args):
         self._story_file = story_file
         self._story = story
-        self._step = step
+        self._given_or_step = given_or_step
         self._args = args
-        # assert len(args) == 1
 
     @property
     def updated_yaml(self):
@@ -26,62 +26,79 @@ class Rewriter(object):
         if self._story.variation:
             variations = self.updated_yaml[self._story.based_on]["variations"]
 
-            if self._step.child_index >= 0:
-                yaml_story = variations[self._story.child_name]
-
-                step_type = _step_type(yaml_story)
-
-                if self._step.arguments.single_argument:
-                    yaml_story[step_type][self._step.child_index][
-                        self._step.name
-                    ] = text
-                else:
-                    yaml_step = yaml_story[step_type][self._step.child_index][
-                        self._step.name
-                    ]
-
-                    for subkey in self._args[:-1]:
-                        yaml_step = yaml_step[subkey]
-
-                    yaml_step[key_to_update] = text
+            if isinstance(self._given_or_step, Given):
+                raise NotImplementedError
             else:
-                yaml_story = variations[self._story.child_name]
-                step_type = _step_type(yaml_story)
+                if self._given_or_step.child_index >= 0:
+                    yaml_story = variations[self._story.child_name]
 
-                if self._step.arguments.single_argument:
-                    yaml_story[step_type][self._step.index][self._step.name] = text
+                    step_type = _step_type(yaml_story)
+
+                    if self._given_or_step.arguments.single_argument:
+                        yaml_story[step_type][self._given_or_step.child_index][
+                            self._given_or_step.name
+                        ] = text
+                    else:
+                        yaml_step = yaml_story[step_type][
+                            self._given_or_step.child_index
+                        ][self._given_or_step.name]
+
+                        for subkey in self._args[:-1]:
+                            yaml_step = yaml_step[subkey]
+
+                        yaml_step[key_to_update] = text
                 else:
-                    yaml_step = yaml_story[step_type][self._step.index][self._step.name]
+                    yaml_story = variations[self._story.child_name]
+                    step_type = _step_type(yaml_story)
 
-                    for subkey in self._args[:-1]:
-                        yaml_step = yaml_step[subkey]
+                    if self._given_or_step.arguments.single_argument:
+                        yaml_story[step_type][self._given_or_step.index][
+                            self._given_or_step.name
+                        ] = text
+                    else:
+                        yaml_step = yaml_story[step_type][self._given_or_step.index][
+                            self._given_or_step.name
+                        ]
 
-                    yaml_step[key_to_update] = text
+                        for subkey in self._args[:-1]:
+                            yaml_step = yaml_step[subkey]
+
+                        yaml_step[key_to_update] = text
         else:
             yaml_story = self.updated_yaml[self._story.name]
 
-            if "following_steps" in yaml_story:
-                step_to_update = yaml_story[_step_type(yaml_story)][
-                    self._step.child_index
-                ]
+            if isinstance(self._given_or_step, Given):
+                raise NotImplementedError
             else:
-                step_to_update = yaml_story[_step_type(yaml_story)][self._step.index]
-
-            if self._step.arguments.single_argument:
-                single_argument_name = self._step.step_method_obj.single_argument_name
-                if key_to_update == single_argument_name:
-                    step_to_update[self._step.name] = text
+                if "following_steps" in yaml_story:
+                    step_to_update = yaml_story[_step_type(yaml_story)][
+                        self._given_or_step.child_index
+                    ]
                 else:
-                    raise exceptions.RewriteFailure(
-                        f"'{key_to_update}' doesn't exist, only '{single_argument_name}' exists."
+                    step_to_update = yaml_story[_step_type(yaml_story)][
+                        self._given_or_step.index
+                    ]
+
+                if self._given_or_step.arguments.single_argument:
+                    single_argument_name = (
+                        self._given_or_step.step_method_obj.single_argument_name
                     )
-            else:
-                yaml_step = step_to_update[self._step.name]
+                    if key_to_update == single_argument_name:
+                        step_to_update[self._given_or_step.name] = text
+                    else:
+                        raise exceptions.RewriteFailure(
+                            (
+                                f"'{key_to_update}' doesn't exist, "
+                                f"only '{single_argument_name}' exists."
+                            )
+                        )
+                else:
+                    yaml_step = step_to_update[self._given_or_step.name]
 
-                for subkey in self._args[:-1]:
-                    yaml_step = yaml_step[subkey]
+                    for subkey in self._args[:-1]:
+                        yaml_step = yaml_step[subkey]
 
-                yaml_step[key_to_update] = text
+                    yaml_step[key_to_update] = text
 
 
 def _step_type(yaml_story):
@@ -162,11 +179,11 @@ class StoryFile(object):
         if self._updated_yaml is not None:
             self.path.write_text(self._updated_yaml.as_yaml())
 
-    def rewriter(self, story, step, args):
+    def rewriter(self, story, given_or_step, args):
         return Rewriter(
             self,
             story,
-            step,
+            given_or_step,
             args,
         )
 

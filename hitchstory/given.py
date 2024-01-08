@@ -25,6 +25,7 @@ class GivenProperties(object):
         for name, precondition in self._given.items():
             self._properties[name] = GivenProperty(
                 precondition,
+                self._given.story,
                 jinja2.Template(self._given._document_templates[name]).render(
                     **{name: precondition}
                 ),
@@ -36,16 +37,20 @@ class GivenProperties(object):
 
 class Given(object):
     def __init__(
-        self, preconditions, child_preconditions=None, document_templates=None
+        self, preconditions, story, child_preconditions=None, document_templates=None
     ):
         self._preconditions = preconditions
+        self.story = story
 
         if child_preconditions is not None:
-            self.child = Given(child_preconditions)
+            self.child = Given(child_preconditions, story)
         else:
             self.child = self
 
         self._document_templates = document_templates
+
+    def rewrite(self, *args):
+        return self.story.rewriter(self, args)
 
     def get(self, key, default=None):
         return self._preconditions.get(utils.underscore_slugify(key), default)

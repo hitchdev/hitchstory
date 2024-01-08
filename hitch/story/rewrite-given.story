@@ -1,4 +1,5 @@
 Story that rewrites given preconditions:
+  status: unimplemented
   docs: engine/rewrite-given
   about: |
     These examples show how to build stories that rewrite themselves
