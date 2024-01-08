@@ -1,12 +1,13 @@
 Story that rewrites given preconditions:
-  status: unimplemented
   docs: engine/rewrite-given
   about: |
     These examples show how to build stories that rewrite themselves
     from program output (in-test snapshot testing) but that rewrite
     the given preconditions.
 
-    This is useful for changing
+    This is useful for auto-updating given preconditions when, for
+    example, a REST API service that is being mocked starts
+    returning different data.
 
     ```
     self.current_step.rewrite("argument").to("new output")
@@ -41,7 +42,7 @@ Story that rewrites given preconditions:
             
             def call_api(self):
                 if self._rewrite:
-                    self.given.rewrite("Mock API", "response").to("""{"greeting": "bye"}""")
+                    self.given.rewrite("Mock API", "response").to("""{"greeting": "bye"}\n""")
 
     setup: |
       from hitchstory import StoryCollection
@@ -66,4 +67,4 @@ Story that rewrites given preconditions:
               response: |
                 {"greeting": "bye"}
           steps:
-            - Call API
+          - Call API

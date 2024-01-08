@@ -68,7 +68,12 @@ class Rewriter(object):
             yaml_story = self.updated_yaml[self._story.name]
 
             if isinstance(self._given_or_step, Given):
-                raise NotImplementedError
+                given_prop = yaml_story["given"]
+
+                for sub_prop in self._args[:-1]:
+                    given_prop = given_prop[sub_prop]
+
+                given_prop[self._args[-1]] = text
             else:
                 if "following_steps" in yaml_story:
                     step_to_update = yaml_story[_step_type(yaml_story)][
