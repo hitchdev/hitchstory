@@ -46,6 +46,24 @@ Story that rewrites given preconditions:
             mock api:
               request: |
                 {"greeting": "hi there"}
+
+      example4.story: |
+        Story with variations:
+          steps:
+          - Call API
+
+          variations:
+            French:
+              given:
+                mock api:
+                  response: |
+                    {"greeting": "bonjour"}
+
+            Chinese:
+              given:
+                mock api:
+                  request: |
+                    {"greeting": "Ni hao"}
       engine.py: |
         from hitchstory import BaseEngine, GivenDefinition, GivenProperty
         from strictyaml import Map, Str
@@ -130,3 +148,31 @@ Story that rewrites given preconditions:
                   response: |
                     {"greeting": "bye"}
 
+
+    Story with variations:
+      steps:
+      - Run:
+          code: |
+            StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).named("Story with variations/French").play()
+          will output: |-
+            RUNNING Story with variations/French in /path/to/working/example4.story ... SUCCESS in 0.1 seconds.
+
+      - File contents will be:
+          filename: example4.story
+          contents: |-
+            Story with variations:
+              steps:
+              - Call API
+
+              variations:
+                French:
+                  given:
+                    mock api:
+                      response: |
+                        {"greeting": "bye"}
+
+                Chinese:
+                  given:
+                    mock api:
+                      request: |
+                        {"greeting": "Ni hao"}

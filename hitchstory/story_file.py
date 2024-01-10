@@ -27,7 +27,13 @@ class Rewriter(object):
             variations = self.updated_yaml[self._story.based_on]["variations"]
 
             if isinstance(self._given_or_step, Given):
-                raise NotImplementedError
+                yaml_story = variations[self._story.child_name]
+                given_prop = yaml_story["given"]
+
+                for sub_prop in self._args[:-1]:
+                    given_prop = given_prop[sub_prop]
+
+                given_prop[self._args[-1]] = text
             else:
                 if self._given_or_step.child_index >= 0:
                     yaml_story = variations[self._story.child_name]
