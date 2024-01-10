@@ -15,8 +15,8 @@ Story that rewrites given preconditions:
 
   given:
     files:
-      example.story: |
-        Call API:
+      example1.story: |
+        Basic:
           given:
             mock api:
               request: |
@@ -25,6 +25,13 @@ Story that rewrites given preconditions:
                 {"greeting": "hi"}
           steps:
             - Call API
+
+      example2.story: |
+        Child:
+          given:
+            mock api:
+              response: |
+                {"greeting": "bonjour"}
       engine.py: |
         from hitchstory import BaseEngine, GivenDefinition, GivenProperty
         from strictyaml import Map, Str
@@ -49,22 +56,46 @@ Story that rewrites given preconditions:
       from pathlib import Path
       from engine import Engine
 
-  steps:
-  - Run:
-      code: |
-        StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).ordered_by_name().play()
-      will output: |-
-        RUNNING Call API in /path/to/working/example.story ... SUCCESS in 0.1 seconds.
+  variations:
+    Simple:
+      steps:
+      - Run:
+          code: |
+            StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).named("Basic").play()
+          will output: |-
+            RUNNING Basic in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
 
-  - File contents will be:
-      filename: example.story
-      contents: |-
-        Call API:
-          given:
-            mock api:
-              request: |
-                {"greeting": "hello"}
-              response: |
-                {"greeting": "bye"}
-          steps:
-          - Call API
+      - File contents will be:
+          filename: example1.story
+          contents: |-
+            Basic:
+              given:
+                mock api:
+                  request: |
+                    {"greeting": "hello"}
+                  response: |
+                    {"greeting": "bye"}
+              steps:
+              - Call API
+
+    Inherited:
+      status: unimplemented
+      steps:
+      - Run:
+          code: |
+            StoryCollection(Path(".").glob("*.story"), Engine(rewrite=True)).named("Inherited").play()
+          will output: |-
+            RUNNING Basic in /path/to/working/example1.story ... SUCCESS in 0.1 seconds.
+
+      - File contents will be:
+          filename: example1.story
+          contents: |-
+            Basic:
+              given:
+                mock api:
+                  request: |
+                    {"greeting": "hello"}
+                  response: |
+                    {"greeting": "bye"}
+              steps:
+              - Call API
