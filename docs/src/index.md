@@ -1,6 +1,7 @@
 {{{{ intro.txt }}}}
 
-Type-safe [StrictYAML](why/strictyaml) integration tests run from pytest. They can:
+Type-safe [StrictYAML](why/strictyaml) python integration testing framework. With this
+framework, your tests can:
 
 ## Rewrite themselves from program output (command line test example)
 
@@ -10,6 +11,7 @@ Type-safe [StrictYAML](why/strictyaml) integration tests run from pytest. They c
 
 ![Test writing docs](https://hitchdev-videos.netlify.app/rewrite-docs-demo.gif)
 
+The tests can be run on their own or as pytest tests. 
 
 ## Demo projects with demo tests
 
@@ -42,8 +44,8 @@ It is tested and documented with itself.
 
 ## Using HitchStory: With Pytest
 
-If you already have pytest set up and running integration
-tests, you can use it with hitchstory:
+If you already have pytest set up, you can quickly and easily write
+a test using hitchstory that runs alongside your other pytest tests:
 
 {{{{ using-pytest-contents.txt }}}}
 
