@@ -11,7 +11,6 @@ HitchStory best practices are documented here:
 - [Flaky Tests](flaky-tests)
 - [The Hermetic End to End Testing Pattern](hermetic-end-to-end-test)
 - [ANTIPATTERN - Analysts writing stories for the developer](human-writable)
-- [Separation of Test Concerns](separation-of-test-concerns)
 - [Snapshot Test Driven Development (STDD)](snapshot-test-driven-development-stdd)
 - [Test Artefact Environment Isolation](test-artefact-environment-isolation)
 - [Test concern leakage](test-concern-leakage)
