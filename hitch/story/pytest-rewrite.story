@@ -1,6 +1,6 @@
 Self rewriting tests with pytest and hitchstory:
   docs: pytest/rewrite
-  based on: old quickstart
+  based on: quickstart
   given:
     files:
       failure.story: |

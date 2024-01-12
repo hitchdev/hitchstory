@@ -1,6 +1,6 @@
 Creating a basic command line test runner:
   docs: setup/basic-cli
-  based on: old quickstart
+  based on: quickstart
   about: |
     This example demonstrates the stories in the README
     being run via a command line runner. It can be directly

@@ -94,10 +94,10 @@ Rewrite single argument incorrect:
           /src/hitchstory/story_file.py
 
 
-                91 :                         step_to_update[self._given_or_step.name] = text
-                92 :                     else:
-            --> 93 :                         raise exceptions.RewriteFailure(
-                94 :                             (
+                97 :                         step_to_update[self._given_or_step.name] = text
+                98 :                     else:
+            --> 99 :                         raise exceptions.RewriteFailure(
+                100 :                             (
 
 
 
