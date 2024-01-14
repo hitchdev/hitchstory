@@ -223,6 +223,7 @@ Best practices, how the tool was meant to be used, etc.
 - [Flaky Tests](https://hitchdev.com/hitchstory/approach/flaky-tests)
 - [The Hermetic End to End Testing Pattern](https://hitchdev.com/hitchstory/approach/hermetic-end-to-end-test)
 - [ANTIPATTERN - Analysts writing stories for the developer](https://hitchdev.com/hitchstory/approach/human-writable)
+- [Separation of Test Concerns](https://hitchdev.com/hitchstory/approach/separation-of-test-concerns)
 - [Snapshot Test Driven Development (STDD)](https://hitchdev.com/hitchstory/approach/snapshot-test-driven-development-stdd)
 - [Test Artefact Environment Isolation](https://hitchdev.com/hitchstory/approach/test-artefact-environment-isolation)
 - [Test concern leakage](https://hitchdev.com/hitchstory/approach/test-concern-leakage)

@@ -1,6 +1,15 @@
 # Changelog
 
 
+### 0.24.0
+
+* FEATURE : Given preconditions in variations are now rewritable.
+* FEATURE : Rewrite given preconditions simple case.
+* FEATURE : Partial implementation of given rewriting.
+* BUGFIX : Rewritable following steps allowed.
+* FEATURE : Include click as a dependency - since most people will want to make command line apps anyway.
+
+
 ### 0.23.0
 
 * BUGFIX : Inheritance bug fixed.

@@ -227,6 +227,7 @@ Best practices, how the tool was meant to be used, etc.
 - [Flaky Tests](approach/flaky-tests)
 - [The Hermetic End to End Testing Pattern](approach/hermetic-end-to-end-test)
 - [ANTIPATTERN - Analysts writing stories for the developer](approach/human-writable)
+- [Separation of Test Concerns](approach/separation-of-test-concerns)
 - [Snapshot Test Driven Development (STDD)](approach/snapshot-test-driven-development-stdd)
 - [Test Artefact Environment Isolation](approach/test-artefact-environment-isolation)
 - [Test concern leakage](approach/test-concern-leakage)
