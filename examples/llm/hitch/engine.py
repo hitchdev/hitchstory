@@ -13,18 +13,11 @@ from commandlib import Command, python_bin
 from directories import DIR
 from slugify import slugify
 from pathlib import Path
-from llm import LLMClient, LLMServer, LLMAnswers
-import nest_asyncio
+from llm import LLMServer, LLMAnswers
 import shutil
 import json
 import time
 import sys
-
-# This allows the IPython REPL to play nicely with Playwright,
-# since they both want an event loop.
-# To pause and debug any code at any point in these modules, use
-# __import__("IPython").embed()
-nest_asyncio.apply()
 
 
 class Engine(BaseEngine):
@@ -56,28 +49,26 @@ class Engine(BaseEngine):
             print(output)
     
     def set_up(self):
-        self._client = LLMClient(prompt=self.given["customer_instructions"])
         self._server = LLMServer(prompt=self.given["agent_instructions"])
         self._answers = LLMAnswers()
         self._print("")
     
-    def expect_json(self, expected_json):
-        client_question = self._client.run()
-        self._print(f"CUSTOMER : {client_question}")
-        server_response = self._server.run([{"role": "user", "content": client_question}])
+    @validate(expect_answer=Map({"question": Str(), "response": Str()}))
+    def speak(self, message, expect_json=None, expect_answer=None):
+        self._print(f"CUSTOMER : {message}")
+        server_response = self._server.run([{"role": "user", "content": message}])
         self._print(f"SERVER : {server_response}")
-        json_match(server_response, expected_json)
         
-    def expect_message(self, question, response):
-        client_question = self._client.run()
-        self._print(f"CUSTOMER : {client_question}")
-        server_response = self._server.run([{"role": "user", "content": client_question}])
-        message = json.loads(server_response)["message"]
-        self._print(f"SERVER : {message}")
-        answer_response = self._answers.ask(message, question)
-        sanitized = answer_response.replace(".", "").lower()
-        if response.lower() != sanitized:
-            raise Failure(f"Expected {response}, got {answer_response}")
+        if expect_json is not None:
+            json_match(server_response, expect_json)
+        
+        if expect_answer is not None:
+            answer = json.loads(server_response)["message"]
+            answer_response = self._answers.ask(answer, expect_answer["question"])
+            sanitized = answer_response.replace(".", "").lower()
+            response = expect_answer["response"]
+            if response.lower() != sanitized:
+                raise Failure(f"Expected {response}, got {answer_response}")
     
     def tear_down(self):
         pass

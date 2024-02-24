@@ -12,6 +12,13 @@ Put your OPENAI_API_KEY In the file "hitch/OPENAI_API_KEY".
 
 Run `./run.sh make` to set up.
 
-Run `./run.sh bdd buy coffee`
+## Try it out
 
-You can hack on the .story files to create new scenarios.
+Run `./run.sh bdd flat white`
+
+Run `./run.sh bdd pizza`
+
+Run `./run.sh bdd cookie`
+
+You can hack on the .story files to create new scenarios and engine.py
+to change the way the scenarios are executed, add new checks and more!
