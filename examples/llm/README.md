@@ -36,10 +36,10 @@ This test driven prompt tuning toolkit is based upon [hitchstory](https://hitchd
 
 ## What is in this project?
 
-hitch/story -- contains YAML stories.
+`hitch/story` -- contains YAML stories.
 
-hitch/engine.py -- the execution engine for these stories. It's the director.
+`hitch/engine.py` -- the execution engine for these stories. It's the director that interprets the stories.
 
-hitch/llm.py -- tools for the execution of OpenAI.
+`hitch/llm.py` -- tools for the execution of OpenAI.
 
-hitch/cli.py -- command line tools e.g. running single stories (bdd), single stories in rewrite mode (rbdd) and all stories together (regression).
+`hitch/cli.py` -- command line tools e.g. running single stories (bdd), single stories in rewrite mode (rbdd) and all stories together (regression).
