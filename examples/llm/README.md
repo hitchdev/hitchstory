@@ -1,7 +1,8 @@
 # HitchStory LLM Tests Example
 
 This example project demonstrates a skeleton for test driven prompt tuning
-with [hitchstory](https://hitchdev.com/hitchstory).
+with [hitchstory](https://hitchdev.com/hitchstory). It's rudimentary but
+fully open for extension.
 
 There's a root story which has the prompt:
 
@@ -100,10 +101,7 @@ Run `./run.sh make` to set everything up.
 
 ## Self rewriting stories
 
-Try changing the first story to "can I order an espresso?" to "can I order a flat white?" and run `./run.sh rbdd flat white`. This should adjust the expected JSON in the story.
-
-You can hack on the .story files in story/ folder to create new scenarios and
-engine.py to change the way the scenarios are executed, add new checks and more!
+Try changing the first story to "can I order an espresso?" to "can I order a flat white?" and run `./run.sh rbdd flat white`. This should change the expected JSON in the story to `{"purchase": "flat white"}`.
 
 
 ## Contents of this subproject
