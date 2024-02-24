@@ -5,7 +5,7 @@ with [hitchstory](https://hitchdev.com/hitchstory).
 
 There's a root story which has the prompt:
 
-```
+```yaml
 Basic barista:
   given:
     agent instructions: |
@@ -31,7 +31,7 @@ Basic barista:
 
 Then there are child stories which inherit from it to test various scenarios:
 
-```
+```yaml
 Espresso purchase:
   based on: basic barista
   steps:
@@ -63,7 +63,7 @@ The top story is entirely deterministic - there can only be one JSON output give
 
 The bottom two can have a range of different acceptable responses, so I'm asking a *separate* LLM questions about the response. Its answers should be deterministic. For example, the same story run twice results in two different outputs:
 
-```
+```bash
 $:~/hitch/story/examples/llm$ ./run.sh bdd cookie
 RUNNING Try to order a cookie in /src/hitch/story/buy-coffee.story ... 
 CUSTOMER : Can I order a cookie?
@@ -79,7 +79,7 @@ SUCCESS in 3.6 seconds.
 
 You can run the whole lot together (interactions are concealed in this case):
 
-```
+```bash
 $:~/hitch/story/examples/llm$ ./run.sh regression
 RUNNING Espresso purchase in /src/hitch/story/buy-coffee.story ... SUCCESS in 4.2 seconds.
 RUNNING Try to order a cookie in /src/hitch/story/buy-coffee.story ... SUCCESS in 2.8 seconds.
