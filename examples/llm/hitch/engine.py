@@ -8,10 +8,12 @@ from hitchstory import BaseEngine, InfoDefinition, InfoProperty
 from hitchstory import GivenDefinition, GivenProperty
 from strictyaml import CommaSeparated, Enum, Int, Str, MapPattern, Bool, Map, Int
 from hitchstory import no_stacktrace_for, validate
+from hitchstory import Failure, json_match
 from commandlib import Command, python_bin
 from directories import DIR
 from slugify import slugify
 from pathlib import Path
+from llm import LLMClient, LLMServer
 import nest_asyncio
 import shutil
 import time
@@ -48,10 +50,15 @@ class Engine(BaseEngine):
         self._rewrite = rewrite
     
     def set_up(self):
-        pass
+        self._client = LLMClient(prompt=self.given["customer_instructions"])
+        self._server = LLMServer(prompt=self.given["agent_instructions"])
     
     def run(self, expect_json):
-        pass
+        client_question = self._client.run()
+        print(f"CLIENT : {client_question}")
+        server_response = self._server.run([{"role": "user", "content": client_question}])
+        print(f"SERVER : {server_response}")
+        json_match(server_response, expect_json)
     
     def tear_down(self):
         pass
