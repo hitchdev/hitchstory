@@ -13,9 +13,10 @@ from commandlib import Command, python_bin
 from directories import DIR
 from slugify import slugify
 from pathlib import Path
-from llm import LLMClient, LLMServer
+from llm import LLMClient, LLMServer, LLMAnswers
 import nest_asyncio
 import shutil
+import json
 import time
 import sys
 
@@ -46,19 +47,37 @@ class Engine(BaseEngine):
         customer_instructions=GivenProperty(Str()),
     )
 
-    def __init__(self, rewrite=False):
+    def __init__(self, rewrite=False, print_output=True):
         self._rewrite = rewrite
+        self._print_output = print_output
+        
+    def _print(self, output):
+        if self._print_output:
+            print(output)
     
     def set_up(self):
         self._client = LLMClient(prompt=self.given["customer_instructions"])
         self._server = LLMServer(prompt=self.given["agent_instructions"])
+        self._answers = LLMAnswers()
+        self._print("")
     
-    def run(self, expect_json):
+    def expect_json(self, expected_json):
         client_question = self._client.run()
-        print(f"CLIENT : {client_question}")
+        self._print(f"CUSTOMER : {client_question}")
         server_response = self._server.run([{"role": "user", "content": client_question}])
-        print(f"SERVER : {server_response}")
-        json_match(server_response, expect_json)
+        self._print(f"SERVER : {server_response}")
+        json_match(server_response, expected_json)
+        
+    def expect_message(self, question, response):
+        client_question = self._client.run()
+        self._print(f"CUSTOMER : {client_question}")
+        server_response = self._server.run([{"role": "user", "content": client_question}])
+        message = json.loads(server_response)["message"]
+        self._print(f"SERVER : {message}")
+        answer_response = self._answers.ask(message, question)
+        sanitized = answer_response.replace(".", "").lower()
+        if response.lower() != sanitized:
+            raise Failure(f"Expected {response}, got {answer_response}")
     
     def tear_down(self):
         pass
