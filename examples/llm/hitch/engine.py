@@ -8,18 +8,10 @@ from hitchstory import BaseEngine, InfoDefinition, InfoProperty
 from hitchstory import GivenDefinition, GivenProperty
 from strictyaml import CommaSeparated, Enum, Int, Str, MapPattern, Bool, Map, Int
 from hitchstory import no_stacktrace_for, validate
-from playwright.sync_api import expect
-from playwright._impl._api_types import Error as PlaywrightError
-from video import convert_to_slow_gif
 from commandlib import Command, python_bin
-from playwright.sync_api import sync_playwright
-from compare_screenshots import compare_screenshots
-from db_fixtures import FIXTURE_SCHEMA, DbFixture
-from hitchpage import PlaywrightPageConfig
 from directories import DIR
 from slugify import slugify
 from pathlib import Path
-from services import Services
 import nest_asyncio
 import shutil
 import time
@@ -49,11 +41,11 @@ class Engine(BaseEngine):
     # See docs: https://hitchdev.com/hitchstory/using/engine/given/
     given_definition = GivenDefinition(
         agent_instructions=GivenProperty(Str()),
-        customer_instructions=GivenProperty(Str())),
+        customer_instructions=GivenProperty(Str()),
     )
 
-    def __init__(self):
-        pass
+    def __init__(self, rewrite=False):
+        self._rewrite = rewrite
     
     def set_up(self):
         pass
