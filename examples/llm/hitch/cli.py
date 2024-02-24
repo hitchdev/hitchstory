@@ -38,37 +38,11 @@ def bdd(keywords):
 
 
 @cli.command()
-@argument("keywords", nargs=-1)
-def vbdd(keywords):
-    """
-    Run story with name containing keywords.
-    """
-    _collection(vnc=True).shortcut(*keywords).play()
-
-
-@cli.command()
 def regression():
     """
-    Continuos integration - lint and run all stories.
+    Continuous integration - run all stories.
     """
-    _collection().only_uninherited().ordered_by_name().play()
-
-
-@cli.command()
-def docdb():
-    """
-    Rebuild a current representation of the database.
-    """
-    from services import Services
-    from db_fixtures import DbFixture
-
-    services = Services(
-        env={"VNC": "no"},
-        ports=[5432],
-        timeout=5,
-    )
-    services.start(DbFixture({}))
-    services.stop()
+    _collection(print_output=False).only_uninherited().ordered_by_name().play()
 
 
 if __name__ == "__main__":

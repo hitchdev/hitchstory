@@ -1,10 +1,10 @@
-Flat white purchase:
+Espresso purchase:
   based on: basic barista
   steps:
   - speak:
-      message: Can I order a flat white?
-      expect json: |
-        {"purchase": "flat white"}
+      message: Can I order an espresso?
+      expect json: |-
+        {"purchase": "single espresso"}
 
 Try to order a pizza:
   based on: basic barista

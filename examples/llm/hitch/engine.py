@@ -60,7 +60,13 @@ class Engine(BaseEngine):
         self._print(f"SERVER : {server_response}")
         
         if expect_json is not None:
-            json_match(server_response, expect_json)
+            try:
+                json_match(server_response, expect_json)
+            except Failure:
+                if self._rewrite:
+                    self.current_step.rewrite("expect_json").to(server_response)
+                else:   
+                    raise
         
         if expect_answer is not None:
             answer = json.loads(server_response)["message"]
