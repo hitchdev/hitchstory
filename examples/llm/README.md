@@ -27,12 +27,12 @@ Run `./run.sh regression`
 
 It should run all of the stories and not print out the interactions.
 
-Try changing the first story to "can I order an espresso?" to "can I order a flat white?" and run `./run.sh rbdd flat white`. This should adjust the expected JSON.
+Try changing the first story to "can I order an espresso?" to "can I order a flat white?" and run `./run.sh rbdd flat white`. This should adjust the expected JSON in the story.
 
 You can hack on the .story files in story/ folder to create new scenarios and
 engine.py to change the way the scenarios are executed, add new checks and more!
 
-This test driven prompt tuning toolkit is based upon [hitchstory](https://hitchdev.com/hitchstory).
+This test driven prompt tuning toolkit is based upon [hitchstory](https://hitchdev.com/hitchstory). Detailed documentation about how to tune the framework is given there.
 
 ## What is in this project?
 
