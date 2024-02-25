@@ -6,7 +6,7 @@ This module contains the:
 """
 from hitchstory import BaseEngine, InfoDefinition, InfoProperty
 from hitchstory import GivenDefinition, GivenProperty
-from strictyaml import CommaSeparated, Enum, Int, Str, MapPattern, Bool, Map, Int
+from strictyaml import CommaSeparated, Enum, Str, MapPattern, Bool, Map, Seq, Optional
 from hitchstory import no_stacktrace_for, validate
 from hitchstory import Failure, json_match
 from commandlib import Command, python_bin
@@ -53,10 +53,25 @@ class Engine(BaseEngine):
         self._answers = LLMAnswers()
         self._print("")
     
-    @validate(expect_answer=Map({"question": Str(), "response": Str()}))
-    def speak(self, message, expect_json=None, expect_answer=None):
+    @validate(
+        previous=Seq(Map({Optional("user"): Str(), Optional("assistant"): Str()})),
+        expect_answer=Seq(Map({"question": Str(), "response": Str()})),
+    )
+    def speak(self, message, previous=None, expect_json=None, expect_answer=None):
+        previous = [] if previous is None else previous
+        for previous_msg in previous:
+            previous_role = list(previous_msg.keys())[0]
+            msg = list(previous_msg.values())[0]
+            if previous_role == "assistant":
+                self._print(f"SERVER : {msg}")
+            if previous_role == "user":
+                self._print(f"CUSTOMER : {msg}")
+
         self._print(f"CUSTOMER : {message}")
-        server_response = self._server.run([{"role": "user", "content": message}])
+        server_response = self._server.run(
+            [{"role": list(prv.keys())[0], "content": list(prv.values())[0]} for prv in previous] +\
+            [{"role": "user", "content": message}]
+        )
         self._print(f"SERVER : {server_response}")
         
         if expect_json is not None:
@@ -69,12 +84,13 @@ class Engine(BaseEngine):
                     raise
         
         if expect_answer is not None:
-            answer = json.loads(server_response)["message"]
-            answer_response = self._answers.ask(answer, expect_answer["question"])
-            sanitized = answer_response.replace(".", "").lower()
-            response = expect_answer["response"]
-            if response.lower() != sanitized:
-                raise Failure(f"Expected {response}, got {answer_response}")
+            for singular_expect_answer in expect_answer:
+                answer = json.loads(server_response)["message"]
+                answer_response = self._answers.ask(answer, singular_expect_answer["question"])
+                sanitized = answer_response.replace(".", "").lower()
+                response = singular_expect_answer["response"]
+                if response.lower() != sanitized:
+                    raise Failure(f"Expected {response}, got {answer_response}")
     
     def tear_down(self):
         pass
