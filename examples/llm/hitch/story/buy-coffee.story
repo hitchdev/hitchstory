@@ -14,6 +14,8 @@ Try to order a pizza:
       expect answer:
         - question: Did the barista let you order a pizza? Answer yes or no.
           response: no
+        - question: Was the barista polite? Answer yes or no.
+          response: yes
 
 Order a pizza, change my mind order a brownie:
   based on: basic barista
