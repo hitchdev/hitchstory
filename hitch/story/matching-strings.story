@@ -26,7 +26,7 @@ Match two strings and show diff on failure:
 
             def fail_because_strings_dont_match(self):
                 strings_match("hello", "goodbye")
-  
+
   steps:
   - Run:
       code: story_collection.one().play()
@@ -40,7 +40,7 @@ Match two strings and show diff on failure:
 
         hitchstory.exceptions.Failure
 
-            Test failed.
+        Test failed.
 
         ACTUAL:
         goodbye

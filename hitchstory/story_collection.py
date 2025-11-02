@@ -63,7 +63,7 @@ class StoryCollection(object):
                 raise exceptions.InvalidStoryPaths(
                     "Story file name '{0}' does not exist.".format(filename)
                 )
-            if Path(filename).isdir():
+            if Path(filename).is_dir():
                 raise exceptions.InvalidStoryPaths(
                     "Story path '{0}' is a directory.".format(filename)
                 )
@@ -119,8 +119,8 @@ class StoryCollection(object):
                         filtered = False
                 if self._in_filename is not None:
                     if (
-                        Path(story.filename).abspath()
-                        != Path(self._in_filename).abspath()
+                        Path(story.filename).absolute()
+                        != Path(self._in_filename).absolute()
                     ):
                         filtered = False
                 if self._non_variations:

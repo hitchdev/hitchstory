@@ -32,7 +32,7 @@ Exceptions when matching JSON:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             json_match(expected, actual) - expected should bea string, instead it is of type <class 'int'>.
 
@@ -61,7 +61,7 @@ Exceptions when matching JSON:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             json_match(expected, actual) - expected is a dict. It should be a string of unparsed JSON.
 
@@ -92,7 +92,7 @@ Exceptions when matching JSON:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             json_match(expected, actual) - actual value is not valid JSON:
 
@@ -123,7 +123,7 @@ Exceptions when matching JSON:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             json_match(expected, actual) - expected value is not valid JSON:
 

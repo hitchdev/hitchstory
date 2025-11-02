@@ -133,7 +133,7 @@ class StoryFile(object):
     """
 
     def __init__(self, filename, collection):
-        self._filename = Path(filename).abspath()
+        self._filename = Path(filename).absolute()
         self._yaml = self._filename.bytes().decode("utf8")
         self._collection = collection
         self._updated_yaml = None

@@ -87,7 +87,7 @@ Pytest Quickstart:
           args: -s -k test_log_in_as_james
           will output: |-
             ============================= test session starts ==============================
-            platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
+            platform linux -- Python n.n.na1, pytest-n.n.n, pluggy-n.n.n
             rootdir: /path/to
             collected 2 items / 1 deselected / 1 selected
 
@@ -108,7 +108,7 @@ Pytest Quickstart:
           args: -k test_see_james_analytics
           will output: |-
             ============================= test session starts ==============================
-            platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
+            platform linux -- Python n.n.na1, pytest-n.n.n, pluggy-n.n.n
             rootdir: /path/to
             collected 2 items / 1 deselected / 1 selected
 
@@ -130,7 +130,7 @@ Pytest Quickstart:
             E
             E       hitchstory.exceptions.Failure
             E
-            E           Test failed.
+            E       Test failed.
             E
             E       button analytics not found
 
@@ -151,7 +151,7 @@ Pytest Quickstart:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             button analytics not found
             ======================= 1 failed, 1 deselected in 0.1s ========================

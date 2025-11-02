@@ -3,17 +3,17 @@ Raising a Failure exception to conceal the stacktrace:
   about: |
     If you want to deliberately trigger a test failure, the default
     way is to raise a "Failure" exception.
-    
+
     This is considered an "expected exception".
-    
+
     This means that the story failed on will be highlighted
     but not the stack trace. This makes story failure
     message a bit cleaner.
-    
+
     Debugging information can be fed to the exception.
-    
+
     See also:
-    
+
     * [Treat other exceptions as expected](../expected-exceptions)
     * [Compare two strings](../match-two-strings)
 
@@ -71,6 +71,6 @@ Raising a Failure exception to conceal the stacktrace:
 
         hitchstory.exceptions.Failure
 
-            Test failed.
+        Test failed.
 
         Special failure exception - no stacktrace printed!

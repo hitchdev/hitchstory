@@ -65,7 +65,7 @@ Self rewriting tests with pytest and hitchstory:
           args: test_integration.py
           will output: |-
             ============================= test session starts ==============================
-            platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
+            platform linux -- Python n.n.na1, pytest-n.n.n, pluggy-n.n.n
             rootdir: /path/to
             collected 2 items
 
@@ -87,7 +87,7 @@ Self rewriting tests with pytest and hitchstory:
           args: -k test_rewritable test_other.py
           will output: |-
             ============================= test session starts ==============================
-            platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
+            platform linux -- Python n.n.na1, pytest-n.n.n, pluggy-n.n.n
             rootdir: /path/to
             collected 2 items / 1 deselected / 1 selected
 
@@ -124,7 +124,7 @@ Self rewriting tests with pytest and hitchstory:
           expect failure: yes
           will output: |-
             ============================= test session starts ==============================
-            platform linux -- Python n.n.n, pytest-n.n.n, pluggy-n.n.n
+            platform linux -- Python n.n.na1, pytest-n.n.n, pluggy-n.n.n
             rootdir: /path/to
             collected 2 items / 1 deselected / 1 selected
 
@@ -144,7 +144,7 @@ Self rewriting tests with pytest and hitchstory:
             E
             E       hitchstory.exceptions.Failure
             E
-            E           Test failed.
+            E       Test failed.
             E
             E       This was not supposed to happen
 
@@ -161,7 +161,7 @@ Self rewriting tests with pytest and hitchstory:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             This was not supposed to happen
             ======================= 1 failed, 1 deselected in 0.1s ========================

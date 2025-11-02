@@ -103,6 +103,6 @@ Rewrite single argument incorrect:
 
         hitchstory.exceptions.RewriteFailure
 
-            An error occurred when trying to rewrite a story.
+        An error occurred when trying to rewrite a story.
 
         'will_output' doesn't exist, only 'command' exists.

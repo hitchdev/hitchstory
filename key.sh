@@ -19,7 +19,7 @@ hitchrun() {
         -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
         -e CI=$CI \
         --secret pypitoken,type=env,target=PYPITOKEN \
-        --secret githubtoken,type=env,target=GITHUBTOKEN \
+        --secret github-hitchstory-token,type=env,target=GITHUBTOKEN \
         --workdir /src \
         $IMAGE_NAME \
         $1

@@ -88,9 +88,9 @@ Handling failing tests:
 
             code_that_does_things.ExampleException
 
-                This is a demonstration exception docstring.
+            This is a demonstration exception docstring.
 
-                It spreads across multiple lines.
+            It spreads across multiple lines.
 
     Failure printed by default:
       steps:
@@ -129,8 +129,8 @@ Handling failing tests:
 
             code_that_does_things.ExampleException
 
-                This is a demonstration exception docstring.
+            This is a demonstration exception docstring.
 
-                It spreads across multiple lines.
+            It spreads across multiple lines.
 
             Towel not located

@@ -78,9 +78,9 @@ Exception in special methods:
 
               code_that_does_things.ExampleException
 
-                  This is a demonstration exception docstring.
+              This is a demonstration exception docstring.
 
-                  It spreads across multiple lines.
+              It spreads across multiple lines.
       - Tear down was run
 
     in on_failure:
@@ -131,9 +131,9 @@ Exception in special methods:
 
               code_that_does_things.ExampleException
 
-                  This is a demonstration exception docstring.
+              This is a demonstration exception docstring.
 
-                  It spreads across multiple lines.
+              It spreads across multiple lines.
       - Tear down was run
 
     in tear_down:
@@ -181,6 +181,6 @@ Exception in special methods:
 
               code_that_does_things.ExampleException
 
-                  This is a demonstration exception docstring.
+              This is a demonstration exception docstring.
 
-                  It spreads across multiple lines.
+              It spreads across multiple lines.

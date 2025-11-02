@@ -69,7 +69,7 @@ Flaky story detection:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             Flaky story failure!
 
@@ -92,7 +92,7 @@ Flaky story detection:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             Consistent failure!
             RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
@@ -104,7 +104,7 @@ Flaky story detection:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             Consistent failure!
             RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
@@ -116,7 +116,7 @@ Flaky story detection:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             Consistent failure!
             RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
@@ -128,7 +128,7 @@ Flaky story detection:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             Consistent failure!
             RUNNING Consistent failure in /path/to/working/example1.story ... FAILED in 0.1 seconds.
@@ -140,7 +140,7 @@ Flaky story detection:
 
             hitchstory.exceptions.Failure
 
-                Test failed.
+            Test failed.
 
             Consistent failure!
 
