@@ -1,0 +1,7 @@
+[project]
+name = "hitchenv-hitchstory"
+version = "0.0.0"
+dependencies = ["hitchpylibrarytoolkit"]
+
+[tool.uv.sources]
+hitchpylibrarytoolkit = { path = "../hitchpylibrarytoolkit", editable = true }

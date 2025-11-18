@@ -64,23 +64,20 @@ case "$1" in
                 fi
                 podman build -f hitch/Dockerfile-hitch -t $IMAGE_NAME $PROJECT_DIR
                 hitchrun "uv venv /gen/venv"
-                hitchrun "uv pip install pip --python /gen/venv/bin/python"
-                hitchrun "/gen/venv/bin/pip install setuptools-rust"
-                hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/python hitch/key.py build"
+                hitchrun "uv sync --directory /src/hitch --python /gen/venv/bin/python"
+                hitchrun "uv run --directory /src/hitch --python /gen/venv/bin/python key.py build"
                 ;;
             "gen")
                 hitchrun "uv venv /gen/venv"
-                hitchrun "uv pip install pip --python /gen/venv/bin/python"
-                hitchrun "/gen/venv/bin/pip install -r /src/hitch/hitchreqs.txt"
-                hitchrun "/gen/venv/bin/python hitch/key.py build"
+                hitchrun "uv sync --directory /src/hitch --python /gen/venv/bin/python"
+                hitchrun "uv run --directory /src/hitch --python /gen/venv/bin/python key.py build"
                 ;;
             "pylibrarytoolkit")
-                hitchrun "/gen/venv/bin/pip uninstall hitchpylibrarytoolkit -y"
-                hitchrun "/gen/venv/bin/pip install --no-deps -e /src/hitchpylibrarytoolkit"
+                hitchrun "uv pip uninstall hitchpylibrarytoolkit --directory /src/hitch --python /gen/venv/bin/python"
+                hitchrun "uv pip install -e ../hitchpylibrarytoolkit/ --directory /src/hitch --python /gen/venv/bin/python"
                 ;;
-            "hitchreqs")
-                hitchrun "/gen/venv/bin/pip-compile hitch/hitchreqs.in -o hitch/hitchreqs.txt"
+            "lock")
+                hitchrun "uv lock --directory /src/hitch --python /gen/venv/bin/python"
                 ;;
             *)
                 echo "Invalid make target. ./key.sh make [all|gen|pylibrarytoolkit]"
@@ -92,7 +89,7 @@ case "$1" in
         hitchrun "bash"
         ;;
     *)
-        hitchrun "/gen/venv/bin/python hitch/key.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
+        hitchrun "uv run --directory /src/hitch --python /gen/venv/bin/python key.py $1 $2 $3 $4 $5 $6 $7 $8 $9"
         ;; 
 esac
 
